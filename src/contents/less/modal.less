@@ -1,0 +1,57 @@
+.modal-content
+{
+	@border-rad: 5px;
+	@modal-width: 80%;
+
+	display: none;
+
+	background-color: #fff;
+	
+	border-radius: @border-rad;
+	-webkit-border-radius: @border-rad;
+	-moz-border-radius: @border-rad;
+	
+	box-shadow: 0 0 20px 0 #222;
+	-webkit-box-shadow: 0 0 20px 0 #222;
+	-moz-box-shadow: 0 0 20px 0 #222;
+	
+	position: absolute;
+	top: 10%;
+	left: (100-@modal-width)/2;
+
+	width: @modal-width;
+	margin-left: -1 (@modal-width/2);
+	
+	padding: 10px;
+
+	&.active
+	{
+		display: block !important;
+	}
+}
+
+.modal-backdrop
+{
+	@background-opacity: .5;
+
+	content: "";
+	display: none;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+	
+	background-color: #000;
+	opacity: @background-opacity;
+	-webkit-opacity: @background-opacity;
+	-moz-opacity: @background-opacity;
+
+	&.active
+	{
+		display: block !important;
+	}
+
+}
