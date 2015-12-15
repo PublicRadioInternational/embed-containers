@@ -1,0 +1,23 @@
+{
+  "name": "embed-containers",
+  "version": "1.0.0",
+  "description": "Robust containers for the Medium Editor Insert Plugin.",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-less": "^3.0.5",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PublicRadioInternational/embed-containers.git"
+  },
+  "author": "Erik Thorne, Jackson Van Dyck, Justin Trimachi, Nick Simons",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PublicRadioInternational/embed-containers/issues"
+  },
+  "homepage": "https://github.com/PublicRadioInternational/embed-containers#readme"
+}
