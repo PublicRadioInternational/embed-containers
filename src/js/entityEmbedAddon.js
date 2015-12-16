@@ -84,6 +84,13 @@
 
 	PriEntityEmbed.prototype.events = function () {
 		var self = this;
+
+		$(document).ready(function()
+		{
+			$('.medium-insert-buttons').click(function(){
+				self.add();
+			});
+		});
 	};
 
 	/**
