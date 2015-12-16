@@ -32,7 +32,7 @@
 
 		// style this class as a modal and
 		// add optional user specified styling
-		self.addClass('modal-content');
+		self.addClass('modal');
 		if (!!options.contentClass)
 		{
 			self.addClass(options.contentClass);
