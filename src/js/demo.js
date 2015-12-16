@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	var modal = $('#modal').modal();
+
 	var medEditor = new MediumEditor('.editable');
 	$('.editable').mediumInsert({
 		editor: medEditor,
@@ -8,7 +10,7 @@ $(document).ready(function(){
 			images: false,
 			embeds: false,
 			priEntityEmbed: {
-				
+				modalTrigger: modal.toggle				
 			}
 		}
 	});
@@ -19,12 +21,5 @@ $(document).ready(function(){
 		var elContent = allContents['element-0'].value;
 
 		$('#elContents').text(elContent);
-	});
-
-	$('#modal').modal({
-		openTriggers:[{
-			element: $('#open-modal'),
-			openEvent: 'click'
-		}]
 	});
 });

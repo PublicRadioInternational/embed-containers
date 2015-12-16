@@ -6,8 +6,8 @@
 	var pluginName = 'mediumInsert',
 		addonName = 'PriEntityEmbed', // first char is uppercase
 		defaults = {
-			modalElement: '',
-			label: '<span style=";"></span>',
+			modalTrigger: function(){},
+			label: '<span style="display:none;"></span>',
 			deleteMethod: 'POST',
 			deleteScript: 'delete.php',
 			preview: true,
@@ -84,17 +84,6 @@
 
 	PriEntityEmbed.prototype.events = function () {
 		var self = this;
-
-		// copied from Images addon
-
-		$(document)
-			.on('click', $.proxy(self, 'unselectImage'))
-			.on('keydown', $.proxy(self, 'removeImage'))
-			.on('click', '.medium-insert-images-toolbar .medium-editor-action', $.proxy(self, 'toolbarAction'))
-			.on('click', '.medium-insert-images-toolbar2 .medium-editor-action', $.proxy(self, 'toolbar2Action'));
-
-		self.$el
-			.on('click', '.medium-insert-images img', $.proxy(self, 'selectImage'));
 	};
 
 	/**
@@ -115,38 +104,9 @@
 	 */
 
 	PriEntityEmbed.prototype.add = function () {
-		alert('add function called');
-		// copied from Images addon
-
 		var self = this;
-		var $file = $(self.templates['src/js/templates/images-fileupload.hbs']()),
-			fileUploadOptions = {
-				dataType: 'json',
-				add: function (e, data) {
-					$.proxy(self, 'uploadAdd', e, data)();
-				},
-				done: function (e, data) {
-					$.proxy(self, 'uploadDone', e, data)();
-				}
-			};
 
-		// Only add progress callbacks for browsers that support XHR2,
-		// and test for XHR2 per:
-		// http://stackoverflow.com/questions/6767887/
-		// what-is-the-best-way-to-check-for-xhr2-file-upload-support
-		if (new XMLHttpRequest().upload) {
-			fileUploadOptions.progress = function (e, data) {
-				$.proxy(self, 'uploadProgress', e, data)();
-			};
-
-			fileUploadOptions.progressall = function (e, data) {
-				$.proxy(self, 'uploadProgressall', e, data)();
-			};
-		}
-
-		$file.fileupload($.extend(true, {}, self.options.fileUploadOptions, fileUploadOptions));
-
-		$file.click();
+		self.options.modalTrigger();
 	};
 
 

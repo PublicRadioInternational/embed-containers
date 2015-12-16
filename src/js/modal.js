@@ -9,12 +9,26 @@
 						.toString(16)
 						.substring(1);
 		}
-  		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
+		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
 				seg() + '-' + seg() + seg() + seg();
 	};
 
 	$.fn.modal = function(options){
 		var self = this;
+		self.toggle = function()
+		{
+			self.toggleClass('active');	
+			if (!!self.backdropElement)
+			{
+				self.backdropElement.toggleClass('active');
+			}
+		};
+
+		// avoid null reference errors
+		if (!options)
+		{
+			options = {};
+		}
 
 		// style this class as a modal and
 		// add optional user specified styling
@@ -28,7 +42,6 @@
 		var classes = 'modal-backdrop'; 
 		if (!!options.backdropClass)
 		{
-
 			if (options.backdropClass.constructor.toString().indexOf('Array') > -1)
 			{ 
 				for(var i = 0; i < options.backdropClass.length; i++)
@@ -43,28 +56,23 @@
 		var uniqueId = generateId();
 		self.before('<div id="' + uniqueId + '" class="' + classes + '"></div>');
 		self.backdropElement = $('#' + uniqueId);
-		self.backdropElement.click(function()
-		{
-			self.backdropElement.toggleClass('active');
-			self.toggleClass('active');
-		});
 
-		// register user specified triggers that open this modal
-		for(var i = 0; i < options.openTriggers.length; i++)
-		{
-			var trigger = options.openTriggers[i];
+		self.backdropElement.click(self.toggle);
 
-			// TODO : register more events
-			switch(trigger.openEvent)
+		// register user specified triggers that open this modal	
+		if (!!options.openTriggers){
+			for(var i = 0; i < options.openTriggers.length; i++)
 			{
-				case 'click':
-				default:
-					trigger.element.click(function()
-					{
-						self.backdropElement.toggleClass('active');
-						self.toggleClass('active');
-					});
-					break;
+				var trigger = options.openTriggers[i];
+
+				// TODO : register more events
+				switch(trigger.openEvent)
+				{
+					case 'click':
+					default:
+						trigger.element.click(self.toggle);
+						break;
+				}
 			}
 		}
 
