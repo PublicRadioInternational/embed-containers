@@ -3,3 +3,9 @@ bower_components
 node_modules
 
 *.css
+
+*.sublime-workspace
+
+*.sublime-project
+
+config.json
