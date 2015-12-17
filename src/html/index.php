@@ -36,9 +36,7 @@
 		</div>
 
 		<div id="modal">
-			<div class="modal-content">
-				<h1>this is some modal content!<h1>
-			</div>
+			<?php include 'modals/exampleModal.html'; ?>
 		</div>
 
 		<button id="dump-content">dump content</button>

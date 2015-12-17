@@ -36,9 +36,9 @@ gulp.task('devConcatJs', function()		// development concatenation task for javas
 
 gulp.task('move', function()
 {
-	gulp.src(htmlPath + '/*.html')
+	gulp.src(htmlPath + '**/*')
 		.pipe(gulp.dest(htmlDest));
-})
+});
 
 
 // TODO : include library style sheets in production release?
@@ -82,10 +82,15 @@ gulp.task('watchJs', function()
 
 gulp.task('watchHtml', function()
 {
-	gulp.watch(htmlPath + '*.html', ['move']);
+	gulp.watch(htmlPath + '**/*.html', ['move']);
 });
 
-gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml']);
+gulp.task('watchPhp', function()
+{
+	gulp.watch(htmlPath + '**/*.php', ['move']);
+});
+
+gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml', 'watchPhp']);
 
 gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'move', 'watch']);
 
