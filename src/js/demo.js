@@ -10,7 +10,10 @@ $(document).ready(function(){
 			images: false,
 			embeds: false,
 			priEntityEmbed: {
-				modalTrigger: modal.toggle
+				modalTrigger: function()
+				{
+					modal.toggleModal();
+				}
 			}
 		}
 	});

@@ -32,11 +32,10 @@
 				seg() + '-' + seg() + seg() + seg();
 	};
 
-	modal.prototype.toggle = function()
+	modal.prototype.toggle = function(ctrl)
 	{
-		var self = this;
-		self.$el.toggleClass('active');	
-		self.$backdrop.toggleClass('active');
+		ctrl.$el.toggleClass('active');	
+		ctrl.$backdrop.toggleClass('active');
 	};
 
 	modal.prototype.init = function()
@@ -53,10 +52,12 @@
 		self.$el.before('<div id="' + uniqueId + 
 			'" class="' + self.options.backdropClass + '"></div>');
 		self.$backdrop = $('#' + uniqueId);
-		self.$backdrop.click(self.toggle);
+		self.$backdrop.click(function(){
+			self.toggle(self);
+		});
 
 		// register user specified triggers that toggles this modal	
-		// TODO : keep open and close triggers
+		// TODO : make open and close triggers
 		for(var i = 0; i < self.options.toggleTriggers.length; i++)
 		{
 			var trigger = self.options.toggleTriggers[i];
@@ -66,7 +67,9 @@
 			{
 				case 'click':
 				default:
-					trigger.element.click(self.toggle);
+					trigger.element.click(function(){
+						self.toggle(self);
+					});
 					break;
 			}
 		}
@@ -82,8 +85,19 @@
 					options = {};
 				}
 
-				$.data(this, 'modal', new modal(this, options));
+				$.data(this, 'ctrl', new modal(this, options));
 			}
 		});
 	};
+
+	$.fn.toggleModal = function()
+	{
+		return this.each(function(){
+			var modalCtrl = $.data(this, 'ctrl');
+			if (!!modalCtrl)
+			{
+				modalCtrl.toggle(modalCtrl);
+			}
+		});
+	}
 })();
