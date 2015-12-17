@@ -1,23 +1,28 @@
 $(document).ready(function(){
-	// var medEditor = new MediumEditor('.editable');
-	// $('.editable').mediumInsert({
-	// 	editor: medEditor,
-	// 	enabled: true,
-	// 	buttonLabels: 'fontawesome',
-	// 	addons: {
-	// 		images: false,
-	// 		embeds: false,
-	// 		priEntityEmbed: true
-	// 	}
-	// });
+	var modal = $('#modal').modal();
 
-	// $('#dump-content').click(function()
-	// {
-	// 	var allContents = medEditor.serialize();
-	// 	var elContent = allContents['element-0'].value;
+	var medEditor = new MediumEditor('.editable');
+	$('.editable').mediumInsert({
+		editor: medEditor,
+		enabled: true,
+		buttonLabels: 'fontawesome',
+		addons: {
+			images: false,
+			embeds: false,
+			priEntityEmbed: {
+				modalTrigger: function()
+				{
+					modal.toggleModal();
+				}
+			}
+		}
+	});
 
-	// 	$('#elContents').text(elContent);
-	// });
+	$('#dump-content').click(function()
+	{
+		var allContents = medEditor.serialize();
+		var elContent = allContents['element-0'].value;
 
-	$('#open-modal').opensModal($('#modal').makeModal());
+		$('#elContents').text(elContent);
+	});
 });
