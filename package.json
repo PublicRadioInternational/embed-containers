@@ -2,14 +2,17 @@
   "name": "embed-containers",
   "version": "1.0.0",
   "description": "Robust containers for the Medium Editor Insert Plugin.",
-  "dependencies": {
-    "gulp-watch": "^4.3.5"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "del": "^2.2.0",
+    "fs": "0.0.2",
     "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
     "gulp-less": "^3.0.5",
+    "gulp-minify-css": "^1.2.2",
     "gulp-uglify": "^1.5.1",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.5"
   },
   "scripts": {},
   "repository": {
