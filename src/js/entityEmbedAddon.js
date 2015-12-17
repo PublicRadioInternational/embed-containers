@@ -6,7 +6,9 @@
 	var pluginName = 'mediumInsert',
 		addonName = 'PriEntityEmbed', // first char is uppercase
 		defaults = {
-			modalTrigger: function(){}, // function to open modal
+			modalTrigger: function(){ // function to open modal
+				console.log('modalTrigger function called');
+			}, 
 			insertBtn: '.medium-insert-buttons', // selector for insert button
 			deleteMethod: 'POST',
 			deleteScript: 'delete.php',

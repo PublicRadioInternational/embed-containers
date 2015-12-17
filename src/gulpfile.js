@@ -44,14 +44,16 @@ gulp.task('move', function()
 // TODO : include library style sheets in production release?
 gulp.task('less', function(){			// production less task
 	gulp.src(lessPath + 'modal.less')	// all other less files are for demo styling
+		.pipe(less())
 		.pipe(minifyCss())
 		.pipe(gulp.dest(buildPath));
 });
 
 gulp.task('concatJs', function()
 {
-	gulp.src(jsPath + '*.js')
-		.pipe(gConcat('main.js'))
+	gulp.src([jsPath + 'entityEmbedAddon.js',
+			jsPath + 'modal.js'])
+		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(buildPath));
 });
@@ -75,7 +77,7 @@ gulp.task('watchLess', function()
 
 gulp.task('watchJs', function()
 {
-	gulp.watch(jsPath + '*.js', ['concatJs']);
+	gulp.watch(jsPath + '*.js', ['devConcatJs']);
 });
 
 gulp.task('watchHtml', function()
@@ -87,4 +89,4 @@ gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml']);
 
 gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'move', 'watch']);
 
-gulp.task('build', ['less', 'concat'])
+gulp.task('build', ['less', 'concatJs'])
