@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="lib/medium-editor/dist/css/medium-editor.css">
 		<link rel="stylesheet" href="lib/medium-editor/dist/css/themes/default.css" id="medium-editor-theme">
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<script src="lib/jquery/dist/jquery.js"></script>
 		<script src="lib/medium-editor/dist/js/medium-editor.js"></script>
 		<script src="lib/handlebars/handlebars.runtime.js"></script>
@@ -39,7 +40,8 @@
 			<?php include 'modals/exampleModal.html'; ?>
 		</div>
 
-		<button id="dump-content">dump content</button>
+		<button id="dump-content" class="btn btn-primary">dump content</button>
+		<br />
 		<br />
 		<pre id="elContents"></pre>
 	</body>
