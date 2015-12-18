@@ -3,8 +3,10 @@
 	'use strict';
 
 	var defaults = {
-		contentClass: 'modal',
-		backdropClass: 'modal-backdrop',
+		contentClass: 'embed-modal',
+		backdropClass: 'embed-modal-backdrop',
+		closeBtnIcon: 'fa fa-times',
+		showCloseBtn: true,
 		toggleTriggers:[/*{
 			openEvent: 'click',
 			element: '.select-element-here #can-have-many'
@@ -12,7 +14,7 @@
 	};
 
 
-	function modal(el, options) {
+	function modal(el, options) {	
 		var self = this;
 
 		self.$el = $(el);
@@ -20,6 +22,10 @@
 
 		self.init();
 	};
+
+	modal.prototype.activeClass = 'em-active';
+
+	modal.prototype.closeBtnClass = 'em-close-btn';
 
 	modal.prototype.generateId = function () {
 		var seg = function()
@@ -30,12 +36,28 @@
 		}
 		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
 				seg() + '-' + seg() + seg() + seg();
+	}
+	
+	modal.prototype.backdropHtml = function(id)
+	{
+		var self = this;
+		return '<div id="' + id + '" class="' 
+			+ self.options.backdropClass + '"></div>';
+	};
+
+	modal.prototype.closeBtnHtml = function()
+	{
+		var self = this;
+		var style = self.closeBtnClass +  
+			' ' + self.options.closeBtnIcon;
+		return '<i class="' + style + '"></i>';
 	};
 
 	modal.prototype.toggle = function(ctrl)
 	{
-		ctrl.$el.toggleClass('active');	
-		ctrl.$backdrop.toggleClass('active');
+		ctrl.$el.toggleClass(ctrl.activeClass);	
+		ctrl.$backdrop.toggleClass(ctrl.activeClass);
+		ctrl.$closeBtn.toggleClass(ctrl.activeClass);
 	};
 
 	modal.prototype.init = function()
@@ -43,21 +65,28 @@
 		var self = this;
 
 		// style this class as a modal and
-		// add optional user specified styling
 		self.$el.addClass(self.options.contentClass);
 
+		var backdropId = self.generateId();
+
 		// link back drop to this modal
-		// add optional user specified styling
-		var uniqueId = self.generateId();
-		self.$el.before('<div id="' + uniqueId + 
-			'" class="' + self.options.backdropClass + '"></div>');
-		self.$backdrop = $('#' + uniqueId);
+		self.$el.before(self.backdropHtml(backdropId));
+		self.$backdrop = $('#' + backdropId);
 		self.$backdrop.click(function(){
 			self.toggle(self);
 		});
 
+		// add close button and give expected functionality
+		if (self.options.showCloseBtn){
+			self.$el.after(self.closeBtnHtml());
+			self.$closeBtn = $('.' + self.closeBtnClass);
+			self.$closeBtn.click(function(){
+				self.toggle(self);
+			});
+		}
+
 		// register user specified triggers that toggles this modal	
-		// TODO : make open and close triggers
+		// TODO : make open and close triggers (?)
 		for(var i = 0; i < self.options.toggleTriggers.length; i++)
 		{
 			var trigger = self.options.toggleTriggers[i];

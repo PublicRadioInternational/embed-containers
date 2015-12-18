@@ -1,33 +1,35 @@
-.modal
+@embed-modal-width: 70%;
+@embed-modal-top: 10%;
+
+.embed-modal
 {
-	@border-rad: 5px;
-	@modal-width: 70%;
+	@em-border-rad: 5px;
 
 	display: none;
 
 	background-color: #fff;
 	
-	border-radius: @border-rad;
-	-webkit-border-radius: @border-rad;
-	-moz-border-radius: @border-rad;
+	border-radius: @em-border-rad;
+	-webkit-border-radius: @em-border-rad;
+	-moz-border-radius: @em-border-rad;
 	
 	box-shadow: 0 0 20px 0 #222;
 	-webkit-box-shadow: 0 0 20px 0 #222;
 	-moz-box-shadow: 0 0 20px 0 #222;
 	
 	position: absolute;
-	top: 10%;
-	left: (100-@modal-width)/2;
+	top: @embed-modal-top;
+	left: (100-@embed-modal-width)/2;
 
-	width: @modal-width;
+	width: @embed-modal-width;
 
-	&.active
+	&.em-active
 	{
 		display: block !important;
 	}
 }
 
-.modal-backdrop
+.embed-modal-backdrop
 {
 	@background-opacity: .5;
 
@@ -46,9 +48,28 @@
 	-webkit-opacity: @background-opacity;
 	-moz-opacity: @background-opacity;
 
-	&.active
+	&.em-active
 	{
 		display: block !important;
 	}
+}
 
+.em-close-btn
+{
+	@em-close-btn-size: 30px;
+
+	position: absolute;
+	display: none;
+
+	font-size: @em-close-btn-size;
+	top: @embed-modal-top;
+	left: @embed-modal-width + 
+		((100 - @embed-modal-width) / 2);
+
+	margin-left: -1 * @em-close-btn-size;
+
+	&.em-active
+	{
+		display: block !important;
+	}
 }

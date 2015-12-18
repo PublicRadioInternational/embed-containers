@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var modal = $('#modal').modal();
+	var modal = $('#em-modal').modal();
 
 	var medEditor = new MediumEditor('.editable');
 	$('.editable').mediumInsert({
