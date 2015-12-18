@@ -1,5 +1,10 @@
 $(document).ready(function(){
-	var modal = $('#em-modal').modal();
+	var modal = $('#em-modal').modal({
+		$completeEl: $('#btn-close-modal'),
+		completeFunc: function(){
+			console.log('custom complete function called!');
+		}
+	});
 
 	var medEditor = new MediumEditor('.editable');
 	$('.editable').mediumInsert({
@@ -12,14 +17,13 @@ $(document).ready(function(){
 			priEntityEmbed: {
 				modalTrigger: function()
 				{
-					modal.toggleModal();
+					modal.openModal();
 				}
 			}
 		}
 	});
 
-	$('#dump-content').click(function()
-	{
+	$('#dump-content').click(function(){
 		var allContents = medEditor.serialize();
 		var elContent = allContents['element-0'].value;
 
