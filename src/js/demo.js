@@ -6,7 +6,7 @@ $(document).ready(function(){
 			var $id = $('#example-input');
 			if(!!$id.val() && $id.val() !== '')
 			{
-
+				$('.medium-insert-active').append($id.val());
 				return true;
 			}
 			return false;
