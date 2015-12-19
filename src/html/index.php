@@ -36,7 +36,7 @@
 			This is editable content - try typing in here!
 		</div>
 
-		<div id="modal">
+		<div id="em-modal">
 			<?php include 'modals/exampleModal.html'; ?>
 		</div>
 
