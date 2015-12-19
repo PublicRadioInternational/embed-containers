@@ -14,9 +14,10 @@
 		$completeEl: $(''),
 		abortFunc: function(){
 			console.log('embed modal abort');
-		},
+		},	
 		completeFunc: function() {
 			console.log('embed modal complete');
+			return true;
 		}
 	};
 
@@ -153,11 +154,15 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
+				var closeModal = true;
 				if (!!modalCtrl.options.completeFunc)
 				{
-					modalCtrl.options.completeFunc();
+					closeModal = modalCtrl.options.completeFunc();
 				}
-				modalCtrl.toggle(modalCtrl);
+				if (closeModal)
+				{
+					modalCtrl.toggle(modalCtrl);
+				}
 			}
 		});
 	};
