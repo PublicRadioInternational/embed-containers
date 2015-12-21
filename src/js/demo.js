@@ -8,14 +8,16 @@ $(document).ready(function(){
 			images: false,
 			embeds: false,
 			entityEmbed: {
-				$modalEl: $('#em-modal')
+				$modalEl: $('#em-modal'),
+				modalOptions: {
+					$abortEl: $('#btn-abort-modal'),
+					$completeEl: $('#btn-complete-modal')
+				}
 			}
 		}
 	});
 
-	window.medEditor = medEditor;
-
-
+	// TODO : parse story content into story object
 	$('#dump-content').click(function(){
 		var allContents = medEditor.serialize();
 		var elContent = allContents['element-0'].value;

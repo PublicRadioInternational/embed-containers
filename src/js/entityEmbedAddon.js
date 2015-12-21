@@ -7,23 +7,52 @@
 		addonName = 'EntityEmbed', // first char is uppercase
 		defaults = {
 			$modalEl: $(''),
-			modalOptions: {
-				$openEl: $(''),
-				$abortEl: $(''),
-				$completeEl: $('')
-			},
-			modalScope: {
-				open:{
-					before: function(){},
-					after: function(){}
-				},
-				abort: {
-					before: function(){},
-					after: function(){}
-				},
-				complete: {
-					before: function(){},
-					after: function(){}
+			modalOptions: {	
+				// $openEl: $(''),
+				// $abortEl: $(''),
+				// $completeEl: $('')
+				functions: {
+					init:{
+						before: function(scope){
+							scope.contents = {
+								selectedEmbedType: null
+							};
+
+							var options = $('#select-embed-type').children('option');
+
+							for(var i = 0; i < options.length; i++)
+							{
+								if (!!options[i].value)
+								{
+									$('#' + options[i].value).hide();
+								}
+							}
+						},
+						after: function(scope){
+							$('#select-embed-type').change(function(e){
+								if (!!scope.contents.selectedEmbedType)
+								{
+									scope.contents.selectedEmbedType.hide();
+								}
+
+								var selected = e.currentTarget.options[e.currentTarget.selectedIndex];
+								scope.contents.selectedEmbedType = $('#' + selected.value);							
+								scope.contents.selectedEmbedType.show();
+							});
+						}
+					}//,
+					// open:{
+					// 	before: function(scope){},
+					// 	after: function(scope){}
+					// },
+					// abort: {
+					// 	before: function(scope){},
+					// 	after: function(scope){}
+					// },
+					// complete: {
+					// 	before: function(scope){},
+					// 	after: function(scope){}
+					// }
 				}
 			},
 			insertBtn: '.medium-insert-buttons', // selector for insert button
@@ -83,9 +112,6 @@
 		self._defaults = defaults;
 		self._name = pluginName;
 
-		self.options.$modalEl.modal();
-		self.modalCtrl = $.data(self.options.$modalEl, 'ctrl');
-
 		self.init();
 	}
 
@@ -99,7 +125,8 @@
 		var self = this;
 		self.events();
 
-
+		self.options.$modalEl.modal(self.options.modalOptions);
+		//self.modalCtrl = $.data(self.options.$modalEl, 'ctrl');
 	};
 
 	/**
