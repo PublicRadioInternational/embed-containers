@@ -2,7 +2,7 @@
 	
 	'use strict';
 
-	var defaults = {
+	var defaultOptions = {
 		contentClass: 'embed-modal',
 		backdropClass: 'embed-modal-backdrop',
 		closeBtnIcon: 'fa fa-times',
@@ -11,22 +11,31 @@
 		// elements to abort, or complete the modal on click
 		$openEl: $(''),
 		$abortEl: $(''),
-		$completeEl: $(''),
-		abortFunc: function(){
-			console.log('embed modal abort');
-		},	
-		completeFunc: function() {
-			console.log('embed modal complete');
-			return true;
+		$completeEl: $('')
+	};
+
+	var defaultScope = {
+		open:{
+			before: function(){},
+			after: function(){}
+		},
+		abort: {
+			before: function(){},
+			after: function(){}
+		},
+		complete: {
+			before: function(){},
+			after: function(){}
 		}
 	};
 
-
-	function modal(el, options) {	
+	function modal(el, options, scope) {	
 		var self = this;
 
 		self.$el = $(el);
-		self.options = $.extend(true, {}, defaults, options);
+
+		self.options = $.extend(true, {}, defaultOptions, options);
+		self.scope = $.extend(true, {}, defaultScope, scope);
 
 		self.init();
 	};
@@ -110,7 +119,7 @@
 		});
 	};
 
-	$.fn.modal = function(options){
+	$.fn.modal = function(options, scope){
 		return this.each(function(){
 			if(!$.data(this, 'ctrl'))
 			{
@@ -119,7 +128,7 @@
 				{
 					options = {};
 				}
-				$.data(this, 'ctrl', new modal(this, options));
+				$.data(this, 'ctrl', new modal(this, options, scope));
 			}
 		});
 	};
@@ -130,7 +139,9 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && !modalCtrl.isActive )
 			{
+				modalCtrl.scope.open.before();
 				modalCtrl.toggle(modalCtrl);
+				modalCtrl.scope.open.after();
 			}
 		});
 	};
@@ -140,11 +151,9 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
-				if (!!modalCtrl.options.abortFunc)
-				{
-					modalCtrl.options.abortFunc();
-				}
+				modalCtrl.scope.abort.before();
 				modalCtrl.toggle(modalCtrl);
+				modalCtrl.scope.abort.after();
 			}
 		});
 	};
@@ -154,14 +163,11 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
-				var closeModal = true;
-				if (!!modalCtrl.options.completeFunc)
-				{
-					closeModal = modalCtrl.options.completeFunc();
-				}
+				var closeModal = modalCtrl.scope.complete.before();
 				if (closeModal)
 				{
 					modalCtrl.toggle(modalCtrl);
+					modalCtrl.scope.complete.after();
 				}
 			}
 		});
