@@ -14,13 +14,17 @@
 				functions: {
 					init:{
 						before: function(scope){
+							var options = $('#select-embed-type').children('option');
+							var firstOption = $('');
+							if (!!options[0])
+							{
+								firstOption = $('#' + options[0].value);
+							}
 							scope.contents = {
-								selectedEmbedType: null
+								selectedEmbedType: firstOption
 							};
 
-							var options = $('#select-embed-type').children('option');
-
-							for(var i = 0; i < options.length; i++)
+							for(var i = 1; i < options.length; i++)
 							{
 								if (!!options[i].value)
 								{
@@ -40,7 +44,21 @@
 								scope.contents.selectedEmbedType.show();
 							});
 						}
-					}//,
+					},
+					complete: {
+						before: function(scope){
+							// TODO : form validation
+							// TODO : embed objects with serializers
+							scope.contents.embed = {
+								embedType: scope.contents.selectedEmbedType.text()
+							};
+							return true;
+						},
+						after: function(scope){
+							$('.medium-insert-active').html('<pre>' + 
+								JSON.stringify(scope.contents.embed) + '</pre>');
+						}
+					}
 					// open:{
 					// 	before: function(scope){},
 					// 	after: function(scope){}
@@ -49,10 +67,6 @@
 					// 	before: function(scope){},
 					// 	after: function(scope){}
 					// },
-					// complete: {
-					// 	before: function(scope){},
-					// 	after: function(scope){}
-					// }
 				}
 			},
 			insertBtn: '.medium-insert-buttons', // selector for insert button
