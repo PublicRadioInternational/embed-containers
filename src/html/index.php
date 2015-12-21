@@ -41,7 +41,7 @@
 		</div>
 
 		<div id="em-modal">
-			<?php include 'modals/exampleModal.html'; ?>
+			<?php include "modal/modal_main.php"; ?>
 		</div>
 
 		<button id="dump-content" class="btn btn-primary">dump content</button>
