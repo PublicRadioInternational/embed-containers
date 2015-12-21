@@ -8,24 +8,29 @@
 		closeBtnIcon: 'fa fa-times',
 		showCloseBtn: true,
 		// TODO : add boolean to disable backdrop click to close
-		// elements to abort, or complete the modal on click
+		// elements to open, abort, or complete the modal on click
 		$openEl: $(''),
 		$abortEl: $(''),
-		$completeEl: $('')
-	};
-
-	var defaultScope = {
-		open:{
-			before: function(){},
-			after: function(){}
-		},
-		abort: {
-			before: function(){},
-			after: function(){}
-		},
-		complete: {
-			before: function(){},
-			after: function(){}
+		$completeEl: $(''),
+		functions:{
+			init:{
+				before: function(scope){},
+				after: function(scope){}
+			},
+			open:{
+				before: function(scope){},
+				after: function(scope){}
+			},
+			abort:{
+				before: function(scope){},
+				after: function(scope){}
+			},
+			complete:{
+				before: function(scope){
+					return true;
+				},
+				after: function(scope){}
+			}
 		}
 	};
 
@@ -35,9 +40,17 @@
 		self.$el = $(el);
 
 		self.options = $.extend(true, {}, defaultOptions, options);
-		self.scope = $.extend(true, {}, defaultScope, scope);
-
+		self.scope = {};
+		if (!!scope)
+		{
+			self.scope = scope;
+		}
+		self.scope.modal = self.$el;
+		self.$el.data('scope', self.scope);
+		
+		self.options.functions.init.before(self.scope);
 		self.init();
+		self.options.functions.init.after(self.scope);
 	};
 
 	modal.prototype.isActive = false;
@@ -139,9 +152,9 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && !modalCtrl.isActive )
 			{
-				modalCtrl.scope.open.before();
+				modalCtrl.options.functions.open.before(modalCtrl.$el.data('scope'));
 				modalCtrl.toggle(modalCtrl);
-				modalCtrl.scope.open.after();
+				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
 			}
 		});
 	};
@@ -151,9 +164,9 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
-				modalCtrl.scope.abort.before();
+				modalCtrl.options.functions.abort.before(modalCtrl.$el.data('scope'));
 				modalCtrl.toggle(modalCtrl);
-				modalCtrl.scope.abort.after();
+				modalCtrl.options.functions.abort.after(modalCtrl.$el.data('scope'));
 			}
 		});
 	};
@@ -163,11 +176,10 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
-				var closeModal = modalCtrl.scope.complete.before();
-				if (closeModal)
+				if (modalCtrl.options.functions.complete.before(modalCtrl.$el.data('scope')))
 				{
 					modalCtrl.toggle(modalCtrl);
-					modalCtrl.scope.complete.after();
+					modalCtrl.options.functions.complete.after(modalCtrl.$el.data('scope'));
 				}
 			}
 		});

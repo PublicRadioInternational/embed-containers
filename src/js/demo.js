@@ -1,22 +1,4 @@
 $(document).ready(function(){
-	var modal = $('#em-modal').modal({
-		$completeEl: $('#btn-complete-modal'),
-		completeFunc: function(){
-			console.log('custom complete function called!');
-			var $id = $('#example-input');
-			if(!!$id.val() && $id.val() !== '')
-			{
-				$('.medium-insert-active').append($id.val());
-				return true;
-			}
-			return false;
-		},
-		$abortEl: $('#btn-abort-modal'),
-		abortFunc: function(){
-			console.log('custom abort function called!');
-		}
-	});
-
 	var medEditor = new MediumEditor('.editable');
 	$('.editable').mediumInsert({
 		editor: medEditor,
@@ -25,18 +7,17 @@ $(document).ready(function(){
 		addons: {
 			images: false,
 			embeds: false,
-			priEntityEmbed: {
-				modalTrigger: function()
-				{
-					modal.openModal();
+			entityEmbed: {
+				$modalEl: $('#em-modal'),
+				modalOptions: {
+					$abortEl: $('#btn-abort-modal'),
+					$completeEl: $('#btn-complete-modal')
 				}
 			}
 		}
 	});
 
-	window.medEditor = medEditor;
-
-
+	// TODO : parse story content into story object
 	$('#dump-content').click(function(){
 		var allContents = medEditor.serialize();
 		var elContent = allContents['element-0'].value;
