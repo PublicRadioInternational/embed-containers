@@ -23,7 +23,7 @@ var htmlDest = config.serverRoot + '/',
 var fontDest = libDest + fontPathSegment;
 
 gulp.task('devLess', function(){		// development less task
-	gulp.src(lessPath + 'development.less')
+	gulp.src(lessPath + 'main.less')
 		.pipe(less())
 		.pipe(gulp.dest(cssDest));
 });
