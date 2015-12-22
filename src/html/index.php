@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>TEST</title>
+		<title>Entity Embed Demo</title>
 
 		<!-- medium editor dependencies -->
 		<link rel="stylesheet" href="lib/medium-editor/dist/css/medium-editor.css">
 		<link rel="stylesheet" href="lib/medium-editor/dist/css/themes/default.css" id="medium-editor-theme">
-		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+		<link rel="stylesheet" href="lib/components-font-awesome/css/font-awesome.css">
 		<script src="lib/jquery/dist/jquery.js"></script>
 		<script src="lib/medium-editor/dist/js/medium-editor.js"></script>
 		<script src="lib/handlebars/handlebars.runtime.js"></script>
@@ -26,11 +26,7 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
  
 		<!-- dependencies / code for this project -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		
-		<!-- would like to avoid using this -->
-		<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
-		
+		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">		
 		<link rel="stylesheet" href="contents/main.css">
 		<script src="js/main.js"></script>
 	</head>
@@ -41,7 +37,7 @@
 		</div>
 
 		<div id="em-modal">
-			<?php include 'modals/exampleModal.html'; ?>
+			<?php include "modal/modal_main.php"; ?>
 		</div>
 
 		<button id="dump-content" class="btn btn-primary">dump content</button>
