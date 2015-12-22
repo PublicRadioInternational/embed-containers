@@ -1,25 +1,26 @@
-var basePath = '../';				// relative path to repository root
+var basePath = '../',					// relative path to repository root
+	fontPathSegment = 'components-font-awesome/fonts/';
+
 var buildPath = basePath + 'dist/', 	// path from repo root to dist folder
 	jsPath = basePath + 'src/js/',
 	htmlPath = basePath + 'src/html/',
 	lessPath = basePath + 'src/contents/less/',
-	libPath = basePath + 'bower_components/';
+	libPath = basePath + 'bower_components/',
+	fontPath = libPath + fontPathSegment;
 
 var gulp = require('gulp'),
-	util = require('gulp-util'),
 	less = require('gulp-less'),
 	uglify = require('gulp-uglify'),
 	minifyCss = require('gulp-minify-css'),
 	gConcat = require('gulp-concat'),
-	del = require('del'),
 	watch = require('gulp-watch'),
-	fs = require('fs'),
 	config = require(basePath + 'config.json');
 
 var htmlDest = config.serverRoot + '/',
 	jsDest = config.serverRoot + '/js/',
 	cssDest = config.serverRoot + '/contents/',
 	libDest = config.serverRoot + '/lib/';
+var fontDest = libDest + fontPathSegment;
 
 gulp.task('devLess', function(){		// development less task
 	gulp.src(lessPath + 'main.less')
@@ -39,7 +40,6 @@ gulp.task('move', function()
 	gulp.src(htmlPath + '**/*')
 		.pipe(gulp.dest(htmlDest));
 });
-
 
 // TODO : include library style sheets in production release?
 gulp.task('less', function(){			// production less task
@@ -68,7 +68,13 @@ gulp.task('copyLibCss', function(){
 		.pipe(gulp.dest(libDest));
 });
 
-gulp.task('copyLib', ['copyLibJs', 'copyLibCss']);
+gulp.task('copyLibFonts', function()
+{
+	gulp.src(fontPath + '*')
+		.pipe(gulp.dest(fontDest));
+});
+
+gulp.task('copyLib', ['copyLibJs', 'copyLibCss', 'copyLibFonts']);
 
 gulp.task('watchLess', function()
 {
