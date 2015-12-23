@@ -10,7 +10,6 @@ $(document).ready(function(){
 			entityEmbed: {
 				$modalEl: $('#em-modal'),
 				modalOptions: {
-					$abortEl: $('#btn-abort-modal'),
 					$completeEl: $('#btn-complete-modal')
 				}
 			}

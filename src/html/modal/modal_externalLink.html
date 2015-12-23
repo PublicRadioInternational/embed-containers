@@ -1,49 +1,44 @@
-<h4>
-
-
-<div id="externalLink" class="et_group" style="display:block;">
-	<div class="form-group">
-		<label class="control-label" for="et-title">Internal title</label>
-		<div>
-		<input name="et-title" type="text" placeholder ="Enter a title for internal use" class="form-control input-md">
+<div class="row em-row">
+	<div class="col-xs-6">
+		<div class="form-group">
+			<label class="em-label" for="internalTitle">Internal title</label>
+			<input name="internalTitle" type="text" placeholder ="Enter a title for internal use" class="form-control">
 		</div>
 	</div>
-
-	<div class="form-group">
-		<label class="control-label" for"video_url">Display Title</label>
-		<div>
-		<input name="title_text" type="text" placeholder="Enter a title for display purposes" class="form-control input-md">
+	<div class="col-xs-6">
+		<div class="form-group">
+			<label class="em-label" for="displayTitle">Display Title</label>
+			<input name="displayTitle" type="text" placeholder="Enter a title for display purposes" class="form-control">
 		</div>
 	</div>
+</div>
 
-	<div class="form-group">
-		<div>
-			<label class="control-label" for="teaser">Teaser</label>
-		</div>
-		<div>
+<div class="row em-row">
+	<div class="col-xs-6">
+		<div class="form-group">
+			<label class="em-label" for="teaser">Teaser</label>
 			<textarea name="teaser" type="text" placeholder="Enter teaser" rows="3" class="form-control"></textarea>
 		</div>
 	</div>
-
-	<div class="form-group">
-		<div>
-			<label class="control-label" for="fileinput-button">Thumbnail Image</label>
+	<div class="col-xs-6">
+		<div class="form-group">
+			<label class="em-label" for="thumbnail">Thumbnail Image</label>
+			<input id="thumbnail" type="file" name="files[]">
 		</div>
-		<input id="fileupload" type="file" name="files[]">
 	</div>
+</div>
 
-	<div class="form-group half">
-		<div>
-		<label class="control-label" for="extlink">External Link</label>
+<div class="row em-row">
+	<div class="col-xs-6">
+		<div class="form-group">
+			<label class="em-label" for="linkText">External Link Text</label>
+			<input name="linkText" type="text" placeholder="Enter link text" class="form-control">
 		</div>
-		<div>
-			<input name="ext-text" type="text" placeholder="Enter in link text" class="form-control input-md left">
-		</div>
-		<div>
-			<input name="ext-url" type="text" placeholder="Enter in URL" class="form-control input=md right">
-		</div>  
 	</div>
-
-
-
-</h4>
+	<div class="col-xs-6">
+		<div class="form-group">
+			<label class="em-label" for="url">External Link Text</label>
+			<input name="url" type="text" placeholder="Enter URL" class="form-control">
+		</div>
+	</div>
+</div>
