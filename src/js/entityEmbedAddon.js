@@ -51,6 +51,7 @@
 							// TODO : embed objects with serializers
 							scope.contents.embed = {
 								embedType: scope.contents.selectedEmbedType.text()
+								
 							};
 							return true;
 						},
