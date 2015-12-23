@@ -89,8 +89,16 @@
 			modalOptions = defaultModalOptions;
 		}
 
-		self.options.$modalEl.modal(modalOptions);
-		//self.modalCtrl = $.data(self.options.$modalEl, 'ctrl');
+		if (!self.$el.data('parser'))
+		{
+			self.$el.data('parser', window.storyParser());
+		}
+
+		var modalScope = {
+			parser: self.$el.data('parser')	
+		};
+
+		self.options.$modalEl.modal(modalOptions, modalScope);
 	};
 
 	/**
