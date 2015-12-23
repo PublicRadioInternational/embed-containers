@@ -85,7 +85,7 @@
 									scope.contents.embedView.hide();
 								}
 
-								scope.contents.embedType = e.currentTarget.options[e.currentTarget.selectedIndex];
+								scope.contents.embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
 								scope.contents.embedView = $('#' + scope.contents.embedType);							
 								scope.contents.embedView.show();
 							});
@@ -112,7 +112,8 @@
 							// TODO : leave confirmation (?)
 						},
 						after: function(scope){
-							scope.functions.clearForm(scope.embedView);
+							// TODO : rotate plus icon 45 degrees
+							scope.functions.clearForm(scope.contents.embedView);
 						}
 					},
 					open:{
