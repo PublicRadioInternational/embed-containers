@@ -14,60 +14,113 @@
 				functions: {
 					init:{
 						before: function(scope){
-							var options = $('#select-embed-type').children('option');
-							var firstOption = $('');
-							if (!!options[0])
-							{
-								firstOption = $('#' + options[0].value);
-							}
+							// define necessary contents
 							scope.contents = {
-								selectedEmbedType: firstOption
+								embedView: null,
+								embedType: null,
+								embedModel: null
 							};
 
-							for(var i = 1; i < options.length; i++)
-							{
-								if (!!options[i].value)
-								{
-									$('#' + options[i].value).hide();
+							// define commonly used opterations
+							scope.functions = {
+								// hide all embed forms except the one specified
+								// by the first option
+								setInitialModalView: function(scope){
+									var options = $('#select-embed-type').children('option');
+									var firstOption = $('');
+									var emType = '';
+									if (!!options[0])
+									{
+										emType = options[0].value;
+										firstOption = $('#' + emType);
+									}
+
+									for(var i = 1; i < options.length; i++)
+									{
+										if (!!options[i].value)
+										{
+											$('#' + options[i].value).hide();
+										}
+									}
+
+									scope.contents.embedView = firstOption;
+									scope.contents.embedType = emType;
+								},
+								clearForm: function(el){
+									var formFields = el.find('.form-control');
+									for(var i = 0; i < formFields.length; i++)
+									{
+										if (formFields[i].type.indexOf('select') !== -1)
+										{
+											formFields[i].selectedIndex = 0;
+										}
+										else
+										{
+											formFields[i].value = null;
+										}
+									}
+								},
+								getModelFromForm: function(el){
+									var model = {};
+									var formFields = el.find('.form-control');
+									for(var i = 0; i < formFields.length; i++)
+									{
+										var name = formFields[i].name;
+										var value = formFields[i].value;
+										if (!!name && !!value)
+										{
+											model[name] = value;
+										}
+									}
+									return model;
 								}
-							}
+							};							
 						},
 						after: function(scope){
+							// configure the select embed type dropdown dropdown
+							// to change the modal view
 							$('#select-embed-type').change(function(e){
-								if (!!scope.contents.selectedEmbedType)
+								if (!!scope.contents.embedView)
 								{
-									scope.contents.selectedEmbedType.hide();
+									scope.contents.embedView.hide();
 								}
 
-								var selected = e.currentTarget.options[e.currentTarget.selectedIndex];
-								scope.contents.selectedEmbedType = $('#' + selected.value);							
-								scope.contents.selectedEmbedType.show();
+								scope.contents.embedType = e.currentTarget.options[e.currentTarget.selectedIndex];
+								scope.contents.embedView = $('#' + scope.contents.embedType);							
+								scope.contents.embedView.show();
 							});
 						}
 					},
 					complete: {
 						before: function(scope){
 							// TODO : form validation
-							// TODO : embed objects with serializers
-							scope.contents.embed = {
-								embedType: scope.contents.selectedEmbedType.text()
-								
-							};
+							// TODO : make embed object classes with serializers
+
+							scope.contents.embedModel = scope.functions.getModelFromForm(scope.contents.embedView);
+							scope.contents.embedModel.embedType = scope.contents.embedType;
+
 							return true;
 						},
 						after: function(scope){
 							$('.medium-insert-active').html('<pre>' + 
-								JSON.stringify(scope.contents.embed) + '</pre>');
+								JSON.stringify(scope.contents.embedModel) + '</pre>');
+							scope.functions.clearForm(scope.contents.embedView);
 						}
+					},
+					abort: {
+						before: function(scope){
+							// TODO : leave confirmation (?)
+						},
+						after: function(scope){
+							scope.functions.clearForm(scope.embedView);
+						}
+					},
+					open:{
+						before: function(scope){
+							scope.functions.setInitialModalView(scope);
+						},
+						after: function(scope){}
 					}
-					// open:{
-					// 	before: function(scope){},
-					// 	after: function(scope){}
-					// },
-					// abort: {
-					// 	before: function(scope){},
-					// 	after: function(scope){}
-					// },
 				}
 			},
 			insertBtn: '.medium-insert-buttons', // selector for insert button

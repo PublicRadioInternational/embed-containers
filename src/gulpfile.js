@@ -43,7 +43,7 @@ gulp.task('move', function()
 
 // TODO : include library style sheets in production release?
 gulp.task('less', function(){			// production less task
-	gulp.src(lessPath + 'modal.less')	// all other less files are for demo styling
+	gulp.src(lessPath + 'embed-containers.less')	
 		.pipe(less())
 		.pipe(minifyCss())
 		.pipe(gulp.dest(buildPath));
