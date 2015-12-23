@@ -71,7 +71,8 @@
 	
 	<br />
 	<div class="modal-footer">
-		<button id="btn-complete-modal" class="btn btn-success">OK</button>
-		<button id="btn-abort-modal" class="btn btn-secondary">cancel</button>
+		<!-- TODO : add publishing state dropdown -->
+		<!-- TODO : publishing state dropdown affects Save button text -->
+		<button id="btn-complete-modal" class="btn btn-success">Save</button>
 	</div>
 </div>
