@@ -112,6 +112,7 @@
 							// TODO : leave confirmation (?)
 						},
 						after: function(scope){
+							// TODO : rotate plus icon 45 degrees
 							scope.functions.clearForm(scope.contents.embedView);
 						}
 					},
