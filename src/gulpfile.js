@@ -52,7 +52,8 @@ gulp.task('less', function(){			// production less task
 gulp.task('concatJs', function()
 {
 	gulp.src([jsPath + 'entityEmbedAddon.js',
-			jsPath + 'modal.js'])
+			jsPath + 'modal.js',
+			jsPath + 'embedModalDefaults.js'])
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(buildPath));

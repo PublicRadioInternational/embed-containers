@@ -37,6 +37,7 @@
 	function modal(el, options, scope) {	
 		var self = this;
 
+		// TODO : only store modal element on scope (no need to have it in two places)
 		self.$el = $(el);
 
 		self.options = $.extend(true, {}, defaultOptions, options);

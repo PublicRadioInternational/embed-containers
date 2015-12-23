@@ -7,123 +7,7 @@
 		addonName = 'EntityEmbed', // first char is uppercase
 		defaults = {
 			$modalEl: $(''),
-			modalOptions: {	
-				// $openEl: $(''),
-				// $abortEl: $(''),
-				// $completeEl: $('')
-				functions: {
-					init:{
-						before: function(scope){
-							// define necessary contents
-							scope.contents = {
-								embedView: null,
-								embedType: null,
-								embedModel: null
-							};
-
-							// define commonly used opterations
-							scope.functions = {
-								// hide all embed forms except the one specified
-								// by the first option
-								setInitialModalView: function(scope){
-									var options = $('#select-embed-type').children('option');
-									var firstOption = $('');
-									var emType = '';
-									if (!!options[0])
-									{
-										emType = options[0].value;
-										firstOption = $('#' + emType);
-									}
-
-									for(var i = 1; i < options.length; i++)
-									{
-										if (!!options[i].value)
-										{
-											$('#' + options[i].value).hide();
-										}
-									}
-
-									scope.contents.embedView = firstOption;
-									scope.contents.embedType = emType;
-								},
-								clearForm: function(el){
-									var formFields = el.find('.form-control');
-									for(var i = 0; i < formFields.length; i++)
-									{
-										if (formFields[i].type.indexOf('select') !== -1)
-										{
-											formFields[i].selectedIndex = 0;
-										}
-										else
-										{
-											formFields[i].value = null;
-										}
-									}
-								},
-								getModelFromForm: function(el){
-									var model = {};
-									var formFields = el.find('.form-control');
-									for(var i = 0; i < formFields.length; i++)
-									{
-										var name = formFields[i].name;
-										var value = formFields[i].value;
-										if (!!name && !!value)
-										{
-											model[name] = value;
-										}
-									}
-									return model;
-								}
-							};							
-						},
-						after: function(scope){
-							// configure the select embed type dropdown dropdown
-							// to change the modal view
-							$('#select-embed-type').change(function(e){
-								if (!!scope.contents.embedView)
-								{
-									scope.contents.embedView.hide();
-								}
-
-								scope.contents.embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
-								scope.contents.embedView = $('#' + scope.contents.embedType);							
-								scope.contents.embedView.show();
-							});
-						}
-					},
-					complete: {
-						before: function(scope){
-							// TODO : form validation
-							// TODO : make embed object classes with serializers
-
-							scope.contents.embedModel = scope.functions.getModelFromForm(scope.contents.embedView);
-							scope.contents.embedModel.embedType = scope.contents.embedType;
-
-							return true;
-						},
-						after: function(scope){
-							$('.medium-insert-active').html('<pre>' + 
-								JSON.stringify(scope.contents.embedModel) + '</pre>');
-							scope.functions.clearForm(scope.contents.embedView);
-						}
-					},
-					abort: {
-						before: function(scope){
-							// TODO : leave confirmation (?)
-						},
-						after: function(scope){
-							// TODO : rotate plus icon 45 degrees
-							scope.functions.clearForm(scope.contents.embedView);
-						}
-					},
-					open:{
-						before: function(scope){
-							scope.functions.setInitialModalView(scope);
-						},
-						after: function(scope){}
-					}
-				}
-			},
+			// modalOptions: see modal.js to customize if embedModalDefaults.js is insufficient
 			insertBtn: '.medium-insert-buttons', // selector for insert button
 			deleteMethod: 'POST',
 			deleteScript: 'delete.php',
@@ -194,7 +78,18 @@
 		var self = this;
 		self.events();
 
-		self.options.$modalEl.modal(self.options.modalOptions);
+		var modalOptions;
+		var defaultModalOptions = new window.embedModalDefaults();
+		if (!!self.options.modalOptions)
+		{
+			modalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
+		}
+		else
+		{
+			modalOptions = defaultModalOptions;
+		}
+
+		self.options.$modalEl.modal(modalOptions);
 		//self.modalCtrl = $.data(self.options.$modalEl, 'ctrl');
 	};
 
