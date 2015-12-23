@@ -21,7 +21,14 @@ $(document).ready(function(){
 	$('#dump-content').click(function(){
 		var allContents = medEditor.serialize();
 		var elContent = allContents['element-0'].value;
-
+		
+		 var storyParser = $('.editable').storyParser({
+		  }); 	 	
+		
+		var finalContent = storyParser.parse(elContent);
+		
 		$('#elContents').text(elContent);
+		
+		$('#finalContents').text(finalContent);
 	});
 });

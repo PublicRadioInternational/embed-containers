@@ -21,7 +21,7 @@
 								embedModel: null
 							};
 
-							// define commonly used opterations
+							// define commonly used operations
 							scope.functions = {
 								// hide all embed forms except the one specified
 								// by the first option

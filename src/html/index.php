@@ -44,6 +44,9 @@
 		<br />
 		<br />
 		<pre id="elContents"></pre>
+		<div> ------------------------------------------------------</div>
+		<pre id="finalContents"></pre>
+
 	</body>
 
 </html>
