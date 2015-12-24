@@ -14,9 +14,65 @@
 			JSON.stringify(embedModel, null, 4) + '</pre>';
 	};
 
+	var parseVideoForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseAudioForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseTwitterForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseInstagramForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseFacebookForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseRelatedLinkForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseExternalLinkForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseGlobalBuzzForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseNewsletterSubscribeForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseIframeForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
+	var parseCustomTextForEditor = function(embedModel){
+		return '<pre class="embedded-content">' + 
+			JSON.stringify(embedModel, null, 4) + '</pre>';
+	};
+
 	// constructor
 
 	function storyParser(){
+
 	};
 
 
@@ -40,31 +96,35 @@
 			case 'image':
 				return parseImageForEditor(embedModel);
 			case 'video':
-				return parseImageForEditor(embedModel);
+				return parseVideoForEditor(embedModel);
 			case 'audio':
-				return parseImageForEditor(embedModel);
+				return parseAudioForEditor(embedModel);
 			case 'twitter':
-				return parseImageForEditor(embedModel);
+				return parseTwitterForEditor(embedModel);
 			case 'instagram':
-				return parseImageForEditor(embedModel);
+				return parseInstagramForEditor(embedModel);
 			case 'facebook':
-				return parseImageForEditor(embedModel);
+				return parseFacebookForEditor(embedModel);
 			case 'relatedLink':
-				return parseImageForEditor(embedModel);
+				return parseRelatedLinkForEditor(embedModel);
 			case 'externalLink':
-				return parseImageForEditor(embedModel);
+				return parseExternalLinkForEditor(embedModel);
 			case 'globalBuzz':
-				return parseImageForEditor(embedModel);
+				return parseGlobalBuzzForEditor(embedModel);
 			case 'newsletterSubscribe':
-				return parseImageForEditor(embedModel);
+				return parseNewsletterSubscribeForEditor(embedModel);
 			case 'iframe':
-				return parseImageForEditor(embedModel);
+				return parseIframeForEditor(embedModel);
 			case 'customText':
-				return parseImageForEditor(embedModel);
+				return parseCustomTextForEditor(embedModel);
 			default:
 				console.log('unrecognized embed type!');
 				return ''; // TODO : error message
 		}
+	};
+
+	storyParser.prototype.fromEditorToModal = function(){
+
 	};
 
 	// TODO : parse function for editing embedded content (?)
