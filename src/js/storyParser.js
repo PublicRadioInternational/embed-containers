@@ -1,94 +1,86 @@
-;(function(window){
+;(function (window){
 	
 	'use strict';
 
-	// private data members
-
-	var embeds = [];
-
-
 	// private functions
 
-	var parseImageForEditor = function(embedModel){
+	// TODO : get rid of this - make meaningful parse functions
+	var defaultParse = function(embedModel){
 		return '<pre class="embedded-content">' + 
 			JSON.stringify(embedModel, null, 4) + '</pre>';
+	}
+
+	var parseImageForEditor = function(embedModel){
+		return defaultParse(embedModel);
 	};
 
 	var parseVideoForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseAudioForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseTwitterForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseInstagramForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseFacebookForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseRelatedLinkForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseExternalLinkForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseGlobalBuzzForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseNewsletterSubscribeForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseIframeForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	var parseCustomTextForEditor = function(embedModel){
-		return '<pre class="embedded-content">' + 
-			JSON.stringify(embedModel, null, 4) + '</pre>';
+		return defaultParse(embedModel);
 	};
 
 	// constructor
 
 	function storyParser(){
-
+		var self = this;
+		this.embeds = [];
 	};
 
 
 	// public functions
 
 	storyParser.prototype.fromServerToEditor = function(storyModel) {
-		
+		var self = this;
 	};
 
 	storyParser.prototype.fromEditorToServer = function(editorContent) {
-		
+		var self = this;
 	};
 
 	storyParser.prototype.fromModalToEditor = function(embedModel) {
+		var self = this;
+
 		// store embedModel for quicker parsing later
-		embeds.push(embedModel);
+		self.embeds.push(embedModel);
 
 		// parse the embedModel object into html for medium editor
 		switch(embedModel.embedType)

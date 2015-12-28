@@ -91,7 +91,7 @@
 
 		if (!self.$el.data('parser'))
 		{
-			self.$el.data('parser', window.storyParser());
+			self.$el.data('parser', new window.storyParser(window));
 		}
 
 		var modalScope = {
