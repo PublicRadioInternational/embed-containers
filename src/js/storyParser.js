@@ -84,6 +84,8 @@
 		};
 	};
 
+	// IN:	JSON object from embed modal representing embed content
+	// OUT:	HTML string for medium editor
 	storyParser.prototype.fromModalToEditor = function(embedModel) {
 		var self = this;
 
