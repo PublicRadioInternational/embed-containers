@@ -95,7 +95,7 @@
 		}
 
 		var modalScope = {
-			parser: self.$el.data('parser')	
+			parser: self.$el.data('parser')
 		};
 
 		self.options.$modalEl.modal(modalOptions, modalScope);

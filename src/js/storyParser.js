@@ -68,12 +68,20 @@
 
 	// public functions
 
+	// IN:	JSON object representing story modal
+	// OUT:	HTML string for medium editor
 	storyParser.prototype.fromServerToEditor = function(storyModel) {
 		var self = this;
+		return '<pre>' + JSON.stringify(storyModel, null, 4) + '</pre>';
 	};
 
+	// IN:	HTML string from medium editor
+	// OUT:	JSON object representing story modal
 	storyParser.prototype.fromEditorToServer = function(editorContent) {
 		var self = this;
+		return {
+			content: editorContent
+		};
 	};
 
 	storyParser.prototype.fromModalToEditor = function(embedModel) {
@@ -115,8 +123,8 @@
 		}
 	};
 
+	// this will need to be triggered from a click event on the embed visual
 	storyParser.prototype.fromEditorToModal = function(){
-
 	};
 
 	// TODO : parse function for editing embedded content (?)
