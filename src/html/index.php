@@ -40,10 +40,19 @@
 			<?php include "modal/modal_main.php"; ?>
 		</div>
 
-		<button id="dump-content" class="btn btn-primary">dump content</button>
+		<button id="dump-from-editor" class="btn btn-primary">from editor</button>
 		<br />
 		<br />
-		<pre id="elContents"></pre>
+		<span>story object after parser cleans content from editor - ready to be pushed to server</span>
+		<pre id="from-editor"></pre>
+
+		<br />
+		<br />
+		<button id="dump-from-server" class="btn btn-primary">to editor</button>		
+		<br />
+		<br />
+		<span>editor digestable content (html) created from server object by parser</span>
+		<div id="from-server"></pre>
 	</body>
 
 </html>
