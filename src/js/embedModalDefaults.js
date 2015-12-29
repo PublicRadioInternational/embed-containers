@@ -1,4 +1,4 @@
-;(function(wndw){
+;(function(){
 	var selectEmbedType = '#select-embed-type';
 	var selectEmbedTypeChildren = 'option';
 	var mediumActiveLine = '.medium-insert-active';
@@ -131,13 +131,11 @@
 				return true;
 			},
 			after: function(scope){
-				$(mediumActiveLine).html('<pre class="embedded-content">' +
-					JSON.stringify(scope.contents.embedModel, null, 4) + '</pre>');
-				
+				$(mediumActiveLine).html(scope.parser.fromModalToEditor(scope.contents.embedModel));
 				scope.functions.clearForm(scope.contents.embedView);
 			}
 		}
 	};
 
-	wndw.embedModalDefaults = embedModalDefaults;
+	window.embedModalDefaults = embedModalDefaults;
 }(window));
