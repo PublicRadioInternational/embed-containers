@@ -15,7 +15,7 @@
 	};
 
 	var parseVideoForEditor = function(embedModel){
-		return defaultParse(embedModel);
+		return '<iframe src=' + embedModel.videoUrl + ' width="560" height="315" frameborder="0" allowfullscreen></iframe>';
 	};
 
 	var parseAudioForEditor = function(embedModel){
