@@ -86,6 +86,12 @@
 								model[name] = value;
 							}
 						}
+
+						if (!!el.find('#imageUpload'))
+						{
+							model['imagePath'] = el.find('#imageUpload').data('imagePath');
+						}
+
 						return model;
 					}
 				};

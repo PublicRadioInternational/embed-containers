@@ -22,7 +22,7 @@
 	</div>
 
 	<div id="image">
-		<?php include 'modal_image.html'; ?>
+		<?php include 'modal_image.php'; ?>
 	</div>
 
 	<div id="video">

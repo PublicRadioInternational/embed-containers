@@ -11,7 +11,7 @@
 	}
 
 	var parseImageForEditor = function(embedModel){
-		return defaultParse(embedModel);
+		return '<img src="' + embedModel.imagePath + '" />';
 	};
 
 	var parseVideoForEditor = function(embedModel){
