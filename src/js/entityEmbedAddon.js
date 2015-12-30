@@ -6,13 +6,13 @@
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbed', // first char is uppercase
 		defaults = {
+			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
+			modalScope: { // default scope to pass to the modal
+				$embedTypeSelect: $(''),
+				$modalBody: $('')
+			},
 			$modalEl: $(''),
-			// modalOptions: see modal.js to customize if embedModalDefaults.js is insufficient
 			insertBtn: '.medium-insert-buttons', // selector for insert button
-			deleteMethod: 'POST',
-			deleteScript: 'delete.php',
-			preview: true,
-			captions: true,
 			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
 				url: 'upload.php',
 				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
@@ -38,6 +38,20 @@
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				}
+			},
+			embedTypes: { // options for different embed types
+				imagesEmbed:{},
+				videoEmbed:{},
+				audioEmbed:{},
+				twitterEmbed:{},
+				instagramEmbed:{},
+				facebookEmbed:{},
+				relatedLinkEmbed:{},
+				externalLinkEmbed:{},
+				globalBuzzEmbed:{},
+				newletterSubscribeEmbed:{},
+				iframeEmbed:{},
+				customTextEmbed:{}
 			}
 		};
 
@@ -77,7 +91,17 @@
 	EntityEmbed.prototype.init = function () {
 		var self = this;
 		self.events();
-
+		
+		self.embedTypes = {};
+		for (var embedName in MediumEditor.util.embedTypeConstructors)
+		{
+			if (!!self.options.embedTypes[embedName])
+			{
+				self.embedTypes[embedName] =
+					new MediumEditor.util.embedTypeConstructors[embedName](self.options.embedTypes[embedName]);
+			}
+		}
+		
 		var modalOptions;
 		var defaultModalOptions = new window.embedModalDefaults();
 		if (!!self.options.modalOptions)
@@ -89,14 +113,11 @@
 			modalOptions = defaultModalOptions;
 		}
 
-		if (!self.$el.data('parser'))
-		{
-			self.$el.data('parser', new window.storyParser(window));
-		}
-
 		var modalScope = {
-			parser: self.$el.data('parser')
+			embedTypes: self.embedTypes
 		};
+
+		modalScope = $.extend(true, {}, self.options.modalScope, modalScope);
 
 		self.options.$modalEl.modal(modalOptions, modalScope);
 	};
@@ -112,7 +133,7 @@
 
 		$(document).ready(function()
 		{
-			// somewhat of a hack - this activates the entity embed add-on immediately
+			// TODO : make compatible with multiple editors on one page
 			$(self.options.insertBtn).click(function(){
 				self.add();
 			});

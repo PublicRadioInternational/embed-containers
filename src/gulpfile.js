@@ -30,7 +30,7 @@ gulp.task('devLess', function(){		// development less task
 
 gulp.task('devConcatJs', function()		// development concatenation task for javascript
 {										// same as concatJs but it does not uglify
-	gulp.src(jsPath + '*.js')
+	gulp.src([jsPath + '*.js', jsPath + 'embeds/*.js'])
 		.pipe(gConcat('main.js'))
 		.pipe(gulp.dest(jsDest));
 });
@@ -84,7 +84,7 @@ gulp.task('watchLess', function()
 
 gulp.task('watchJs', function()
 {
-	gulp.watch(jsPath + '*.js', ['devConcatJs']);
+	gulp.watch([jsPath + '*.js', jsPath + 'embeds/*.js'], ['devConcatJs']);
 });
 
 gulp.task('watchHtml', function()
