@@ -4,11 +4,10 @@
 
 	/** Default values */
 	var pluginName = 'mediumInsert',
-		addonName = 'PriEntityEmbed', // first char is uppercase
+		addonName = 'EntityEmbed', // first char is uppercase
 		defaults = {
-			modalTrigger: function(){ // function to open modal
-				console.log('modalTrigger function called');
-			}, 
+			$modalEl: $(''),
+			// modalOptions: see modal.js to customize if embedModalDefaults.js is insufficient
 			insertBtn: '.medium-insert-buttons', // selector for insert button
 			deleteMethod: 'POST',
 			deleteScript: 'delete.php',
@@ -20,22 +19,22 @@
 			},
 			styles: {
 				wide: {
-					label: '<span class="fa fa-align-justify"></span>',
+					label: '<span class="fa fa-align-justify"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				},
 				left: {
-					label: '<span class="fa fa-align-left"></span>',
+					label: '<span class="fa fa-align-left"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				},
 				right: {
-					label: '<span class="fa fa-align-right"></span>',
+					label: '<span class="fa fa-align-right"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				},
 				grid: {
-					label: '<span class="fa fa-th"></span>',
+					label: '<span class="fa fa-th"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				}
@@ -53,18 +52,20 @@
 	 * @return {void}
 	 */
 
-	function PriEntityEmbed (el, options) {
-		this.el = el;
-		this.$el = $(el);
-		this.templates = window.MediumInsert.Templates;
-		this.core = this.$el.data('plugin_'+ pluginName);
+	function EntityEmbed (el, options) {
+		var self = this;
 
-		this.options = $.extend(true, {}, defaults, options);
+		self.el = el;
+		self.$el = $(el);
+		self.templates = window.MediumInsert.Templates;
+		self.core = self.$el.data('plugin_'+ pluginName);
 
-		this._defaults = defaults;
-		this._name = pluginName;
+		self.options = $.extend(true, {}, defaults, options);
 
-		this.init();
+		self._defaults = defaults;
+		self._name = pluginName;
+
+		self.init();
 	}
 
 	/**
@@ -73,9 +74,31 @@
 	 * @return {void}
 	 */
 
-	PriEntityEmbed.prototype.init = function () {
+	EntityEmbed.prototype.init = function () {
 		var self = this;
 		self.events();
+
+		var modalOptions;
+		var defaultModalOptions = new window.embedModalDefaults();
+		if (!!self.options.modalOptions)
+		{
+			modalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
+		}
+		else
+		{
+			modalOptions = defaultModalOptions;
+		}
+
+		if (!self.$el.data('parser'))
+		{
+			self.$el.data('parser', new window.storyParser(window));
+		}
+
+		var modalScope = {
+			parser: self.$el.data('parser')
+		};
+
+		self.options.$modalEl.modal(modalOptions, modalScope);
 	};
 
 	/**
@@ -84,11 +107,12 @@
 	 * @return {void}
 	 */
 
-	PriEntityEmbed.prototype.events = function () {
+	EntityEmbed.prototype.events = function () {
 		var self = this;
 
 		$(document).ready(function()
 		{
+			// somewhat of a hack - this activates the entity embed add-on immediately
 			$(self.options.insertBtn).click(function(){
 				self.add();
 			});
@@ -100,7 +124,8 @@
 	 *
 	 * @return {object} Core object
 	 */
-	PriEntityEmbed.prototype.getCore = function () {
+
+	EntityEmbed.prototype.getCore = function () {
 		return this.core;
 	};
 
@@ -112,10 +137,10 @@
 	 * @return {void}
 	 */
 
-	PriEntityEmbed.prototype.add = function () {
+	EntityEmbed.prototype.add = function () {
 		var self = this;
 
-		self.options.modalTrigger();
+		self.options.$modalEl.openModal();
 	};
 
 
@@ -124,7 +149,7 @@
 	$.fn[pluginName + addonName] = function (options) {
 		return this.each(function () {
 			if (!$.data(this, 'plugin_' + pluginName + addonName)) {
-				$.data(this, 'plugin_' + pluginName + addonName, new PriEntityEmbed(this, options));
+				$.data(this, 'plugin_' + pluginName + addonName, new EntityEmbed(this, options));
 			}
 		});
 	};
