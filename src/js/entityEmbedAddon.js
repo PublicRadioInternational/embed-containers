@@ -138,6 +138,10 @@
 				self.add();
 			});
 		});
+
+		$(document).on('click', '.entity-embed', function(){
+			self.toggleSelectEmbed($(this));
+		});
 	};
 
 	/**
@@ -164,6 +168,29 @@
 		self.options.$modalEl.openModal();
 	};
 
+	/**
+	 * Toggles embed selection
+	 * Selected embeds have a toolbar over them
+	 *
+	 * @returns {void}
+	 */
+
+	EntityEmbed.prototype.toggleSelectEmbed = function ($embed) {
+		var self = this;
+		$embed.toggleClass('.entity-embed-active');
+		
+		if (!!self.options.actions)
+		{			
+			if ($embed.hasClass('.entity-embed-active'))
+			{
+				// add toolbar
+			}
+			else
+			{
+				// remove toolbar
+			}
+		}
+	};
 
 	/** Addon initialization */
 

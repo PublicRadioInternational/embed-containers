@@ -69,7 +69,7 @@
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
 
-		$el.find("input[type='file']").fileupload({
+		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
 			add: function(e, data){
 				// TODO : better id (this one potentially has spaces)
@@ -123,7 +123,7 @@
 	imagesEmbed.prototype.editorEvents = function(){};
 
 	imagesEmbed.prototype.parseForEditor = function(){
-		return '<img src="' + this.model.files[0] +'" />';
+		return '<img class="entity-embed" src="' + this.model.files[0] +'" />';
 	};
 
 
