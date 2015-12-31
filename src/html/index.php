@@ -40,6 +40,7 @@
 			<?php include "modal/modal_main.php"; ?>
 		</div>
 
+		<!-- 
 		<button id="dump-from-editor" class="btn btn-primary">from editor</button>
 		<br />
 		<br />
@@ -53,6 +54,7 @@
 		<br />
 		<span>editor digestable content (html) created from server object by parser</span>
 		<div id="from-server"></pre>
+		!-->
 	</body>
 
 </html>
