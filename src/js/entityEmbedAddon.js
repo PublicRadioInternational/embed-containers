@@ -5,6 +5,9 @@
 	/** Default values */
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbed', // first char is uppercase
+		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
+		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
+		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: { // default scope to pass to the modal
@@ -149,7 +152,7 @@
 
 		$(document)
 			.on('click', function(	){
-				if (self.$el.find('.entity-embed-active').length != 0)
+				if (self.$el.find('.' + activeEmbedClass).length != 0)
 				{
 					self.hideToolbar();
 				}
@@ -207,7 +210,7 @@
 		if (e.which == 8 || e.which == 46) // backspace or delete
 		{
 			// TODO : this could hide toolbar on another selected embed
-			if (self.$el.find('.entity-embed-active').length != 0)
+			if (self.$el.find('.' + activeEmbedClass).length != 0)
 			{
 				self.hideToolbar();
 			}
@@ -226,11 +229,11 @@
 
 	EntityEmbed.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
-		$embed.toggleClass('entity-embed-active');
+		$embed.toggleClass(activeEmbedClass);
 		
 		if (!!self.options.actions)
 		{			
-			if ($embed.hasClass('entity-embed-active'))
+			if ($embed.hasClass(activeEmbedClass))
 			{
 				self.showToolbar($embed);
 			}
@@ -278,14 +281,14 @@
 		self.$toolbar.find('button').each(function () {
 			if($activeLine.hasClass('entity-embed-'+ $(this).data('action')))
 			{
-				$(this).addClass('medium-editor-button-active');
+				$(this).addClass(activeToolbarBtnClass);
 				optionSelected = true;
 			}
 		});
 
 		if (!optionSelected)
 		{
-			self.$toolbar.find('button').first().addClass('medium-editor-button-active');
+			self.$toolbar.find('button').first().addClass(activeToolbarBtnClass);
 		}
 
 		self.positionToolbar($embed);
@@ -334,10 +337,10 @@
 		var self = this;
 
 		self.$toolbar.hide();		
-		self.$toolbar.find('button').removeClass('medium-editor-button-active');
+		self.$toolbar.find('button').removeClass(activeToolbarBtnClass);
 
 		self.$toolbar2.hide();
-		self.$toolbar2.find('button').removeClass('medium-editor-button-active');
+		self.$toolbar2.find('button').removeClass(activeToolbarBtnClass);
 	}
 
 	/**
@@ -351,20 +354,20 @@
 	EntityEmbed.prototype.toolbarAction = function ($thisButton) {
 		var self = this;
 		var $buttonList = $thisButton.closest('li').closest('ul');
-		var $activeLine = $('.entity-embed-active').closest('.entity-embed-editor-line');
+		var $activeLine = $('.' + activeEmbedClass).closest('.' + entityEmbedEditorLineClass);
 
 		// change the active button to this one
 		// there should only be one active button
 		$buttonList
-			.find('.medium-editor-button-active')
-			.removeClass('medium-editor-button-active');
-		$thisButton.addClass('medium-editor-button-active');
+			.find('.' + activeToolbarBtnClass)
+			.removeClass(activeToolbarBtnClass);
+		$thisButton.addClass(activeToolbarBtnClass);
 
 		$buttonList.find('button').each(function(){
 			var $curButton = $(this);
 			var className = 'entity-embed-' + $curButton.data('action');
 
-			if ($curButton.hasClass('medium-editor-button-active'))
+			if ($curButton.hasClass(activeToolbarBtnClass))
 			{
 				$activeLine.addClass(className);
 				if (!!self.options.styles[$curButton.data('action')].added)
@@ -372,7 +375,7 @@
 					self.options.styles[$curButton.data('action')].added($activeLine)
 				}
 				setTimeout(function(){
-					self.positionToolbar($('.entity-embed-active'));
+					self.positionToolbar($('.' + activeEmbedClass));
 				}, 50);
 			}
 			else

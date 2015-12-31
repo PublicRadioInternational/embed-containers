@@ -31,7 +31,7 @@
 					$(mediumActiveLine).addClass('entity-embed-center');
 					$(mediumActiveLine).addClass('entity-embed-editor-line');
 
-					return scope.currentEmbedType.parseForEditor();
+					return $(scope.currentEmbedType.parseForEditor()).addClass('entity-embed');
 				}
 			},
 			after: function(scope){
