@@ -82,7 +82,7 @@
 	videoEmbed.prototype.editorEvents = function(){};
 
 	videoEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		return '<iframe src=' + this.model.url + ' width="560" height="315" frameborder="0" allowfullscreen></iframe>'
 	};
 
 
