@@ -82,7 +82,7 @@
 	videoEmbed.prototype.editorEvents = function(){};
 
 	videoEmbed.prototype.parseForEditor = function(){
-		return '<iframe src=' + this.model.url + ' width="560" height="315" frameborder="0" allowfullscreen></iframe>'
+		return '<iframe src="' + this.model.url.replace("watch?v=", "v/") + '&output=embed"" width="560" height="315" frameborder="0" allowfullscreen></iframe>'
 	};
 
 

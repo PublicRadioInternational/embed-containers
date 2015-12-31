@@ -1,16 +1,8 @@
 ;(function(){
 	var mediumActiveLine = '.medium-insert-active';
 
-	function embedModalDefaults(selEmbedType, selEmbedTypeChildren, medActiveLine)
+	function embedModalDefaults(medActiveLine)
 	{
-		if (!!selEmbedType)
-		{
-			selectEmbedType = selEmbedType;
-		}
-		if (!!selEmbedTypeChildren)
-		{
-			selectEmbedTypeChildren = selEmbedTypeChildren;
-		}
 		if (!!medActiveLine)
 		{
 			mediumActiveLine = medActiveLine;
@@ -38,7 +30,7 @@
 				scope.$embedTypeSelect.change(function(e){
 					// TODO : confirm navigation;
 					scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].id;
 					scope.setModalView(scope, embedType);
 				});
 
