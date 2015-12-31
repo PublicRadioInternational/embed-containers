@@ -1,18 +1,8 @@
 ;(function(){
-	var selectEmbedType = '#select-embed-type';
-	var selectEmbedTypeChildren = 'option';
 	var mediumActiveLine = '.medium-insert-active';
 
-	function embedModalDefaults(selEmbedType, selEmbedTypeChildren, medActiveLine)
+	function embedModalDefaults(medActiveLine)
 	{
-		if (!!selEmbedType)
-		{
-			selectEmbedType = selEmbedType;
-		}
-		if (!!selEmbedTypeChildren)
-		{
-			selectEmbedTypeChildren = selEmbedTypeChildren;
-		}
 		if (!!medActiveLine)
 		{
 			mediumActiveLine = medActiveLine;
@@ -22,92 +12,66 @@
 	embedModalDefaults.prototype.functions = {
 		init:{
 			before: function(scope){
-				// define necessary contents
-				scope.contents = {
-					embedView: null,
-					embedType: null,
-					embedModel: null
-				};
+				// define necessary fields for scope
+				// assume that these are already defined:
+				//		scope.$embedTypeSelect
+				//		scope.$modalBody
+				//		scope.embedTypes
 
-				// define commonly used opterations
-				scope.functions = {
-					// hide all embed forms except the one specified
-					// by the first option
-					setModalView: function(scope, optionIndex){
-						var selOption = $('');
-						var emType = '';
-						var options = $(selectEmbedType).children(selectEmbedTypeChildren);
-
-						// TODO : null check
-						// if (!optionIndex || !options[optionIndex])
-						// {
-						// 	console.log('ERROR: Invalid option index passed to setModalView.')	
-						// }
-						
-						$(selectEmbedType).selectedIndex = optionIndex;
-						emType = options[optionIndex].value;
-						selOption = $('#' + emType);
-						selOption.show();
-
-						for(var i = 1; i < options.length; i++)
-						{
-							if (!!options[i].value)
-							{
-								$('#' + options[i].value).hide();
-							}
-						}
-
-						scope.contents.embedView = selOption;
-						scope.contents.embedType = emType;
-					},
-					clearForm: function(el){
-						var formFields = el.find('.form-control');
-						for(var i = 0; i < formFields.length; i++)
-						{
-							if (formFields[i].type.indexOf('select') !== -1)
-							{
-								formFields[i].selectedIndex = 0;
-							}
-							else
-							{
-								formFields[i].value = null;
-							}
-						}
-					},
-					getModelFromForm: function(el){
-						var model = {};
-						var formFields = el.find('.form-control');
-						for(var i = 0; i < formFields.length; i++)
-						{
-							var name = formFields[i].name;
-							var value = formFields[i].value;
-							if (!!name && !!value)
-							{
-								model[name] = value;
-							}
-						}
-						return model;
-					}
+				scope.currentEmbedType = null;
+				scope.setModalView= function(scope, embedName){
+					scope.currentEmbedType.$view.hide();
+					scope.currentEmbedType = scope.embedTypes[embedName];
+					scope.currentEmbedType.$view.show();
 				};
 			},
 			after: function(scope){
-				// configure the select embed type dropdown dropdown
-				// to change the modal view
-				$(selectEmbedType).change(function(e){
-					if (!!scope.contents.embedView)
-					{
-						scope.contents.embedView.hide();
-					}
-
-					scope.contents.embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
-					scope.contents.embedView = $('#' + scope.contents.embedType);							
-					scope.contents.embedView.show();
+				// configure the select embed type dropdown dropdown to change the modal view
+				scope.$embedTypeSelect.change(function(e){
+					// TODO : confirm navigation;
+					scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].id;
+					scope.setModalView(scope, embedType);
 				});
+
+				var first = true;
+				// load embed type views and initialize them
+				for(var embedType in scope.embedTypes)
+				{
+					var embedObject = scope.embedTypes[embedType];
+
+					scope.$embedTypeSelect.append('<option id="' + 
+						embedObject.name + '">' + embedObject.options.displayName +
+						'</option>');
+
+					scope.$modalBody.append('<div id="' + embedObject.name + '"></div>');
+
+					var $embedView = scope.$modalBody.find('#' + embedObject.name);
+					
+					// TODO : load error message on failure
+					$embedView.load(embedObject.options.viewPath, function(response, status, xhr){
+						if (status === 'success')
+						{
+							// this must come after the embed view has been loaded
+							embedObject.initModal($embedView);
+						}
+					});
+					embedObject.$view = $embedView;
+
+					if (first)
+					{
+						scope.currentEmbedType = embedObject;
+						first = false;
+					}
+					else
+					{
+						$embedView.hide();
+					}
+				}
 			}
 		},
 		open: {
 			before: function(scope){
-				scope.functions.setModalView(scope, 0);
 			},
 			after: function(scope){},
 		},
@@ -117,22 +81,20 @@
 			},
 			after: function(scope){
 				// TODO : rotate plus icon 45 degrees
-				scope.functions.clearForm(scope.contents.embedView);
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
 		complete: {
 			before: function(scope){
 				// TODO : form validation
-				// TODO : make embed object classes with parsers
-
-				scope.contents.embedModel = scope.functions.getModelFromForm(scope.contents.embedView);
-				scope.contents.embedModel.embedType = scope.contents.embedType;
-
+				
+				scope.embedModel = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+				
 				return true;
 			},
 			after: function(scope){
-				$(mediumActiveLine).html(scope.parser.fromModalToEditor(scope.contents.embedModel));
-				scope.functions.clearForm(scope.contents.embedView);
+				$(mediumActiveLine).html(scope.currentEmbedType.parseForEditor());
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
 	};
