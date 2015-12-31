@@ -47,11 +47,14 @@
 			actions: {
 				remove: {
 					label: '<span class="fa fa-times"></span>',
-					clicked: function () {
-						var $event = $.Event('keydown');
-
-						$event.which = 8;
-						$(document).trigger($event);
+					clicked: function ($embed) {
+						console.log('remove embed')
+					}
+				},
+				edit:{
+					label: '<span class="fa fa-cogs"></span>',
+					clicked: function($embed){
+						console.log('edit embed')
 					}
 				}
 			},
@@ -174,8 +177,12 @@
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// fire toolbar actions when buttons are clicked
-			.on('click', '.medium-insert-images-toolbar .medium-editor-action', function(){
+			.on('click', '.' + toolbarClass + ' .medium-editor-action', function(){
 				self.toolbarAction($(this));
+			})
+			// fire secondary toolbar actions when buttons are clicked
+			.on('click', '.' + secondaryToolbarClass + ' .medium-editor-action', function(){
+				self.secondaryToolbarAction($(this));
 			})
 			// conditionally remove embed
 			.on('keydown', function(e){
@@ -308,7 +315,7 @@
 		self.positionToolbar($embed);
 
 		self.$toolbar.show();
-		//self.$toolbar2.show();
+		self.$toolbar2.show();
 	};
 
 	/**
@@ -334,11 +341,11 @@
 				left: $embed.offset().left + $embed.width() / 2 - self.$toolbar.width() / 2
 			});
 
-		// self.$toolbar2
-		// 	.css({
-		// 		top: $embed.offset().top + 2, // 2px - distance from a border
-		// 		left: $embed.offset().left + $embed.width() - $toolbar2.width() - 4 // 4px - distance from a border
-		// 	});
+		self.$toolbar2
+			.css({
+				top: $embed.offset().top + 2, // 2px - distance from a border
+				left: $embed.offset().left + $embed.width() + 4 // 4px - distance from a border
+			});
 	};
 
 	/**
@@ -358,7 +365,7 @@
 	}
 
 	/**
-	 * Links toolbar buttons and theior respective actions
+	 * Links toolbar buttons and their respective actions
 	 *
 	 * @param {DOM} $thisButton - toolbar button that was clicked
 	 *
@@ -401,9 +408,22 @@
 				}
 			}
 		});
-
-
 	};
+
+	/**
+	 * Links secondary toolbar buttons and their respective actions
+	 *
+	 * @param {DOM} $thisButton - toolbar button that was clicked
+	 *
+	 * @returns {void}
+	 */
+
+	EntityEmbed.prototype.secondaryToolbarAction = function ($thisButton) {
+		var self = this;
+		var $activeEmbed = $('.' + activeEmbedClass);
+		var action = self.options.actions[$thisButton.data('action')].clicked;
+		action($activeEmbed);
+	}
 
 	/** Addon initialization */
 
