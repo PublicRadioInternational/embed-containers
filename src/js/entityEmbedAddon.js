@@ -148,12 +148,23 @@
 		});
 
 		$(document)
-			.on('click', '.entity-embed', function(){
+			.on('click', function(	){
+				if (self.$el.find('.entity-embed-active').length != 0)
+				{
+					self.hideToolbar();
+				}
+			})
+			.on('click', '.entity-embed', function(e){
 				self.toggleSelectEmbed($(this));
+				e.stopPropagation();
 			})
 			.on('click', '.medium-insert-images-toolbar .medium-editor-action', function(){
 				self.toolbarAction($(this));
+			})
+			.on('keydown', function(e){
+				self.removeEmbed(e);
 			});
+
 	};
 
 	/**
@@ -169,7 +180,7 @@
 	/**
 	 * Add custom content
 	 *
-	 * This function is called when user click on the addon's icon
+	 * This function is called when a user click on the + icon
 	 *
 	 * @return {void}
 	 */
@@ -179,6 +190,31 @@
 
 		self.options.$modalEl.openModal();
 	};
+
+	/**
+	 * Remove custom content
+	 *
+	 * This function is called when a user removed an entity embed
+	 *
+	 * @return {void}
+	 */
+
+	EntityEmbed.prototype.removeEmbed = function (e) {
+		var self = this;
+
+		// TODO : this will not be fired if the user highlights content and begins typing
+
+		if (e.which == 8 || e.which == 46) // backspace or delete
+		{
+			// TODO : this could hide toolbar on another selected embed
+			if (self.$el.find('.entity-embed-active').length != 0)
+			{
+				self.hideToolbar();
+			}
+		}
+	};
+
+
 
 	/**
 	 * Toggles embed selection
@@ -205,9 +241,11 @@
 		}
 	};
 
-	EntityEmbed.prototype.unselectAll = function() {
-		$(document).find('.entity-embed-active').removeClass('entity-embed-active');
-	};
+	/**
+	 * Creates toolbar for future use
+	 *
+	 * @returns {void}
+	 */
 
 	EntityEmbed.prototype.createToolbar = function() {
 		var self = this;
@@ -223,6 +261,14 @@
 		self.$toolbar.hide();
 		self.$toolbar2.hide();
 	};
+
+	/**
+	 * Shows the toolbar over an embed
+	 *
+	 * @param {DOM} $embed - DOM element to show the embed over
+	 *
+	 * @returns {void}
+	 */
 
 	EntityEmbed.prototype.showToolbar = function($embed) {
 		var self = this;
@@ -248,6 +294,14 @@
 		//self.$toolbar2.show();
 	};
 
+	/**
+	 * Positions the toolbar over an embed
+	 *
+	 * @param {DOM} $embed - DOM element to show the embed over
+	 *
+	 * @returns {void}
+	 */
+
 	EntityEmbed.prototype.positionToolbar = function($embed) {
 		var self = this;
 
@@ -270,6 +324,12 @@
 		// 	});
 	};
 
+	/**
+	 * Hides the toolbar
+	 *
+	 * @returns {void}
+	 */
+
 	EntityEmbed.prototype.hideToolbar = function(){
 		var self = this;
 
@@ -279,6 +339,14 @@
 		self.$toolbar2.hide();
 		self.$toolbar2.find('button').removeClass('medium-editor-button-active');
 	}
+
+	/**
+	 * Links toolbar buttons and theior respective actions
+	 *
+	 * @param {DOM} $thisButton - toolbar button that was clicked
+	 *
+	 * @returns {void}
+	 */
 
 	EntityEmbed.prototype.toolbarAction = function ($thisButton) {
 		var self = this;
