@@ -7,6 +7,8 @@
 		addonName = 'EntityEmbed', // first char is uppercase
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
+		toolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
+		secondaryToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
@@ -21,6 +23,11 @@
 				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
 			},
 			styles: {
+				wide: {
+					label: '<span class="fa fa-align-justify"></span>'
+					// added: function ($el) {},
+					// removed: function ($el) {}
+				},
 				left: {
 					label: '<span class="fa fa-align-left"></span>'
 					// added: function ($el) {},
@@ -151,9 +158,15 @@
 		});
 
 		$(document)
-			.on('click', function(	){
+			.on('click', function(e){
+				if (e.target.is('.' + toolbarClass) ||
+					e.target.is('.' + secondartToolbarClass))
+				{
+					e.stopPropagation();
+				}
 				if (self.$el.find('.' + activeEmbedClass).length != 0)
 				{
+					$('.' + activeEmbedClass).removeClass(activeEmbedClass);
 					self.hideToolbar();
 				}
 			})
@@ -258,8 +271,8 @@
 			actions: self.options.actions
 		}).trim());
 
-		self.$toolbar = $('.medium-insert-images-toolbar');
-		self.$toolbar2 = $('.medium-insert-images-toolbar2');
+		self.$toolbar = $('.' + toolbarClass);
+		self.$toolbar2 = $('.' + secondaryToolbarClass);
 
 		self.$toolbar.hide();
 		self.$toolbar2.hide();
