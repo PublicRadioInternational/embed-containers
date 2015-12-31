@@ -56,10 +56,14 @@
 
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
 					
+					// TODO : load error message on failure
 					$embedView.load(embedObject.options.viewPath, function(response, status, xhr){
-						console.log(response);
+						if (status === 'success')
+						{
+							// this must come after the embed view has been loaded
+							embedObject.initModal($embedView);
+						}
 					});
-					embedObject.initModal($embedView);
 					embedObject.$view = $embedView;
 
 					if (first)
@@ -85,7 +89,7 @@
 			},
 			after: function(scope){
 				// TODO : rotate plus icon 45 degrees
-				scope.currentEmbedType.clearForm();
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
 		complete: {
@@ -97,7 +101,7 @@
 				return true;
 			},
 			after: function(scope){
-				$(mediumActiveLine).html(scope.currentEmbedType.fromModalToEditor(scope.embedModel));
+				$(mediumActiveLine).html(scope.currentEmbedType.parseForEditor());
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
