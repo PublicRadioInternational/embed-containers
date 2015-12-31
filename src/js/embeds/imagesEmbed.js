@@ -64,6 +64,8 @@
 	}
 
 	// PUBLIC
+	imagesEmbed.prototype.defaultStyle = 'entity-embed-center';
+
 	imagesEmbed.prototype.init = function(){
 		var self = this;
 		self.model = cleanModel();
@@ -126,7 +128,12 @@
 	imagesEmbed.prototype.editorEvents = function(){};
 
 	imagesEmbed.prototype.parseForEditor = function(){
-		return '<img src="' + this.model.files[0] +'" />';
+		// TODO : use handlebars for this
+		var self = this;
+
+		return '<div class="images-embed"><img src="' + self.model.files[0] +'" />' + 
+			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
+			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
 
 
