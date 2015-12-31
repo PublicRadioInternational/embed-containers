@@ -158,25 +158,26 @@
 		});
 
 		$(document)
+			// hide toolbar (if active) when clicking anywhere except for toolbar elements
 			.on('click', function(e){
-				if (e.target.is('.' + toolbarClass) ||
-					e.target.is('.' + secondartToolbarClass))
-				{
-					e.stopPropagation();
-				}
-				if (self.$el.find('.' + activeEmbedClass).length != 0)
+				if (!$(e.target).is('.medium-editor-action') &&
+					!$(e.target.parentElement).is('.medium-editor-action') &&
+					self.$el.find('.' + activeEmbedClass).length != 0)
 				{
 					$('.' + activeEmbedClass).removeClass(activeEmbedClass);
 					self.hideToolbar();
 				}
 			})
+			// toggle select embed when embed is clicked
 			.on('click', '.entity-embed', function(e){
 				self.toggleSelectEmbed($(this));
-				e.stopPropagation();
+				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
+			// fire toolbar actions when buttons are clicked
 			.on('click', '.medium-insert-images-toolbar .medium-editor-action', function(){
 				self.toolbarAction($(this));
 			})
+			// conditionally remove embed
 			.on('keydown', function(e){
 				self.removeEmbed(e);
 			});
