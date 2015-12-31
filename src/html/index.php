@@ -35,7 +35,7 @@
 		<div class="editable editor">
 			This is editable content - try typing in here!
 		</div>
-
+		
 		<div id="em-modal">
 			<?php include "modal/modal_main.php"; ?>
 		</div>

@@ -30,8 +30,8 @@
 				{
 					var embedHtml = scope.currentEmbedType.parseForEditor();
 
-					return '<figure conteneditable="false" class="' +
-						'entity-embed' + scope.currentEmbedType.name +
+					return '<figure  class="' +
+						scope.currentEmbedType.name +
 						'">' + embedHtml + '</figure>';
 				}
 			},

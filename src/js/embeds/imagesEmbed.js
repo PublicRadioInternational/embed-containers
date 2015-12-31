@@ -123,7 +123,7 @@
 	imagesEmbed.prototype.editorEvents = function(){};
 
 	imagesEmbed.prototype.parseForEditor = function(){
-		return '<img src="' + this.model.files[0] +'" />';
+		return '<img class="entity-embed" src="' + this.model.files[0] +'" />';
 	};
 
 
