@@ -24,7 +24,8 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/core.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
- 
+		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
+
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">		
 		<link rel="stylesheet" href="contents/main.css">

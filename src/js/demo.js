@@ -15,14 +15,6 @@ $(document).ready(function(){
 				},
 				modalOptions: {
 					$completeEl: $('#btn-complete-modal')
-				},
-				actions: { // (object) Actions for an optional second toolbar
-					remove: { // (object) Remove action configuration
-						label: '<span class="fa fa-bicycle"></span>', // (string) Label for an action
-						clicked: function ($el) { // (function) Callback function called when an action is selected
-							console.log('custom action');
-						}
-					}
 				}
 			}
 		}

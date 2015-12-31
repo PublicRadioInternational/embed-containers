@@ -28,11 +28,10 @@
 
 				scope.generateEmbedHtml = function(scope)
 				{
-					var embedHtml = scope.currentEmbedType.parseForEditor();
+					$(mediumActiveLine).addClass('entity-embed-center');
+					$(mediumActiveLine).addClass('entity-embed-editor-line');
 
-					return '<figure  class="' +
-						scope.currentEmbedType.name +
-						'">' + embedHtml + '</figure>';
+					return scope.currentEmbedType.parseForEditor();
 				}
 			},
 			after: function(scope){

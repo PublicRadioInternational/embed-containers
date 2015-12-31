@@ -18,25 +18,31 @@
 				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
 			},
 			styles: {
-				wide: {
-					label: '<span class="fa fa-align-justify"></span>'
-					// added: function ($el) {},
-					// removed: function ($el) {}
-				},
 				left: {
 					label: '<span class="fa fa-align-left"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				},
+				center: {
+					label: '<span class="fa fa-align-center"></span>'
+					// added: function ($el) {},
+					// removed: function ($el) {	
+				},
 				right: {
 					label: '<span class="fa fa-align-right"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
-				},
-				grid: {
-					label: '<span class="fa fa-th"></span>'
-					// added: function ($el) {},
-					// removed: function ($el) {}
+				}
+			},
+			actions: {
+				remove: {
+					label: '<span class="fa fa-times"></span>',
+					clicked: function () {
+						var $event = $.Event('keydown');
+
+						$event.which = 8;
+						$(document).trigger($event);
+					}
 				}
 			},
 			embedTypes: { // options for different embed types
@@ -120,6 +126,8 @@
 		modalScope = $.extend(true, {}, self.options.modalScope, modalScope);
 
 		self.options.$modalEl.modal(modalOptions, modalScope);
+
+		self.createToolbar();
 	};
 
 	/**
@@ -139,9 +147,13 @@
 			});
 		});
 
-		$(document).on('click', '.entity-embed', function(){
-			self.toggleSelectEmbed($(this));
-		});
+		$(document)
+			.on('click', '.entity-embed', function(){
+				self.toggleSelectEmbed($(this));
+			})
+			.on('click', '.medium-insert-images-toolbar .medium-editor-action', function(){
+				self.toolbarAction($(this));
+			});
 	};
 
 	/**
@@ -170,6 +182,7 @@
 
 	/**
 	 * Toggles embed selection
+	 *
 	 * Selected embeds have a toolbar over them
 	 *
 	 * @returns {void}
@@ -177,19 +190,134 @@
 
 	EntityEmbed.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
-		$embed.toggleClass('.entity-embed-active');
+		$embed.toggleClass('entity-embed-active');
 		
 		if (!!self.options.actions)
 		{			
-			if ($embed.hasClass('.entity-embed-active'))
+			if ($embed.hasClass('entity-embed-active'))
 			{
-				// add toolbar
+				self.showToolbar($embed);
 			}
 			else
 			{
-				// remove toolbar
+				self.hideToolbar();
 			}
 		}
+	};
+
+	EntityEmbed.prototype.unselectAll = function() {
+		$(document).find('.entity-embed-active').removeClass('entity-embed-active');
+	};
+
+	EntityEmbed.prototype.createToolbar = function() {
+		var self = this;
+
+		$('body').append(self.templates['src/js/templates/images-toolbar.hbs']({
+			styles: self.options.styles,
+			actions: self.options.actions
+		}).trim());
+
+		self.$toolbar = $('.medium-insert-images-toolbar');
+		self.$toolbar2 = $('.medium-insert-images-toolbar2');
+
+		self.$toolbar.hide();
+		self.$toolbar2.hide();
+	};
+
+	EntityEmbed.prototype.showToolbar = function($embed) {
+		var self = this;
+		var $activeLine = self.$el.find('.medium-insert-active');
+
+		var optionSelected = false;
+		self.$toolbar.find('button').each(function () {
+			if($activeLine.hasClass('entity-embed-'+ $(this).data('action')))
+			{
+				$(this).addClass('medium-editor-button-active');
+				optionSelected = true;
+			}
+		});
+
+		if (!optionSelected)
+		{
+			self.$toolbar.find('button').first().addClass('medium-editor-button-active');
+		}
+
+		self.positionToolbar($embed);
+
+		self.$toolbar.show();
+		//self.$toolbar2.show();
+	};
+
+	EntityEmbed.prototype.positionToolbar = function($embed) {
+		var self = this;
+
+		var top = $embed.offset().top - self.$toolbar.height() - 8 - 2 - 5; // 8px - hight of an arrow under toolbar, 2px - height of an image outset, 5px - distance from an image
+		if (top < 0)
+		{
+			top = 0;
+		}
+
+		self.$toolbar
+			.css({
+				top: top,
+				left: $embed.offset().left + $embed.width() / 2 - self.$toolbar.width() / 2
+			});
+
+		// self.$toolbar2
+		// 	.css({
+		// 		top: $embed.offset().top + 2, // 2px - distance from a border
+		// 		left: $embed.offset().left + $embed.width() - $toolbar2.width() - 4 // 4px - distance from a border
+		// 	});
+	};
+
+	EntityEmbed.prototype.hideToolbar = function(){
+		var self = this;
+
+		self.$toolbar.hide();		
+		self.$toolbar.find('button').removeClass('medium-editor-button-active');
+
+		self.$toolbar2.hide();
+		self.$toolbar2.find('button').removeClass('medium-editor-button-active');
+	}
+
+	EntityEmbed.prototype.toolbarAction = function ($thisButton) {
+		var self = this;
+		var $buttonList = $thisButton.closest('li').closest('ul');
+		var $activeLine = $('.entity-embed-active').closest('.entity-embed-editor-line');
+
+		// change the active button to this one
+		// there should only be one active button
+		$buttonList
+			.find('.medium-editor-button-active')
+			.removeClass('medium-editor-button-active');
+		$thisButton.addClass('medium-editor-button-active');
+
+		$buttonList.find('button').each(function(){
+			var $curButton = $(this);
+			var className = 'entity-embed-' + $curButton.data('action');
+
+			if ($curButton.hasClass('medium-editor-button-active'))
+			{
+				$activeLine.addClass(className);
+				if (!!self.options.styles[$curButton.data('action')].added)
+				{
+					self.options.styles[$curButton.data('action')].added($activeLine)
+				}
+				setTimeout(function(){
+					self.positionToolbar($('.entity-embed-active'));
+				}, 50);
+			}
+			else
+			{
+				$activeLine.removeClass(className);	
+				if (!!self.options.styles[$curButton.data('action')].removed)
+				{
+					self.options.styles[$curButton.data('action')].removed($activeLine)
+				}
+			}
+		});
+
+
 	};
 
 	/** Addon initialization */
