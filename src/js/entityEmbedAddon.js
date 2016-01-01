@@ -23,11 +23,6 @@
 				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
 			},
 			styles: {
-				wide: {
-					label: '<span class="fa fa-align-justify"></span>'
-					// added: function ($el) {},
-					// removed: function ($el) {}
-				},
 				left: {
 					label: '<span class="fa fa-align-left"></span>'
 					// added: function ($el) {},
@@ -40,6 +35,11 @@
 				},
 				right: {
 					label: '<span class="fa fa-align-right"></span>'
+					// added: function ($el) {},
+					// removed: function ($el) {}
+				},
+				wide: {
+					label: '<span class="fa fa-align-justify"></span>'
 					// added: function ($el) {},
 					// removed: function ($el) {}
 				}
@@ -238,8 +238,6 @@
 		}
 	};
 
-
-
 	/**
 	 * Toggles embed selection
 	 *
@@ -296,23 +294,24 @@
 
 	EntityEmbed.prototype.showToolbar = function($embed) {
 		var self = this;
-		var $activeLine = self.$el.find('.medium-insert-active');
+		var $activeLine = $embed.parent();
+		var $activeButton;
 
-		var optionSelected = false;
 		self.$toolbar.find('button').each(function () {
 			if($activeLine.hasClass('entity-embed-'+ $(this).data('action')))
 			{
-				$(this).addClass(activeToolbarBtnClass);
-				optionSelected = true;
+				$activeButton = $(this);
+				$activeButton.addClass(activeToolbarBtnClass);
 			}
 		});
 
-		if (!optionSelected)
+		if (!$activeButton)
 		{
-			self.$toolbar.find('button').first().addClass(activeToolbarBtnClass);
+			$activeButton = self.$toolbar.find('button').first();
 		}
 
-		self.positionToolbar($embed);
+		$activeButton.addClass(activeToolbarBtnClass);
+		self.toolbarAction($activeButton);
 
 		self.$toolbar.show();
 		self.$toolbar2.show();

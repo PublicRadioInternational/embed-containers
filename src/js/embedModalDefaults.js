@@ -31,7 +31,15 @@
 					$(mediumActiveLine).addClass('entity-embed-center');
 					$(mediumActiveLine).addClass('entity-embed-editor-line');
 
-					return $(scope.currentEmbedType.parseForEditor()).addClass('entity-embed');
+					var figureClass = 'entity-embed'
+					if (!!scope.currentEmbedType.defaultStyle)
+					{
+						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
+					}
+
+					return '<figure class="' + figureClass + '">' +
+						scope.currentEmbedType.parseForEditor() +
+						'</figure>';
 				}
 			},
 			after: function(scope){

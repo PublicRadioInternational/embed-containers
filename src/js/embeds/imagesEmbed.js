@@ -28,15 +28,18 @@
 	}
 
 	function formatFileSize(bytes) {
-		if (typeof bytes !== 'number') {
+		if (typeof bytes !== 'number')
+		{
 			return '';
 		}
 
-		if (bytes >= 100000000) {
+		if (bytes >= 100000000)
+		{
 			return (bytes / 1000000000).toFixed(2) + ' GB';
 		}
 
-		if (bytes >= 1000000) {
+		if (bytes >= 1000000)
+		{
 			return (bytes / 1000000).toFixed(2) + ' MB';
 		}
 		return (bytes / 1000).toFixed(2) + ' KB';
@@ -61,6 +64,8 @@
 	}
 
 	// PUBLIC
+	imagesEmbed.prototype.defaultStyle = 'entity-embed-center';
+
 	imagesEmbed.prototype.init = function(){
 		var self = this;
 		self.model = cleanModel();
@@ -123,7 +128,12 @@
 	imagesEmbed.prototype.editorEvents = function(){};
 
 	imagesEmbed.prototype.parseForEditor = function(){
-		return '<img src="' + this.model.files[0] +'" />';
+		// TODO : use handlebars for this
+		var self = this;
+
+		return '<div class="images-embed"><img src="' + self.model.files[0] +'" />' + 
+			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
+			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
 
 
