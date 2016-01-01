@@ -19,11 +19,20 @@
 				//		scope.embedTypes
 
 				scope.currentEmbedType = null;
-				scope.setModalView= function(scope, embedName){
+				
+				scope.setModalView = function(scope, embedName){
 					scope.currentEmbedType.$view.hide();
 					scope.currentEmbedType = scope.embedTypes[embedName];
 					scope.currentEmbedType.$view.show();
 				};
+
+				scope.generateEmbedHtml = function(scope)
+				{
+					$(mediumActiveLine).addClass('entity-embed-center');
+					$(mediumActiveLine).addClass('entity-embed-editor-line');
+
+					return $(scope.currentEmbedType.parseForEditor()).addClass('entity-embed');
+				}
 			},
 			after: function(scope){
 				// configure the select embed type dropdown dropdown to change the modal view
@@ -48,13 +57,8 @@
 
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
 					
-					// TODO : load error message on failure
 					$embedView.load(embedObject.options.viewPath, function(response, status, xhr){
-						if (status === 'success')
-						{
-							// this must come after the embed view has been loaded
-							embedObject.initModal($embedView);
-						}
+						// TODO : load error message on failure
 					});
 					embedObject.$view = $embedView;
 
@@ -68,6 +72,15 @@
 						$embedView.hide();
 					}
 				}
+
+				// TODO : find a better way to handle async load
+				setTimeout(function(){
+					for(var embedType in scope.embedTypes)
+					{
+						var embedObject = scope.embedTypes[embedType];
+						embedObject.initModal(embedObject.$view);
+					}
+				}, 200);
 			}
 		},
 		open: {
@@ -93,7 +106,7 @@
 				return true;
 			},
 			after: function(scope){
-				$(mediumActiveLine).html(scope.currentEmbedType.parseForEditor());
+				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
