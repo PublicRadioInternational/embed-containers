@@ -24,7 +24,8 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/core.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
- 
+		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
+
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">		
 		<link rel="stylesheet" href="contents/main.css">
@@ -35,11 +36,12 @@
 		<div class="editable editor">
 			This is editable content - try typing in here!
 		</div>
-
+		
 		<div id="em-modal">
 			<?php include "modal/modal_main.php"; ?>
 		</div>
 
+		<!-- 
 		<button id="dump-from-editor" class="btn btn-primary">from editor</button>
 		<br />
 		<br />
@@ -53,6 +55,7 @@
 		<br />
 		<span>editor digestable content (html) created from server object by parser</span>
 		<div id="from-server"></pre>
+		!-->
 	</body>
 
 </html>

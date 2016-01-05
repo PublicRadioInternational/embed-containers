@@ -1,6 +1,12 @@
 <div class="row em-row">
-	<div class="col-xs-12">
-		<input type="file" name-="files"/>
+	<div class="col-xs-6">
+		<form action="upload.php" method="post" enctype="multipart/form-data">
+			<input type="file" name="imageFile" />
+		</form>
+	</div>
+	<div class="col-xs-6">
+		<ul id="imagesList">
+		</ul>
 	</div>
 </div>
 
