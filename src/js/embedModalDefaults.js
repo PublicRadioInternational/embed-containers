@@ -22,6 +22,18 @@
 				
 				scope.setModalView = function(scope, embedName){
 					scope.currentEmbedType.$view.hide();
+					scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+					
+					if (!embedName)
+					{
+						for (var embed in scope.embedTypes)
+						{
+							if (embed.indexOf('Embed') !== -1)
+							{
+								embedName = embed;
+							}
+						}
+					}
 					scope.currentEmbedType = scope.embedTypes[embedName];
 					scope.currentEmbedType.$view.show();
 				};
@@ -110,12 +122,13 @@
 				// TODO : form validation
 				
 				scope.embedModel = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-				
 				return true;
 			},
 			after: function(scope){
 				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
+				$(mediumActiveLine).find('figure.entity-embed').data('embed', embedModel);
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				scope.setModalView(scope);
 			}
 		}
 	};
