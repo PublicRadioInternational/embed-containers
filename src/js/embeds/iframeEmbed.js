@@ -61,6 +61,31 @@
 			}
 		}
 	};
+	
+	iframeEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var formFields = $form.find('.form-control');
+		for (var i = 0; i < formFields.length; i++)
+		{
+			if (formFields[i].type.indexOf('select') !== -1)
+			{
+				var options = $(formFields[i]).find('option');
+				var selectedOption = self.model[formFields[i].name];
+				var optionIndex = 0;
+				options.each(function(index){
+					if (this.value === selectedOption)
+					{
+						optionIndex = index;
+					}
+				});
+				formFields[i].selectedIndex = optionIndex;
+			}
+			else
+			{
+				formFields[i].value = self.model[formFields[i].name];
+			}
+		}
+	};	
 
 	iframeEmbed.prototype.clearForm = function($el){
 		var formFields = $el.find('.form-control');

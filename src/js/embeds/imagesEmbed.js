@@ -86,18 +86,26 @@
 				data.context = listItem.appendTo($('#imagesList'));
 				
 				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+					if (textStatus === 'success')
 					{
-						self.model.files.push(result.responseJSON.path);
+						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+						{
+							self.model.files.push(result.responseJSON.path);
+						}
+					}
+					else
+					{
+						console.log('file upload completed with status "' + textStatus + '"');
+						console.log(result);
 					}
 				});
 			}
 		});
 	};
 
-	imagesEmbed.prototype.getModelFromForm = function($el){
+	imagesEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
-		var formFields = $el.find('.form-control');
+		var formFields = $form.find('.form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -109,8 +117,37 @@
 		}
 	};
 
-	imagesEmbed.prototype.clearForm = function($el){
-		var formFields = $el.find('.form-control');
+	imagesEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var formFields = $form.find('.form-control');
+		for (var i = 0; i < formFields.length; i++)
+		{
+			if (formFields[i].type.indexOf('select') !== -1)
+			{
+				var options = $(formFields[i]).find('option');
+				var selectedOption = self.model[formFields[i].name];
+				var optionIndex = 0;
+				options.each(function(index){
+					if (this.value === selectedOption)
+					{
+						optionIndex = index;
+					}
+				});
+				formFields[i].selectedIndex = optionIndex;
+			}
+			else
+			{
+				formFields[i].value = self.model[formFields[i].name];
+			}
+		}
+	};
+
+	imagesEmbed.prototype.clearForm = function($form){
+		var self = this;
+		
+		$('#imagesList').find('li').remove();
+
+		var formFields = $form.find('.form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			if (formFields[i].type.indexOf('select') !== -1)
@@ -131,7 +168,7 @@
 		// TODO : use handlebars for this
 		var self = this;
 
-		return '<div class="images-embed"><img src="' + self.model.files[0] +'" />' + 
+		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.files[0] +'" />' + 
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
