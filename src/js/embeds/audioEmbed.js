@@ -17,9 +17,30 @@
 
 	function cleanModel(){
 		return {
+			files: [],
+			creditText: null,
+			creditLink: null
 		};
 	}
 
+
+	function formatFileSize(bytes) {
+		if (typeof bytes !== 'number')
+		{
+			return '';
+		}
+
+		if (bytes >= 100000000)
+		{
+			return (bytes / 1000000000).toFixed(2) + ' GB';
+		}
+
+		if (bytes >= 1000000)
+		{
+			return (bytes / 1000000).toFixed(2) + ' MB';
+		}
+		return (bytes / 1000).toFixed(2) + ' KB';
+	};
 
 	// CONSTRUCTOR
 	function audioEmbed(options){
@@ -39,6 +60,9 @@
 		self.init();
 	}
 
+	audioEmbed.prototype.defaultStyle = 'entity-embed-center';
+
+
 	// PUBLIC
 	audioEmbed.prototype.init = function(){
 		var self = this;
@@ -47,6 +71,26 @@
 
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;
+
+		$el.find("input[name='audioFile']").fileupload({
+			dataType: 'json',
+			add: function(e, data){
+				// TODO : better id (this one potentially has spaces)
+				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');
+				
+				listItem.find('span').html(data.files[0].name + ' - ' + 
+					'<i>' + formatFileSize(data.files[0].size) + '</i>');
+
+				data.context = listItem.appendTo($('#audioList'));
+				
+				data.submit().complete(function (result, textStatus, jqXHR) {
+					if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+					{
+						self.model.files.push(result.responseJSON.path);
+					}
+				});
+			}
+		});
 	};
 
 	audioEmbed.prototype.getModelFromForm = function($el){
@@ -79,10 +123,16 @@
 		self.model = cleanModel();
 	};
 
-	audioEmbed.prototype.editorEvents = function(){};
+	audioEmbed.prototype.editorEvents = function(){
+
+	};
 
 	audioEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		var self = this;
+
+		return '<div class="audio-embed"><img src="' + self.model.files[0] +'" />' + 
+			'<div class="audio-embed-caption">' + self.model.caption + '</div>' + 
+			'<div class="audio-embed-credit">Credit: ' + self.model.credit + '</div></div>';	
 	};
 
 

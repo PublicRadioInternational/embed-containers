@@ -2,16 +2,31 @@
 	<div class="col-xs-6">
 		<div class="form-group"> 
 			<label class="em-label" for="files">Upload Audio MP3</label>
-			<input type="file" name="files">
+			<form action="uploadAudio.php" method="post" enctype="multipart/form-data">
+			<input type="file" name="audioFile" />
+		</form>
 		</div>
 	</div>
-	<div class="col-xs-6">
+	<!--<div class="col-xs-6">
 		<div class="form-group">
 			<label class="em-label" for="wavFiles">Upload full WAV (Optional)</label>
 			<input type="file" name="wavFiles">
 		</div>
+	-->
+
+	<div class="col-xs-6">
+		<ul id="audioList">
+		</ul>
 	</div>
 </div>
+
+
+	<div class="col-xs-6">
+		<ul id="imagesList">
+		</ul>
+	</div>
+</div> 
+
 
 <div class="row em-row">
 	<div class="col-xs-6">

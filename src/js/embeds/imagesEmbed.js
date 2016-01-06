@@ -82,7 +82,7 @@
 				
 				listItem.find('span').html(data.files[0].name + ' - ' + 
 					'<i>' + formatFileSize(data.files[0].size) + '</i>');
-				
+
 				data.context = listItem.appendTo($('#imagesList'));
 				
 				data.submit().complete(function (result, textStatus, jqXHR) {
