@@ -360,7 +360,7 @@
 		var left = $embed.offset().left + $embed.width() + 4 // 4px - distance from a border
 		if (left > ($(window).width() - 100)) // 100 px is the width of the toolbar when it has two icons
 		{
-			// TODO
+			left = ($(window).width() - 100) - 50; // 100 px - width of the toolbar;  50 px - addittional room
 		}
 
 		self.$toolbar2

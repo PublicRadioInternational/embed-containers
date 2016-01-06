@@ -21,22 +21,25 @@
 				scope.currentEmbedType = null;
 				
 				scope.setModalView = function(scope, embedName){
-					scope.currentEmbedType.$view.hide();
-					scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-					
 					if (!embedName)
 					{
-						for (var embed in scope.embedTypes)
-						{
-							if (embed.indexOf('Embed') !== -1)
-							{
-								embedName = embed;
-							}
-						}
+						return;
 					}
+
+					if (!!scope.currentEmbedType)
+					{
+						scope.currentEmbedType.$view.hide();
+						scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+					}
+
 					scope.currentEmbedType = scope.embedTypes[embedName];
 					scope.currentEmbedType.$view.show();
 				};
+
+				scope.resetModalView = function(scope){
+					var embedName = scope.$embedTypeSelect.children('option')[0].value;
+					scope.setModalView(scope, embedName);
+				}
 
 				scope.generateEmbedHtml = function(scope)
 				{
@@ -57,19 +60,20 @@
 			after: function(scope){
 				// configure the select embed type dropdown dropdown to change the modal view
 				scope.$embedTypeSelect.change(function(e){
-					// TODO : confirm navigation;
+					// TODO : confirm navigation
 					scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].id;
+					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
 					scope.setModalView(scope, embedType);
 				});
 
 				var first = true;
+
 				// load embed type views and initialize them
 				for(var embedType in scope.embedTypes)
 				{
 					var embedObject = scope.embedTypes[embedType];
 
-					scope.$embedTypeSelect.append('<option id="' + 
+					scope.$embedTypeSelect.append('<option value="' + 
 						embedObject.name + '">' + embedObject.options.displayName +
 						'</option>');
 
@@ -81,16 +85,16 @@
 						// TODO : load error message on failure
 					});
 					embedObject.$view = $embedView;
-
-					if (first)
-					{
-						scope.currentEmbedType = embedObject;
-						first = false;
-					}
-					else
-					{
-						$embedView.hide();
-					}
+					$embedView.hide();
+					// if (first)
+					// {
+					// 	scope.currentEmbedType = embedObject;
+					// 	first = false;
+					// }
+					// else
+					// {
+					// 	$embedView.hide();
+					// }
 				}
 
 				// TODO : find a better way to handle async load
@@ -105,6 +109,7 @@
 		},
 		open: {
 			before: function(scope){
+				scope.resetModalView(scope);
 			},
 			after: function(scope){},
 		},
@@ -114,21 +119,18 @@
 			},
 			after: function(scope){
 				// TODO : rotate plus icon 45 degrees
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
 		complete: {
 			before: function(scope){
 				// TODO : form validation
-				
-				scope.embedModel = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 				return true;
 			},
 			after: function(scope){
-				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
-				$(mediumActiveLine).find('figure.entity-embed').data('embed', embedModel);
+				scope.embedModel = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-				scope.setModalView(scope);
+				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
+				$(mediumActiveLine).find('figure.entity-embed').data('embed', scope.embedModel);
 			}
 		}
 	};
