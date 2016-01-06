@@ -168,7 +168,7 @@
 		// TODO : use handlebars for this
 		var self = this;
 
-		return '<div class="images-embed"><img src="' + self.model.files[0] +'" />' + 
+		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.files[0] +'" />' + 
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};

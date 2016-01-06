@@ -9,6 +9,7 @@
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		toolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		secondaryToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
+		secondaryToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
@@ -363,15 +364,24 @@
 				left: $embed.offset().left + $embed.width() / 2 - self.$toolbar.width() / 2
 			});
 
-		var left = $embed.offset().left + $embed.width() + 4 // 4px - distance from a border
-		if (left > ($(window).width() - 100)) // 100 px is the width of the toolbar when it has two icons
+		var $toolbarLocator = $embed.find('.' + secondaryToolbarLocatorClass);
+		if ($toolbarLocator.length === 0)
 		{
-			left = ($(window).width() - 100) - 50; // 100 px - width of the toolbar;  50 px - addittional room
+			$toolbarLocator = $embed;
+		}
+
+		top = $embed.offset().top + 2; // 2px - distance from a border
+		var left = $toolbarLocator.offset().left + $toolbarLocator.width() + 4; // 4px - distance from border
+
+		if (left > ($(window).width() - self.$toolbar2.width()))
+		{
+			top -= (self.$toolbar2.height() + 8); //8 px - distance from border
+			left = ($(window).width() - self.$toolbar2.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
 		}
 
 		self.$toolbar2
 			.css({
-				top: $embed.offset().top + 2, // 2px - distance from a border
+				top: top,
 				left: left
 			});
 	};
