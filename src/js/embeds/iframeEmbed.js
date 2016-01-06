@@ -106,7 +106,8 @@
 	iframeEmbed.prototype.editorEvents = function(){};
 
 	iframeEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		return '<iframe class="entity-embed" src="' + this.model.url + '&output=embed" width="1200" height="' + this.model.height + 
+		'" frameborder="0" scrolling="' + this.model.iframeScrolling + '"></iframe>'
 	};
 
 
