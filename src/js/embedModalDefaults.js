@@ -61,12 +61,14 @@
 				// configure the select embed type dropdown dropdown to change the modal view
 				scope.$embedTypeSelect.change(function(e){
 					// TODO : confirm navigation
-					scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
-					scope.setModalView(scope, embedType);
-				});
+					// TODO : find a better way to manage scope - this code smells
+					//			possible solution: register events in modal.js
 
-				var first = true;
+					var currentScope = scope.$modalBody.parent().parent().data('scope');
+					currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
+					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+					currentScope.setModalView(currentScope, embedType);
+				});
 
 				// load embed type views and initialize them
 				for(var embedType in scope.embedTypes)
@@ -86,15 +88,6 @@
 					});
 					embedObject.$view = $embedView;
 					$embedView.hide();
-					// if (first)
-					// {
-					// 	scope.currentEmbedType = embedObject;
-					// 	first = false;
-					// }
-					// else
-					// {
-					// 	$embedView.hide();
-					// }
 				}
 
 				// TODO : find a better way to handle async load
@@ -109,7 +102,17 @@
 		},
 		open: {
 			before: function(scope){
-				scope.resetModalView(scope);
+				if (scope.add)
+				{		
+					scope.$embedTypeSelect.show();
+					scope.resetModalView(scope);
+				}
+				else // this is an edit modal
+				{
+					scope.$embedTypeSelect.hide();
+					scope.setModalView(scope, scope.currentEmbedType.embedName);
+					//scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+				}
 			},
 			after: function(scope){},
 		},
@@ -128,6 +131,7 @@
 			},
 			after: function(scope){
 				scope.embedModel = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+				embedModel.embedName = scope.currentEmbedType.name;
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
 				$(mediumActiveLine).find('figure.entity-embed').data('embed', scope.embedModel);

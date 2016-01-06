@@ -221,8 +221,10 @@
 
 	EntityEmbed.prototype.add = function () {
 		var self = this;
-
-		self.options.$modalEl.openModal();
+		var addToScope = {
+			add: true
+		};
+		self.options.$modalEl.openModal(addToScope);
 	};
 
 	/**
@@ -239,6 +241,11 @@
 		{
 			return;
 		}
+		var scope = {
+			add: false,
+			embedModel: embedObject
+		};
+		self.options.$modalEl.openModal();
 	};
 
 	/**
