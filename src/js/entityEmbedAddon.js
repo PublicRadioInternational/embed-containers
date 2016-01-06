@@ -221,10 +221,7 @@
 
 	EntityEmbed.prototype.add = function () {
 		var self = this;
-		var addToScope = {
-			add: true
-		};
-		self.options.$modalEl.openModal(addToScope);
+		self.options.$modalEl.openModal();
 	};
 
 	/**
@@ -233,7 +230,7 @@
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.editEmbed = function () {
+	EntityEmbed.prototype.editEmbed = function ($embed) {
 		var self = this;
 		
 		var embedObject = $embed.data('embed');
@@ -242,10 +239,10 @@
 			return;
 		}
 		var scope = {
-			add: false,
-			embedModel: embedObject
+			editModel: embedObject
 		};
-		self.options.$modalEl.openModal();
+		self.hideToolbar();
+		self.options.$modalEl.openModal(scope);
 	};
 
 	/**
@@ -258,8 +255,10 @@
 
 	EntityEmbed.prototype.removeEmbed = function ($embed) {
 		var self = this;
-		$embed.data('embed') = null;
 		self.hideToolbar();
+
+		$embed.data('embed', null);
+		$embed.parent().remove();
 	};
 
 	/**

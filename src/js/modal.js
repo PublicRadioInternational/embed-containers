@@ -153,9 +153,12 @@
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && !modalCtrl.isActive )
 			{
-				var currentScope = modalCtrl.$el.data('scope');
-				var newScope = $.extend(true, {}, currentScope, addToScope);
-				modalCtrl.$el.data('scope', newScope);
+				if (!!addToScope)
+				{
+					var currentScope = modalCtrl.$el.data('scope');
+					var newScope = $.extend(true, {}, currentScope, addToScope);
+					modalCtrl.$el.data('scope', newScope);
+				}
 
 				modalCtrl.options.functions.open.before(modalCtrl.$el.data('scope'));
 				modalCtrl.toggle(modalCtrl);

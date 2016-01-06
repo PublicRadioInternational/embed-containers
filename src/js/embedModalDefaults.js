@@ -102,16 +102,18 @@
 		},
 		open: {
 			before: function(scope){
-				if (scope.add)
+				if (!!scope.editModel) // this is an edit modal
 				{		
+					scope.$embedTypeSelect.hide();
+					scope.setModalView(scope, scope.editModel.embedName);
+					
+					scope.currentEmbedType.model = scope.editModel
+					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+				}
+				else // this is an add modal
+				{
 					scope.$embedTypeSelect.show();
 					scope.resetModalView(scope);
-				}
-				else // this is an edit modal
-				{
-					scope.$embedTypeSelect.hide();
-					scope.setModalView(scope, scope.currentEmbedType.embedName);
-					//scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 				}
 			},
 			after: function(scope){},
@@ -130,11 +132,13 @@
 				return true;
 			},
 			after: function(scope){
-				scope.embedModel = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-				embedModel.embedName = scope.currentEmbedType.name;
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+				scope.currentEmbedType.model.embedName = scope.currentEmbedType.name;
+
 				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
-				$(mediumActiveLine).find('figure.entity-embed').data('embed', scope.embedModel);
+				$(mediumActiveLine).find('figure.entity-embed').data('embed', scope.currentEmbedType.model);
+
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
 	};
