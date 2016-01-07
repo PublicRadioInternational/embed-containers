@@ -222,7 +222,10 @@
 
 	EntityEmbed.prototype.add = function () {
 		var self = this;
-		self.options.$modalEl.openModal();
+		var addToScope = {
+			$currentEditorLocation: $('.medium-insert-active')
+		};
+		self.options.$modalEl.openModal(addToScope);
 	};
 
 	/**
@@ -240,7 +243,8 @@
 			return;
 		}
 		var scope = {
-			editModel: embedObject
+			editModel: embedObject,
+			$currentEditorLocation: $embed.parent()
 		};
 		self.hideToolbar();
 		self.options.$modalEl.openModal(scope);

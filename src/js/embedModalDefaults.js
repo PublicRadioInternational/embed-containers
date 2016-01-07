@@ -1,13 +1,6 @@
 ;(function(){
-	var mediumActiveLine = '.medium-insert-active';
 
-	function embedModalDefaults(medActiveLine)
-	{
-		if (!!medActiveLine)
-		{
-			mediumActiveLine = medActiveLine;
-		}
-	};
+	function embedModalDefaults() {};
 
 	embedModalDefaults.prototype.functions = {
 		init:{
@@ -15,6 +8,7 @@
 				// define necessary fields for scope
 				// assume that these are already defined:
 				//		scope.$embedTypeSelect
+				//		scope.$currentEditorLocation
 				//		scope.$modalBody
 				//		scope.embedTypes
 
@@ -34,6 +28,7 @@
 
 					scope.currentEmbedType = scope.embedTypes[embedName];
 					scope.currentEmbedType.$view.show();
+					scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 				};
 
 				scope.resetModalView = function(scope){
@@ -43,8 +38,8 @@
 
 				scope.generateEmbedHtml = function(scope)
 				{
-					$(mediumActiveLine).addClass('entity-embed-center');
-					$(mediumActiveLine).addClass('entity-embed-editor-line');
+					scope.$currentEditorLocation.addClass('entity-embed-center');
+					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
 					var figureClass = 'entity-embed'
 					if (!!scope.currentEmbedType.defaultStyle)
@@ -70,24 +65,31 @@
 					currentScope.setModalView(currentScope, embedType);
 				});
 
+				var optionIndex = 0;
 				// load embed type views and initialize them
 				for(var embedType in scope.embedTypes)
 				{
 					var embedObject = scope.embedTypes[embedType];
 
+					// create option in dropdown for this embed
 					scope.$embedTypeSelect.append('<option value="' + 
 						embedObject.name + '">' + embedObject.options.displayName +
 						'</option>');
 
+					// create the embed view container and load the view into it
 					scope.$modalBody.append('<div id="' + embedObject.name + '"></div>');
-
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					
 					$embedView.load(embedObject.options.viewPath, function(response, status, xhr){
 						// TODO : load error message on failure
 					});
+					
+					// augment the embedObject for use with this modal
 					embedObject.$view = $embedView;
+					embedObject.optionIndex = optionIndex;
 					$embedView.hide();
+
+					// increment optionIndex to keep it valid
+					optionIndex++;
 				}
 
 				// TODO : find a better way to handle async load
@@ -107,7 +109,8 @@
 					scope.$embedTypeSelect.hide();
 					scope.setModalView(scope, scope.editModel.embedName);
 					
-					scope.currentEmbedType.model = scope.editModel
+					scope.currentEmbedType.model = scope.editModel;
+					delete scope.editModel;
 					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 				}
 				else // this is an add modal
@@ -135,8 +138,8 @@
 				scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 				scope.currentEmbedType.model.embedName = scope.currentEmbedType.name;
 
-				$(mediumActiveLine).html(scope.generateEmbedHtml(scope));
-				$(mediumActiveLine).find('figure.entity-embed').data('embed', scope.currentEmbedType.model);
+				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
+				scope.$currentEditorLocation.find('figure.entity-embed').data('embed', scope.currentEmbedType.model);
 
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
