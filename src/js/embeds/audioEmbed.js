@@ -25,22 +25,25 @@
 
 
 	function formatFileSize(bytes) {
-		if (typeof bytes !== 'number')
-		{
-			return '';
-		}
+			if (typeof bytes !== 'number')
+			{
+				return '';
+			}
 
-		if (bytes >= 100000000)
-		{
-			return (bytes / 1000000000).toFixed(2) + ' GB';
-		}
+			if (bytes >= 100000000)
+			{
+				return (bytes / 1000000000).toFixed(2) + ' GB';
+			}
 
-		if (bytes >= 1000000)
-		{
-			return (bytes / 1000000).toFixed(2) + ' MB';
-		}
-		return (bytes / 1000).toFixed(2) + ' KB';
-	};
+			if (bytes >= 1000000)
+			{
+				return (bytes / 1000000).toFixed(2) + ' MB';
+			}
+			return (bytes / 1000).toFixed(2) + ' KB';
+		};
+
+	audioEmbed.prototype.defaultStyle = 'entity-embed-center'; 
+
 
 	// CONSTRUCTOR
 	function audioEmbed(options){
@@ -60,9 +63,6 @@
 		self.init();
 	}
 
-	audioEmbed.prototype.defaultStyle = 'entity-embed-center';
-
-
 	// PUBLIC
 	audioEmbed.prototype.init = function(){
 		var self = this;
@@ -70,7 +70,8 @@
 	};
 
 	audioEmbed.prototype.initModal = function($el){
-		var self = this;
+		var self = this;	
+
 
 		$el.find("input[name='audioFile']").fileupload({
 			dataType: 'json',
@@ -80,17 +81,26 @@
 				
 				listItem.find('span').html(data.files[0].name + ' - ' + 
 					'<i>' + formatFileSize(data.files[0].size) + '</i>');
-
+				
 				data.context = listItem.appendTo($('#audioList'));
 				
 				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+					if (textStatus === 'success')
 					{
-						self.model.files.push(result.responseJSON.path);
+						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+						{
+							self.model.files.push(result.responseJSON.path);
+						}
+					}
+					else
+					{
+						console.log('file upload completed with status "' + textStatus + '"');
+						console.log(result);
 					}
 				});
 			}
 		});
+			
 	};
 
 	audioEmbed.prototype.getModelFromForm = function($el){
@@ -103,6 +113,31 @@
 			if (!!name && !!value)
 			{
 				self.model[name] = value;
+			}
+		}
+	};
+
+	audioEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var formFields = $form.find('.form-control');
+		for (var i = 0; i < formFields.length; i++)
+		{
+			if (formFields[i].type.indexOf('select') !== -1)
+			{
+				var options = $(formFields[i]).find('option');
+				var selectedOption = self.model[formFields[i].name];
+				var optionIndex = 0;
+				options.each(function(index){
+					if (this.value === selectedOption)
+					{
+						optionIndex = index;
+					}
+				});
+				formFields[i].selectedIndex = optionIndex;
+			}
+			else
+			{
+				formFields[i].value = self.model[formFields[i].name];
 			}
 		}
 	};
@@ -123,16 +158,14 @@
 		self.model = cleanModel();
 	};
 
-	audioEmbed.prototype.editorEvents = function(){
-
-	};
+	audioEmbed.prototype.editorEvents = function(){};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-
+		
 		return '<div class="audio-embed"><img src="' + self.model.files[0] +'" />' + 
 			'<div class="audio-embed-caption">' + self.model.caption + '</div>' + 
-			'<div class="audio-embed-credit">Credit: ' + self.model.credit + '</div></div>';	
+			'<div class="audio-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
 
 
