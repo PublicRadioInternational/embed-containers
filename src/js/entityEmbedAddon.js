@@ -9,6 +9,7 @@
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		toolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		secondaryToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
+		secondaryToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
@@ -47,14 +48,14 @@
 			actions: {
 				remove: {
 					label: '<span class="fa fa-times"></span>',
-					clicked: function ($embed) {
-						console.log('remove embed')
+					clicked: function (entityEmbed, $embed) {
+						entityEmbed.removeEmbed($embed);
 					}
 				},
 				edit:{
 					label: '<span class="fa fa-cogs"></span>',
-					clicked: function($embed){
-						console.log('edit embed')
+					clicked: function(entityEmbed, $embed){
+						entityEmbed.editEmbed($embed);
 					}
 				}
 			},
@@ -186,7 +187,17 @@
 			})
 			// conditionally remove embed
 			.on('keydown', function(e){
-				self.removeEmbed(e);
+				// TODO : this will not be fired if the user highlights content and begins typing
+				//			could use JQuery UI 'remove' event
+				//			or we could just hide the toolbar on any key press
+				if (e.which == 8 || e.which == 46) // backspace or delete
+				{
+					// TODO : this could hide toolbar on another selected embed
+					if (self.$el.find('.' + activeEmbedClass).length != 0)
+					{
+						self.hideToolbar();
+					}
+				}
 			});
 
 	};
@@ -202,7 +213,7 @@
 	};
 
 	/**
-	 * Add custom content
+	 * Add embed
 	 *
 	 * This function is called when a user click on the + icon
 	 *
@@ -211,31 +222,48 @@
 
 	EntityEmbed.prototype.add = function () {
 		var self = this;
+		var addToScope = {
+			$currentEditorLocation: $('.medium-insert-active')
+		};
+		self.options.$modalEl.openModal(addToScope);
+	};
 
-		self.options.$modalEl.openModal();
+	/**
+	 * Edit embed
+	 *
+	 * @return {void}
+	 */
+
+	EntityEmbed.prototype.editEmbed = function ($embed) {
+		var self = this;
+		
+		var embedObject = $embed.data('embed');
+		if(!embedObject)
+		{
+			return;
+		}
+		var scope = {
+			editModel: embedObject,
+			$currentEditorLocation: $embed.parent()
+		};
+		self.hideToolbar();
+		self.options.$modalEl.openModal(scope);
 	};
 
 	/**
 	 * Remove custom content
 	 *
-	 * This function is called when a user removed an entity embed
+	 * This function is called when a user removes an entity embed
 	 *
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.removeEmbed = function (e) {
+	EntityEmbed.prototype.removeEmbed = function ($embed) {
 		var self = this;
+		self.hideToolbar();
 
-		// TODO : this will not be fired if the user highlights content and begins typing
-
-		if (e.which == 8 || e.which == 46) // backspace or delete
-		{
-			// TODO : this could hide toolbar on another selected embed
-			if (self.$el.find('.' + activeEmbedClass).length != 0)
-			{
-				self.hideToolbar();
-			}
-		}
+		$embed.data('embed', null);
+		$embed.parent().remove();
 	};
 
 	/**
@@ -340,10 +368,25 @@
 				left: $embed.offset().left + $embed.width() / 2 - self.$toolbar.width() / 2
 			});
 
+		var $toolbarLocator = $embed.find('.' + secondaryToolbarLocatorClass);
+		if ($toolbarLocator.length === 0)
+		{
+			$toolbarLocator = $embed;
+		}
+
+		top = $embed.offset().top + 2; // 2px - distance from a border
+		var left = $toolbarLocator.offset().left + $toolbarLocator.width() + 4; // 4px - distance from border
+
+		if (left > ($(window).width() - self.$toolbar2.width()))
+		{
+			top -= (self.$toolbar2.height() + 8); //8 px - distance from border
+			left = ($(window).width() - self.$toolbar2.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
+		}
+
 		self.$toolbar2
 			.css({
-				top: $embed.offset().top + 2, // 2px - distance from a border
-				left: $embed.offset().left + $embed.width() + 4 // 4px - distance from a border
+				top: top,
+				left: left
 			});
 	};
 
@@ -421,7 +464,7 @@
 		var self = this;
 		var $activeEmbed = $('.' + activeEmbedClass);
 		var action = self.options.actions[$thisButton.data('action')].clicked;
-		action($activeEmbed);
+		action(self, $activeEmbed);
 	}
 
 	/** Addon initialization */
