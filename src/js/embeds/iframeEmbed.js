@@ -106,10 +106,9 @@
 	iframeEmbed.prototype.editorEvents = function(){};
 
 	iframeEmbed.prototype.parseForEditor = function(){
-		return '<iframe class="entity-embed" src="' + this.model.url + '&output=embed" width="1200" height="' + this.model.height + 
+		return '<iframe class="entity-embed" src="' + this.model.url + '" width="1200" height="' + this.model.height + 
 		'" frameborder="0" scrolling="' + this.model.iframeScrolling + '"></iframe>'
 	};
-
 
 	// make the constructor accessible
 	if (!editorUtil.embedTypeConstructors)
