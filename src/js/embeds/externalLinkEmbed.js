@@ -81,7 +81,19 @@
 	externalLinkEmbed.prototype.editorEvents = function(){};
 
 	externalLinkEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		var self = this;
+
+		return 	//'<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+				//'<div class= "externalLink-display-left">' +
+				//'<div class= "external-container">' +
+				'<div>' + self.model.internalTitle  
+				+ '<div>' + self.model.displayTitle + '</div>' 
+				+ '<div>' + self.model.teaser + '</div>' 
+				+ '<div><img src="' + self.model.files[0] + '" /></div>'
+				+  '<a href="' + self.model.url + '">'  + self.model.linkText + '</a>' + '</div>'
+				//+  '<div class= external-thumbnail><a href="' + self.model.thumbnail + '"><img src="' + self.model.thumbnail + '"/></a>' 
+				// '</div>' +
+				// '</div>';
 	};
 
 
