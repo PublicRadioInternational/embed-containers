@@ -37,8 +37,9 @@
 		$error = 'Could not find file: please verify that the form is configured accurately.';
 	}
 
-	echo '{"status":"'. $status . '",'
+	echo'{"status":"'. $status . '",'
+		. '"errorCode":"' . $_FILES[$inputName]['error'] . '",'
 		. '"error":"' . $error . '",'
-		. '"path":"'  . $imagePath . '"}';
+		. '"path":"'  . $audioPath . '"}';
 	exit;
 ?>
