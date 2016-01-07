@@ -147,12 +147,19 @@
 		});
 	};
 
-	$.fn.openModal = function(){
+	$.fn.openModal = function(addToScope){
 		return this.each(function()
 		{
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && !modalCtrl.isActive )
 			{
+				if (!!addToScope)
+				{
+					var currentScope = modalCtrl.$el.data('scope');
+					var newScope = $.extend(true, {}, currentScope, addToScope);
+					modalCtrl.$el.data('scope', newScope);
+				}
+
 				modalCtrl.options.functions.open.before(modalCtrl.$el.data('scope'));
 				modalCtrl.toggle(modalCtrl);
 				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
