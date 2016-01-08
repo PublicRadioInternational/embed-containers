@@ -23,7 +23,13 @@
 	<div class="col-xs-6">
 		<div class="form-group">
 			<label class="em-label" for="thumbnail">Thumbnail Image</label>
-			<input id="thumbnail" type="file" name="files[]">
+				<form action="uploadImage.php" method="post" enctype="multipart/form-data">
+					<input type="file" name="thumbnailFile" />
+				</form>
+		</div>
+		<div class="col-xs-6">
+			<ul id="thumbnailList">
+			</ul>
 		</div>
 	</div>
 </div>

@@ -17,8 +17,32 @@
 
 	function cleanModel(){
 		return {
+			files: [],
+			displayTitle: null,
+			internalTitle: null,
+			teaser: null,
+			linkText: null,
+			url: null,
 		};
 	}
+
+	function formatFileSize(bytes) {
+		if (typeof bytes !== 'number')
+		{
+			return '';
+		}
+
+		if (bytes >= 100000000)
+		{
+			return (bytes / 1000000000).toFixed(2) + ' GB';
+		}
+
+		if (bytes >= 1000000)
+		{
+			return (bytes / 1000000).toFixed(2) + ' MB';
+		}
+		return (bytes / 1000).toFixed(2) + ' KB';
+	};
 
 	// CONSTRUCTOR
 	function externalLinkEmbed(options){
@@ -46,6 +70,34 @@
 
 	externalLinkEmbed.prototype.initModal = function($el){
 		var self = this;
+
+		$el.find("input[name='thumbnailFile']").fileupload({
+			dataType: 'json',
+			add: function(e, data){
+				// TODO : better id (this one potentially has spaces)
+				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');
+				
+				listItem.find('span').html(data.files[0].name + ' - ' + 
+					'<i>' + formatFileSize(data.files[0].size) + '</i>');
+				
+				data.context = listItem.appendTo($('#thumbnailList'));
+				
+				data.submit().complete(function (result, textStatus, jqXHR) {
+					if (textStatus === 'success')
+					{
+						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+						{
+							self.model.files.push(result.responseJSON.path);
+						}
+					}
+					else
+					{
+						console.log('file upload completed with status "' + textStatus + '"');
+						console.log(result);
+					}
+				});
+			}
+		});
 	};
 
 	externalLinkEmbed.prototype.getModelFromForm = function($el){
@@ -109,10 +161,10 @@
 		var self = this;
 
 		return 	'<div class="external-link-embed" entity-embed-secondary-toolbar-locator>' +
-				'<div class ="externalLink-container">' 
+				'<div class ="externalLink-container">' + self.model.internalTitle  
 				+ '<div class="external-display-title">' + self.model.displayTitle + '</div>' 
 				+ '<div class="external-teaser">' + self.model.teaser + '</div>' 
-				//+ '<div><img src="' + self.model.files[0] + '" /></div>'
+				+ '<div class="external-thumnbail"><img src="' + self.model.files[0] + '" /></div>'
 				+  '<a class= "btn btn-primary external-btn href="' + self.model.url + '">'  + self.model.linkText + '</a>' + '</div>';
 				//+  '<div class= external-thumbnail><a href="' + self.model.thumbnail + '"><img src="' + self.model.thumbnail + '"/></a>' 
 				'</div>' +
