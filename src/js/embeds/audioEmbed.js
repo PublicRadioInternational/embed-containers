@@ -163,9 +163,15 @@
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		return '<div class="audio-embed"><audio src="' + self.model.files[0] +'" />' + 
-			'<div class="audio-embed-credit">Credit: ' + self.model.credit + '</div>' +
-			'<div class="audio-embed-creditLink">Link: ' + self.model.creditLink + '</div></div>';
+		var fileType = self.model.files[0].substring(self.model.files[0].lastIndexOf('.') + 1);
+
+		return  '<div class="audio-embed">' + 
+					'<audio controls>' +
+						'<source src="' + self.model.files[0] +'" type="audio/' + fileType + '">' + 
+					'</audio>' +
+					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
+					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
+				'</div>';
 	};
 
 
