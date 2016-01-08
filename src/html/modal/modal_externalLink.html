@@ -1,6 +1,22 @@
 <div class="row em-row">
 	<div class="col-xs-6">
 		<div class="form-group">
+			<label class="em-label" for="thumbnail">Thumbnail Image</label>
+				<form action="uploadImage.php" method="post" enctype="multipart/form-data">
+					<input type="file" name="thumbnailFile" />
+				</form>
+		</div>
+		<div class="col-xs-6">
+			<ul id="thumbnailList">
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<div class="row em-row">
+	<div class="col-xs-6">
+		<div class="form-group">
 			<label class="em-label" for="internalTitle">Internal title</label>
 			<input name="internalTitle" type="text" placeholder ="Enter a title for internal use" class="form-control">
 		</div>
@@ -16,29 +32,23 @@
 <div class="row em-row">
 	<div class="col-xs-6">
 		<div class="form-group">
-			<label class="em-label" for="teaser">Teaser</label>
-			<textarea name="teaser" type="text" placeholder="Enter teaser" rows="3" class="form-control"></textarea>
-		</div>
-	</div>
-	<div class="col-xs-6">
-		<div class="form-group">
-			<label class="em-label" for="thumbnail">Thumbnail Image</label>
-			<input id="thumbnail" type="file" name="files[]">
-		</div>
-	</div>
-</div>
-
-<div class="row em-row">
-	<div class="col-xs-6">
-		<div class="form-group">
 			<label class="em-label" for="linkText">External Link Text</label>
 			<input name="linkText" type="text" placeholder="Enter link text" class="form-control">
 		</div>
 	</div>
 	<div class="col-xs-6">
 		<div class="form-group">
-			<label class="em-label" for="url">External Link Text</label>
+			<label class="em-label" for="url">External Link Url</label>
 			<input name="url" type="text" placeholder="Enter URL" class="form-control">
+		</div>
+	</div>
+</div>
+
+<div class="row em-row">
+	<div class="col-xs-12">
+		<div class="form-group">
+			<label class="em-label" for="teaser">Teaser</label>
+			<textarea name="teaser" type="text" placeholder="Enter teaser" rows="3" class="form-control"></textarea>
 		</div>
 	</div>
 </div>

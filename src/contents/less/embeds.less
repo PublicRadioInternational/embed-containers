@@ -5,7 +5,7 @@
 
 
 .entity-embed-center
-{	
+{   
 	.entity-embed
 	{
 		max-width: 100%;
@@ -38,14 +38,14 @@
 	{
 		width: 100%;
 		max-width: 100%;
-	}	
+	}   
 }
 
 // styling for specific embeds need to be located elsewhere in the future
 // but here will do until we think of a good way to do that / place to put the styling
 
 
-// BEGIN syling for imagesEmbed
+// BEGIN styling for imagesEmbed
 .images-embed
 {
 	@font-color: #6e6e81;
@@ -72,7 +72,7 @@
 		display: block;
 		width: 100%;
 
-		font-style: italic;	
+		font-style: italic; 
 		font-size: 10; 
 		color: @font-color;
 	}
@@ -130,8 +130,48 @@
 	}
 }
 
-// END syling for imagesEmbed
+// END styling for imagesEmbed
 
+// BEGIN styling for externalLinkEmbed
+
+.external-link-embed
+{
+	display: inline-block;
+	min-width: 200px;
+
+	border: solid 1px #D0D0D0;
+	padding: 10px;
+	text-align: left;
+
+	.display-title
+	{
+		text-transform: uppercase;
+		font-weight: bold;
+		margin-bottom: 10px;
+	}
+
+	.teaser
+	{
+		font-style: italic;
+		margin-bottom: 10px;
+	}
+
+	.external-link
+	{
+		width: 100%;
+		border-radius: 20px;
+	}
+}
+
+.entity-embed-wide
+{
+	.external-link-embed
+	{
+		width: 100%;
+	}
+}
+
+//END styling for externalLinkEmbed
 
 // BEGIN styling for newsletterSubscribeEmbed
 
@@ -155,7 +195,7 @@
 
 		.teaser 
 		{
-		    margin-bottom: 5px;
+			margin-bottom: 5px;
 		}
 	}
 
