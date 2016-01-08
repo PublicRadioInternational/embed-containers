@@ -25,19 +25,27 @@
 			},
 			styles: {
 				left: {
-					label: '<span class="fa fa-align-left"></span>'
-					// added: function ($el) {},
-					// removed: function ($el) {}
+					label: '<span class="fa fa-align-left"></span>',
+					added: function ($el) {
+						$el.addClass('clearfix');
+					},
+					removed: function ($el) {
+						$el.removeClass('clearfix');
+					}
 				},
 				center: {
 					label: '<span class="fa fa-align-center"></span>'
 					// added: function ($el) {},
-					// removed: function ($el) {	
+					// removed: function ($el) {}	
 				},
 				right: {
-					label: '<span class="fa fa-align-right"></span>'
-					// added: function ($el) {},
-					// removed: function ($el) {}
+					label: '<span class="fa fa-align-right"></span>',
+					added: function ($el) {
+						$el.addClass('clearfix');
+					},
+					removed: function ($el) {
+						$el.removeClass('clearfix');
+					}
 				},
 				wide: {
 					label: '<span class="fa fa-align-justify"></span>'
@@ -69,7 +77,7 @@
 				relatedLinkEmbed:{},
 				externalLinkEmbed:{},
 				globalBuzzEmbed:{},
-				newletterSubscribeEmbed:{},
+				newsletterSubscribeEmbed:{},
 				iframeEmbed:{},
 				customTextEmbed:{}
 			}
@@ -115,11 +123,8 @@
 		self.embedTypes = {};
 		for (var embedName in MediumEditor.util.embedTypeConstructors)
 		{
-			if (!!self.options.embedTypes[embedName])
-			{
-				self.embedTypes[embedName] =
-					new MediumEditor.util.embedTypeConstructors[embedName](self.options.embedTypes[embedName]);
-			}
+			self.embedTypes[embedName] =
+				new MediumEditor.util.embedTypeConstructors[embedName](self.options.embedTypes[embedName]);
 		}
 		
 		var modalOptions;

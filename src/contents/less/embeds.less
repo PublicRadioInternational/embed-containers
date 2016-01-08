@@ -10,7 +10,7 @@
 	{
 		max-width: 100%;
 		display: block;
-		margin: 0 auto !important;
+		text-align: center;
 	}
 }
 
@@ -132,7 +132,7 @@
 
 // END styling for imagesEmbed
 
-// BEGIN styling for externalEmbed
+// BEGIN styling for externalLinkEmbed
 
 .external-image-embed
 {
@@ -149,4 +149,46 @@
 }
 
 
-//END styling for externalEmbed
+//END styling for externalLinkEmbed
+
+// BEGIN styling for newsletterSubscribeEmbed
+
+.newsletter-subscribe-embed
+{
+	border: solid 1px #D0D0D0;
+	padding: 10px;
+	display: inline-block;
+	text-align: left;
+
+	.display-title
+	{
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+
+	.subscribe-form
+	{
+		padding: 10px;
+		background-color: #f4f4f4;
+
+		.teaser 
+		{
+		    margin-bottom: 5px;
+		}
+	}
+
+	.subscribe-btn
+	{
+		border-radius: 10px;
+		text-transform: uppercase;
+	}
+}
+
+.entity-embed-wide
+{
+	.newsletter-subscribe-embed
+	{
+		width: 100%;
+	}
+}
+// END styling for newsletterSubscribeEmbed

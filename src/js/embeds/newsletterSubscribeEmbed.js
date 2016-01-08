@@ -39,6 +39,8 @@
 	}
 
 	// PUBLIC
+	newsletterSubscribeEmbed.prototype.defaultStyle = 'entity-embed-center';
+
 	newsletterSubscribeEmbed.prototype.init = function(){
 		var self = this;
 		self.model = cleanModel();
@@ -106,7 +108,17 @@
 	newsletterSubscribeEmbed.prototype.editorEvents = function(){};
 
 	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		var self = this;
+		return '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +
+					'<div class="display-title">' + self.model.displayTitle + '</div>' +
+					'<div class="subscribe-form">' +			
+						'<div class="teaser">' + self.model.teaser + '</div>' +
+						'<div class="form-group">' +
+							'<input name="email" type="text" placeholder="user@domain.com" class="form-control">' + 
+						'</div>' + 
+						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
+					'</div>' + 
+				'</div>';
 	};
 
 

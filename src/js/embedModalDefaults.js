@@ -47,7 +47,7 @@
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<figure class="' + figureClass + '">' +
+					return '<figure contenteditable="false" class="' + figureClass + '">' +
 						scope.currentEmbedType.parseForEditor() +
 						'</figure>';
 				}
