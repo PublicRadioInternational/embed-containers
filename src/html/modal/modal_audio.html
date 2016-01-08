@@ -1,18 +1,12 @@
 <div class="row em-row">
 	<div class="col-xs-6">
 		<div class="form-group"> 
-			<label class="em-label" for="files">Upload Audio MP3</label>
+			<label class="em-label" for="files">Upload Audio File</label>
 			<form action="uploadAudio.php" method="post" enctype="multipart/form-data">
 			<input type="file" name="audioFile" />
 			</form>
 		</div>
 	</div>
-	<!--<div class="col-xs-6">
-		<div class="form-group">
-			<label class="em-label" for="wavFiles">Upload full WAV (Optional)</label>
-			<input type="file" name="wavFiles">
-		</div>
-	-->
 
 	<div class="col-xs-6">
 		<ul id="audioList">
@@ -22,16 +16,14 @@
 
 
 <div class="row em-row">
-	<div class="col-xs-6">
-		<div class="form-group">
-			<label class="em-label" for="creditText">Credit</label>
-			<input name="creditText" type="text" placeholder="Enter Credit Text" class="form-control">
-		</div>
-	</div>
-	<div class="col-xs-6">
-		<div class="form-group">
-			<label class="em-label" for="creditLink">Credit</label>
-				<input name="creditLink" type="text" width="100" placeholder="Enter Link to credit (optional)" class="form-control">
+	<div class="form-group">
+		<div class="col-xs-6">
+			<label for="credit" class="em-label">Credit</label>
+			<input class="em-input form-control" type="text" name="credit" />
+		</div>	
+		<div class="col-xs-6">
+			<label for="creditLink" class="em-label">Credit Link</label>
+			<input class="em-input form-control" type="text" name="creditLink" />
 		</div>
 	</div>
 </div>

@@ -18,7 +18,7 @@
 	function cleanModel(){
 		return {
 			files: [],
-			creditText: null,
+			credit: null,
 			creditLink: null
 		};
 	}
@@ -163,9 +163,9 @@
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		return '<div class="audio-embed"><img src="' + self.model.files[0] +'" />' + 
-			'<div class="audio-embed-caption">' + self.model.caption + '</div>' + 
-			'<div class="audio-embed-credit">Credit: ' + self.model.credit + '</div></div>';
+		return '<div class="audio-embed"><audio src="' + self.model.files[0] +'" />' + 
+			'<div class="audio-embed-credit">Credit: ' + self.model.credit + '</div>' +
+			'<div class="audio-embed-creditLink">Link: ' + self.model.creditLink + '</div></div>';
 	};
 
 
