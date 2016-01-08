@@ -123,6 +123,7 @@
 				url: self.model.url
 			},
 			success: function(data){
+				data.title = 'click here to show the toolbars';
 				self.model.videoHtml = data.html;
 			},
 			error: function(jqXHR, textStatus, error){
