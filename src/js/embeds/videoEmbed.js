@@ -17,6 +17,7 @@
 
 	function cleanModel(){
 		return {
+			url: null
 		};
 	}
 
@@ -107,8 +108,32 @@
 	videoEmbed.prototype.editorEvents = function(){};
 
 	videoEmbed.prototype.parseForEditor = function(){
-		return '<iframe class="entity-embed" src="' + this.model.url.replace("watch?v=", "v/") + 
-		'&output=embed"" width="560" height="315" frameborder="0" allowfullscreen></iframe>'
+		var self = this;
+		
+		$.support.cors = true;
+
+		$.ajax({
+			crossDomain: true,
+			cache: false,
+			async: false,
+			timeout: 15000,
+			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
+			dataType: 'json',
+			data: {
+				url: self.model.url
+			},
+			success: function(data){
+				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
+			},
+			error: function(jqXHR, textStatus, error){
+				// TODO
+			}
+		});
+
+		return  '<div class="video-embed">' +
+					'<div class="overlay"></div>' +
+					self.model.videoHtmlString  +  
+				'</div>';
 	};
 
 

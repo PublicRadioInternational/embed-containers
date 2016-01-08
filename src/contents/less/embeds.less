@@ -248,3 +248,67 @@
 	}
 }
 // END styling for customTextEmbed
+
+// BEGIN styling for iFrameEmbed
+
+.iframe-embed
+{
+	iframe
+	{
+		width: 100%;
+	}
+
+	.iframe-info
+	{
+		padding: 10 0px;
+		text-align: center;
+		font-style: italic;
+	}
+}
+
+// END styling for iFrameEmbed
+
+// begin styling for videoEmbed
+
+.video-embed
+{
+	width: 50%;
+
+	.overlay
+	{
+		position: relative;
+		top:0;
+		left:0;
+		z-index: 1000;
+		width: 100%;
+		height: 100%;
+	}
+
+	iframe
+	{
+		z-index: 1;
+	}
+}
+
+.entity-embed-wide
+{
+	.video-embed
+	{
+		width: 100%;
+
+		iframe
+		{
+			width: 100%;
+		}
+	}
+}
+
+
+.entity-embed-center
+{
+	.video-embed
+	{
+		margin: 0 auto;
+	}
+}
+// END styling for videoEmbed

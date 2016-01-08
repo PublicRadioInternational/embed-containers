@@ -39,6 +39,8 @@
 	}
 
 	// PUBLIC
+	iframeEmbed.prototype.defaultStyle = 'entity-embed-center';
+
 	iframeEmbed.prototype.init = function(){
 		var self = this;
 		self.model = cleanModel();
@@ -106,8 +108,15 @@
 	iframeEmbed.prototype.editorEvents = function(){};
 
 	iframeEmbed.prototype.parseForEditor = function(){
-		return '<iframe class="entity-embed-center" src="' + this.model.url + '" width="1000" height="' + this.model.height + 
-		'" frameborder="0" scrolling="' + this.model.iframeScrolling + '"></iframe>'
+		return  '<div class="iframe-embed">' +
+					'<iframe src="' + this.model.url + '" ' + 
+						'height="' + this.model.height + '" ' + 
+						'"frameborder="0" scrolling="' + this.model.iframeScrolling + '">' + 
+					'</iframe>' + 
+					'<div>' +
+						'<span class="iframe-info">click here to show the toolbars</span>'  
+					'</div>' + 
+				'</div>';
 	};
 
 	// make the constructor accessible
