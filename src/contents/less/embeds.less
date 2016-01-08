@@ -249,7 +249,7 @@
 }
 // END styling for customTextEmbed
 
-// BEGIN styling for iFrame embed
+// BEGIN styling for iFrameEmbed
 
 .iframe-embed
 {
@@ -266,4 +266,49 @@
 	}
 }
 
-// END styling for iFrame embed
+// END styling for iFrameEmbed
+
+// begin styling for videoEmbed
+
+.video-embed
+{
+	width: 50%;
+
+	.overlay
+	{
+		position: relative;
+		top:0;
+		left:0;
+		z-index: 1000;
+		width: 100%;
+		height: 100%;
+	}
+
+	iframe
+	{
+		z-index: 1;
+	}
+}
+
+.entity-embed-wide
+{
+	.video-embed
+	{
+		width: 100%;
+
+		iframe
+		{
+			width: 100%;
+		}
+	}
+}
+
+
+.entity-embed-center
+{
+	.video-embed
+	{
+		margin: 0 auto;
+	}
+}
+// END styling for videoEmbed

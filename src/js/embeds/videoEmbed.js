@@ -123,15 +123,17 @@
 				url: self.model.url
 			},
 			success: function(data){
-				data.title = 'click here to show the toolbars';
-				self.model.videoHtml = data.html;
+				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
 			},
 			error: function(jqXHR, textStatus, error){
 				// TODO
 			}
 		});
 
-		return self.model.videoHtml;
+		return  '<div class="video-embed">' +
+					'<div class="overlay"></div>' +
+					self.model.videoHtmlString  +  
+				'</div>';
 	};
 
 
