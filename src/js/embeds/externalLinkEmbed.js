@@ -160,14 +160,10 @@
 	externalLinkEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		return 	'<div class="external-link-embed" entity-embed-secondary-toolbar-locator>' +
-				'<div class ="externalLink-container">' + self.model.internalTitle  
-				+ '<div class="external-display-title">' + self.model.displayTitle + '</div>' 
-				+ '<div class="external-teaser">' + self.model.teaser + '</div>' 
-				+ '<div class="external-thumnbail"><img src="' + self.model.files[0] + '" /></div>'
-				+  '<a class= "btn btn-primary external-btn href="' + self.model.url + '">'  + self.model.linkText + '</a>' + '</div>';
-				//+  '<div class= external-thumbnail><a href="' + self.model.thumbnail + '"><img src="' + self.model.thumbnail + '"/></a>' 
-				'</div>' +
+		return 	'<div class="external-link-embed entity-embed-secondary-toolbar-locator">' +
+					'<div class="display-title">' + self.model.displayTitle + '</div>' +
+					'<div class="teaser">' + self.model.teaser + '</div>' +
+					'<a class="btn btn-primary external-link" href="' + self.model.url + '">'  + self.model.linkText + '</a>' + '</div>';
 				'</div>';
 	};
 
