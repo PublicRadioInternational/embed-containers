@@ -106,7 +106,11 @@
 	customTextEmbed.prototype.editorEvents = function(){};
 
 	customTextEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		var self = this;
+		return  '<div class="custom-text-embed">' + 
+					'<div class="display-title">' + self.model.displayTitle + '</div>' +
+					'<div class="custom-text">' + self.model.customText + '</div>' +
+				'</div>';
 	};
 
 

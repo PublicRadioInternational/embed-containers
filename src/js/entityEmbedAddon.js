@@ -388,8 +388,6 @@
 			left = ($(window).width() - self.$toolbar2.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
 		}
 
-		left += $(window).width() - $(document.body).width(); // TODO : find a better fix
-
 		self.$toolbar2
 			.css({
 				top: top,
