@@ -1,4 +1,4 @@
-;(function ($, window, document, undefined) {
+;(function ($, window, document, EntityEmbedTypes, undefined) {
 
 	'use strict';
 
@@ -68,6 +68,7 @@
 				}
 			},
 			embedTypes: { // options for different embed types
+				genericEmbed: false,
 				imagesEmbed:{},
 				videoEmbed:{},
 				audioEmbed:{},
@@ -121,10 +122,13 @@
 		self.events();
 		
 		self.embedTypes = {};
-		for (var embedName in MediumEditor.util.embedTypeConstructors)
+		for (var embedName in EntityEmbedTypes)
 		{
-			self.embedTypes[embedName] =
-				new MediumEditor.util.embedTypeConstructors[embedName](self.options.embedTypes[embedName]);
+			if (!!self.options.embedTypes[embedName])
+			{
+				self.embedTypes[embedName] =
+					new EntityEmbedTypes[embedName](self.options.embedTypes[embedName]);
+			}
 		}
 		
 		var modalOptions;
@@ -482,4 +486,4 @@
 		});
 	};
 
-})(jQuery, window, document);
+})(jQuery, window, document, EntityEmbedTypes);
