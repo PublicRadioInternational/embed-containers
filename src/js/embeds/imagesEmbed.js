@@ -1,6 +1,14 @@
-(function(base, editorUtil){
+(function(base, EntityEmbedTypes){
 
 	'use strict';
+
+	// check for EntityEmbedTypes namespace
+	if (!EntityEmbedTypes)
+	{
+		console.log('Could not find EntityEmbedTypes namespace. ' +
+			'Please ensure that the genericEmbed has loaded before this one.');
+		return;
+	}
 
 	// PRIVATE
 	var embedName = 'imagesEmbed',
@@ -14,18 +22,6 @@
 				del: ''
 			}
 		};
-
-	function cleanModel(){
-		return {
-			files: [],
-			altText: null,
-			titleText: null,
-			credit: null,
-			creditLink: null,
-			caption: null,
-			license: null
-		};
-	}
 
 	function formatFileSize(bytes) {
 		if (typeof bytes !== 'number')
@@ -48,28 +44,26 @@
 	// CONSTRUCTOR
 	function imagesEmbed(options){
 		var self = this;
-		self.name = embedName;
+		self.parent.constructor(options, defaults, embedName, self);
+	};
 
-		self.options = $.extend(true, {}, defaults, options);
-
-		// from images.js (isert plugin source) - could be very useful
-		//
-		// Extend editor's functions 
-		// if (this.core.getEditor()) {
-		// 	this.core.getEditor()._serializePreImages = this.core.getEditor().serialize;
-		// 	this.core.getEditor().serialize = this.editorSerialize;
-		// }
-
-		self.init();
-	}
+	imagesEmbed.inherits(EntityEmbedTypes.genericEmbed);
+	EntityEmbedTypes[embedName] = imagesEmbed;
 
 	// PUBLIC
-	imagesEmbed.prototype.defaultStyle = 'entity-embed-center';
-
-	imagesEmbed.prototype.init = function(){
-		var self = this;
-		self.model = cleanModel();
+	imagesEmbed.prototype.cleanModel = function(){
+		return {
+			files: [],
+			altText: null,
+			titleText: null,
+			credit: null,
+			creditLink: null,
+			caption: null,
+			license: null
+		};
 	};
+
+	imagesEmbed.prototype.defaultStyle = 'entity-embed-center';
 
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
@@ -103,67 +97,6 @@
 		});
 	};
 
-	imagesEmbed.prototype.getModelFromForm = function($form){
-		var self = this;
-		var formFields = $form.find('.form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
-	};
-
-	imagesEmbed.prototype.populateFormWithModel = function($form){
-		var self = this;
-		var formFields = $form.find('.form-control');
-		for (var i = 0; i < formFields.length; i++)
-		{
-			if (formFields[i].type.indexOf('select') !== -1)
-			{
-				var options = $(formFields[i]).find('option');
-				var selectedOption = self.model[formFields[i].name];
-				var optionIndex = 0;
-				options.each(function(index){
-					if (this.value === selectedOption)
-					{
-						optionIndex = index;
-					}
-				});
-				formFields[i].selectedIndex = optionIndex;
-			}
-			else
-			{
-				formFields[i].value = self.model[formFields[i].name];
-			}
-		}
-	};
-
-	imagesEmbed.prototype.clearForm = function($form){
-		var self = this;
-		
-		$('#imagesList').find('li').remove();
-
-		var formFields = $form.find('.form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			if (formFields[i].type.indexOf('select') !== -1)
-			{
-				formFields[i].selectedIndex = 0;
-			}
-			else
-			{
-				formFields[i].value = null;
-			}
-		}
-		self.model = cleanModel();
-	};
-
-	imagesEmbed.prototype.editorEvents = function(){};
-
 	imagesEmbed.prototype.parseForEditor = function(){
 		// TODO : use handlebars for this
 		var self = this;
@@ -172,13 +105,4 @@
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
-
-
-	// make the constructor accessible
-	if (!editorUtil.embedTypeConstructors)
-	{
-		editorUtil.embedTypeConstructors = {};
-	}
-	editorUtil.embedTypeConstructors[embedName] = imagesEmbed;
-
-})('', MediumEditor.util);
+})('', EntityEmbedTypes);

@@ -23,20 +23,20 @@
 			}
 		};
 
-	function cleanModel(){
-		return {
-			url: ''
-		};
-	}
-
-
 	// CONSTRUCTOR
 	function twitterEmbed(options){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
-	}
+	};
 
 	twitterEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = twitterEmbed;
+
+	// PUBLIC
+	twitterEmbed.prototype.cleanModel = function(){
+		return {
+			url: null
+		};
+	};
 	
 })('', EntityEmbedTypes);

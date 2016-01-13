@@ -1,6 +1,14 @@
-(function(base, editorUtil){
+(function(base, EntityEmbedTypes){
 
 	'use strict';
+
+	// check for EntityEmbedTypes namespace
+	if (!EntityEmbedTypes)
+	{
+		console.log('Could not find EntityEmbedTypes namespace. ' +
+			'Please ensure that the genericEmbed has loaded before this one.');
+		return;
+	}
 
 	// PRIVATE
 	var embedName = 'facebookEmbed',
@@ -15,106 +23,21 @@
 			}
 		};
 
-	function cleanModel(){
-		return {
-		};
-	}
-
 	// CONSTRUCTOR
 	function facebookEmbed(options){
 		var self = this;
-		self.name = embedName;
+		self.parent.constructor(options, defaults, embedName, self);
+	};
 
-		self.options = $.extend(true, {}, defaults, options);
-
-		// from images.js (isert plugin source) - could be very useful
-		//
-		// Extend editor's functions 
-		// if (this.core.getEditor()) {
-		// 	this.core.getEditor()._serializePreImages = this.core.getEditor().serialize;
-		// 	this.core.getEditor().serialize = this.editorSerialize;
-		// }
-
-		self.init();
-	}
+	facebookEmbed.inherits(EntityEmbedTypes.genericEmbed);
+	EntityEmbedTypes[embedName] = facebookEmbed;
 
 	// PUBLIC
-	facebookEmbed.prototype.init = function(){
-		var self = this;
-		self.model = cleanModel();
-	};
-
-	facebookEmbed.prototype.initModal = function($el){
-		var self = this;
-	};
-
-	facebookEmbed.prototype.getModelFromForm = function($el){
-		var self = this;
-		var formFields = $el.find('.form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
-	};
-
-	facebookEmbed.prototype.populateFormWithModel = function($form){
-		var self = this;
-		var formFields = $form.find('.form-control');
-		for (var i = 0; i < formFields.length; i++)
-		{
-			if (formFields[i].type.indexOf('select') !== -1)
-			{
-				var options = $(formFields[i]).find('option');
-				var selectedOption = self.model[formFields[i].name];
-				var optionIndex = 0;
-				options.each(function(index){
-					if (this.value === selectedOption)
-					{
-						optionIndex = index;
-					}
-				});
-				formFields[i].selectedIndex = optionIndex;
-			}
-			else
-			{
-				formFields[i].value = self.model[formFields[i].name];
-			}
-		}
-	};
-
-	facebookEmbed.prototype.clearForm = function($el){
-		var formFields = $el.find('.form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			if (formFields[i].type.indexOf('select') !== -1)
-			{
-				formFields[i].selectedIndex = 0;
-			}
-			else
-			{
-				formFields[i].value = null;
-			}
-		}
-		self.model = cleanModel();
-	};
-
-	facebookEmbed.prototype.editorEvents = function(){};
-
-	facebookEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+	facebookEmbed.prototype.cleanModel = function(){
+		return {
+			url: null
+		};
 	};
 
 
-	// make the constructor accessible
-	if (!editorUtil.embedTypeConstructors)
-	{
-		editorUtil.embedTypeConstructors = {};
-	}
-	editorUtil.embedTypeConstructors[embedName] = facebookEmbed;
-
-})('', MediumEditor.util);
+})('', EntityEmbedTypes);

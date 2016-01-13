@@ -5,7 +5,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 
 	'use strict';
 
-	// all descendant classes should have a private object fo the folowing form
+	// all descendant classes must have a private object of the folowing form
 	// var defaults = {
 	// 		viewPath: '',
 	// 		displayName: 'Generic',
@@ -17,12 +17,6 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	// 		}
 	// 	};
 
-	// all descendant classes should also have a private function that returns a new, empty model
-	function cleanModel(){
-		return {
-		};
-	}
-
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
 		var self = ref || this;
@@ -32,9 +26,16 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	}
 
 	// PUBLIC
+	genericEmbed.prototype.cleanModel = function(){
+		return {
+		};
+	}
+
+	genericEmbed.prototype.defaultStyle = ''; 
+
 	genericEmbed.prototype.init = function(){
 		var self = this;
-		self.model = cleanModel();
+		self.model = self.cleanModel();
 	};
 
 	genericEmbed.prototype.initModal = function($el){
@@ -81,6 +82,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	};
 
 	genericEmbed.prototype.clearForm = function($el){
+		var self = this;
 		var formFields = $el.find('.form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
@@ -93,7 +95,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 				formFields[i].value = null;
 			}
 		}
-		self.model = cleanModel();
+		self.model = self.cleanModel();
 	};
 
 	genericEmbed.prototype.editorEvents = function(){};
