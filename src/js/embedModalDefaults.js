@@ -106,7 +106,7 @@
 			before: function(scope){
 				if (!!scope.editModel) // this is an edit modal
 				{
-					scope.httpMethod = 'PUT';
+					scope.isAddModal = false;
 					scope.$embedTypeSelect.hide();
 					scope.setModalView(scope, scope.editModel.embedName);
 					
@@ -116,7 +116,7 @@
 				}
 				else // this is an add modal
 				{
-					scope.httpMethod = 'POST';
+					scope.isAddModal = true;
 					scope.$embedTypeSelect.show();
 					scope.resetModalView(scope);
 				}
@@ -143,13 +143,24 @@
 				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
 				scope.$currentEditorLocation.find('figure.entity-embed').data('embed', scope.currentEmbedType.model);
 
+				// TODO extract api comunication into another function so that it can be optionally overridden
+				var httpMethodType = '';
+				if (scope.isAddModal)
+				{
+					httpMethodType = 'POST';
+				}
+				else 
+				{
+					httpMethodType = 'PUT';
+				}
+
 				$.support.cors = true;
-		
+
 				$.ajax({
 					timeout: 15000,
 					crossDomain: true,
-					type: scope.httpMethod,
-					dataType: 'json',
+					type: httpMethodType,
+					dataType: 'application/json',
 					url: scope.currentEmbedType.options.httpPaths.post,
 					data: scope.currentEmbedType.model,
 					success: function(data){
