@@ -15,6 +15,24 @@ $(document).ready(function(){
 				},
 				modalOptions: {
 					$completeEl: $('#btn-complete-modal')
+				},
+				embedTypes: {
+					videoEmbed:{
+						httpPaths: {
+							put: '',
+							post: 'http://127.0.0.1:3000/videos/',
+							get: 'http://127.0.0.1:3000/videos/',
+							del: ''
+						}
+					},
+					imagesEmbed:{
+						httpPaths: {
+							put: '',
+							post: 'http://127.0.0.1:3000/images/',
+							get: 'http://127.0.0.1:3000/images/',
+							del: ''
+						}
+					}
 				}
 			}
 		}

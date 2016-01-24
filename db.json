@@ -1,0 +1,11 @@
+{
+  "videos": [
+    {
+      "url": "http://www.youtube.com/watch?v=BybTNK9HwWE&feature=related",
+      "embedName": "videoEmbed",
+      "videoHtmlString": "<iframe src=\"https://www.youtube.com/embed/BybTNK9HwWE?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" frameborder=\"0\" allowfullscreen=\"true\" webkitallowfullscreen=\"true\" mozallowfullscreen=\"true\" style=\"\"></iframe>",
+      "id": 1
+    }
+  ],
+  "images": []
+}
