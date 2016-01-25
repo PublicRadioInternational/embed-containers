@@ -1,21 +1,8 @@
-
 var EntityEmbedTypes = EntityEmbedTypes || {};
 
 (function(namespace){
 
 	'use strict';
-
-	// all descendant classes must have a private object of the folowing form
-	// var defaults = {
-	// 		viewPath: '',
-	// 		displayName: 'Generic',
-	// 		httpPaths: {
-	// 			put: '',
-	// 			post: '',
-	// 			get: '',
-	// 			del: ''
-	// 		}
-	// 	};
 
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
@@ -23,13 +10,81 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		self.name = embedName;
 		self.options = $.extend(true, {}, defaults, options);
 		self.init();
-	}
+	};
 
 	// PUBLIC
+	genericEmbed.prototype.defaultOptions = {
+		viewPath: '',
+		displayName: 'Generic',
+		httpPaths:{
+			put: '',
+			post: '',
+			get: ''	
+		}
+	};
+
+	genericEmbed.prototype.get = function(id){
+		var self = this;
+
+		if (!!self.options.httpRequests.get.path &&
+			self.options.httpRequests.get.path !== ''){
+
+			$.support.cors = true;
+
+			return $.ajax({
+				timeout: 15000,
+				crossDomain: true,
+				type: httpMethodType,
+				dataType: 'application/json',
+				url: self.options.httpPaths.get + id
+			});
+		}
+		console.log('No path specified to GET embed type.');
+	};
+
+	genericEmbed.prototype.put = function(id){
+		var self = this;
+
+		if (!!self.options.httpRequests.put.path &&
+			self.options.httpRequests.put.path !== ''){
+
+			$.support.cors = true;
+
+			return $.ajax({
+				timeout: 15000,
+				crossDomain: true,
+				type: httpMethodType,
+				dataType: 'application/json',
+				url: self.options.httpPaths.put + id,
+				data: self.model
+			});
+		}
+		console.log('No path specified to PUT embed type.');
+	};
+
+	genericEmbed.prototype.post = function(){
+		var self = this;
+
+		if (!!self.options.httpRequests.post.path && self.options.httpRequests.post.path !== ''){
+
+			$.support.cors = true;
+
+			return $.ajax({
+				timeout: 15000,
+				crossDomain: true,
+				type: httpMethodType,
+				dataType: 'application/json',
+				url: self.options.httpPaths.post,
+				data: self.model
+			});
+		}
+		console.log('No path specified to POST embed type.');
+	};
+
 	genericEmbed.prototype.cleanModel = function(){
 		return {
 		};
-	}
+	};
 
 	genericEmbed.prototype.defaultStyle = ''; 
 
@@ -103,7 +158,6 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	genericEmbed.prototype.parseForEditor = function(){
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
-
 
 	namespace.genericEmbed = genericEmbed;
 
