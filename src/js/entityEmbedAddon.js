@@ -164,9 +164,10 @@
 
 		$(document).ready(function()
 		{
-			// TODO : make compatible with multiple editors on one page
-			$(self.options.insertBtn).click(function(){
+			$(self.options.insertBtn).click(function(e){
+				e.stopPropagation();
 				self.add();
+				
 			});
 		});
 
