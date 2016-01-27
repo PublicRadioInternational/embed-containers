@@ -48,8 +48,11 @@
 					}
 
 					return '<figure contenteditable="false" class="' + figureClass + '">' +
-						scope.currentEmbedType.parseForEditor() +
-						'</figure>';
+								scope.currentEmbedType.parseForEditor() +
+							'</figure>' + 
+							'<p>' + 
+								'<br />' + 
+							'</p>';
 				}
 			},
 			after: function(scope){
@@ -105,7 +108,8 @@
 		open: {
 			before: function(scope){
 				if (!!scope.editModel) // this is an edit modal
-				{		
+				{
+					scope.isAddModal = false;
 					scope.$embedTypeSelect.hide();
 					scope.setModalView(scope, scope.editModel.embedName);
 					
@@ -115,6 +119,7 @@
 				}
 				else // this is an add modal
 				{
+					scope.isAddModal = true;
 					scope.$embedTypeSelect.show();
 					scope.resetModalView(scope);
 				}
@@ -140,6 +145,46 @@
 
 				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
 				scope.$currentEditorLocation.find('figure.entity-embed').data('embed', scope.currentEmbedType.model);
+
+				// TODO extract api comunication into another function so that it can be optionally overridden
+				var httpMethodType = null;
+				var url = null;
+
+				if (scope.isAddModal)
+				{
+					httpMethodType = 'POST';
+					url = scope.currentEmbedType.options.httpPaths.post;
+				}	
+				else 
+				{
+					httpMethodType = 'PUT';
+					url = scope.currentEmbedType.options.httpPaths.put;
+				}
+
+
+				if (!!url && url !== ''){
+
+					$.support.cors = true;
+
+					$.ajax({
+						timeout: 15000,
+						crossDomain: true,
+						type: httpMethodType,
+						dataType: 'application/json',
+						url: scope.currentEmbedType.options.httpPaths.post,
+						data: scope.currentEmbedType.model,
+						success: function(data){
+							console.log('success posting embed');
+						},
+						error: function(jqXHR, textStatus, error){
+							console.log('error posting embed');
+						}
+					});
+				}
+				else
+				{
+					console.log('No path specified to ' + httpMethodType + ' embed type.')
+				}
 
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
