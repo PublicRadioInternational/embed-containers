@@ -1,5 +1,8 @@
 $(document).ready(function(){
-	var medEditor = new MediumEditor('.editable');
+	
+ 	var medEditor = new MediumEditor('.editable');
+
+	
 	$('.editable').mediumInsert({
 		editor: medEditor,
 		enabled: true,
@@ -20,6 +23,10 @@ $(document).ready(function(){
 		}
 	});
 
+$("textArea").click(function(){
+		//alert("clicked");
+   		var customTextEditor = new MediumEditor('#customTextEditor');
+	});
 	// NOTE : this is only for testing the parser
 	// 			all interactions with the parser should happen within
 	//			the entityEmbedAddon in the final solution
@@ -45,3 +52,7 @@ $(document).ready(function(){
 	// 	$('#from-server').html(parser.fromServerToEditor(contentsObj));
 	// });
 });
+
+
+
+
