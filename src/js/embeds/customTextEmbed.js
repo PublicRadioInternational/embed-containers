@@ -31,17 +31,21 @@
 
 	customTextEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = customTextEmbed;
+
 	$(document).ready(function(){
-		$(".editable").click(function(){
-		   		var customTextEditor = new MediumEditor('#customTextEditor');
-			});
+		//$(".editable").click(function(){
+		//   		var customTextEditor = new MediumEditor('#customTextEditor');
+			//});
 	});
 
 	// PUBLIC
+
+
 	customTextEmbed.prototype.cleanModel = function(){
 		return {
 		};
 	};
+
 
 	customTextEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
@@ -115,6 +119,11 @@
 				}
 			}
 		}
+	};
+
+	customTextEmbed.prototype.initModal = function($el){
+		var self = this;
+		var customTextEditor = new MediumEditor('#customTextEditor');
 	};
 
 	customTextEmbed.prototype.parseForEditor = function(){

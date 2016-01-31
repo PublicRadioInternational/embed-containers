@@ -1,8 +1,6 @@
 $(document).ready(function(){
 	
  	var medEditor = new MediumEditor('.editable');
-	
-	
 
 	$('.editable').mediumInsert({
 		editor: medEditor,
