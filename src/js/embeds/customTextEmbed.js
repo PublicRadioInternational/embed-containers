@@ -31,7 +31,11 @@
 
 	customTextEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = customTextEmbed;
-
+	$(document).ready(function(){
+		$(".editable").click(function(){
+		   		var customTextEditor = new MediumEditor('#customTextEditor');
+			});
+	});
 
 	// PUBLIC
 	customTextEmbed.prototype.cleanModel = function(){

@@ -2,10 +2,7 @@ $(document).ready(function(){
 	
  	var medEditor = new MediumEditor('.editable');
 	
-	$(".editable").click(function(){
-		alert("clicked");
-   		var customTextEditor = new MediumEditor('#customTextEditor');
-	});
+	
 
 	$('.editable').mediumInsert({
 		editor: medEditor,
