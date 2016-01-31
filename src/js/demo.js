@@ -23,7 +23,7 @@ $(document).ready(function(){
 		}
 	});
 
-$("textArea").click(function(){
+$(".editable").click(function(){
 		//alert("clicked");
    		var customTextEditor = new MediumEditor('#customTextEditor');
 	});

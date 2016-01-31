@@ -33,7 +33,15 @@
 	EntityEmbedTypes[embedName] = customTextEmbed;
 
 
+	//Sets up + button to initiate specific objects to Medium-Editor
+	//Necessary because modal elements are not loaded on page load so (document).ready doesn't implement things on them
 
+/*
+	$(".editable").click(function(){
+		alert("clicked");
+   		var customTextEditor = new MediumEditor('#customTextEditor');
+	});
+*/
 
 	// PUBLIC
 	customTextEmbed.prototype.cleanModel = function(){
@@ -51,7 +59,7 @@
 
 			if(formFields[i].id == "customTextEditor")
 			{
-				name = "customText";
+				name = formFields[i].attributes.name.nodeValue
 				value = formFields[i].innerHTML;
 			}
 
@@ -76,7 +84,7 @@
 			else
 			{
 				formFields[i].value = null;
-				formFields[i].textContent ="";
+				formFields[i].innerHTML ="";
 			}
 		}
 		self.model = self.cleanModel();
@@ -107,7 +115,9 @@
 
 				if(formFields[i].id == "customTextEditor")
 				{
-					formFields[i].innerHTML = self.model.customText;
+
+					//formFields[i].innerHTML = self.model.customText;
+					formFields[i].innerHTML = self.model[formFields[i].attributes.name.nodeValue];
 				}
 			}
 		}

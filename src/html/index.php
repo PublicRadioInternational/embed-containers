@@ -37,9 +37,6 @@
 			This is editable content - try typing in here!
 		</div>
 		
-		<textarea class="tester">
-
-waatevasdf		</textarea>
 
 		<div id="em-modal">
 			<?php include "modal/modal_main.php"; ?>
