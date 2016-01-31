@@ -33,16 +33,6 @@
 	EntityEmbedTypes[embedName] = customTextEmbed;
 
 
-	//Sets up + button to initiate specific objects to Medium-Editor
-	//Necessary because modal elements are not loaded on page load so (document).ready doesn't implement things on them
-
-/*
-	$(".editable").click(function(){
-		alert("clicked");
-   		var customTextEditor = new MediumEditor('#customTextEditor');
-	});
-*/
-
 	// PUBLIC
 	customTextEmbed.prototype.cleanModel = function(){
 		return {
