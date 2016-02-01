@@ -34,8 +34,6 @@
 
 	// PUBLIC
 
-
-
 	customTextEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 		var formFields = $el.find('.form-control');
@@ -102,8 +100,6 @@
 
 				if(formFields[i].id == "customTextEditor")
 				{
-
-					//formFields[i].innerHTML = self.model.customText;
 					formFields[i].innerHTML = self.model[formFields[i].attributes.name.nodeValue];
 				}
 			}
