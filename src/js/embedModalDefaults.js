@@ -48,8 +48,11 @@
 					}
 
 					return '<figure contenteditable="false" class="' + figureClass + '">' +
-						scope.currentEmbedType.parseForEditor() +
-						'</figure>';
+								scope.currentEmbedType.parseForEditor() +
+							'</figure>' + 
+							'<p>' + 
+								'<br />' + 
+							'</p>';
 				}
 			},
 			after: function(scope){
