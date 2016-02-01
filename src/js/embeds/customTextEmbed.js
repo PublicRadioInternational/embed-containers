@@ -35,11 +35,6 @@
 	// PUBLIC
 
 
-	customTextEmbed.prototype.cleanModel = function(){
-		return {
-		};
-	};
-
 
 	customTextEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
