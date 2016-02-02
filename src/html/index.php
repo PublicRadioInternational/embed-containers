@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>TEST</title>
+		<title>Entity Embed Demo</title>
 
 		<!-- medium editor dependencies -->
 		<link rel="stylesheet" href="lib/medium-editor/dist/css/medium-editor.css">
 		<link rel="stylesheet" href="lib/medium-editor/dist/css/themes/default.css" id="medium-editor-theme">
-		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+		<link rel="stylesheet" href="lib/components-font-awesome/css/font-awesome.css">
 		<script src="lib/jquery/dist/jquery.js"></script>
 		<script src="lib/medium-editor/dist/js/medium-editor.js"></script>
 		<script src="lib/handlebars/handlebars.runtime.js"></script>
@@ -24,8 +24,10 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/core.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
- 
-		<!-- code for this project -->
+		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
+
+		<!-- dependencies / code for this project -->
+		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">		
 		<link rel="stylesheet" href="contents/main.css">
 		<script src="js/main.js"></script>
 	</head>
@@ -34,14 +36,26 @@
 		<div class="editable editor">
 			This is editable content - try typing in here!
 		</div>
-
-		<div id="modal">
-			<?php include 'modals/exampleModal.html'; ?>
+		
+		<div id="em-modal">
+			<?php include "modal/modal_main.php"; ?>
 		</div>
 
-		<button id="dump-content">dump content</button>
+		<!-- 
+		<button id="dump-from-editor" class="btn btn-primary">from editor</button>
 		<br />
-		<pre id="elContents"></pre>
+		<br />
+		<span>story object after parser cleans content from editor - ready to be pushed to server</span>
+		<pre id="from-editor"></pre>
+
+		<br />
+		<br />
+		<button id="dump-from-server" class="btn btn-primary">to editor</button>		
+		<br />
+		<br />
+		<span>editor digestable content (html) created from server object by parser</span>
+		<div id="from-server"></pre>
+		!-->
 	</body>
 
 </html>
