@@ -61,7 +61,7 @@
 					}
 				},
 				edit:{
-					label: '<span class="fa fa-cogs"></span>',
+					label: '<span class="fa fa-cog"></span>',
 					clicked: function(entityEmbed, $embed){
 						entityEmbed.editEmbed($embed);
 					}
