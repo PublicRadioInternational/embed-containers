@@ -1,6 +1,6 @@
 var EntityEmbedTypes = EntityEmbedTypes || {};
 
-(function(namespace){
+(function(){
 
 	'use strict';
 
@@ -19,66 +19,9 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		httpPaths:{
 			put: '',
 			post: '',
-			get: ''	
+			get: '',
+			del: ''
 		}
-	};
-
-	genericEmbed.prototype.get = function(id){
-		var self = this;
-
-		if (!!self.options.httpRequests.get.path &&
-			self.options.httpRequests.get.path !== ''){
-
-			$.support.cors = true;
-
-			return $.ajax({
-				timeout: 15000,
-				crossDomain: true,
-				type: httpMethodType,
-				dataType: 'application/json',
-				url: self.options.httpPaths.get + id
-			});
-		}
-		console.log('No path specified to GET embed type.');
-	};
-
-	genericEmbed.prototype.put = function(id){
-		var self = this;
-
-		if (!!self.options.httpRequests.put.path &&
-			self.options.httpRequests.put.path !== ''){
-
-			$.support.cors = true;
-
-			return $.ajax({
-				timeout: 15000,
-				crossDomain: true,
-				type: httpMethodType,
-				dataType: 'application/json',
-				url: self.options.httpPaths.put + id,
-				data: self.model
-			});
-		}
-		console.log('No path specified to PUT embed type.');
-	};
-
-	genericEmbed.prototype.post = function(){
-		var self = this;
-
-		if (!!self.options.httpRequests.post.path && self.options.httpRequests.post.path !== ''){
-
-			$.support.cors = true;
-
-			return $.ajax({
-				timeout: 15000,
-				crossDomain: true,
-				type: httpMethodType,
-				dataType: 'application/json',
-				url: self.options.httpPaths.post,
-				data: self.model
-			});
-		}
-		console.log('No path specified to POST embed type.');
 	};
 
 	genericEmbed.prototype.cleanModel = function(){
@@ -159,7 +102,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
-	namespace.genericEmbed = genericEmbed;
+	EntityEmbedTypes.genericEmbed = genericEmbed;
 
 	// augment Function to enable simple inheritance, if not already done so
 	if (!Function.prototype.inherits)
@@ -172,4 +115,4 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			return self;
 		};
 	}
-})(EntityEmbedTypes);
+})();

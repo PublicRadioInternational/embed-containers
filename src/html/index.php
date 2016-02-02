@@ -38,7 +38,7 @@
 		</div>
 		
 		<div id="em-modal">
-			<?php include "modal/modal_main.php"; ?>
+			<?php include "modal/modal_main.html"; ?>
 		</div>
 	</body>
 
