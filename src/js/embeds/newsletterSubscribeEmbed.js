@@ -50,7 +50,7 @@
 					'<div class="display-title">' + self.model.displayTitle + '</div>' +
 					'<div class="subscribe-form">' +			
 						'<div class="teaser">' + self.model.teaser + '</div>' +
-						'<div class="form-group">' +
+						'<div class="em-form">' +
 							'<input name="email" type="text" placeholder="user@domain.com" class="form-control">' + 
 						'</div>' + 
 						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
