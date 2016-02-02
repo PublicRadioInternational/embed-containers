@@ -27,8 +27,8 @@
 		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
 
 		<!-- dependencies / code for this project -->
-		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">		
 		<link rel="stylesheet" href="contents/main.css">
+		<link rel="stylesheet" href="contents/priEntityEmbeds.css">
 		<script src="js/main.js"></script>
 	</head>
 
