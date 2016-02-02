@@ -253,8 +253,12 @@
 
 .iframe-embed
 {
+	@border-color: #e6e6e6; 
+	background-color: @border-color;
+	
 	iframe
 	{
+		border: 5px solid @border-color;
 		width: 100%;
 	}
 
@@ -272,7 +276,13 @@
 
 .video-embed
 {
-	width: 50%;
+	background-color: #000;
+	.video-info
+	{
+		color: #e6e6e6;
+		text-align: center;
+		font-style: italic;
+	}
 
 	.overlay
 	{

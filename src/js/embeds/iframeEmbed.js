@@ -38,19 +38,20 @@
 	iframeEmbed.prototype.cleanModel = function(){
 		return {
 			url: null,
-			allowsScroll: false,
-			height: 500
+			allowsScroll: false
 		};
 	};
 
 	iframeEmbed.prototype.parseForEditor = function(){
 		return  '<div class="iframe-embed">' +
+					'<div class="iframe-info">' +
+						'<span>click here to show the toolbars</span>' +
+					'</div>' + 
 					'<iframe src="' + this.model.url + '" ' + 
-						'height="' + this.model.height + '" ' + 
 						'"frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
 					'</iframe>' + 
-					'<div>' +
-						'<span class="iframe-info">click here to show the toolbars</span>'  
+					'<div class="iframe-info">' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
 	};
