@@ -38,24 +38,8 @@
 		</div>
 		
 		<div id="em-modal">
-			<?php include "modal/modal_main.php"; ?>
+			<?php include "modal/modal_main.html"; ?>
 		</div>
-
-		<!-- 
-		<button id="dump-from-editor" class="btn btn-primary">from editor</button>
-		<br />
-		<br />
-		<span>story object after parser cleans content from editor - ready to be pushed to server</span>
-		<pre id="from-editor"></pre>
-
-		<br />
-		<br />
-		<button id="dump-from-server" class="btn btn-primary">to editor</button>		
-		<br />
-		<br />
-		<span>editor digestable content (html) created from server object by parser</span>
-		<div id="from-server"></pre>
-		!-->
 	</body>
 
 </html>

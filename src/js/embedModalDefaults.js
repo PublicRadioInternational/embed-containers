@@ -1,6 +1,15 @@
+var EntityEmbed = EntityEmbed || {};
+
 ;(function(){
 
 	function embedModalDefaults() {};
+
+	// MODAL TYPE ENUM
+	EntityEmbed.embedModalTypes = {
+		add: 0,
+		edit: 1
+		//SelectExisting: 2
+	};
 
 	embedModalDefaults.prototype.functions = {
 		init:{
@@ -107,19 +116,27 @@
 		},
 		open: {
 			before: function(scope){
-				if (!!scope.editModel) // this is an edit modal
+				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
-					scope.isAddModal = false;
 					scope.$embedTypeSelect.hide();
 					scope.setModalView(scope, scope.editModel.embedName);
 					
-					scope.currentEmbedType.model = scope.editModel;
-					delete scope.editModel;
-					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+					// TODO : loading spinner
+					EntityEmbed.apiService.get(
+						scope.currentEmbedType.options.httpPaths.get + editModel.id,
+						function(data){
+							scope.currentEmbedType.model = data
+							delete scope.editModel;
+							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+							scope.loading == false;
+						},
+						function(data){
+							console.log('failed to get embed type!');
+						}
+					);
 				}
-				else // this is an add modal
+				else // this options.is an add modal
 				{
-					scope.isAddModal = true;
 					scope.$embedTypeSelect.show();
 					scope.resetModalView(scope);
 				}
@@ -144,52 +161,48 @@
 				scope.currentEmbedType.model.embedName = scope.currentEmbedType.name;
 
 				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
-				scope.$currentEditorLocation.find('figure.entity-embed').data('embed', scope.currentEmbedType.model);
 
-				// TODO extract api comunication into another function so that it can be optionally overridden
-				var httpMethodType = null;
-				var url = null;
+				scope.currentEmbedType.model.auth_token='abc123';
+				scope.currentEmbedType.model.debug=1;
 
-				if (scope.isAddModal)
+
+				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
-					httpMethodType = 'POST';
-					url = scope.currentEmbedType.options.httpPaths.post;
-				}	
-				else 
-				{
-					httpMethodType = 'PUT';
-					url = scope.currentEmbedType.options.httpPaths.put;
-				}
+					scope.currentEmbedType.model.story_id = scope.currentEmbedType.model.id;
+					delete scope.currentEmbedType.model.id;
 
-
-				if (!!url && url !== ''){
-
-					$.support.cors = true;
-
-					$.ajax({
-						timeout: 15000,
-						crossDomain: true,
-						type: httpMethodType,
-						dataType: 'application/json',
-						url: scope.currentEmbedType.options.httpPaths.post,
-						data: scope.currentEmbedType.model,
-						success: function(data){
-							console.log('success posting embed');
-						},
-						error: function(jqXHR, textStatus, error){
-							console.log('error posting embed');
+					EntityEmbed.apiService.put(
+						scope.currentEmbedType.options.httpPaths.put, 
+						scope.currentEmbedType.model,
+						// TODO : save spinner
+						function(data){
+							console.log('success!');
+							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+						}, 
+						function(data){
+							console.log('failure!');
 						}
-					});
-				}
-				else
-				{
-					console.log('No path specified to ' + httpMethodType + ' embed type.')
+					);
 				}
 
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				else if (scope.modalType == EntityEmbed.embedModalTypes.add){
+					EntityEmbed.apiService.post(
+						scope.currentEmbedType.options.httpPaths.post, 
+						scope.currentEmbedType.model,
+						// TODO : save spinner
+						function(data){
+							// should get an id back in data - put that on the html
+							console.log('success!');
+							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+						}, 
+						function(data){
+							console.log('failure!');
+						}
+					);
+				}
 			}
 		}
 	};
 
-	window.embedModalDefaults = embedModalDefaults;
-}(window));
+	EntityEmbed.embedModalDefaults = embedModalDefaults;
+}());

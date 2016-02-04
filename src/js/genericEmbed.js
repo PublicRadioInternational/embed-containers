@@ -1,21 +1,8 @@
-
 var EntityEmbedTypes = EntityEmbedTypes || {};
 
-(function(namespace){
+(function(){
 
 	'use strict';
-
-	// all descendant classes must have a private object of the folowing form
-	// var defaults = {
-	// 		viewPath: '',
-	// 		displayName: 'Generic',
-	// 		httpPaths: {
-	// 			put: '',
-	// 			post: '',
-	// 			get: '',
-	// 			del: ''
-	// 		}
-	// 	};
 
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
@@ -23,13 +10,24 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		self.name = embedName;
 		self.options = $.extend(true, {}, defaults, options);
 		self.init();
-	}
+	};
 
 	// PUBLIC
+	genericEmbed.prototype.defaultOptions = {
+		viewPath: '',
+		displayName: 'Generic',
+		httpPaths:{
+			put: '',
+			post: '',
+			get: '',
+			del: ''
+		}
+	};
+
 	genericEmbed.prototype.cleanModel = function(){
 		return {
 		};
-	}
+	};
 
 	genericEmbed.prototype.defaultStyle = ''; 
 
@@ -104,8 +102,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
-
-	namespace.genericEmbed = genericEmbed;
+	EntityEmbedTypes.genericEmbed = genericEmbed;
 
 	// augment Function to enable simple inheritance, if not already done so
 	if (!Function.prototype.inherits)
@@ -118,4 +115,4 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			return self;
 		};
 	}
-})(EntityEmbedTypes);
+})();
