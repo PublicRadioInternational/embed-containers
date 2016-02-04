@@ -56,37 +56,43 @@
 		};
 	};
 
-	relatedLinkEmbed.prototype.getModelFromForm = function($el)
-	{
-		var self = this;
-		self.parent.getModelFromForm($el);
-
-		var urlForms = $el.find('.related-link-url');
-		for(var i = 0; i < urlForms.length; i++)
-		{
-			self.model.links.push(formFields[i].value);
-		}
-	};
-
-	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
-	{
-		var self = this;
-		self.parent.populateFormWithModel($form);
-
-		var linkClass = 'related-link-url';
-		var $linkList = $el.find('#related-link-list');
-		var $addLinkBtn = $el.find('#add-link-btn');
-
-		for(var i = 0; i < self.model.links.length; i++)
-		{
-			$addLinkBtn.click();	
-			$form.find('.' + linkClass).last().val(self.model.links[i]);
-		}
-	};
-
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
+		var availableTags = {
+			// just declare data but dont put anything in it
 
+			data: [
+			"tag4",
+			"tag3",
+			"tag2",
+			"tag1",
+			"FancyCat",
+			"FancyDog"
+			],
+
+			list: {
+				maxNumberOfElements: 5,
+
+				match: {
+					enabled: true
+				},
+
+				sort: {
+					enabled: true
+				}
+			}
+
+
+		};
+		//after 1 second hesitate call the following
+
+		// Set availableTags.data = to api call with self.model.internalTitle
+		$( "#completeInternalTitle" ).easyAutocomplete (availableTags);
+		
+
+
+
+<<<<<<< 1153edbc4560d1557095c96a971b25a872e91c2a
 		var linkClass = 'related-link-url';
 		var removeLinkClass = 'remove-link-btn';
 		var $linkList = $el.find('#related-link-list');
@@ -112,5 +118,20 @@
 		$el.on('click', '.' + removeLinkClass, function(){
 			$(document.activeElement).closest('.' + linkClass).remove();
 		});
+=======
+
+
+		//
+		//window.modavailabletags = function(){
+		//	availableTags.data = ["Cats", "Dogs"];
+		//	$( "#completeInternalTitle" ).easyAutocomplete (availableTags);
+		//};	
+
+>>>>>>> Initial Work on Related Link autocomplete
 	};
+
+
+
+
+
 })('', EntityEmbedTypes);
