@@ -32,15 +32,18 @@
 	videoEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = videoEmbed;
 
-	// PUBLIC
-	videoEmbed.prototype.cleanModel = function(){
-		return {
-			url: null
-		};
-	};
-
-	videoEmbed.prototype.parseForEditor = function(){
+	videoEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
+		var formFields = $el.find('.form-control');
+		for(var i = 0; i < formFields.length; i++)
+		{
+			var name = formFields[i].name;
+			var value = formFields[i].value;
+			if (!!name && !!value)
+			{
+				self.model[name] = value;
+			}
+		}
 		
 		$.support.cors = true;
 
@@ -62,7 +65,8 @@
 			}
 		});
 
-		return  '<div class="video-embed">' +
+		var name = 'EmbedCode';
+		var code = '<div class="video-embed">' +
 					'<div class="video-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
@@ -74,5 +78,19 @@
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
+		self.model[name] = code;
+	};
+
+	// PUBLIC
+	videoEmbed.prototype.cleanModel = function(){
+		return {
+			url: null
+		};
+	};
+
+	videoEmbed.prototype.parseForEditor = function(){
+		var self = this;
+		
+		return self.model.EmbedCode;
 	};
 })('', EntityEmbedTypes);

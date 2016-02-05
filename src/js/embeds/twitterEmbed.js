@@ -32,6 +32,24 @@
 	twitterEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = twitterEmbed;
 
+	twitterEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		var formFields = $el.find('.form-control');
+		for(var i = 0; i < formFields.length; i++)
+		{
+			var name = formFields[i].name;
+			var value = formFields[i].value;
+			if (!!name && !!value)
+			{
+				self.model[name] = value;
+			}
+		}
+		
+		var name = 'EmbedCode';
+		var code = this.model.tweetUrl;
+		self.model[name] = code;
+	};
+
 	// PUBLIC
 	twitterEmbed.prototype.cleanModel = function(){
 		return {
