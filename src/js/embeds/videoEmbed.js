@@ -44,7 +44,18 @@
 				self.model[name] = value;
 			}
 		}
-		
+	};
+
+	// PUBLIC
+	videoEmbed.prototype.cleanModel = function(){
+		return {
+			url: null
+		};
+	};
+
+	videoEmbed.prototype.parseForEditor = function(){
+		var self = this;
+
 		$.support.cors = true;
 
 		$.ajax({
@@ -64,9 +75,8 @@
 				// TODO
 			}
 		});
-
-		var name = 'EmbedCode';
-		var code = '<div class="video-embed">' +
+		
+		return '<div class="video-embed">' +
 					'<div class="video-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
@@ -78,19 +88,6 @@
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
-		self.model[name] = code;
 	};
 
-	// PUBLIC
-	videoEmbed.prototype.cleanModel = function(){
-		return {
-			url: null
-		};
-	};
-
-	videoEmbed.prototype.parseForEditor = function(){
-		var self = this;
-		
-		return self.model.EmbedCode;
-	};
 })('', EntityEmbedTypes);

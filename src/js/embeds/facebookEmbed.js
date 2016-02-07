@@ -45,9 +45,21 @@
 			}
 		}
 		
-		var name = 'EmbedCode';
-		var code = this.model.url;
-		self.model[name] = code;
+		var embedCodeName = 'EmbedCode';
+		var code = 	'<script>' +
+						'(function(d, s, id) {' +
+						  'var js, fjs = d.getElementsByTagName(s)[0];' +  
+						  'if (d.getElementById(id)) return;' + 
+						  'js = d.createElement(s);' +
+						  'js.id = id;' +
+						  'js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";' +
+						  'fjs.parentNode.insertBefore(js, fjs);' +
+						  '}' +
+						  '(document, "script", "facebook-jssdk"));' +
+				    '</script>' +
+					'<div class="fb-post" data-href="'+ this.model.url + '" data-width="500">' +
+					'</div>';
+		self.model[embedCodeName] = code;
 	};
 	// PUBLIC
 	facebookEmbed.prototype.cleanModel = function(){
@@ -56,5 +68,20 @@
 		};
 	};
 
+	facebookEmbed.prototype.parseForEditor = function(){
+		var self = this;
+		
+		return '<div class="instagram-embed" style="background-color:gray">' +
+					'<div class="instagram-info">' +
+						'<span style="color:white">click here to show the toolbars</span>' +
+					'</div>' + 
+					'<div class="overlay">' +
+					self.model.EmbedCode + 
+					'</div>' +
+					'<div class="instagram-info">' +
+						'<span style="color:white">click here to show the toolbars</span>' +
+					'</div>' + 
+				'</div>';
+	};
 
 })('', EntityEmbedTypes);

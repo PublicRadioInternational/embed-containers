@@ -45,9 +45,13 @@
 			}
 		}
 		
-		var name = 'EmbedCode';
-		var code = this.model.tweetUrl;
-		self.model[name] = code;
+		var embedCodeName = 'EmbedCode';
+		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
+						'<a href="' + this.model.tweetUrl + '">' +
+						'</a>' +
+					'</blockquote>' +
+					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+		self.model[embedCodeName] = code;
 	};
 
 	// PUBLIC
@@ -57,4 +61,20 @@
 		};
 	};
 	
+	twitterEmbed.prototype.parseForEditor = function(){
+		var self = this;
+		
+		return '<div class="instagram-embed" style="background-color:gray">' +
+					'<div class="instagram-info">' +
+						'<span style="color:white">click here to show the toolbars</span>' +
+					'</div>' + 
+					'<div class="overlay">' +
+					self.model.EmbedCode + 
+					'</div>' +
+					'<div class="instagram-info">' +
+						'<span style="color:white">click here to show the toolbars</span>' +
+					'</div>' + 
+				'</div>';
+	};
+
 })('', EntityEmbedTypes);
