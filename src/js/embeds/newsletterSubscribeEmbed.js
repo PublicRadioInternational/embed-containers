@@ -50,8 +50,8 @@
 					'<div class="display-title">' + self.model.displayTitle + '</div>' +
 					'<div class="subscribe-form">' +			
 						'<div class="teaser">' + self.model.teaser + '</div>' +
-						'<div class="form-group">' +
-							'<input name="email" type="text" placeholder="user@domain.com" class="form-control">' + 
+						'<div class="embed-modal-form">' +
+							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' + 
 						'</div>' + 
 						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
 					'</div>' + 
