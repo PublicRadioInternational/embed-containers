@@ -63,8 +63,16 @@
 		});
 
 		return  '<div class="video-embed">' +
+					'<div class="video-info">' +
+						'<span>click here to show the toolbars</span>' +
+					'</div>' + 
 					'<div class="overlay"></div>' +
+
 					self.model.videoHtmlString  +  
+					
+					'<div class="video-info">' +
+						'<span>click here to show the toolbars</span>' +
+					'</div>' + 
 				'</div>';
 	};
 })('', EntityEmbedTypes);

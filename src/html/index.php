@@ -27,8 +27,8 @@
 		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
 
 		<!-- dependencies / code for this project -->
-		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">		
 		<link rel="stylesheet" href="contents/main.css">
+		<link rel="stylesheet" href="contents/priEntityEmbeds.css">
 		<script src="js/main.js"></script>
 	</head>
 
@@ -38,25 +38,9 @@
 		</div>
 		
 
-		<div id="em-modal">
+		<div id="embed-modal">
 			<?php include "modal/modal_main.php"; ?>
 		</div>
-
-		<!-- 
-		<button id="dump-from-editor" class="btn btn-primary">from editor</button>
-		<br />
-		<br />
-		<span>story object after parser cleans content from editor - ready to be pushed to server</span>
-		<pre id="from-editor"></pre>
-
-		<br />
-		<br />
-		<button id="dump-from-server" class="btn btn-primary">to editor</button>		
-		<br />
-		<br />
-		<span>editor digestable content (html) created from server object by parser</span>
-		<div id="from-server"></pre>
-		!-->
 	</body>
 
 </html>

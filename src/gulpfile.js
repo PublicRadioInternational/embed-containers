@@ -23,14 +23,16 @@ var htmlDest = config.serverRoot + '/',
 var fontDest = libDest + fontPathSegment;
 
 gulp.task('devLess', function(){		// development less task
-	gulp.src(lessPath + 'main.less')
+	gulp.src([lessPath + 'main.less',
+			lessPath + '/priEmbeds/priEntityEmbeds.less'])
 		.pipe(less())
 		.pipe(gulp.dest(cssDest));
 });
 
 gulp.task('devConcatJs', function()		// development concatenation task for javascript
 {										// same as concatJs but it does not uglify
-	gulp.src([jsPath + 'genericEmbed.js',
+	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'genericEmbed.js',
 			jsPath + 'modal.js',
 			jsPath + 'embedModalDefaults.js',
 			jsPath + 'embeds/*.js',
