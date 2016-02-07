@@ -40,4 +40,8 @@
 			links: []
 		};
 	};
+
+	relatedLinkEmbed.prototype.initModal = function($el){
+		
+	}
 })('', EntityEmbedTypes);
