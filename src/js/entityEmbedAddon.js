@@ -1,10 +1,12 @@
+var EntityEmbed = EntityEmbed || {};
+
 ;(function ($, window, document, EntityEmbedTypes, undefined) {
 
 	'use strict';
 
 	/** Default values */
 	var pluginName = 'mediumInsert',
-		addonName = 'EntityEmbed', // first char is uppercase
+		addonName = 'EntityEmbeds', // first char is uppercase
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		toolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
@@ -68,7 +70,6 @@
 				}
 			},
 			embedTypes: { // options for different embed types
-				genericEmbed: false,
 				imagesEmbed:{},
 				videoEmbed:{},
 				audioEmbed:{},
@@ -95,7 +96,7 @@
 	 * @return {void}
 	 */
 
-	function EntityEmbed (el, options) {
+	function EntityEmbeds (el, options) {
 		var self = this;
 
 		self.el = el;
@@ -117,7 +118,7 @@
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.init = function () {
+	EntityEmbeds.prototype.init = function () {
 		var self = this;
 		self.events();
 		
@@ -132,7 +133,7 @@
 		}
 		
 		var modalOptions;
-		var defaultModalOptions = new window.embedModalDefaults();
+		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
 		if (!!self.options.modalOptions)
 		{
 			modalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
@@ -159,7 +160,7 @@
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.events = function () {
+	EntityEmbeds.prototype.events = function () {
 		var self = this;
 
 		$(document).ready(function()
@@ -218,7 +219,7 @@
 	 * @return {object} Core object
 	 */
 
-	EntityEmbed.prototype.getCore = function () {
+	EntityEmbeds.prototype.getCore = function () {
 		return this.core;
 	};
 
@@ -230,10 +231,11 @@
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.add = function () {
+	EntityEmbeds.prototype.add = function () {
 		var self = this;
 		var addToScope = {
-			$currentEditorLocation: $('.medium-insert-active')
+			$currentEditorLocation: $('.medium-insert-active'),
+			modalType: EntityEmbed.embedModalTypes.add
 		};
 		self.options.$modalEl.openModal(addToScope);
 	};
@@ -244,7 +246,7 @@
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.editEmbed = function ($embed) {
+	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
 		
 		var embedObject = $embed.data('embed');
@@ -253,8 +255,9 @@
 			return;
 		}
 		var scope = {
-			editModel: embedObject,
-			$currentEditorLocation: $embed.parent()
+			$currentEditorLocation: $embed.parent(),
+			modalType: EntityEmbed.embedModalTypes.edit,
+			editModel: embedObject
 		};
 		self.hideToolbar();
 		self.options.$modalEl.openModal(scope);
@@ -268,7 +271,7 @@
 	 * @return {void}
 	 */
 
-	EntityEmbed.prototype.removeEmbed = function ($embed) {
+	EntityEmbeds.prototype.removeEmbed = function ($embed) {
 		var self = this;
 		self.hideToolbar();
 
@@ -284,7 +287,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.toggleSelectEmbed = function ($embed) {
+	EntityEmbeds.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
 		$embed.toggleClass(activeEmbedClass);
 		
@@ -307,7 +310,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.createToolbar = function() {
+	EntityEmbeds.prototype.createToolbar = function() {
 		var self = this;
 
 		$('body').append(self.templates['src/js/templates/images-toolbar.hbs']({
@@ -330,7 +333,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.showToolbar = function($embed) {
+	EntityEmbeds.prototype.showToolbar = function($embed) {
 		var self = this;
 		var $activeLine = $embed.parent();
 		var $activeButton;
@@ -363,7 +366,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.positionToolbar = function($embed) {
+	EntityEmbeds.prototype.positionToolbar = function($embed) {
 		var self = this;
 
 		var top = $embed.offset().top - self.$toolbar.height() - 8 - 2 - 5; // 8px - hight of an arrow under toolbar, 2px - height of an image outset, 5px - distance from an image
@@ -406,7 +409,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.hideToolbar = function(){
+	EntityEmbeds.prototype.hideToolbar = function(){
 		var self = this;
 
 		self.$toolbar.hide();		
@@ -424,7 +427,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.toolbarAction = function ($thisButton) {
+	EntityEmbeds.prototype.toolbarAction = function ($thisButton) {
 		var self = this;
 		var $buttonList = $thisButton.closest('li').closest('ul');
 		var $activeLine = $('.' + activeEmbedClass).closest('.' + entityEmbedEditorLineClass);
@@ -470,7 +473,7 @@
 	 * @returns {void}
 	 */
 
-	EntityEmbed.prototype.secondaryToolbarAction = function ($thisButton) {
+	EntityEmbeds.prototype.secondaryToolbarAction = function ($thisButton) {
 		var self = this;
 		var $activeEmbed = $('.' + activeEmbedClass);
 		var action = self.options.actions[$thisButton.data('action')].clicked;
@@ -482,7 +485,7 @@
 	$.fn[pluginName + addonName] = function (options) {
 		return this.each(function () {
 			if (!$.data(this, 'plugin_' + pluginName + addonName)) {
-				$.data(this, 'plugin_' + pluginName + addonName, new EntityEmbed(this, options));
+				$.data(this, 'plugin_' + pluginName + addonName, new EntityEmbeds(this, options));
 			}
 		});
 	};
