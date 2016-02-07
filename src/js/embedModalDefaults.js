@@ -168,7 +168,7 @@ var EntityEmbed = EntityEmbed || {};
 
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
-					scope.currentEmbedType.model.story_id = scope.currentEmbedType.model.id;
+					scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
 					delete scope.currentEmbedType.model.id;
 
 					EntityEmbed.apiService.put(
