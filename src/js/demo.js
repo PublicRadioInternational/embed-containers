@@ -8,10 +8,10 @@ $(document).ready(function(){
 			images: false,
 			embeds: false,
 			entityEmbed: {
-				$modalEl: $('#em-modal'),
+				$modalEl: $('#embed-modal'),
 				modalScope: { // default scope to pass to the modal
 					$embedTypeSelect: $('#select-embed-type'),
-					$modalBody: $('.modal-body')
+					$modalBody: $('.embed-modal-body')
 				},
 				modalOptions: {
 					$completeEl: $('#btn-complete-modal')

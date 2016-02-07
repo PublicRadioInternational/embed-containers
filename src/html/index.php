@@ -37,7 +37,7 @@
 			This is editable content - try typing in here!
 		</div>
 		
-		<div id="em-modal">
+		<div id="embed-modal">
 			<?php include "modal/modal_main.php"; ?>
 		</div>
 
