@@ -47,7 +47,7 @@
 		
 		var embedCodeName = 'EmbedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-						'<a style="text-align:center;" href="' + this.model.tweetUrl + '">' +
+						'<a href="' + this.model.tweetUrl + '">' +
 						'</a>' +
 					'</blockquote>' +
 					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
@@ -64,9 +64,9 @@
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		return '<div class="twitter-embed">' +
+		return '<div class="twitter-embed" style="background-color:gray">' +
 					'<div class="twitter-info">' +
-						'<span>click here to show the toolbars</span>' +
+						'<span style="color:white">click here to show the toolbars</span>' +
 					'</div>' + 
 					'<div class="overlay" style="text-align:center;">' +
 
@@ -74,7 +74,7 @@
 
 					'</div>' +
 					'<div class="twitter-info">' +
-						'<span>click here to show the toolbars</span>' +
+						'<span style="color:white">click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
 	};
