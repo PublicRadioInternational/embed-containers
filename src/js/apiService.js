@@ -29,9 +29,10 @@ var EntityEmbed = EntityEmbed || {};
 			// is how the API we are currently using is set up
 			type: 'POST', 
 			
-			dataType: 'application/json',
+			dataType: 'json',
 			url: path,
-			data: data
+			data: data,
+
 		})
 			.done(doneFunc)
 			.fail(failFunc)
