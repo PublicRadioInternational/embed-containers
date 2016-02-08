@@ -34,7 +34,7 @@
 
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
-		var formFields = $el.find('.form-control');
+		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -47,7 +47,7 @@
 		
 		var embedCodeName = 'EmbedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-						'<a href="' + this.model.tweetUrl + '">' +
+						'<a style="text-align:center;" href="' + this.model.tweetUrl + '">' +
 						'</a>' +
 					'</blockquote>' +
 					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
@@ -64,15 +64,17 @@
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		return '<div class="instagram-embed" style="background-color:gray">' +
-					'<div class="instagram-info">' +
-						'<span style="color:white">click here to show the toolbars</span>' +
+		return '<div class="twitter-embed">' +
+					'<div class="twitter-info">' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
-					'<div class="overlay">' +
+					'<div class="overlay" style="text-align:center;">' +
+
 					self.model.EmbedCode + 
+
 					'</div>' +
-					'<div class="instagram-info">' +
-						'<span style="color:white">click here to show the toolbars</span>' +
+					'<div class="twitter-info">' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
 	};
