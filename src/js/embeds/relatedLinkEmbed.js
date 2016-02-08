@@ -43,7 +43,31 @@
 
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
 	{
-	}
+		var self = this;
+		self.parent.getModelFromForm($el);
+
+		var urlForms = $el.find('.related-link-url');
+		for(var i = 0; i < urlForms.length; i++)
+		{
+			self.model.links.push(formFields[i].value);
+		}
+	};
+
+	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
+	{
+		var self = this;
+		self.parent.populateFormWithModel($form);
+
+		var linkClass = 'related-link-url';
+		var $linkList = $el.find('#related-link-list');
+		var $addLinkBtn = $el.find('#add-link-btn');
+
+		for(var i = 0; i < self.model.links.length; i++)
+		{
+			$addLinkBtn.click();	
+			$form.find('.' + linkClass).last().val
+		}
+	};
 
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
@@ -70,5 +94,5 @@
 		$el.on('click', '.' + removeLinkClass, function(){
 			$(document.activeElement).closest('.' + linkClass).remove();
 		});
-	}
+	};
 })('', EntityEmbedTypes);
