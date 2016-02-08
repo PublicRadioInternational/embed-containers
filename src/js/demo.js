@@ -7,11 +7,11 @@ $(document).ready(function(){
 		addons: {
 			images: false,
 			embeds: false,
-			entityEmbeds: {
-				$modalEl: $('#em-modal'),
+			entityEmbed: {
+				$modalEl: $('#embed-modal'),
 				modalScope: { // default scope to pass to the modal
 					$embedTypeSelect: $('#select-embed-type'),
-					$modalBody: $('.modal-body')
+					$modalBody: $('.embed-modal-body')
 				},
 				modalOptions: {
 					$completeEl: $('#btn-complete-modal')
