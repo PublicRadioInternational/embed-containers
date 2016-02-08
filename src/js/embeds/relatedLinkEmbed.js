@@ -41,27 +41,34 @@
 		};
 	};
 
+	relatedLinkEmbed.prototype.getModelFromForm = function($el)
+	{
+	}
+
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
 
+		var linkClass = 'related-link-url';
+		var removeLinkClass = 'remove-link-btn';
 		var $linkList = $el.find('#related-link-list');
+		var $addLinkBtn = $el.find('#add-link-btn');
 
-		var addLinkBtn = '<button class="add-link-btn">' +
-							'<i class="fa fa-plus-circle add"></i>' + 
-						'</button>';
-
-		$el.append(addLinkBtn).click(function(){
+		$addLinkBtn.click(function(){
 			
 			$linkList.append(
-				'<div class="related-link-url">' + 
+				'<div class="' + linkClass + '">' + 
 					'<div class="embed-modal-form">' +
 						'<input type="text" placeholder="link url" class="embed-modal-form-control">' +
 					'</div>' + 
-					'<button class="remove-link-btn">' + 
-						'<i class="fa fa-minus-circle"></i>' + 
+					'<button class="' + removeLinkClass + '">' + 
+						'<i class="fa fa-minus"></i>' + 
 					'</button>' + 
 				'</div>'
 			);
+		});
+
+		$el.on('click', '.' + removeLinkClass, function(){
+			$(document.activeElement).closest('.' + linkClass).remove();
 		});
 	}
 })('', EntityEmbedTypes);
