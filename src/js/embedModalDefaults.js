@@ -56,9 +56,12 @@ var EntityEmbed = EntityEmbed || {};
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<figure contenteditable="false" class="' + figureClass + '">' +
+					return '<figure contenteditable="false" class="' + figureClass + '" ' + 
+								'id="' + scope.currentEmbedType.object_id + '" ' + 
+								'data-embed-type="' + scope.currentEmbedType.embedName + '">' +
 								scope.currentEmbedType.parseForEditor() +
 							'</figure>' + 
+							// ad a new paragraph after the embed so that user can continue typing
 							'<p>' + 
 								'<br />' + 
 							'</p>';
@@ -153,35 +156,31 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		complete: {
 			before: function(scope){
-				// TODO : form validation
-				return true;
-			},
-			after: function(scope){
+				var loading = true;	
+				var success;
+
+				var alwaysFunction = function(){
+					loading = false;
+				}
 				scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 				scope.currentEmbedType.model.embedName = scope.currentEmbedType.name;
-
-				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
-
-				scope.currentEmbedType.model.auth_token='abc123';
-				scope.currentEmbedType.model.debug=1;
-
 
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
 					scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
-					delete scope.currentEmbedType.model.id;
 
 					EntityEmbed.apiService.put(
 						scope.currentEmbedType.options.httpPaths.put, 
 						scope.currentEmbedType.model,
 						// TODO : save spinner
 						function(data){
-							console.log('success!');
 							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+							success = true;
 						}, 
 						function(data){
-							console.log('failure!');
-						}
+							success = false;
+						},
+						alwaysFunction
 					);
 				}
 
@@ -192,14 +191,25 @@ var EntityEmbed = EntityEmbed || {};
 						// TODO : save spinner
 						function(data){
 							// should get an id back in data - put that on the html
-							console.log('success!');
 							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+							scope.currentEmbedType.model.object_id = data.response.object_id;
+							success = true;
 						}, 
 						function(data){
-							console.log('failure!');
-						}
+							success = false;
+						},
+						alwaysFunction
 					);
 				}
+
+				while(loading){
+					// NOP (busy waiting)
+				}
+
+				return success;
+			},
+			after: function(scope){
+				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
 			}
 		}
 	};

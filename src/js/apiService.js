@@ -5,7 +5,6 @@ var EntityEmbed = EntityEmbed || {};
 	// PRIVATE
 	function ajaxWrapper(methodType, path, data, doneFunc, failFunc, alwaysFunc){
 		// avoid null reference errors
-
 		if (!doneFunc)
 		{
 			doneFunc = function(){};
@@ -21,6 +20,9 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.support.cors = true;
 
+		data.auth_token='abc123';
+		data.debug = 1;
+
 		$.ajax({
 			timeout: 15000,
 			crossDomain: true,
@@ -31,8 +33,7 @@ var EntityEmbed = EntityEmbed || {};
 			
 			dataType: 'json',
 			url: path,
-			data: data,
-
+			data: JSON.stringify(data)
 		})
 			.done(doneFunc)
 			.fail(failFunc)
