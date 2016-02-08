@@ -42,6 +42,26 @@
 	};
 
 	relatedLinkEmbed.prototype.initModal = function($el){
-		
+		var self = this;
+
+		var $linkList = $el.find('#related-link-list');
+
+		var addLinkBtn = '<button class="add-link-btn">' +
+							'<i class="fa fa-plus-circle add"></i>' + 
+						'</button>';
+
+		$el.append(addLinkBtn).click(function(){
+			
+			$linkList.append(
+				'<div class="related-link-url">' + 
+					'<div class="embed-modal-form">' +
+						'<input type="text" placeholder="link url" class="embed-modal-form-control">' +
+					'</div>' + 
+					'<button class="remove-link-btn">' + 
+						'<i class="fa fa-minus-circle"></i>' + 
+					'</button>' + 
+				'</div>'
+			);
+		});
 	}
 })('', EntityEmbedTypes);

@@ -7,7 +7,7 @@ $(document).ready(function(){
 		addons: {
 			images: false,
 			embeds: false,
-			entityEmbed: {
+			entityEmbeds: {
 				$modalEl: $('#embed-modal'),
 				modalScope: { // default scope to pass to the modal
 					$embedTypeSelect: $('#select-embed-type'),
