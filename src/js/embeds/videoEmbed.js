@@ -34,7 +34,7 @@
 
 	videoEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
-		var formFields = $el.find('.form-control');
+		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
