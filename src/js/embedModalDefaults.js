@@ -155,6 +155,7 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				// TODO : form validation
 				return true;
+				
 			},
 			after: function(scope){
 				scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);

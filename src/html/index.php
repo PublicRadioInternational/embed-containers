@@ -12,6 +12,10 @@
 		<script src="lib/handlebars/handlebars.runtime.js"></script>
 		<script src="lib/jquery-sortable/source/js/jquery-sortable.js"></script>
 
+		<!--Boostrap validator dependecies-->
+  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>  
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>
+
 		<!-- jQuery File Upload dependencies -->
 		<script src="lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
 		<script src="lib/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
@@ -30,6 +34,7 @@
 		<link rel="stylesheet" href="contents/main.css">
 		<link rel="stylesheet" href="contents/priEntityEmbeds.css">
 		<script src="js/main.js"></script>
+
 	</head>
 
 	<body>
