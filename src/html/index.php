@@ -13,8 +13,8 @@
 		<script src="lib/jquery-sortable/source/js/jquery-sortable.js"></script>
 
 		<!--Boostrap validator dependecies-->
-  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>  
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  
 
 		<!-- jQuery File Upload dependencies -->
 		<script src="lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
