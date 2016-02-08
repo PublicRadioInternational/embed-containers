@@ -52,7 +52,7 @@ var EntityEmbed = EntityEmbed || {};
 		ajaxWrapper('POST', path, data, doneFunc, failFunc, alwaysFunc);
 	};
 
-	apiService.prototype.get = function(path, doneFunc, failFunc, alwaysFunc) {
+	apiService.prototype.get = function(path, data, doneFunc, failFunc, alwaysFunc) {
 		ajaxWrapper('GET', path, data, doneFunc, failFunc, alwaysFunc);
 	};
 

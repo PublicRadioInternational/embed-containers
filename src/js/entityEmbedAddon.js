@@ -252,8 +252,8 @@ var EntityEmbed = EntityEmbed || {};
 		var scope = {
 			$currentEditorLocation: $embed.parent(),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed[0].id,
-			embedType: $embed[0]["data-embed-type"]
+			embedId: $embed.attr('id'),
+			embedType: $embed.attr('data-embed-type')
 		};
 		self.hideToolbar();
 		self.options.$modalEl.openModal(scope);
