@@ -56,17 +56,40 @@
 		};
 	};
 
-	relatedLinkEmbed.prototype.initModal = function($el){
+	// Create description
+	var initAutoComplete = function($el){
 		var self = this;
 		var availableTags = {
 			url: function(phrase) {
-					return *API* + phrase + "&format=json";
+					return $el.currentEmbedType.options.httpPaths.get + phrase + "&format=json";
 			}, // Get API Goes Here
 
-			getValue = "title", // Should only match to 
+			//getValue: "title", // Should only match to 
 			
 			requestDelay: 500,
 			
+			data: [],
+
+			  getValue: function(element) {
+				return element.title;
+			  },
+
+			  ajaxSettings: {
+				dataType: "json",
+				method: "POST",
+				data: {
+				  dataType: "json"
+				}
+			  },
+
+			  preparePostData: function(data) {
+				data.phrase = $("#" + psuedoGuid).val();
+				return data;
+			  },
+
+
+
+
 			list: {
 				maxNumberOfElements: 10,
 				match: {
@@ -79,6 +102,7 @@
 		};
 
 		$( "#completeInternalTitle" ).easyAutocomplete (availableTags);
+<<<<<<< f3ac318f42b0882bf5c20e308aee19c28a788bfd
 <<<<<<< afa856471a1d5578db3f3769a10534279d10b369
 		
 
@@ -124,10 +148,8 @@
 
 		// TODO: Store the selected story data (ID or something) & put in JSON object
 >>>>>>> more work on autocomplete
+=======
+>>>>>>> Moved RelatedLink autocomplete functionality into new function
 	};
-
-
-
-
 
 })('', EntityEmbedTypes);
