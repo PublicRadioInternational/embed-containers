@@ -33,7 +33,7 @@
 
 		<!-- JQuery Autocomplete Plugin -->
 		<link rel="stylesheet" href="lib/EasyAutocomplete/dist/easy-autocomplete.min.css">
-		<script src="lib/EasyAutocomplete/dist/jquery.easy-autocomplete.min.js"></script>
+		<script src="lib/EasyAutocomplete/dist/jquery.easy-autocomplete.min.js"></script> 
 	</head>
 
 	<body>
