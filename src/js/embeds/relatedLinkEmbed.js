@@ -77,7 +77,7 @@
 		for(var i = 0; i < self.model.links.length; i++)
 		{
 			$addLinkBtn.click();	
-			$form.find('.' + linkClass).last().val
+			$form.find('.' + linkClass).last().val(self.model.links[i]);
 		}
 	};
 
