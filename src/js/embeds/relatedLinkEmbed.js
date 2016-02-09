@@ -194,7 +194,7 @@
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
 					'<div class="embed-modal-form">' +
-						'<input id="' + pseudoGuid' + " type="text" placeholder="link url" class="embed-modal-form-control">' +
+						'<input id="' + pseudoGuid + '" type="text" placeholder="link url" class="embed-modal-form-control">' +
 					'</div>' + 
 					'<button class="' + removeLinkClass + '">' + 
 						'<i class="fa fa-minus"></i>' + 
