@@ -36,6 +36,9 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		self.model = self.cleanModel();
 	};
 
+	// function to initialize the modal view
+	// called after the modal view has loaded
+	// $el: a jQuery element for the modal view
 	genericEmbed.prototype.initModal = function($el){
 		var self = this;
 	};

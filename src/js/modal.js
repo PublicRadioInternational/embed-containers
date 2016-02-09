@@ -58,6 +58,7 @@
 	modal.prototype.activeClass = 'em-active';
 	modal.prototype.closeBtnClass = 'em-close-btn';
 
+	// generates a pseudo guid (not guatanteed global uniqueness)
 	modal.prototype.generateId = function () {
 		var seg = function()
 		{
@@ -67,7 +68,7 @@
 		}
 		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
 				seg() + '-' + seg() + seg() + seg();
-	}
+	};
 	
 	modal.prototype.backdropHtml = function(id)
 	{
