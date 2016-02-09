@@ -22,6 +22,18 @@
 				del: ''
 			}
 		};
+		
+	// generates a pseudo guid (not guatanteed global uniqueness)
+	var generateId = function () {
+		var seg = function()
+		{
+			return Math.floor((1 + Math.random()) * 0x10000)
+				.toString(16)
+				.substring(1);
+		}
+		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
+				seg() + '-' + seg() + seg() + seg();
+	}
 
 	// CONSTRUCTOR
 	function relatedLinkEmbed(options){
@@ -78,17 +90,20 @@
 		var $addLinkBtn = $el.find('#add-link-btn');
 
 		$addLinkBtn.click(function(){
-			
+			var pseudoGuid = generateId();
+
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
 					'<div class="embed-modal-form">' +
-						'<input type="text" placeholder="link url" class="embed-modal-form-control">' +
+						'<input id="' + pseudoGuid' + " type="text" placeholder="link url" class="embed-modal-form-control">' +
 					'</div>' + 
 					'<button class="' + removeLinkClass + '">' + 
 						'<i class="fa fa-minus"></i>' + 
 					'</button>' + 
 				'</div>'
 			);
+
+			//self.initiAutoComplete($('#' + pseudoGuid)
 		});
 
 		$el.on('click', '.' + removeLinkClass, function(){
