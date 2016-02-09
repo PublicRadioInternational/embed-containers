@@ -32,20 +32,6 @@
 	videoEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = videoEmbed;
 
-	videoEmbed.prototype.getModelFromForm = function($el){
-		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
-	};
-
 	// PUBLIC
 	videoEmbed.prototype.cleanModel = function(){
 		return {
