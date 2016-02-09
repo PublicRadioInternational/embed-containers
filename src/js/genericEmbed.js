@@ -62,7 +62,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		var formFields = $form.find('.embed-modal-form-control');
 		for (var i = 0; i < formFields.length; i++)
 		{
-			if (formFields[i].type.indexOf('select') !== -1)
+			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
 			{
 				var options = $(formFields[i]).find('option');
 				var selectedOption = self.model[formFields[i].name];
@@ -87,7 +87,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
-			if (formFields[i].type.indexOf('select') !== -1)
+			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
 			{
 				formFields[i].selectedIndex = 0;
 			}
