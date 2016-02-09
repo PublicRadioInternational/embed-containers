@@ -39,7 +39,7 @@
 		
 
 		<div id="embed-modal">
-			<?php include "modal/modal_main.php"; ?>
+			<?php include "modal/modal_main.html"; ?>
 		</div>
 	</body>
 

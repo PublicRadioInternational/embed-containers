@@ -86,7 +86,7 @@ gulp.task('copyLib', ['copyLibJs', 'copyLibCss', 'copyLibFonts']);
 
 gulp.task('watchLess', function()
 {
-	gulp.watch(lessPath + '*.less', ['devLess']);
+	gulp.watch(lessPath + '**/*.less', ['devLess']);
 });
 
 gulp.task('watchJs', function()

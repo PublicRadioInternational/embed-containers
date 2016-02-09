@@ -12,6 +12,7 @@
 
 	// PRIVATE
 	var embedName = 'customTextEmbed',
+		customTextEditorId ='custom-text-editor',
 		defaults = {
 			viewPath: base + 'modal/modal_customText.html',
 			displayName: 'Custom Text',
@@ -36,16 +37,21 @@
 
 	customTextEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
-		var formFields = $el.find('.form-control');
+		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
+			var name;
+			var value;
 
-			if(formFields[i].id == "customTextEditor")
+			if(formFields[i].id == customTextEditorId)
 			{
 				name = formFields[i].attributes.name.nodeValue
 				value = formFields[i].innerHTML;
+			}
+			else
+			{
+				 name = formFields[i].name;
+				 value = formFields[i].value;
 			}
 
 			if (!!name && !!value)
@@ -59,7 +65,7 @@
 
 	customTextEmbed.prototype.clearForm = function($el){
 		var self = this;
-		var formFields = $el.find('.form-control');
+		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
@@ -77,7 +83,7 @@
 
 	customTextEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
-		var formFields = $form.find('.form-control');
+		var formFields = $form.find('.embed-modal-form-control');
 		for (var i = 0; i < formFields.length; i++)
 		{
 			if (!!formFields.type && formFields[i].type.indexOf('select') !== -1)
@@ -98,7 +104,7 @@
 				
 				formFields[i].value = self.model[formFields[i].name];
 
-				if(formFields[i].id == "customTextEditor")
+				if(formFields[i].id == customTextEditorId)
 				{
 					formFields[i].innerHTML = self.model[formFields[i].attributes.name.nodeValue];
 				}
@@ -108,7 +114,7 @@
 
 	customTextEmbed.prototype.initModal = function($el){
 		var self = this;
-		var customTextEditor = new MediumEditor('#customTextEditor');
+		var customTextEditor = new MediumEditor('#' + customTextEditorId);
 	};
 
 	customTextEmbed.prototype.parseForEditor = function(){
