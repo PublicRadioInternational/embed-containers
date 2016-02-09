@@ -34,7 +34,8 @@
 
 	facebookEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
+
+		self.var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -71,9 +72,9 @@
 	facebookEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		return '<div class="facebook-embed" style="background-color:gray">' +
+		return '<div class="facebook-embed">' +
 					'<div class="facebook-info">' +
-						'<span style="color:white">click here to show the toolbars</span>' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 					'<div class="overlay">' +
 
@@ -81,7 +82,7 @@
 					
 					'</div>' +
 					'<div class="facebook-info">' +
-						'<span style="color:white">click here to show the toolbars</span>' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
 	};
