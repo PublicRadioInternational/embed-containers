@@ -59,35 +59,27 @@
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
 		var availableTags = {
-			// just declare data but dont put anything in it
+			url: function(phrase) {
+					return *API* + phrase + "&format=json";
+			}, // Get API Goes Here
 
-			data: [
-			"tag4",
-			"tag3",
-			"tag2",
-			"tag1",
-			"FancyCat",
-			"FancyDog"
-			],
-
+			getValue = "title", // Should only match to 
+			
+			requestDelay: 500,
+			
 			list: {
-				maxNumberOfElements: 5,
-
+				maxNumberOfElements: 10,
 				match: {
 					enabled: true
 				},
-
 				sort: {
 					enabled: true
 				}
 			}
-
-
 		};
-		//after 1 second hesitate call the following
 
-		// Set availableTags.data = to api call with self.model.internalTitle
 		$( "#completeInternalTitle" ).easyAutocomplete (availableTags);
+<<<<<<< afa856471a1d5578db3f3769a10534279d10b369
 		
 
 
@@ -128,6 +120,10 @@
 		//};	
 
 >>>>>>> Initial Work on Related Link autocomplete
+=======
+
+		// TODO: Store the selected story data (ID or something) & put in JSON object
+>>>>>>> more work on autocomplete
 	};
 
 
