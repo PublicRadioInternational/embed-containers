@@ -44,7 +44,6 @@
 				self.model[name] = value;
 			}
 		}
-		
 		var embedCodeName = 'EmbedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
 						'<a href="' + this.model.tweetUrl + '">' +
@@ -64,17 +63,17 @@
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		return '<div class="twitter-embed" style="background-color:gray">' +
+		return '<div class="twitter-embed">' +
 					'<div class="twitter-info">' +
-						'<span style="color:white">click here to show the toolbars</span>' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
-					'<div class="overlay" style="text-align:center;">' +
+					'<div class="overlay">' +
 
 					self.model.EmbedCode + 
 
 					'</div>' +
 					'<div class="twitter-info">' +
-						'<span style="color:white">click here to show the toolbars</span>' +
+						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 				'</div>';
 	};
