@@ -44,7 +44,7 @@
 				self.model[name] = value;
 			}
 		}
-		var embedCodeName = 'EmbedCode';
+		var embedCodeName = 'embedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
 						'<a href="' + this.model.tweetUrl + '">' +
 						'</a>' +
@@ -69,7 +69,7 @@
 					'</div>' + 
 					'<div class="overlay">' +
 
-					self.model.EmbedCode + 
+					self.model.embedCode + 
 
 					'</div>' +
 					'<div class="twitter-info">' +

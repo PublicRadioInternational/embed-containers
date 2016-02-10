@@ -46,7 +46,7 @@
 			}
 		}
 		
-		var embedCodeName = 'EmbedCode';
+		var embedCodeName = 'embedCode';
 		var code = 	'<script>' +
 						'(function(d, s, id) {' +
 						  'var js, fjs = d.getElementsByTagName(s)[0];' +  
@@ -78,7 +78,7 @@
 					'</div>' + 
 					'<div class="overlay">' +
 
-					self.model.EmbedCode + 
+					self.model.embedCode + 
 					
 					'</div>' +
 					'<div class="facebook-info">' +
