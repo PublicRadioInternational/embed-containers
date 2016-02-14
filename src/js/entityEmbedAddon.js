@@ -109,6 +109,8 @@ var EntityEmbed = EntityEmbed || {};
 		self._defaults = defaults;
 		self._name = pluginName;
 
+		self.toolbarManager = new EntityEmbed.toolbarManager(self.options.styles, self.options.actions);
+
 		self.init();
 	}
 
@@ -120,6 +122,8 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
+		self.toolbarManager.createActionToolbar($('body'));
+
 		self.events();
 		
 		self.embedTypes = [];
@@ -127,14 +131,13 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			if (!!self.options.embedTypes[embedName])
 			{
-				self.embedTypes.push(
-					new EntityEmbedTypes[embedName](self.options.embedTypes[embedName])
-				);
+				var embedObject = new EntityEmbedTypes[embedName](self.options.embedTypes[embedName]);
+				self.embedTypes.push(embedObject);
+				self.toolbarManager.createStyleToolbar($('body'), embedObject);
 			}
 		}
 
 		self.embedTypes.sort(function(l, r){
-			// if l < r return -; if l == r return 0; if l > r return +;
 			return l.orderIndex - r.orderIndex;
 		});
 
@@ -193,14 +196,6 @@ var EntityEmbed = EntityEmbed || {};
 			.on('click', '.entity-embed', function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
-			})
-			// fire toolbar actions when buttons are clicked
-			.on('click', '.' + toolbarClass + ' .medium-editor-action', function(){
-				self.toolbarAction($(this));
-			})
-			// fire secondary toolbar actions when buttons are clicked
-			.on('click', '.' + secondaryToolbarClass + ' .medium-editor-action', function(){
-				self.secondaryToolbarAction($(this));
 			})
 			// conditionally remove embed
 			.on('keydown', function(e){
@@ -301,34 +296,13 @@ var EntityEmbed = EntityEmbed || {};
 		{			
 			if ($embed.hasClass(activeEmbedClass))
 			{
-				self.showToolbar($embed);
+				self.toolbarManager.showToolbar($embed.attr('data-embed-name'));
 			}
 			else
 			{
-				self.hideToolbar();
+				self.toolbarManager.hideToolbar();
 			}
 		}
-	};
-
-	/**
-	 * Creates toolbar for future use
-	 *
-	 * @returns {void}
-	 */
-
-	EntityEmbeds.prototype.createToolbar = function() {
-		var self = this;
-
-		$('body').append(self.templates['src/js/templates/images-toolbar.hbs']({
-			styles: self.options.styles,
-			actions: self.options.actions
-		}).trim());
-
-		self.$toolbar = $('.' + toolbarClass);
-		self.$toolbar2 = $('.' + secondaryToolbarClass);
-
-		self.$toolbar.hide();
-		self.$toolbar2.hide();
 	};
 
 	/**

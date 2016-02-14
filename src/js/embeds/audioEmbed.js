@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			styles: false // do not show the style toolbar at all for this
 		};
 
 	function formatFileSize(bytes) {
