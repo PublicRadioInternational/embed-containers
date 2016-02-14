@@ -46,7 +46,8 @@
 		{
 			self.scope = scope;
 		}
-		self.scope.modal = self.$el;
+
+		self.scope.modalCtrl = self;
 		self.$el.data('scope', self.scope);
 		
 		self.options.functions.init.before(self.scope);
