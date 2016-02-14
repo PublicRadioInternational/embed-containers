@@ -16,10 +16,12 @@
   "dependencies": {
     "jquery": ">=1.9.0",
     "medium-editor": "~5.10.0",
-    "handlebars": "~4.0.0",
+    "handlebars": "~4.0.5",
     "blueimp-file-upload": "~9.11.1",
     "jquery-sortable": "~0.9.12",
-    "medium-editor-insert-plugin": "https://github.com/orthes/medium-editor-insert-plugin.git#^2.1.1"
+    "medium-editor-insert-plugin": "https://github.com/orthes/medium-editor-insert-plugin.git#^2.1.1",
+    "bootstrap": "~3.3.6",
+    "components-font-awesome": "~4.5.0"
   },
   "devDependencies": {
     "jquery-cycle2": "~2.1.6"
