@@ -41,7 +41,7 @@
 
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
+
 		$.support.cors = true;
 
 		$.ajax({
@@ -61,8 +61,8 @@
 				// TODO
 			}
 		});
-
-		return  '<div class="video-embed">' +
+		
+		return '<div class="video-embed">' +
 					'<div class="video-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
@@ -75,4 +75,5 @@
 					'</div>' + 
 				'</div>';
 	};
+
 })('', EntityEmbedTypes);

@@ -12,6 +12,7 @@
 
 	// PRIVATE
 	var embedName = 'customTextEmbed',
+		customTextEditorId ='custom-text-editor',
 		defaults = {
 			viewPath: base + 'modal/modal_customText.html',
 			displayName: 'Custom Text',
@@ -33,9 +34,87 @@
 	EntityEmbedTypes[embedName] = customTextEmbed;
 
 	// PUBLIC
-	customTextEmbed.prototype.cleanModel = function(){
-		return {
-		};
+
+	customTextEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		var formFields = $el.find('.embed-modal-form-control');
+		for(var i = 0; i < formFields.length; i++)
+		{
+			var name;
+			var value;
+
+			if(formFields[i].id == customTextEditorId)
+			{
+				name = formFields[i].attributes.name.nodeValue
+				value = formFields[i].innerHTML;
+			}
+			else
+			{
+				 name = formFields[i].name;
+				 value = formFields[i].value;
+			}
+
+			if (!!name && !!value)
+			{
+				self.model[name] = value;
+			}
+			
+		}
+	};
+
+
+	customTextEmbed.prototype.clearForm = function($el){
+		var self = this;
+		var formFields = $el.find('.embed-modal-form-control');
+		for(var i = 0; i < formFields.length; i++)
+		{
+			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
+			{
+				formFields[i].selectedIndex = 0;
+			}
+			else
+			{
+				formFields[i].value = null;
+				formFields[i].innerHTML ="";
+			}
+		}
+		self.model = self.cleanModel();
+	};
+
+	customTextEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var formFields = $form.find('.embed-modal-form-control');
+		for (var i = 0; i < formFields.length; i++)
+		{
+			if (!!formFields.type && formFields[i].type.indexOf('select') !== -1)
+			{
+				var options = $(formFields[i]).find('option');
+				var selectedOption = self.model[formFields[i].name];
+				var optionIndex = 0;
+				options.each(function(index){
+					if (this.value === selectedOption)
+					{
+						optionIndex = index;
+					}
+				});
+				formFields[i].selectedIndex = optionIndex;
+			}
+			else
+			{
+				
+				formFields[i].value = self.model[formFields[i].name];
+
+				if(formFields[i].id == customTextEditorId)
+				{
+					formFields[i].innerHTML = self.model[formFields[i].attributes.name.nodeValue];
+				}
+			}
+		}
+	};
+
+	customTextEmbed.prototype.initModal = function($el){
+		var self = this;
+		var customTextEditor = new MediumEditor('#' + customTextEditorId);
 	};
 
 	customTextEmbed.prototype.parseForEditor = function(){
