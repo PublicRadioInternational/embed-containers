@@ -16,6 +16,7 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				// define necessary fields for scope
 				// assume that these are already defined:
+				//		scope.modalCtrl			(default for all modals from modal.js)
 				//		scope.$embedTypeSelect
 				//		scope.$currentEditorLocation
 				//		scope.$modalBody
@@ -46,10 +47,48 @@ var EntityEmbed = EntityEmbed || {};
 				scope.resetModalView = function(scope){
 					var embedName = scope.embedTypes[0].name;
 					scope.setModalView(scope, embedName);
-				}
+				};
 
-				scope.generateEmbedHtml = function(scope)
-				{
+				scope.saveEmbed = function(scope){
+					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+
+					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
+					{
+						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
+
+						EntityEmbed.apiService.put(
+							scope.currentEmbedType.options.httpPaths.put, 
+							scope.currentEmbedType.model,
+							// TODO : save spinner
+							function(data){
+								console.log('put succeeded');
+								scope.modalCtrl.$el.completeModal();
+							}, 
+							function(data){
+								// TODO : UI failure message
+								console.log('put failed');
+							}
+						);
+					}
+					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
+						EntityEmbed.apiService.post(
+							scope.currentEmbedType.options.httpPaths.post, 
+							scope.currentEmbedType.model,
+							// TODO : save spinner
+							function(data){
+								scope.currentEmbedType.model.object_id = data.response.object_id;
+								console.log('post succeeded');
+								scope.modalCtrl.$el.completeModal();
+							}, 
+							function(data){
+								// TODO : UI failure message
+								console.log('post failed');
+							}
+						);
+					}
+				};
+
+				scope.generateEmbedHtml = function(scope){
 					scope.$currentEditorLocation.addClass('entity-embed-center');
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
@@ -59,13 +98,16 @@ var EntityEmbed = EntityEmbed || {};
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<figure contenteditable="false" class="' + figureClass + '">' +
+					return '<figure contenteditable="false" class="' + figureClass + '" ' + 
+								'id="' + scope.currentEmbedType.model.object_id + '" ' + 
+								'data-embed-type="' + scope.currentEmbedType.name + '">' +
 								scope.currentEmbedType.parseForEditor() +
 							'</figure>' + 
+							// ad a new paragraph after the embed so that user can continue typing
 							'<p>' + 
 								'<br />' + 
 							'</p>';
-				}
+				};
 			},
 			after: function(scope){
 				// configure the select embed type dropdown dropdown to change the modal view
@@ -78,6 +120,14 @@ var EntityEmbed = EntityEmbed || {};
 					currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
 					currentScope.setModalView(currentScope, embedType);
+				});
+
+				$('#btn-save-modal').click(function(){
+					// TODO : find a better way to manage scope - this code smells
+					//			possible solution: register events in modal.js
+
+					var currentScope = scope.$modalBody.parent().parent().data('scope');
+					scope.saveEmbed(currentScope);
 				});
 
 				var optionIndex = 0;
@@ -117,26 +167,26 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		open: {
 			before: function(scope){
+				$('#embed-modal-save-warning').hide();
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
 					scope.$embedTypeSelect.hide();
-					scope.setModalView(scope, scope.editModel.embedName);
+					scope.setModalView(scope, scope.embedType);
 					
 					// TODO : loading spinner
 					EntityEmbed.apiService.get(
-						scope.currentEmbedType.options.httpPaths.get + editModel.id,
+						scope.currentEmbedType.options.httpPaths.get,
+						{ object_id: scope.embedId },
 						function(data){
-							scope.currentEmbedType.model = data
-							delete scope.editModel;
+							scope.currentEmbedType.model = data.response;
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
-							scope.loading == false;
 						},
 						function(data){
 							console.log('failed to get embed type!');
 						}
 					);
 				}
-				else // this options.is an add modal
+				else // this is an add modal
 				{
 					scope.$embedTypeSelect.show();
 					scope.resetModalView(scope);
@@ -145,62 +195,15 @@ var EntityEmbed = EntityEmbed || {};
 			after: function(scope){},
 		},
 		abort: {
-			before: function(scope){
-				// TODO : leave confirmation (?)
-			},
-			after: function(scope){
-				// TODO : rotate plus icon 45 degrees
-			}
+			before: function(scope){},
+			after: function(scope){}
 		},
 		complete: {
 			before: function(scope){
-				// TODO : form validation
 				return true;
 			},
 			after: function(scope){
-				scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-				scope.currentEmbedType.model.embedName = scope.currentEmbedType.name;
-
 				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
-
-				scope.currentEmbedType.model.auth_token='abc123';
-				scope.currentEmbedType.model.debug=1;
-
-
-				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
-				{
-					scope.currentEmbedType.model.story_id = scope.currentEmbedType.model.id;
-					delete scope.currentEmbedType.model.id;
-
-					EntityEmbed.apiService.put(
-						scope.currentEmbedType.options.httpPaths.put, 
-						scope.currentEmbedType.model,
-						// TODO : save spinner
-						function(data){
-							console.log('success!');
-							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-						}, 
-						function(data){
-							console.log('failure!');
-						}
-					);
-				}
-
-				else if (scope.modalType == EntityEmbed.embedModalTypes.add){
-					EntityEmbed.apiService.post(
-						scope.currentEmbedType.options.httpPaths.post, 
-						scope.currentEmbedType.model,
-						// TODO : save spinner
-						function(data){
-							// should get an id back in data - put that on the html
-							console.log('success!');
-							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-						}, 
-						function(data){
-							console.log('failure!');
-						}
-					);
-				}
 			}
 		}
 	};
