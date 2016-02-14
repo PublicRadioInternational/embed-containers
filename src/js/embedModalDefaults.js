@@ -16,6 +16,7 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				// define necessary fields for scope
 				// assume that these are already defined:
+				//		scope.modalCtrl			(default for all modals from modal.js)
 				//		scope.$embedTypeSelect
 				//		scope.$currentEditorLocation
 				//		scope.$modalBody
@@ -45,6 +46,45 @@ var EntityEmbed = EntityEmbed || {};
 					scope.setModalView(scope, embedName);
 				};
 
+				scope.saveEmbed = function(scope){
+					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+
+					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
+					{
+						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
+
+						EntityEmbed.apiService.put(
+							scope.currentEmbedType.options.httpPaths.put, 
+							scope.currentEmbedType.model,
+							// TODO : save spinner
+							function(data){
+								console.log('put succeeded');
+								scope.modalCtrl.$el.completeModal();
+							}, 
+							function(data){
+								// TODO : UI failure message
+								console.log('put failed');
+							}
+						);
+					}
+					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
+						EntityEmbed.apiService.post(
+							scope.currentEmbedType.options.httpPaths.post, 
+							scope.currentEmbedType.model,
+							// TODO : save spinner
+							function(data){
+								scope.currentEmbedType.model.object_id = data.response.object_id;
+								console.log('post succeeded');
+								scope.modalCtrl.$el.completeModal();
+							}, 
+							function(data){
+								// TODO : UI failure message
+								console.log('post failed');
+							}
+						);
+					}
+				};
+
 				scope.generateEmbedHtml = function(scope){
 					scope.$currentEditorLocation.addClass('entity-embed-center');
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
@@ -64,44 +104,6 @@ var EntityEmbed = EntityEmbed || {};
 							'<p>' + 
 								'<br />' + 
 							'</p>';
-				};
-
-				scope.saveEmbed = function(scope){
-					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-
-					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
-					{
-						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
-
-						EntityEmbed.apiService.put(
-							scope.currentEmbedType.options.httpPaths.put, 
-							scope.currentEmbedType.model,
-							// TODO : save spinner
-							function(data){
-								console.log('put succeeded');
-							}, 
-							function(data){
-								//$('#embed-modal-save-warning').show();
-								console.log('put failed');
-							}
-						);
-					}
-					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
-						EntityEmbed.apiService.post(
-							scope.currentEmbedType.options.httpPaths.post, 
-							scope.currentEmbedType.model,
-							// TODO : save spinner
-							function(data){
-								// should get an id back in data - put that on the html
-								scope.currentEmbedType.model.object_id = data.response.object_id;
-								console.log('post succeeded');
-							}, 
-							function(data){
-								//$('#embed-modal-save-warning').show();
-								console.log('post failed');
-							}
-						);
-					}
 				};
 			},
 			after: function(scope){
