@@ -32,6 +32,9 @@
 	instagramEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = instagramEmbed;
 
+	// PUBLIC
+	instagramEmbed.prototype.orderIndex = 7;
+
 	instagramEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 

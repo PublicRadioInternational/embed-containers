@@ -33,6 +33,8 @@
 	EntityEmbedTypes[embedName] = iframeEmbed;
 
 	// PUBLIC
+	iframeEmbed.prototype.orderIndex = 10;
+
 	iframeEmbed.prototype.defaultStyle = 'entity-embed-center';
 
 	iframeEmbed.prototype.cleanModel = function(){

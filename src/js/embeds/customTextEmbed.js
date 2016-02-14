@@ -34,6 +34,7 @@
 	EntityEmbedTypes[embedName] = customTextEmbed;
 
 	// PUBLIC
+	customTextEmbed.prototype.orderIndex = 4;
 
 	customTextEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
