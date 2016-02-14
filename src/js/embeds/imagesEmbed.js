@@ -51,6 +51,8 @@
 	EntityEmbedTypes[embedName] = imagesEmbed;
 
 	// PUBLIC
+	imagesEmbed.prototype.orderIndex = 1;
+
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
 			files: [],

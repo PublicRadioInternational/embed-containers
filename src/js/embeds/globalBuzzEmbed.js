@@ -33,6 +33,8 @@
 	EntityEmbedTypes[embedName] = globalBuzzEmbed;
 
 	// PUBLIC
+	globalBuzzEmbed.prototype.orderIndex = 12;
+
 	globalBuzzEmbed.prototype.cleanModel = function(){
 		return {
 

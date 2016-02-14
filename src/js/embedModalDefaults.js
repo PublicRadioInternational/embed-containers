@@ -35,13 +35,16 @@ var EntityEmbed = EntityEmbed || {};
 						scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 					}
 
-					scope.currentEmbedType = scope.embedTypes[embedName];
+					scope.currentEmbedType = $.grep(scope.embedTypes, function(et){
+						return et.name == embedName;
+					})[0];
+
 					scope.currentEmbedType.$view.show();
 					scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 				};
 
 				scope.resetModalView = function(scope){
-					var embedName = scope.$embedTypeSelect.children('option')[0].value;
+					var embedName = scope.embedTypes[0].name;
 					scope.setModalView(scope, embedName);
 				}
 
@@ -78,11 +81,10 @@ var EntityEmbed = EntityEmbed || {};
 				});
 
 				var optionIndex = 0;
-				// load embed type views and initialize them
-				for(var embedType in scope.embedTypes)
-				{
-					var embedObject = scope.embedTypes[embedType];
 
+				for(var i = 0; i < scope.embedTypes.length; i++)
+				{
+					var embedObject = scope.embedTypes[i];
 					// create option in dropdown for this embed
 					scope.$embedTypeSelect.append('<option value="' + 
 						embedObject.name + '">' + embedObject.options.displayName +
@@ -106,10 +108,9 @@ var EntityEmbed = EntityEmbed || {};
 
 				// TODO : find a better way to handle async load
 				setTimeout(function(){
-					for(var embedType in scope.embedTypes)
+					for(var i = 0; i < scope.embedTypes.length; i++)
 					{
-						var embedObject = scope.embedTypes[embedType];
-						embedObject.initModal(embedObject.$view);
+						scope.embedTypes[i].initModal(scope.embedTypes[i].$view);
 					}
 				}, 200);
 			}

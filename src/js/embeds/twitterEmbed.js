@@ -32,6 +32,9 @@
 	twitterEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = twitterEmbed;
 
+	// PUBLIC
+	twitterEmbed.prototype.orderIndex = 5;
+
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 

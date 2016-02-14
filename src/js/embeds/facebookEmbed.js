@@ -32,6 +32,9 @@
 	facebookEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = facebookEmbed;
 
+	// PUBLIC
+	facebookEmbed.prototype.orderIndex = 6;
+
 	facebookEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 
