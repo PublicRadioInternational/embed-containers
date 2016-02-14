@@ -5,7 +5,6 @@ var EntityEmbed = EntityEmbed || {};
 	// PRIVATE
 	function ajaxWrapper(methodType, path, data, doneFunc, failFunc, alwaysFunc){
 		// avoid null reference errors
-
 		if (!doneFunc)
 		{
 			doneFunc = function(){};
@@ -21,6 +20,9 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.support.cors = true;
 
+		data.auth_token='abc123';
+		data.debug = 1;
+
 		$.ajax({
 			timeout: 15000,
 			crossDomain: true,
@@ -29,9 +31,9 @@ var EntityEmbed = EntityEmbed || {};
 			// is how the API we are currently using is set up
 			type: 'POST', 
 			
-			dataType: 'application/json',
+			dataType: 'json',
 			url: path,
-			data: data
+			data: JSON.stringify(data)
 		})
 			.done(doneFunc)
 			.fail(failFunc)
@@ -50,7 +52,7 @@ var EntityEmbed = EntityEmbed || {};
 		ajaxWrapper('POST', path, data, doneFunc, failFunc, alwaysFunc);
 	};
 
-	apiService.prototype.get = function(path, doneFunc, failFunc, alwaysFunc) {
+	apiService.prototype.get = function(path, data, doneFunc, failFunc, alwaysFunc) {
 		ajaxWrapper('GET', path, data, doneFunc, failFunc, alwaysFunc);
 	};
 

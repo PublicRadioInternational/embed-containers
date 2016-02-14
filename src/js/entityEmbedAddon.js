@@ -249,15 +249,11 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
 		
-		var embedObject = $embed.data('embed');
-		if(!embedObject)
-		{
-			return;
-		}
 		var scope = {
 			$currentEditorLocation: $embed.parent(),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			editModel: embedObject
+			embedId: $embed.attr('id'),
+			embedType: $embed.attr('data-embed-type')
 		};
 		self.hideToolbar();
 		self.options.$modalEl.openModal(scope);
