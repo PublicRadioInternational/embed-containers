@@ -50,7 +50,7 @@
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 					'<iframe src="' + this.model.url + '" ' + 
-						'"frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
+						'frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
 					'</iframe>' + 
 					'<div class="iframe-info">' +
 						'<span>click here to show the toolbars</span>' +

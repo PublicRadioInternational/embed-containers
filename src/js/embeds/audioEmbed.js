@@ -21,7 +21,7 @@
 				get: '',
 				del: ''
 			},
-			styles: false // do not show the style toolbar at all for this
+			styles: false // do not show the style toolbar at all for this embed
 		};
 
 	function formatFileSize(bytes) {

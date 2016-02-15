@@ -11,6 +11,7 @@ var EntityEmbed = EntityEmbed || {};
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
 		secondaryToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
+		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
 			// TODO change class names
 			var toolbarClasses = '';
@@ -44,7 +45,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 
-			var htmlString +=
+			htmlString +=
 					'</ul>' + 
 				'</div>';
 
@@ -52,8 +53,9 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 	// CONSTRUCTOR
-	function toolbarManager = function(toolbarStyles, toolbarActions){
+	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions){
 		var self = this;
+		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
 		self.actions = toolbarActions;
 		self.events();
@@ -61,6 +63,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	// PUBLIC
 	toolbarManager.prototype.events = function(){
+		var self = this;
 		$(document)
 			// fire toolbar actions when buttons are clicked
 			.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function(){
@@ -74,7 +77,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	toolbarManager.prototype.createActionToolbar = function($location) {
 		var self = this;
-		$location.append(toolbarHtml(toolbarAction)).trim();
+		$location.append(toolbarHtml(self.actions)); // trim?
 		self.$actionToolbar = $('.' + actionToolbarClass);
 		self.$actionToolbar.hide();
 	}
@@ -89,35 +92,25 @@ var EntityEmbed = EntityEmbed || {};
 				delete stylesCopy[style];
 			}
 		}
-		$location.append(toolbarHtml(stylesCopy, embed.name)).trim()
+		$location.append(toolbarHtml(stylesCopy, embed.name)); // .trim() ?
 		$toolbars[embed.name] = $('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
 		$toolbars[embed.name].hide();
 	};
 
-	toolbarManager.prototype.showToolbar = function(embed) {
-		if (!toolbars[embed.name])
-		{
-			return;	
-		}
-		toolbars[embed.name].show();
-	};
-
-	toolbarManager.prototype.styleToolbarDo = function($embed) {
-
-	};
-
-
-	toolbarManager.prototype.actionToolbarDo = function($embed) {
-
-	};
-
-	toolbarManager.prototype.showToolbar = function(embedName) {
+	toolbarManager.prototype.showToolbars = function($embed) {
 		var self = this;
 		var $activeLine = $embed.parent();
 		var $activeButton;
+		self.currentToolbarEmbedType = $embed.attr('data-embed-type');
 
-		self.$toolbar.find('button').each(function () {
-			if($activeLine.hasClass('entity-embed-'+ $(this).data('action')))
+		if (!$toolbars[self.currentToolbarEmbedType])
+		{
+			return;
+		}
+
+
+		$toolbars[self.currentToolbarEmbedType].find('button').each(function () {
+			if($activeLine.hasClass('entity-embed-' + $(this).data('action')))	
 			{
 				$activeButton = $(this);
 				$activeButton.addClass(activeToolbarBtnClass);
@@ -126,29 +119,100 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!$activeButton)
 		{
-			$activeButton = self.$toolbar.find('button').first();
+			$activeButton = $toolbars[self.currentToolbarEmbedType].find('button').first();
 		}
 
 		$activeButton.addClass(activeToolbarBtnClass);
-		self.toolbarAction($activeButton);
 
-		self.$toolbar.show();
-		self.$toolbar2.show();
+		self.styleToolbarDo($embed, $activeButton);
+		self.$actionToolbar.show();
+
+		$toolbars[self.currentToolbarEmbedType].show();
 	};
 
-	toolbarManager.prototype.positionToolbar = function($toolbar, $toolbar2, $embed) {
+	toolbarManager.prototype.styleToolbarDo = function($embed, $buttonClicked) {
+		var self = this;
+		var $buttonList = $buttonClicked.closest('li').closest('ul');
+		var $activeLine = $('.' + activeEmbedClass).closest('.' + entityEmbedEditorLineClass);
+
+		// change the active button to this one
+		// there should only be one active button
+		$buttonList
+			.find('.' + activeToolbarBtnClass)
+			.removeClass(activeToolbarBtnClass);
+		$buttonClicked.addClass(activeToolbarBtnClass);
+
+		$buttonList.find('button').each(function(){
+			var $curButton = $(this);
+			var className = 'entity-embed-' + $curButton.data('action');
+
+			if ($curButton.hasClass(activeToolbarBtnClass))
+			{
+				$activeLine.addClass(className);
+				if (!!self.styles[$curButton.data('action')].added)
+				{
+					self.styles[$curButton.data('action')].added($activeLine)
+				}
+				setTimeout(function(){
+					self.positionToolbar($('.' + activeEmbedClass));
+				}, 50);
+			}
+			else
+			{
+				$activeLine.removeClass(className);	
+				if (!!self.styles[$curButton.data('action')].removed)
+				{
+					self.styles[$curButton.data('action')].removed($activeLine)
+				}
+			}
+		});
+	};
+
+
+	toolbarManager.prototype.actionToolbarDo = function($toolbarButton) {
+		var self = this;
+		var $activeEmbed = $('.' + activeEmbedClass);
+		var action = self.options.actions[$thisButton.data('action')].clicked;
+		action(self, $activeEmbed);
+	};
+
+	toolbarManager.prototype.hideToolbar = function(){
 		var self = this;
 
-		var top = $embed.offset().top - $toolbar.height() - 8 - 2 - 5; // 8px - hight of an arrow under toolbar, 2px - height of an image outset, 5px - distance from an image
+		self.$actionToolbar.hide();	
+		self.$actionToolbar.find('button').removeClass(activeToolbarBtnClass);
+
+		if (!self.currentToolbarEmbedType && !$toolbars[self.currentToolbarEmbedType])
+		{
+			return;
+		}
+		$toolbars[self.currentToolbarEmbedType].hide();
+		$toolbars[self.currentToolbarEmbedType].find('button').removeClass(activeToolbarBtnClass);
+		self.currentToolbarEmbedType = null;
+	};
+
+	toolbarManager.prototype.positionToolbar = function($embed) {
+		var self = this;
+
+		// get current styles toolbar
+		var $stylesToolbar = $toolbars[self.currentToolbarEmbedType];
+		if (!$stylesToolbar)
+		{
+			return;
+		}
+
+		// position styles toolbar
+
+		var top = $embed.offset().top - $stylesToolbar.height() - 8 - 2 - 5; // 8px - hight of an arrow under toolbar, 2px - height of an image outset, 5px - distance from an image
 		if (top < 0)
 		{
 			top = 0;
 		}
 
-		$toolbar
+		$stylesToolbar
 			.css({
 				top: top,
-				left: $embed.offset().left + $embed.width() / 2 - $toolbar.width() / 2
+				left: $embed.offset().left + $embed.width() / 2 - $stylesToolbar.width() / 2
 			});
 
 		var $toolbarLocator = $embed.find('.' + secondaryToolbarLocatorClass);
@@ -160,13 +224,14 @@ var EntityEmbed = EntityEmbed || {};
 		top = $embed.offset().top + 2; // 2px - distance from a border
 		var left = $toolbarLocator.offset().left + $toolbarLocator.width() + 4; // 4px - distance from border
 
-		if (left > ($(window).width() - $toolbar2.width()))
+		// position action tool bar
+		if (left > ($(window).width() - self.$actionToolbar.width()))
 		{
-			top -= ($toolbar2.height() + 8); //8 px - distance from border
-			left = ($(window).width() - $toolbar2.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
+			top -= (self.$actionToolbar.height() + 8); //8 px - distance from border
+			left = ($(window).width() - self.$actionToolbar.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
 		}
 
-		$toolbar2
+		self.$actionToolbar
 			.css({
 				top: top,
 				left: left
