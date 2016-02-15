@@ -122,16 +122,22 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.events();
 		
-		self.embedTypes = {};
+		self.embedTypes = [];
 		for (var embedName in EntityEmbedTypes)
 		{
 			if (!!self.options.embedTypes[embedName])
 			{
-				self.embedTypes[embedName] =
-					new EntityEmbedTypes[embedName](self.options.embedTypes[embedName]);
+				self.embedTypes.push(
+					new EntityEmbedTypes[embedName](self.options.embedTypes[embedName])
+				);
 			}
 		}
-		
+
+		self.embedTypes.sort(function(l, r){
+			// if l < r return -; if l == r return 0; if l > r return +;
+			return l.orderIndex - r.orderIndex;
+		});
+
 		var modalOptions;
 		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
 		if (!!self.options.modalOptions)
@@ -249,15 +255,11 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
 		
-		var embedObject = $embed.data('embed');
-		if(!embedObject)
-		{
-			return;
-		}
 		var scope = {
 			$currentEditorLocation: $embed.parent(),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			editModel: embedObject
+			embedId: $embed.attr('id'),
+			embedType: $embed.attr('data-embed-type')
 		};
 		self.hideToolbar();
 		self.options.$modalEl.openModal(scope);

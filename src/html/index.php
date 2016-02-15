@@ -11,16 +11,12 @@
 		<script src="lib/medium-editor/dist/js/medium-editor.js"></script>
 		<script src="lib/handlebars/handlebars.runtime.js"></script>
 		<script src="lib/jquery-sortable/source/js/jquery-sortable.js"></script>
-
-		<!--Boostrap validator dependecies-->
-		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   
-
 		<!-- jQuery File Upload dependencies -->
 		<script src="lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
 		<script src="lib/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
 		<script src="lib/blueimp-file-upload/js/jquery.fileupload.js"></script>
-		
+
 		<!-- medium editor insert plugin -->
 		<link rel="stylesheet" href="lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.min.css">
 		<script src="lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.min.js"></script>
@@ -29,6 +25,9 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
 		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
+
+		<!--validator plugin-->
+		<script src="lib/validator/dist/validator.min.js"></script>
 
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="contents/main.css">
@@ -42,6 +41,7 @@
 			This is editable content - try typing in here!
 		</div>
 		
+
 		<div id="embed-modal">
 			<?php include "modal/modal_main.html"; ?>
 		</div>

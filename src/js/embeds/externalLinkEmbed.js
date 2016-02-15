@@ -51,6 +51,8 @@
 	EntityEmbedTypes[embedName] = externalLinkEmbed;
 
 	// PUBLIC
+	externalLinkEmbed.prototype.orderIndex = 8;
+
 	externalLinkEmbed.prototype.cleanModel = function(){
 		return {
 			files: [],

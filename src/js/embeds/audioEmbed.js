@@ -51,6 +51,8 @@
 	EntityEmbedTypes[embedName] = audioEmbed;
 
 	// PUBLIC
+	audioEmbed.prototype.orderIndex = 2;
+
 	audioEmbed.prototype.defaultStyle = 'entity-embed-center'; 
 
 	audioEmbed.prototype.cleanModel = function(){

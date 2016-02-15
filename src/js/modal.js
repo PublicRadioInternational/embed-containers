@@ -46,7 +46,8 @@
 		{
 			self.scope = scope;
 		}
-		self.scope.modal = self.$el;
+
+		self.scope.modalCtrl = self;
 		self.$el.data('scope', self.scope);
 		
 		self.options.functions.init.before(self.scope);
@@ -58,6 +59,7 @@
 	modal.prototype.activeClass = 'em-active';
 	modal.prototype.closeBtnClass = 'em-close-btn';
 
+	// generates a pseudo guid (not guatanteed global uniqueness)
 	modal.prototype.generateId = function () {
 		var seg = function()
 		{
@@ -67,7 +69,7 @@
 		}
 		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
 				seg() + '-' + seg() + seg() + seg();
-	}
+	};
 	
 	modal.prototype.backdropHtml = function(id)
 	{
