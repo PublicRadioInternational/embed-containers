@@ -8,6 +8,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	function genericEmbed(options, defaults, embedName, ref){
 		var self = ref || this;
 		self.name = embedName;
+		defaults = $.extend(true, {}, self.defaultOptions, defaults);
 		self.options = $.extend(true, {}, defaults, options);
 		self.init();
 	};
@@ -21,6 +22,12 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			post: '',
 			get: '',
 			del: ''
+		},
+		styles: {
+			left: true,
+			right: true,
+			center: true,
+			wide: true
 		}
 	};
 

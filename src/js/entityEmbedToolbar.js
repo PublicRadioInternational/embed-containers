@@ -17,8 +17,8 @@ var EntityEmbed = EntityEmbed || {};
 			var toolbarClasses = '';
 			if (!!embedName) // this is a styles toolbar (specific to embed)
 			{
-				toolbarClasses = 'medium-insert-images-toolbar medium-editor-toolbar medium-toolbar-arrow-under medium-editor-toolbar-active';
-				toolbarClasses += ' ' + embedName + 'StyleToolbar'
+				toolbarClasses = 'medium-insert-images-toolbar medium-editor-toolbar medium-toolbar-arrow-under medium-editor-toolbar-active ';
+				toolbarClasses += embedName + 'StyleToolbar'
 			}
 			else // this is an action toolbar (not specific to embed)
 			{
@@ -53,11 +53,15 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 	// CONSTRUCTOR
-	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions){
+	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions, activeEmbedClassParam){
 		var self = this;
 		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
 		self.actions = toolbarActions;
+		if (!!activeEmbedClassParam)
+		{
+			activeEmbedClass = activeEmbedClassParam;
+		}
 		self.events();
 	};
 
@@ -85,16 +89,29 @@ var EntityEmbed = EntityEmbed || {};
 	toolbarManager.prototype.createStyleToolbar = function($location, embed) {
 		var self = this;
 		var stylesCopy = $.extend(self.styles, {});
+		var deletedEveryField = true;
+		if (!embed.options.styles)
+		{
+			return;
+		}
 		for(var style in embed.options.styles)
 		{
 			if (!embed.options.styles[style])
 			{
 				delete stylesCopy[style];
 			}
+			else
+			{
+				deletedEveryField = false;
+			}
 		}
-		$location.append(toolbarHtml(stylesCopy, embed.name)); // .trim() ?
-		$toolbars[embed.name] = $('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
-		$toolbars[embed.name].hide();
+
+		if (!deletedEveryField)
+		{
+			$location.append(toolbarHtml(stylesCopy, embed.name)); // .trim() ?
+			$toolbars[embed.name] = $('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
+			$toolbars[embed.name].hide();
+		}
 	};
 
 	toolbarManager.prototype.showToolbars = function($embed) {
@@ -103,34 +120,35 @@ var EntityEmbed = EntityEmbed || {};
 		var $activeButton;
 		self.currentToolbarEmbedType = $embed.attr('data-embed-type');
 
-		if (!$toolbars[self.currentToolbarEmbedType])
-		{
-			return;
-		}
-
-
-		$toolbars[self.currentToolbarEmbedType].find('button').each(function () {
-			if($activeLine.hasClass('entity-embed-' + $(this).data('action')))	
-			{
-				$activeButton = $(this);
-				$activeButton.addClass(activeToolbarBtnClass);
-			}
-		});
-
-		if (!$activeButton)
-		{
-			$activeButton = $toolbars[self.currentToolbarEmbedType].find('button').first();
-		}
-
-		$activeButton.addClass(activeToolbarBtnClass);
-
-		self.styleToolbarDo($embed, $activeButton);
 		self.$actionToolbar.show();
 
-		$toolbars[self.currentToolbarEmbedType].show();
+		if (!!$toolbars[self.currentToolbarEmbedType])
+		{
+
+			$toolbars[self.currentToolbarEmbedType].find('button').each(function () {
+				if($activeLine.hasClass('entity-embed-' + $(this).data('action')))	
+				{
+					$activeButton = $(this);
+					$activeButton.addClass(activeToolbarBtnClass);
+				}
+			});
+
+			if (!$activeButton)
+			{
+				$activeButton = $toolbars[self.currentToolbarEmbedType].find('button').first();
+			}
+
+			$activeButton.addClass(activeToolbarBtnClass);
+
+			self.styleToolbarDo($activeButton);
+
+			$toolbars[self.currentToolbarEmbedType].show();
+		}
+
+		self.positionToolbars($embed);
 	};
 
-	toolbarManager.prototype.styleToolbarDo = function($embed, $buttonClicked) {
+	toolbarManager.prototype.styleToolbarDo = function($buttonClicked) {
 		var self = this;
 		var $buttonList = $buttonClicked.closest('li').closest('ul');
 		var $activeLine = $('.' + activeEmbedClass).closest('.' + entityEmbedEditorLineClass);
@@ -154,7 +172,7 @@ var EntityEmbed = EntityEmbed || {};
 					self.styles[$curButton.data('action')].added($activeLine)
 				}
 				setTimeout(function(){
-					self.positionToolbar($('.' + activeEmbedClass));
+					self.positionToolbars($('.' + activeEmbedClass));
 				}, 50);
 			}
 			else
@@ -172,8 +190,8 @@ var EntityEmbed = EntityEmbed || {};
 	toolbarManager.prototype.actionToolbarDo = function($toolbarButton) {
 		var self = this;
 		var $activeEmbed = $('.' + activeEmbedClass);
-		var action = self.options.actions[$thisButton.data('action')].clicked;
-		action(self, $activeEmbed);
+		var action = self.actions[$toolbarButton.data('action')].clicked;
+		action(self.mediumEditorAddon, $activeEmbed);
 	};
 
 	toolbarManager.prototype.hideToolbar = function(){
@@ -182,7 +200,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$actionToolbar.hide();	
 		self.$actionToolbar.find('button').removeClass(activeToolbarBtnClass);
 
-		if (!self.currentToolbarEmbedType && !$toolbars[self.currentToolbarEmbedType])
+		if (!self.currentToolbarEmbedType || !$toolbars[self.currentToolbarEmbedType])
 		{
 			return;
 		}
@@ -191,8 +209,35 @@ var EntityEmbed = EntityEmbed || {};
 		self.currentToolbarEmbedType = null;
 	};
 
-	toolbarManager.prototype.positionToolbar = function($embed) {
+	toolbarManager.prototype.positionToolbars = function($embed) {
 		var self = this;
+
+		// position action tool bar
+
+		// TODO : position action tool bar in a way that doesn't suck
+		//			this positioning frequently interferes with the other toolbar
+		//			the code for this is convoluted
+
+		var $toolbarLocator = $embed.find('.' + secondaryToolbarLocatorClass);
+		if ($toolbarLocator.length === 0)
+		{
+			$toolbarLocator = $embed;
+		}
+
+		top = $embed.offset().top + 2; // 2px - distance from a border
+		var left = $toolbarLocator.offset().left + $toolbarLocator.width() + 4; // 4px - distance from border
+
+		if (left > ($(window).width() - self.$actionToolbar.width()))
+		{
+			top -= (self.$actionToolbar.height() + 8); //8 px - distance from border
+			left = ($(window).width() - self.$actionToolbar.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
+		}
+
+		self.$actionToolbar
+			.css({
+				top: top,
+				left: left
+			});
 
 		// get current styles toolbar
 		var $stylesToolbar = $toolbars[self.currentToolbarEmbedType];
@@ -213,28 +258,6 @@ var EntityEmbed = EntityEmbed || {};
 			.css({
 				top: top,
 				left: $embed.offset().left + $embed.width() / 2 - $stylesToolbar.width() / 2
-			});
-
-		var $toolbarLocator = $embed.find('.' + secondaryToolbarLocatorClass);
-		if ($toolbarLocator.length === 0)
-		{
-			$toolbarLocator = $embed;
-		}
-
-		top = $embed.offset().top + 2; // 2px - distance from a border
-		var left = $toolbarLocator.offset().left + $toolbarLocator.width() + 4; // 4px - distance from border
-
-		// position action tool bar
-		if (left > ($(window).width() - self.$actionToolbar.width()))
-		{
-			top -= (self.$actionToolbar.height() + 8); //8 px - distance from border
-			left = ($(window).width() - self.$actionToolbar.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
-		}
-
-		self.$actionToolbar
-			.css({
-				top: top,
-				left: left
 			});
 	};
 

@@ -8,11 +8,6 @@ var EntityEmbed = EntityEmbed || {};
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // first char is uppercase
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
-		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
-		toolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
-		secondaryToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
-		secondaryToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
-		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p>) in the editor on which an entity is embedded
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: { // default scope to pass to the modal
@@ -109,7 +104,7 @@ var EntityEmbed = EntityEmbed || {};
 		self._defaults = defaults;
 		self._name = pluginName;
 
-		self.toolbarManager = new EntityEmbed.toolbarManager(self, self.options.styles, self.options.actions);
+		self.toolbarManager = new EntityEmbed.toolbarManager(self, self.options.styles, self.options.actions, activeEmbedClass);
 
 		self.init();
 	}
@@ -269,9 +264,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.removeEmbed = function ($embed) {
 		var self = this;
 		self.toolbarManager.hideToolbar();
-
-		$embed.data('embed', null);
-		$embed.parent().remove();
+		$embed.remove();
 	};
 
 	/**
@@ -298,67 +291,6 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
-
-	/**
-	 * Links toolbar buttons and their respective actions
-	 *
-	 * @param {DOM} $thisButton - toolbar button that was clicked
-	 *
-	 * @returns {void}
-	 */
-
-	EntityEmbeds.prototype.toolbarAction = function ($thisButton) {
-		var self = this;
-		var $buttonList = $thisButton.closest('li').closest('ul');
-		var $activeLine = $('.' + activeEmbedClass).closest('.' + entityEmbedEditorLineClass);
-
-		// change the active button to this one
-		// there should only be one active button
-		$buttonList
-			.find('.' + activeToolbarBtnClass)
-			.removeClass(activeToolbarBtnClass);
-		$thisButton.addClass(activeToolbarBtnClass);
-
-		$buttonList.find('button').each(function(){
-			var $curButton = $(this);
-			var className = 'entity-embed-' + $curButton.data('action');
-
-			if ($curButton.hasClass(activeToolbarBtnClass))
-			{
-				$activeLine.addClass(className);
-				if (!!self.options.styles[$curButton.data('action')].added)
-				{
-					self.options.styles[$curButton.data('action')].added($activeLine)
-				}
-				setTimeout(function(){
-					self.positionToolbar($('.' + activeEmbedClass));
-				}, 50);
-			}
-			else
-			{
-				$activeLine.removeClass(className);	
-				if (!!self.options.styles[$curButton.data('action')].removed)
-				{
-					self.options.styles[$curButton.data('action')].removed($activeLine)
-				}
-			}
-		});
-	};
-
-	/**
-	 * Links secondary toolbar buttons and their respective actions
-	 *
-	 * @param {DOM} $thisButton - toolbar button that was clicked
-	 *
-	 * @returns {void}
-	 */
-
-	EntityEmbeds.prototype.secondaryToolbarAction = function ($thisButton) {
-		var self = this;
-		var $activeEmbed = $('.' + activeEmbedClass);
-		var action = self.options.actions[$thisButton.data('action')].clicked;
-		action(self, $activeEmbed);
-	}
 
 	/** Addon initialization */
 
