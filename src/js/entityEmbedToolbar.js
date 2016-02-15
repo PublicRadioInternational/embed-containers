@@ -10,7 +10,7 @@ var EntityEmbed = EntityEmbed || {};
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
-		secondaryToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
+		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
 			// TODO change class names
@@ -218,7 +218,7 @@ var EntityEmbed = EntityEmbed || {};
 		//			this positioning frequently interferes with the other toolbar
 		//			the code for this is convoluted
 
-		var $toolbarLocator = $embed.find('.' + secondaryToolbarLocatorClass);
+		var $toolbarLocator = $embed.find('.' + actionToolbarLocatorClass);
 		if ($toolbarLocator.length === 0)
 		{
 			$toolbarLocator = $embed;
