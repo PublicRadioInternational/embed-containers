@@ -131,7 +131,7 @@ var EntityEmbed = EntityEmbed || {};
 				});
 
 				var optionIndex = 0;
-
+				// loading embed views
 				for(var i = 0; i < scope.embedTypes.length; i++)
 				{
 					var embedObject = scope.embedTypes[i];
@@ -155,6 +155,7 @@ var EntityEmbed = EntityEmbed || {};
 					// increment optionIndex to keep it valid
 					optionIndex++;
 				}
+
 
 				// TODO : find a better way to handle async load
 				setTimeout(function(){
@@ -200,6 +201,7 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		complete: {
 			before: function(scope){
+				
 				return true;
 				
 			},

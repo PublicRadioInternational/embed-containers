@@ -3,6 +3,15 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 (function(){
 
 	'use strict';
+	// PRIVATE
+	var initValidator = function($el){
+		var self = this;
+		//var inputs = $el.find('embed-modal-form');
+		$el.find('.embed-modal-form').validator({
+			disable: true,
+			delay: 0
+		});
+	};
 
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
@@ -41,6 +50,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	// $el: a jQuery element for the modal view
 	genericEmbed.prototype.initModal = function($el){
 		var self = this;
+		initValidator($el);
 	};
 
 	genericEmbed.prototype.getModelFromForm = function($el){

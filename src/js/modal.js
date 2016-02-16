@@ -59,7 +59,7 @@
 	modal.prototype.activeClass = 'em-active';
 	modal.prototype.closeBtnClass = 'em-close-btn';
 
-	// generates a pseudo guid (not guatanteed global uniqueness)
+	// generates a pseudo guid (not guaranteed global uniqueness)
 	modal.prototype.generateId = function () {
 		var seg = function()
 		{
