@@ -35,8 +35,6 @@
 	<body>
 		<div class="editable editor">
 			This is editable content - try typing in here!
-
-			<p class="entity-embed-center entity-embed-editor-line"><figure contenteditable="false" class="entity-embed entity-embed-center entity-embed-active" id="5dc22573e8d845a58d6a2bbf7b142df1" data-embed-type="iframeEmbed"><div class="iframe-embed"><div class="iframe-info"><span>click here to show the toolbars</span></div><iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAmcQw8XcVQ3Jpj-Xr0I_R8EyrloLY3-OY&amp;q=Space+Needle,Seattle+WA" frameborder="0" scrolling="No"></iframe><div class="iframe-info"><span>click here to show the toolbars</span></div></div></figure><p><br></p></p>
 		</div>
 		
 
