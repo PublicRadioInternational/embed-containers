@@ -32,6 +32,7 @@ gulp.task('devLess', function(){		// development less task
 gulp.task('devConcatJs', function()		// development concatenation task for javascript
 {										// same as concatJs but it does not uglify
 	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
 			jsPath + 'genericEmbed.js',
 			jsPath + 'modal.js',
 			jsPath + 'embedModalDefaults.js',

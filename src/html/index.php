@@ -9,7 +9,6 @@
 		<link rel="stylesheet" href="lib/components-font-awesome/css/font-awesome.css">
 		<script src="lib/jquery/dist/jquery.js"></script>
 		<script src="lib/medium-editor/dist/js/medium-editor.js"></script>
-		<script src="lib/handlebars/handlebars.runtime.js"></script>
 		<script src="lib/jquery-sortable/source/js/jquery-sortable.js"></script>
   
 		<!-- jQuery File Upload dependencies -->
@@ -19,6 +18,7 @@
 
 		<!-- medium editor insert plugin -->
 		<link rel="stylesheet" href="lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.min.css">
+		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
 		<script src="lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.min.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/templates.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/core.js"></script>
