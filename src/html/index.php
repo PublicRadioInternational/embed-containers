@@ -24,7 +24,6 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/core.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
-		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
 
 		<!--validator plugin-->
 		<script src="lib/validator/dist/validator.min.js"></script>
