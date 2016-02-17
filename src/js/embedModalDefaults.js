@@ -116,7 +116,8 @@ var EntityEmbed = EntityEmbed || {};
 					// TODO : find a better way to manage scope - this code smells
 					//			possible solution: register events in modal.js
 
-					var currentScope = scope.$modalBody.parent().parent().data('scope');
+					// OUCH! THIS CODE SUCKS SO BAD IT MAKES MY EYES HURT
+					var currentScope = scope.$modalBody.parent().parent().parent().data('scope');
 					currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
 					currentScope.setModalView(currentScope, embedType);
@@ -126,8 +127,12 @@ var EntityEmbed = EntityEmbed || {};
 					// TODO : find a better way to manage scope - this code smells
 					//			possible solution: register events in modal.js
 
-					var currentScope = scope.$modalBody.parent().parent().data('scope');
-					scope.saveEmbed(currentScope);
+					// OUCH! THIS CODE SUCKS SO BAD IT MAKES MY EYES HURT
+					var currentScope = scope.$modalBody.parent().parent().parent().data('scope');
+					if (currentScope.currentEmbedType.$view.find('form').valid())
+					{
+						scope.saveEmbed(currentScope);
+					}
 				});
 
 				var optionIndex = 0;

@@ -1,54 +1,56 @@
-<div class="embed-modal-row">
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form">
-			<label class="embed-modal-label" for="thumbnail">Thumbnail Image</label>
-				<form action="uploadImage.php" method="post" enctype="multipart/form-data">
-					<input type="file" name="thumbnailFile" />
-				</form>
+<form>
+	<div class="embed-modal-row">
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="thumbnail">Thumbnail Image</label>
+					<form action="uploadImage.php" method="post" enctype="multipart/form-data">
+						<input type="file" name="thumbnailFile" />
+					</form>
+			</div>
+			<div class="embed-modal-half-column">
+				<ul id="thumbnailList">
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="embed-modal-row">
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="internalTitle">Internal title</label>
+				<input name="internalTitle" type="text" placeholder ="Enter a title for internal use" class="embed-modal-form-control">
+			</div>
 		</div>
 		<div class="embed-modal-half-column">
-			<ul id="thumbnailList">
-			</ul>
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="displayTitle">Display Title</label>
+				<input name="displayTitle" type="text" placeholder="Enter a title for display purposes" class="embed-modal-form-control">
+			</div>
 		</div>
 	</div>
-</div>
 
+	<div class="embed-modal-row">
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="linkText">External Link Text</label>
+				<input name="linkText" type="text" placeholder="Enter link text" class="embed-modal-form-control">
+			</div>
+		</div>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="url">External Link Url</label>
+				<input name="url" type="text" placeholder="Enter URL" class="embed-modal-form-control">
+			</div>
+		</div>
+	</div>
 
-<div class="embed-modal-row">
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form">
-			<label class="embed-modal-label" for="internalTitle">Internal title</label>
-			<input name="internalTitle" type="text" placeholder ="Enter a title for internal use" class="embed-modal-form-control">
+	<div class="embed-modal-row">
+		<div class="embed-modal-full-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="teaser">Teaser</label>
+				<textarea name="teaser" type="text" placeholder="Enter teaser" rows="3" class="embed-modal-form-control"></textarea>
+			</div>
 		</div>
 	</div>
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form">
-			<label class="embed-modal-label" for="displayTitle">Display Title</label>
-			<input name="displayTitle" type="text" placeholder="Enter a title for display purposes" class="embed-modal-form-control">
-		</div>
-	</div>
-</div>
-
-<div class="embed-modal-row">
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form">
-			<label class="embed-modal-label" for="linkText">External Link Text</label>
-			<input name="linkText" type="text" placeholder="Enter link text" class="embed-modal-form-control">
-		</div>
-	</div>
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form">
-			<label class="embed-modal-label" for="url">External Link Url</label>
-			<input name="url" type="text" placeholder="Enter URL" class="embed-modal-form-control">
-		</div>
-	</div>
-</div>
-
-<div class="embed-modal-row">
-	<div class="embed-modal-full-column">
-		<div class="embed-modal-form">
-			<label class="embed-modal-label" for="teaser">Teaser</label>
-			<textarea name="teaser" type="text" placeholder="Enter teaser" rows="3" class="embed-modal-form-control"></textarea>
-		</div>
-	</div>
-</div>
+</form>
