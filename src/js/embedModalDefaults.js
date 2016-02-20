@@ -98,36 +98,35 @@ var EntityEmbed = EntityEmbed || {};
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<figure contenteditable="false" class="' + figureClass + '" ' + 
-								'id="' + scope.currentEmbedType.model.object_id + '" ' + 
-								'data-embed-type="' + scope.currentEmbedType.name + '">' +
-								scope.currentEmbedType.parseForEditor() +
-							'</figure>' + 
+					return '<div class="entity-embed-container">' + 
+								'<figure contenteditable="false" class="' + figureClass + '" ' + 
+									'id="' + scope.currentEmbedType.model.object_id + '" ' + 
+									'data-embed-type="' + scope.currentEmbedType.name + '">' +
+									scope.currentEmbedType.parseForEditor() +
+								'</figure>' + 
+							'</div>'
 							// ad a new paragraph after the embed so that user can continue typing
-							'<p>' + 
+							// TODO : make sure that no one can ever remove this
+							//			user could put self in bad editing state
+							'<p class="entity-embed-new-line">' + 
 								'<br />' + 
 							'</p>';
 				};
 			},
 			after: function(scope){
 				// configure the select embed type dropdown dropdown to change the modal view
-				scope.$embedTypeSelect.change(function(e){
-					// TODO : confirm navigation
-					// TODO : find a better way to manage scope - this code smells
-					//			possible solution: register events in modal.js
-
-					var currentScope = scope.$modalBody.parent().parent().data('scope');
+				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change', function(e, currentScope){
 					currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
 					currentScope.setModalView(currentScope, embedType);
 				});
 
-				$('#btn-save-modal').click(function(){
-					// TODO : find a better way to manage scope - this code smells
-					//			possible solution: register events in modal.js
+				scope.modalCtrl.registerEvent('#btn-save-modal', 'click', function(e, currentScope){
+					currentScope.saveEmbed(currentScope);
+				});
 
-					var currentScope = scope.$modalBody.parent().parent().data('scope');
-					scope.saveEmbed(currentScope);
+				scope.modalCtrl.registerEvent('#btn-select-existing', 'click', function(e, currentScope){
+					 alert('worked');
 				});
 
 				var optionIndex = 0;
