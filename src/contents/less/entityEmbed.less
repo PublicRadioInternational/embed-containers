@@ -65,21 +65,46 @@
 	.make-xs-column(@bootstrap-columns-per-row/2);	
 }
 
-.save-btn
+#embed-modal-select-existing
 {
-	.btn();
-	.btn-success();
+	display: none;
 }
 
-.abort-btn
+#embed-modal-buttons-create
 {
-	.btn();
-	.btn-default();	
+	#btn-save-modal
+	{
+		.btn();
+		.btn-success();
+	}
+
+	#btn-abort-modal
+	{
+		.btn();
+		.btn-default();	
+	}
+
+	#btn-show-select-existing
+	{
+		float: left; 
+		.btn();
+		.btn-primary();
+	}
 }
 
-#btn-select-existing
+#embed-modal-buttons-select
 {
-	.btn();
-	.btn-primary();
-	float: left; 
+	display: none;
+
+	#btn-select-existing-embed
+	{
+		.btn();
+		.btn-primary();
+	}
+
+	#btn-cancel-select-existing
+	{
+		.btn();
+		.btn-default();	
+	}
 }

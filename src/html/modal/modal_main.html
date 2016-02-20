@@ -8,12 +8,22 @@
 			</select>
 		</div>
 	</div>
-	<div class="embed-modal-body"></div>
+	<div class="embed-modal-body">
+		<div id="embed-modal-create-new"></div>
+		<div id="embed-modal-select-existing"></div>
+	</div>
 	<div class="embed-modal-footer">
-		<button id="btn-select-existing">Select Existing Embed</button>
-		<!-- TODO : add publishing state dropdown -->
-		<!-- TODO : publishing state dropdown affects Save button text -->
-		<button id="btn-save-modal" class="save-btn">Save</button>
-		<button id="btn-abort-modal" class="abort-btn">Close</button>
+		<div id="embed-modal-buttons-create">
+			<button id="btn-show-select-existing">Select Existing Embed</button>
+			
+			<!-- TODO : add publishing state dropdown -->
+			<!-- TODO : publishing state dropdown affects Save button text -->
+			<button id="btn-save-modal">Save</button>
+			<button id="btn-abort-modal">Close</button>
+		</div>
+		<div id="embed-modal-buttons-select">
+			<button id="btn-select-existing-embed">Select</button>
+			<button id="btn-cancel-select-existing">Cancel</button>
+		</div>
 	</div>
 </div>
