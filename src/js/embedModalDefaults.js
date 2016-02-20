@@ -6,20 +6,29 @@ var EntityEmbed = EntityEmbed || {};
 
 	// TODO : allow configuration of this object
 	var embedModalSelectors = {
-		buttons: {
-			saveModal: '#btn-save-modal', // saves the modal
-			abortModal: '#btn-abort-modal', // aborts (cancels) the modal
-			showSelectExisting: '#btn-show-select-existing', // shows the select-existing-embed view
-			selectExisting: '#btn-select-existing-embed', // confirms selection of existing embed
-			cancelSelectExisting: '#btn-cancel-select-existing' // cancels selection of existin embed
+			buttons: {
+				saveModal: '#btn-save-modal', // saves the modal
+				abortModal: '#btn-abort-modal', // aborts (cancels) the modal
+				showSelectExisting: '#btn-show-select-existing', // shows the select-existing-embed view
+				selectExisting: '#btn-select-existing-embed', // confirms selection of existing embed
+				cancelSelectExisting: '#btn-cancel-select-existing' // cancels selection of existin embed
+			},
+			containers: {
+				createNewEmbed: '#embed-modal-create-new', // contains all the views for creating a new embed
+				selectExistingEmbed: '#embed-modal-select-existing', // contains views for selecting an existing embed
+				createButtons: '#embed-modal-buttons-create', // contains buttons shown in the create new embed view
+				selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
+			},
+			elements: {
+				selectExistingTableBody: '.embed-modal-select-existing tbody',
+				selectExistingTableRow: '.embed-modal-select-existing-item'
+			}
 		},
-		containers: {
-			createNewEmbed: '#embed-modal-create-new', // contains all the views for creating a new embed
-			selectExistingEmbed: '#embed-modal-select-existing', // contains views for selecting an existing embed
-			createButtons: '#embed-modal-buttons-create', // contains buttons shown in the create new embed view
-			selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
-		}
-	};
+		tableRowHtml = function(cellText){
+			return	'<tr class="embed-modal-select-existing-item">' + 
+						'<td>' + cellText + '</tr>'+
+					'</td>';
+		};
 
 	function embedModalDefaults() {};
 
@@ -105,6 +114,36 @@ var EntityEmbed = EntityEmbed || {};
 							}
 						);
 					}
+				};
+
+				scope.populateSelectExistingView = function(scope){
+					scope.selectExistingItems = ['one', 'two', 'three', 'four', 'five']
+					$(embedModalSelectors.elements.selectExistingTableRow).remove();
+
+					for (var i = 0; i < scope.selectExistingItems.length; i++)
+					{
+						var $row = $(tableRowHtml(scope.selectExistingItems[i]));
+						$(embedModalSelectors.elements.selectExistingTableBody).append($row);
+						
+						scope.modalCtrl.registerEvent($row, 'click',
+							function(e, currentScope){
+								var activeClass = 'embed-modal-active-row';
+								var needToAddClass = !$(e.currentTarget).hasClass(activeClass);
+								
+								$(embedModalSelectors.elements.selectExistingTableBody).find('.' + activeClass).removeClass(activeClass);
+								if (needToAddClass){
+									$(e.currentTarget).toggleClass(activeClass);
+								}
+							});
+					}
+				};
+
+				scope.showCreateNewEmbedView = function(scope){
+					$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
+					$(embedModalSelectors.containers.createNewEmbed).slideDown();
+
+					$(embedModalSelectors.containers.selectButtons).hide();
+					$(embedModalSelectors.containers.createButtons).show();
 				};
 
 				scope.generateEmbedHtml = function(scope){
@@ -205,6 +244,8 @@ var EntityEmbed = EntityEmbed || {};
 				// configure show-select-existing button to show the select-existing view
 				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.showSelectExisting, 'click',
 					function(e, currentScope){
+						currentScope.populateSelectExistingView(currentScope);
+
 						$(embedModalSelectors.containers.createNewEmbed).slideUp();
 						$(embedModalSelectors.containers.selectExistingEmbed).slideDown();
 
@@ -215,11 +256,7 @@ var EntityEmbed = EntityEmbed || {};
 				// configure cancel-select-existing button to show the create-new-embed view
 				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.cancelSelectExisting, 'click',
 					function(e, currentScope){
-						$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
-						$(embedModalSelectors.containers.createNewEmbed).slideDown();
-
-						$(embedModalSelectors.containers.selectButtons).hide();
-						$(embedModalSelectors.containers.createButtons).show();
+						currentScope.showCreateNewEmbedView(currentScope);
 					});
 
 			}
@@ -254,7 +291,9 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		abort: {
 			before: function(scope){},
-			after: function(scope){}
+			after: function(scope){
+				scope.showCreateNewEmbedView(scope);
+			}
 		},
 		complete: {
 			before: function(scope){
