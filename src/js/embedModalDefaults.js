@@ -21,7 +21,8 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			elements: {
 				selectExistingTableBody: '.embed-modal-select-existing tbody',
-				selectExistingTableRow: '.embed-modal-select-existing-item'
+				selectExistingTableRow: '.embed-modal-select-existing-item',
+				selectExistingActiveItem: 'embed-modal-active-row'
 			}
 		},
 		tableRowHtml = function(cellText){
@@ -127,12 +128,15 @@ var EntityEmbed = EntityEmbed || {};
 						
 						scope.modalCtrl.registerEvent($row, 'click',
 							function(e, currentScope){
-								var activeClass = 'embed-modal-active-row';
-								var needToAddClass = !$(e.currentTarget).hasClass(activeClass);
+								// we do not need to add the class back if it is already on the item being clicked
+								var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
 								
-								$(embedModalSelectors.elements.selectExistingTableBody).find('.' + activeClass).removeClass(activeClass);
+								$(embedModalSelectors.elements.selectExistingTableBody)
+									.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
+									.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
+
 								if (needToAddClass){
-									$(e.currentTarget).toggleClass(activeClass);
+									$(e.currentTarget).toggleClass(embedModalSelectors.elements.selectExistingActiveItem);
 								}
 							});
 					}
