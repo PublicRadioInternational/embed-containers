@@ -136,7 +136,7 @@ var EntityEmbed = EntityEmbed || {};
 									.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
 
 								if (needToAddClass){
-									$(e.currentTarget).toggleClass(embedModalSelectors.elements.selectExistingActiveItem);
+									$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
 								}
 							});
 					}
