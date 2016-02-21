@@ -47,7 +47,6 @@ var EntityEmbed = EntityEmbed || {};
 
 
 	var loadLicenses = function (getPath){
-		//function(path, data, doneFunc, failFunc, alwaysFunc)
 			EntityEmbed.apiService.get(
 						getPath,
 						//Current Guid value of the license list
