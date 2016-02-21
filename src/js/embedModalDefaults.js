@@ -120,12 +120,12 @@ var EntityEmbed = EntityEmbed || {};
 
 				scope.populateSelectExistingView = function(scope){
 					$(embedModalSelectors.elements.selectExistingTableRow).remove();
-					
+
 					EntityEmbed.apiService.get(scope.currentEmbedType.options.httpPaths.get,
 						scope.currentEmbedType.options.httpPaths.getAllObjectId,
 						function(data){
 							// as you can see, this code only works for images and videos
-							// because we only need two to test this
+							// because we only need 2 to test this
 							// and making 12 test objects on the API a lot of unnecessary work :)
 							if (!data.response.imagesList && !data.response.videosList){
 								return;
@@ -147,6 +147,11 @@ var EntityEmbed = EntityEmbed || {};
 
 										if (needToAddClass){
 											$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
+											$(embedModalSelectors.buttons.showSelectExisting).removeClass('disabled');
+										}
+										else // since we didnt add a class, that means nothing is selected, so diable the select button
+										{
+											$(embedModalSelectors.buttons.showSelectExisting).addClass('disabled');
 										}
 									}
 								);
@@ -282,6 +287,29 @@ var EntityEmbed = EntityEmbed || {};
 						currentScope.showCreateNewEmbedView(currentScope);
 					});
 
+				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.selectExisting, 'click',
+					function(e, currentScope){
+						if ($(embedModalSelectors.buttons.selectExisting).hasClass('disabled'))
+						{
+							return;
+						}
+
+						EntityEmbed.apiService.get(
+							currentScope.currentEmbedType.options.httpPaths.get,
+							{ object_id: $(embedModalSelectors.elements.selectExistingActiveItem).attr('data-id') },
+							function(data){
+								currentScope.currentEmbedType.model = data.response;
+								currentScope.modalCtrl.$el.completeModal();
+							},
+							function(data){
+								// TODO: show error UI
+								console.log('failed to get embed type!');
+							}
+						);
+
+						currentScope.modalType = EntityEmbed.embedModalTypes.add;
+						currentScope.showCreateNewEmbedView(currentScope);
+					});
 			}
 		},
 		open: {
@@ -292,7 +320,6 @@ var EntityEmbed = EntityEmbed || {};
 					scope.$embedTypeSelect.hide();
 					scope.setModalView(scope, scope.embedType);
 					
-					// TODO : loading spinner
 					EntityEmbed.apiService.get(
 						scope.currentEmbedType.options.httpPaths.get,
 						{ object_id: scope.embedId },
