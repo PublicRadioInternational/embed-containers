@@ -96,6 +96,13 @@
 		});
 	};
 
+	audioEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el);
+
+		$('#audioList').children().remove();
+	};
+
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		

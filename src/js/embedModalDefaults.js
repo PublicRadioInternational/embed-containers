@@ -122,15 +122,15 @@ var EntityEmbed = EntityEmbed || {};
 					$(embedModalSelectors.elements.selectExistingTableRow).remove();
 
 					EntityEmbed.apiService.get(scope.currentEmbedType.options.httpPaths.get,
-						scope.currentEmbedType.options.httpPaths.getAllObjectId,
+						{object_id: scope.currentEmbedType.options.httpPaths.getAllObjectId},
 						function(data){
 							// as you can see, this code only works for images and videos
 							// because we only need 2 to test this
 							// and making 12 test objects on the API a lot of unnecessary work :)
-							if (!data.response.imagesList && !data.response.videosList){
+							if (!data.response.list){
 								return;
 							}
-							scope.selectExistingItems = data.response.imagesList || data.response.videosList;
+							scope.selectExistingItems = data.response.list;
 							for (var i = 0; i < scope.selectExistingItems.length; i++)
 							{
 								var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].id));
