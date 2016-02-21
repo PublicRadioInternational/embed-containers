@@ -40,9 +40,7 @@ var EntityEmbed = EntityEmbed || {};
 			.always(alwaysFunc);
 	};
 
-	function apiService(){
-
-	};
+	function apiService(){};
 
 	apiService.prototype.put = function(path, data, doneFunc, failFunc, alwaysFunc) {
 		ajaxWrapper('PUT', path, data, doneFunc, failFunc, alwaysFunc);

@@ -99,6 +99,13 @@
 		});
 	};
 
+	imagesEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el);
+
+		$('#imagesList').children().remove();
+	};
+
 	imagesEmbed.prototype.parseForEditor = function(){
 		// TODO : use handlebars for this
 		var self = this;

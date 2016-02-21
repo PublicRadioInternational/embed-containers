@@ -23,14 +23,16 @@ $(document).ready(function(){
 						httpPaths:{	
 							put: 'https://test-services.pri.org/admin/story/edit',
 							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							get: 'https://test-services.pri.org/admin/story/fetch',
+							getAllObjectId: {object_id: '902947a05cec492eae123c7aa1144c86'}
 						}
 					},
 					videoEmbed:{
 						httpPaths:{	
 							put: 'https://test-services.pri.org/admin/story/edit',
 							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							get: 'https://test-services.pri.org/admin/story/fetch',
+							getAllObjectId: {object_id: 'a6e882c0c5f644f8a4fa32bd31f3f978'}
 						}
 					},
 					audioEmbed:{
