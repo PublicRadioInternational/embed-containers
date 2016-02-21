@@ -1,3 +1,5 @@
+var EntityEmbed = EntityEmbed || {};
+
 (function(base, EntityEmbedTypes){
 
 	'use strict';
@@ -69,7 +71,7 @@
 
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
-
+		imagesEmbed.loadLicenses(this.options.httpPaths.get);
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
 			add: function(e, data){
@@ -99,6 +101,40 @@
 		});
 	};
 
+
+	imagesEmbed.loadLicenses = function (getPath){
+		//function(path, data, doneFunc, failFunc, alwaysFunc)
+			EntityEmbed.apiService.get(
+						//TODO: change this from a hardcoded value
+						getPath,
+						//'https://test-services.pri.org/admin/story/fetch',
+						//Current Guid value of the license list
+						{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
+						function(data){
+							//load object into license list
+							var licenseList = data.response.list;
+
+							var formattedLicenseList = [];
+							for(var i =0; i < 10 ;i++)
+							{
+								var currentLicense = "license" + i;
+								var currentValue =  licenseList[currentLicense]
+								if(!!currentValue){
+									formattedLicenseList[i] = "<option>" + currentValue + "</option>";
+								}
+							}
+						
+							console.log(formattedLicenseList);
+
+							$("#license").html(formattedLicenseList);
+						},
+						function(data){
+							console.log('failed to find object with that id');
+						}
+					);
+	};
+
+	
 	imagesEmbed.prototype.parseForEditor = function(){
 		// TODO : use handlebars for this
 		var self = this;
