@@ -156,6 +156,9 @@ var EntityEmbed = EntityEmbed || {};
 									}
 								);
 							}		
+						},
+						function(data){
+							console.log('Failed to get list of current embed types for Select Existing page.');
 						}
 					);
 				};
