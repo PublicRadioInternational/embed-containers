@@ -1,3 +1,5 @@
+var EntityEmbed = EntityEmbed || {};
+
 (function(base, EntityEmbedTypes){
 
 	'use strict';
@@ -23,6 +25,39 @@
 			}
 		};
 
+
+
+
+
+	var loadSubscription = function (getPath){
+			EntityEmbed.apiService.get(
+						getPath,
+						//Current Guid value of the Subscription list
+						//TODO: change this from a hardcoded value to one pointing at a newsletter subscription list
+						{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
+						function(data){
+							//load object into license list
+						
+							if (!!data.response.list)
+							{
+								var subscriptionList = [];
+								var i = 0;
+								for(var subscriptionName in data.response.list)
+								{
+									if(!!subscriptionName){
+										subscriptionList[i] = "<option value=" + data.response.list[subscriptionName] + 
+										">" + subscriptionName + "</option>";
+									}
+									i++;
+								}
+								$("#subscription").html(subscriptionList);
+							}
+						},
+						function(data){
+							console.log('failed to find object with that id');
+						}
+					);
+	};
 	// CONSTRUCTOR
 	function newsletterSubscribeEmbed(options){
 		var self = this;
@@ -43,6 +78,11 @@
 			teaser: null
 		};
 	};
+
+	newsletterSubscribeEmbed.prototype.initModal = function($el){
+		var self = this;
+		loadSubscription(this.options.httpPaths.get);
+	}
 
 	newsletterSubscribeEmbed.prototype.defaultStyle = 'entity-embed-center';
 
