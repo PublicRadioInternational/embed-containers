@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'iframeEmbed',
+	var embedName = 'iframe',
 		defaults = {
 			viewPath: base + 'modal/modal_iframe.html',
 			displayName: 'iFrame',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'iframe'
 		};
 
 	// CONSTRUCTOR

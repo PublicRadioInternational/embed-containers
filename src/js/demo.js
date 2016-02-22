@@ -19,89 +19,89 @@ $(document).ready(function(){
 					$abortEl: $('#btn-abort-modal')
 				},
 				embedTypes: {
-					imagesEmbed:{
+					images:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					videoEmbed:{
+					video:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch',
-							getAllObjectId: {object_id: '7f3bf0791b4441f28a8109106f319e4a'}
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch',
+						},
+						getAllObjectId: '97bd7449a18c4210ab61f95cf6846cde' // this is a hack for testing/ demoing
+					},
+					audio:{
+						httpPaths:{	
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					audioEmbed:{
+					twitter:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					twitterEmbed:{
+					instagram:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					instagramEmbed:{
+					facebook:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					facebookEmbed:{
+					relatedLink:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					relatedLinkEmbed:{
+					externalLink:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					externalLinkEmbed:{
+					globalBuzz:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					globalBuzzEmbed:{
+					newsletterSubscribe:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					newsletterSubscribeEmbed:{
+					iframe:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
-					iframeEmbed:{
+					customText:{
 						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
-						}
-					},
-					customTextEmbed:{
-						httpPaths:{	
-							put: 'https://test-services.pri.org/admin/story/edit',
-							post: 'https://test-services.pri.org/admin/story/edit',
-							get: 'https://test-services.pri.org/admin/story/fetch'
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					}
 				}

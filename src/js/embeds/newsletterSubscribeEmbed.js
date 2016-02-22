@@ -13,7 +13,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// PRIVATE
-	var embedName = 'newsletterSubscribeEmbed',
+	var embedName = 'newsletterSubscribe',
 		defaults = {
 			viewPath: base + 'modal/modal_newsletterSubscribe.html',
 			displayName: 'Newsletter Subscribe',
@@ -22,12 +22,9 @@ var EntityEmbed = EntityEmbed || {};
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'newsletter'
 		};
-
-
-
-
 
 	var loadSubscription = function (getPath){
 			EntityEmbed.apiService.get(

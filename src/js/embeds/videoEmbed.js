@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'videoEmbed',
+	var embedName = 'video',
 		defaults = {
 			viewPath: base + 'modal/modal_video.html',
 			displayName: 'Video',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'video'
 		};
 
 	// CONSTRUCTOR

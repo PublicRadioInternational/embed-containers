@@ -65,18 +65,18 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			embedTypes: { // options for different embed types
-				imagesEmbed:{},
-				videoEmbed:{},
-				audioEmbed:{},
-				twitterEmbed:{},
-				instagramEmbed:{},
-				facebookEmbed:{},
-				relatedLinkEmbed:{},
-				externalLinkEmbed:{},
-				globalBuzzEmbed:{},
-				newsletterSubscribeEmbed:{},
-				iframeEmbed:{},
-				customTextEmbed:{}
+				images:{},
+				video:{},
+				audio:{},
+				twitter:{},
+				instagram:{},
+				facebook:{},
+				relatedLink:{},
+				externalLink:{},
+				globalBuzz:{},
+				newsletterSubscribe:{},
+				iframe:{},
+				customTexd:{}
 			}
 		};
 
@@ -246,8 +246,7 @@ var EntityEmbed = EntityEmbed || {};
 		var scope = {
 			$currentEditorLocation: $embed.parent(),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed.attr('id'),
-			embedType: $embed.attr('data-embed-type')
+			embedId: $embed.attr('id')
 		};
 		self.toolbarManager.hideToolbar();
 		self.options.$modalEl.openModal(scope);

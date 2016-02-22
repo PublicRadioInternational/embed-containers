@@ -13,7 +13,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// PRIVATE
-	var embedName = 'imagesEmbed',
+	var embedName = 'image',
 		defaults = {
 			viewPath: base + 'modal/modal_image.html',
 			displayName: 'Image(s)',
@@ -22,7 +22,8 @@ var EntityEmbed = EntityEmbed || {};
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'image'
 		};
 
 	var formatFileSize  = function(bytes) {

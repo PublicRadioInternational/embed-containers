@@ -44,14 +44,16 @@ var EntityEmbed = EntityEmbed || {};
 	embedModalDefaults.prototype.functions = {
 		init:{
 			before: function(scope){
-				// define necessary fields for scope
-				// assume that these are already defined:
-				//		scope.modalCtrl			(default for all modals from modal.js)
-				//		scope.$embedTypeSelect
-				//		scope.$currentEditorLocation
-				//		scope.$modalBody
-				//		scope.embedTypes
-
+				/* 
+				 * define necessary fields for scope
+				 *
+				 * assume that these are already defined:
+				 *		scope.modalCtrl			(default for all modals from modal.js)
+				 *		scope.$embedTypeSelect
+				 *		scope.$currentEditorLocation
+				 *		scope.$modalBody
+				 *		scope.embedTypes
+				 */
 				scope.currentEmbedType = null;
 				
 				scope.setModalView = function(scope, embedName){
@@ -81,6 +83,11 @@ var EntityEmbed = EntityEmbed || {};
 
 				scope.saveEmbed = function(scope){
 					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+					// TODO : put title on each embed type's form
+					if (!scope.currentEmbedType.model.title)
+					{
+						scope.currentEmbedType.model.title = '';
+					}
 
 					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 					{
@@ -101,6 +108,10 @@ var EntityEmbed = EntityEmbed || {};
 						);
 					}
 					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
+						// add the object_type onto the model
+						//		this code smells, do something better here...
+						scope.currentEmbedType.model.object_type = scope.currentEmbedType.options.object_type;
+
 						EntityEmbed.apiService.post(
 							scope.currentEmbedType.options.httpPaths.post, 
 							scope.currentEmbedType.model,
@@ -122,11 +133,9 @@ var EntityEmbed = EntityEmbed || {};
 					$(embedModalSelectors.elements.selectExistingTableRow).remove();
 
 					EntityEmbed.apiService.get(scope.currentEmbedType.options.httpPaths.get,
-						{object_id: scope.currentEmbedType.options.httpPaths.getAllObjectId},
+						{object_id: scope.currentEmbedType.options.getAllObjectId},
 						function(data){
-							// as you can see, this code only works for images and videos
-							// because we only need 2 to test this
-							// and making 12 test objects on the API a lot of unnecessary work :)
+							// this is how we expect things to be 
 							if (!data.response.list){
 								return;
 							}
@@ -158,7 +167,7 @@ var EntityEmbed = EntityEmbed || {};
 							}		
 						},
 						function(data){
-							console.log('Failed to get list of current embed types for Select Existing page.');
+							console.log('Failed to get list of current embed types for the Select Existing page.');
 						}
 					);
 				};
@@ -183,8 +192,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					return '<div class="entity-embed-container">' + 
 								'<figure contenteditable="false" class="' + figureClass + '" ' + 
-									'id="' + scope.currentEmbedType.model.object_id + '" ' + 
-									'data-embed-type="' + scope.currentEmbedType.name + '">' +
+									'id="' + scope.currentEmbedType.model.object_id + '" >' +
 									scope.currentEmbedType.parseForEditor() +
 								'</figure>' + 
 							'</div>'
@@ -321,12 +329,12 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					$(embedModalSelectors.buttons.showSelectExisting).hide();
 					scope.$embedTypeSelect.hide();
-					scope.setModalView(scope, scope.embedType);
 					
 					EntityEmbed.apiService.get(
 						scope.currentEmbedType.options.httpPaths.get,
 						{ object_id: scope.embedId },
 						function(data){
+							scope.setModalView(scope, data.response.object_type); // todo : this does not work for everything (some name have dashes now)
 							scope.currentEmbedType.model = data.response;
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 						},
