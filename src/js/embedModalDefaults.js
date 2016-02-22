@@ -11,6 +11,14 @@ var EntityEmbed = EntityEmbed || {};
 		//SelectExisting: 2
 	};
 
+	var enableContentEditable = function(scope){
+		//enable typing in the editor by finding the first class
+		var currentEditorClass = scope.$currentEditorLocation[0].parentNode.className;
+		currentEditorClass = currentEditorClass.split(" ");
+		$("." + currentEditorClass[0]).attr("contenteditable", "true");
+
+	}
+
 	embedModalDefaults.prototype.functions = {
 		init:{
 			before: function(scope){
@@ -203,11 +211,7 @@ var EntityEmbed = EntityEmbed || {};
 		abort: {
 			before: function(scope){},
 			after: function(scope){
-
-				//enable typing in the editor by finding the first class
-				var currentEditorClass = scope.$currentEditorLocation[0].parentNode.className;
-				currentEditorClass = currentEditorClass.split(" ");
-				$("." + currentEditorClass[0]).attr("contenteditable", "true");
+				enableContentEditable(scope);
 
 			}
 		},
@@ -216,11 +220,7 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				//enable typing in the editor by finding the first class
-				var currentEditorClass = scope.$currentEditorLocation[0].parentNode.className;
-				currentEditorClass = currentEditorClass.split(" ");
-				$("." + currentEditorClass[0]).attr("contenteditable", "true");
-
+				enableContentEditable(scope);
 				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
 			}
 		}
