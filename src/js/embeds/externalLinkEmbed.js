@@ -66,7 +66,6 @@
 
 	externalLinkEmbed.prototype.initModal = function($el){
 		var self = this;
-
 		$el.find("input[name='thumbnailFile']").fileupload({
 			dataType: 'json',
 			add: function(e, data){

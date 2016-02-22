@@ -69,7 +69,6 @@
 
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
-
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
 			add: function(e, data){

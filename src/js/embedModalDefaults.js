@@ -52,39 +52,53 @@ var EntityEmbed = EntityEmbed || {};
 				scope.saveEmbed = function(scope){
 					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
-					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
-					{
-						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
+					var $form = scope.currentEmbedType.$view.find("form");
 
-						EntityEmbed.apiService.put(
-							scope.currentEmbedType.options.httpPaths.put, 
-							scope.currentEmbedType.model,
-							// TODO : save spinner
-							function(data){
-								console.log('put succeeded');
-								scope.modalCtrl.$el.completeModal();
-							}, 
-							function(data){
-								// TODO : UI failure message
-								console.log('put failed');
+					if(scope.currentEmbedType.name == "audioEmbed"){
+						$form.validate({
+							rules: {
+								credit: "required",
+								creditLink: "required"
 							}
-						);
+						});
 					}
-					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
-						EntityEmbed.apiService.post(
-							scope.currentEmbedType.options.httpPaths.post, 
-							scope.currentEmbedType.model,
-							// TODO : save spinner
-							function(data){
-								scope.currentEmbedType.model.object_id = data.response.object_id;
-								console.log('post succeeded');
-								scope.modalCtrl.$el.completeModal();
-							}, 
-							function(data){
-								// TODO : UI failure message
-								console.log('post failed');
-							}
-						);
+					
+
+					if($form.valid()){
+						if (scope.modalType == EntityEmbed.embedModalTypes.edit)
+						{
+							scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
+
+							EntityEmbed.apiService.put(
+								scope.currentEmbedType.options.httpPaths.put, 
+								scope.currentEmbedType.model,
+								// TODO : save spinner
+								function(data){
+									console.log('put succeeded');
+									scope.modalCtrl.$el.completeModal();
+								}, 
+								function(data){
+									// TODO : UI failure message
+									console.log('put failed');
+								}
+							);
+						}
+						else if (scope.modalType == EntityEmbed.embedModalTypes.add){
+							EntityEmbed.apiService.post(
+								scope.currentEmbedType.options.httpPaths.post, 
+								scope.currentEmbedType.model,
+								// TODO : save spinner
+								function(data){
+									scope.currentEmbedType.model.object_id = data.response.object_id;
+									console.log('post succeeded');
+									scope.modalCtrl.$el.completeModal();
+								}, 
+								function(data){
+									// TODO : UI failure message
+									console.log('post failed');
+								}
+							);
+						}
 					}
 				};
 
@@ -98,7 +112,7 @@ var EntityEmbed = EntityEmbed || {};
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<figure contenteditable="false" class="' + figureClass + '" ' + 
+					return '<figure contgetenteditable="false" class="' + figureClass + '" ' + 
 								'id="' + scope.currentEmbedType.model.object_id + '" ' + 
 								'data-embed-type="' + scope.currentEmbedType.name + '">' +
 								scope.currentEmbedType.parseForEditor() +
@@ -117,7 +131,7 @@ var EntityEmbed = EntityEmbed || {};
 					//			possible solution: register events in modal.js
 
 					// OUCH! THIS CODE SUCKS SO BAD IT MAKES MY EYES HURT
-					var currentScope = scope.$modalBody.parent().parent().parent().data('scope');
+					var currentScope = scope.$modalBody.parent().parent().data('scope');
 					currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 					var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
 					currentScope.setModalView(currentScope, embedType);
@@ -128,11 +142,14 @@ var EntityEmbed = EntityEmbed || {};
 					//			possible solution: register events in modal.js
 
 					// OUCH! THIS CODE SUCKS SO BAD IT MAKES MY EYES HURT
-					var currentScope = scope.$modalBody.parent().parent().parent().data('scope');
-					if (currentScope.currentEmbedType.$view.find('form').valid())
-					{
+					
+
+					
+						var currentScope = scope.$modalBody.parent().parent().data('scope');
 						scope.saveEmbed(currentScope);
-					}
+					
+					
+					
 				});
 
 				var optionIndex = 0;
