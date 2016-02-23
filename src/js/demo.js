@@ -19,7 +19,7 @@ $(document).ready(function(){
 					$abortEl: $('#btn-abort-modal')
 				},
 				embedTypes: {
-					images:{
+					image:{
 						httpPaths:{	
 							put: 'https://test-services.pri.org/admin/embed/edit',
 							post: 'https://test-services.pri.org/admin/embed/edit',

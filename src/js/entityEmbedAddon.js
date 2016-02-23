@@ -65,7 +65,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			embedTypes: { // options for different embed types
-				images:{},
+				image:{},
 				video:{},
 				audio:{},
 				twitter:{},

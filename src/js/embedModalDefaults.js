@@ -56,8 +56,8 @@ var EntityEmbed = EntityEmbed || {};
 				 */
 				scope.currentEmbedType = null;
 				
-				scope.setModalView = function(scope, embedName){
-					if (!embedName)
+				scope.setModalView = function(scope, embedType){
+					if (!embedType)
 					{
 						return;
 					}
@@ -69,7 +69,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 
 					scope.currentEmbedType = $.grep(scope.embedTypes, function(et){
-						return et.name == embedName;
+						return et.options.object_type == embedType;
 					})[0];
 
 					scope.currentEmbedType.$view.show();
@@ -77,7 +77,7 @@ var EntityEmbed = EntityEmbed || {};
 				};
 
 				scope.resetModalView = function(scope){
-					var embedName = scope.embedTypes[0].name;
+					var embedName = scope.embedTypes[0].options.object_type;
 					scope.setModalView(scope, embedName);
 				};
 
@@ -224,7 +224,7 @@ var EntityEmbed = EntityEmbed || {};
 					var embedObject = scope.embedTypes[i];
 					// create option in dropdown for this embed
 					scope.$embedTypeSelect.append('<option value="' + 
-						embedObject.name + '">' + embedObject.options.displayName +
+						embedObject.options.object_type + '">' + embedObject.options.displayName +
 						'</option>');
 
 					// create the embed view container and load the view into it
