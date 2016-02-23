@@ -348,7 +348,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		open: {
-			before: function(scope){
+			before: function(scope){},
+			after: function(scope){
 				$('#embed-modal-save-warning').hide();
 
 				toggleEditorTyping(scope, "false");	
