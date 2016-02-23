@@ -33,7 +33,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		tableRowHtml = function(title, id){
-			return	'<tr class="embed-modal-select-existing-item" data-id="' + id + '">' + 
+			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' + 
 						'<td>' + title + '</tr>'+
 					'</td>';
 		};
@@ -156,11 +156,11 @@ var EntityEmbed = EntityEmbed || {};
 
 										if (needToAddClass){
 											$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
-											$(embedModalSelectors.buttons.showSelectExisting).removeClass('disabled');
+											$(embedModalSelectors.buttons.selectExisting).removeClass('disabled');
 										}
-										else // since we didnt add a class, that means nothing is selected, so diable the select button
+										else // since we didnt add a class, that means nothing is selected, so disable the select button
 										{
-											$(embedModalSelectors.buttons.showSelectExisting).addClass('disabled');
+											$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
 										}
 									}
 								);
@@ -173,11 +173,31 @@ var EntityEmbed = EntityEmbed || {};
 				};
 
 				scope.showCreateNewEmbedView = function(scope){
+					$(embedModalSelectors.buttons.showSelectExisting).show();
+					scope.$embedTypeSelect.show();
+
 					$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
 					$(embedModalSelectors.containers.createNewEmbed).slideDown();
 
 					$(embedModalSelectors.containers.selectButtons).hide();
 					$(embedModalSelectors.containers.createButtons).show();
+				};
+
+				scope.showEditEmbedView = function(scope){
+					$(embedModalSelectors.buttons.showSelectExisting).hide();
+					scope.$embedTypeSelect.hide();
+
+					if ($(embedModalSelectors.containers.selectExistingEmbed).is(':visible'))
+					{
+						$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
+						$(embedModalSelectors.containers.createNewEmbed).slideDown();
+					}
+
+					$(embedModalSelectors.containers.selectButtons).hide();
+					$(embedModalSelectors.containers.createButtons).show();
+
+					$(embedModalSelectors.buttons.showSelectExisting).hide();
+
 				};
 
 				scope.generateEmbedHtml = function(scope){
@@ -215,6 +235,8 @@ var EntityEmbed = EntityEmbed || {};
 						{
 							// TODO : error view (so that user knows something went wrong)
 						}
+
+						$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
 					});
 
 				// load the views for creating new embeds (one view for each embed type)
@@ -307,7 +329,7 @@ var EntityEmbed = EntityEmbed || {};
 
 						EntityEmbed.apiService.get(
 							currentScope.currentEmbedType.options.httpPaths.get,
-							{ object_id: $(embedModalSelectors.elements.selectExistingActiveItem).attr('data-id') },
+							{ object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id') },
 							function(data){
 								currentScope.currentEmbedType.model = data.response;
 								currentScope.modalCtrl.$el.completeModal();
@@ -317,18 +339,15 @@ var EntityEmbed = EntityEmbed || {};
 								console.log('failed to get embed type!');
 							}
 						);
-
-						currentScope.modalType = EntityEmbed.embedModalTypes.add;
-						currentScope.showCreateNewEmbedView(currentScope);
 					});
 			}
 		},
 		open: {
-			before: function(scope){
+			before: function(scope){},
+			after: function(scope){
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
-					$(embedModalSelectors.buttons.showSelectExisting).hide();
-					scope.$embedTypeSelect.hide();
+					scope.showEditEmbedView(scope);
 					
 					EntityEmbed.apiService.get(
 						scope.currentEmbedType.options.httpPaths.get,
@@ -346,12 +365,10 @@ var EntityEmbed = EntityEmbed || {};
 				}
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
 				{
-					$(embedModalSelectors.buttons.showSelectExisting).show();
-					scope.$embedTypeSelect.show();
+					scope.showCreateNewEmbedView(scope);
 					scope.resetModalView(scope);
 				}
 			},
-			after: function(scope){},
 		},
 		abort: {
 			before: function(scope){},

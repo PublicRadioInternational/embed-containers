@@ -32,7 +32,7 @@ $(document).ready(function(){
 							post: 'https://test-services.pri.org/admin/embed/edit',
 							get: 'https://test-services.pri.org/admin/embed/fetch',
 						},
-						getAllObjectId: '97bd7449a18c4210ab61f95cf6846cde' // this is a hack for testing/ demoing
+						getAllObjectId: '6bfd4d96f06944489531e40050d3e2c9' // this is a hack for testing/ demoing
 					},
 					audio:{
 						httpPaths:{	
