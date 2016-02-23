@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'instagramEmbed',
+	var embedName = 'instagram',
 		defaults = {
 			viewPath: base + 'modal/modal_instagram.html',
 			displayName: 'Instagram',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'instagram'
 		};
 
 	// CONSTRUCTOR

@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'facebookEmbed',
+	var embedName = 'facebook',
 		defaults = {
 			viewPath: base + 'modal/modal_facebook.html',
 			displayName: 'Facebook',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'facebook'
 		};
 
 	// CONSTRUCTOR

@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'twitterEmbed',
+	var embedName = 'twitter',
 		defaults = {
 			viewPath: base + 'modal/modal_twitter.html',
 			displayName: 'Twitter',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'tweet'
 		};
 
 	// CONSTRUCTOR
