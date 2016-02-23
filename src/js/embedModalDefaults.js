@@ -52,19 +52,11 @@ var EntityEmbed = EntityEmbed || {};
 				scope.saveEmbed = function(scope){
 					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
-					var $form = scope.currentEmbedType.$view.find("form");
+					var $form = scope.currentEmbedType.$view.find('form');
 
-					if(scope.currentEmbedType.name == "audioEmbed"){
-						$form.validate({
-							rules: {
-								credit: "required",
-								creditLink: "required"
-							}
-						});
+					if(!$form.valid()){
+						return;
 					}
-					
-
-					if($form.valid()){
 						if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 						{
 							scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
@@ -99,7 +91,6 @@ var EntityEmbed = EntityEmbed || {};
 								}
 							);
 						}
-					}
 				};
 
 				scope.generateEmbedHtml = function(scope){
@@ -107,12 +98,16 @@ var EntityEmbed = EntityEmbed || {};
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
 					var figureClass = 'entity-embed'
+					if(!scope.currentEmbedType.defaultStyle)
+					{
+						console.log('Hey bitch!');
+					}
 					if (!!scope.currentEmbedType.defaultStyle)
 					{
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<figure contgetenteditable="false" class="' + figureClass + '" ' + 
+					return '<figure contenteditable="false" class="' + figureClass + '" ' + 
 								'id="' + scope.currentEmbedType.model.object_id + '" ' + 
 								'data-embed-type="' + scope.currentEmbedType.name + '">' +
 								scope.currentEmbedType.parseForEditor() +
