@@ -11,11 +11,11 @@ var EntityEmbed = EntityEmbed || {};
 		//SelectExisting: 2
 	};
 
-	var enableContentEditable = function(scope){
+	var toggleEditorTyping = function(scope, toggleCmd){
 		//enable typing in the editor by finding the first class
 		var currentEditorClass = scope.$currentEditorLocation[0].parentNode.className;
 		currentEditorClass = currentEditorClass.split(" ");
-		$("." + currentEditorClass[0]).attr("contenteditable", "true");
+		$("." + currentEditorClass[0]).attr("contenteditable", toggleCmd);
 
 	}
 
@@ -177,10 +177,7 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				$('#embed-modal-save-warning').hide();
 
-				//Disable typing in the editor by finding the first class
-				var currentEditorClass = scope.$currentEditorLocation[0].parentNode.className;
-				currentEditorClass = currentEditorClass.split(" ");
-				$("." + currentEditorClass[0]).attr("contenteditable", "false");
+				toggleEditorTyping(scope, "false");	
 
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
@@ -211,7 +208,7 @@ var EntityEmbed = EntityEmbed || {};
 		abort: {
 			before: function(scope){},
 			after: function(scope){
-				enableContentEditable(scope);
+				toggleEditorTyping(scope, "true");	
 
 			}
 		},
@@ -220,7 +217,7 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				enableContentEditable(scope);
+				toggleEditorTyping(scope, "true");	
 				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
 			}
 		}
