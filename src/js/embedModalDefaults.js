@@ -99,7 +99,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					if(!$form.valid()){
 						return;
-
+					}
 					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 					{
 						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
