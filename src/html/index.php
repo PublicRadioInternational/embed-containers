@@ -30,6 +30,10 @@
 		<link rel="stylesheet" href="contents/main.css">
 		<link rel="stylesheet" href="contents/priEntityEmbeds.css">
 		<script src="js/main.js"></script>
+
+		<!-- JQuery Autocomplete Plugin -->
+		<link rel="stylesheet" href="lib/EasyAutocomplete/dist/easy-autocomplete.min.css">
+		<script src="lib/EasyAutocomplete/dist/jquery.easy-autocomplete.min.js"></script> 
 	</head>
 
 	<body>
