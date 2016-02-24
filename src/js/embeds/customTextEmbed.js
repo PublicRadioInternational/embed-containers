@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'customTextEmbed',
+	var embedName = 'customText',
 		customTextEditorId ='custom-text-editor',
 		defaults = {
 			viewPath: base + 'modal/modal_customText.html',
@@ -21,7 +21,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'custom'
 		};
 
 	// CONSTRUCTOR

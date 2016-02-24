@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'audioEmbed',
+	var embedName = 'audio',
 		defaults = {
 			viewPath: base + 'modal/modal_audio.html',
 			displayName: 'Audio',
@@ -21,7 +21,7 @@
 				get: '',
 				del: ''
 			},
-			styles: false // do not show the style toolbar at all for this embed
+			object_type: 'audio'
 		};
 
 	function formatFileSize(bytes) {
@@ -93,6 +93,13 @@
 				});
 			}
 		});
+	};
+
+	audioEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el);
+
+		$('#audioList').children().remove();
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){

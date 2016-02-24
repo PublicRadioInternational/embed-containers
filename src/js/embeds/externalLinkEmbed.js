@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'externalLinkEmbed',
+	var embedName = 'externalLink',
 		defaults = {
 			viewPath: base + 'modal/modal_externalLink.html',
 			displayName: 'External Link',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'external-link'
 		};
 
 	function formatFileSize(bytes) {

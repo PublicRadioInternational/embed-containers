@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'relatedLinkEmbed',
+	var embedName = 'relatedLink',
 		defaults = {
 			viewPath: base + 'modal/modal_relatedLink.html',
 			displayName: 'Related Link',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'related-link'
 		};
 		
 	// generates a pseudo guid (not guatanteed global uniqueness)

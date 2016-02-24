@@ -135,6 +135,24 @@
 		});
 	};
 
+	/* 
+	 * -- registers an event for the modal --
+	 *
+	 * element : the string selector or JQuery object for the element
+	 *				on which the eventlistener is instantiated
+	 * eventType : the event, i.e. 'click', 'keydown', 'mouseOver', etc.
+	 * action : the function that fires when the event is called, it will
+	 *			always be passed the default event parameter, scope, and
+	 * params : an object to wrap up parameters for action
+	 *
+	 */
+	modal.prototype.registerEvent = function(element, eventType, action, params){
+		var self = this;
+		self.$el.find(element).on(eventType, function(e){
+			action(e, self.$el.data('scope'), params);
+		});
+	};
+
 	$.fn.modal = function(options, scope){
 		return this.each(function(){
 			if(!$.data(this, 'ctrl'))

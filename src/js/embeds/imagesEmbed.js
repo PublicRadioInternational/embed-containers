@@ -13,7 +13,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// PRIVATE
-	var embedName = 'imagesEmbed',
+	var embedName = 'image',
 		defaults = {
 			viewPath: base + 'modal/modal_image.html',
 			displayName: 'Image(s)',
@@ -22,7 +22,8 @@ var EntityEmbed = EntityEmbed || {};
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'image'
 		};
 
 	var formatFileSize  = function(bytes) {
@@ -135,8 +136,13 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
+	imagesEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el);
 
-	
+		$('#imagesList').children().remove();
+	};
+
 	imagesEmbed.prototype.parseForEditor = function(){
 		// TODO : use handlebars for this
 		var self = this;

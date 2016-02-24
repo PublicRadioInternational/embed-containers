@@ -65,23 +65,36 @@
 	.make-xs-column(@bootstrap-columns-per-row/2);	
 }
 
-.save-btn
-{
-	.btn();
-	.btn-success();
-}
-
-.abort-btn
-{
-	.btn();
-	.btn-default();	
-}
-
-#embed-modal-save-warning
+#embed-modal-select-existing
 {
 	display: none;
-	font-size: 14 px;
-	color: #cc0000;
+}
+
+#embed-modal-buttons-create
+{
+	#btn-save-modal
+	{
+		.btn();
+		.btn-success();
+	}
+
+	#btn-abort-modal
+	{
+		.btn();
+		.btn-default();	
+	}
+
+	#btn-show-select-existing
+	{
+		float: left; 
+		.btn();
+		.btn-primary();
+	}
+}
+
+#embed-modal-buttons-select
+{
+	display: none;
 }
 
 .error
@@ -96,6 +109,30 @@
 
 .embed-modal-form-control
 {
-	.form-control();
+
+	#btn-select-existing-embed
+	{
+		.btn();
+		.btn-primary();
+	}
+
+	#btn-cancel-select-existing
+	{
+		.btn();
+		.btn-default();	
+	}
+}
+
+.embed-modal-select-existing
+{
+	table
+	{
+		.table();
+
+		.embed-modal-active-row
+		{
+			background-color: #f2f2f2;
+		}
+	}
 
 }

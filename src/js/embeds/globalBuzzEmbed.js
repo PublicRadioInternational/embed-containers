@@ -11,7 +11,7 @@
 	}
 
 	// PRIVATE
-	var embedName = 'globalBuzzEmbed',
+	var embedName = 'globalBuzz',
 		defaults = {
 			viewPath: base + 'modal/modal_globalBuzz.html',
 			displayName: 'Global Buzz',
@@ -20,7 +20,8 @@
 				post: '',
 				get: '',
 				del: ''
-			}
+			},
+			object_type: 'global-buzz'
 		};
 
 	// CONSTRUCTOR
