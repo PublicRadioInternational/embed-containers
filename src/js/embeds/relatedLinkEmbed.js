@@ -128,11 +128,6 @@ var EntityEmbed = EntityEmbed || {};
 		var $linkList = $el.find('#related-link-list');
 		var $addLinkBtn = $el.find('#add-link-btn');
 
-		// TODO: Call initAutoComplete only after the user has stopped typing for a period of time
-		$('#completeInternalTitle').keydown(function(){
-			$('#completeInternalTitle').keydown(initAutoComplete('#completeInternalTitle', self));
-		});
-
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
 
@@ -148,6 +143,7 @@ var EntityEmbed = EntityEmbed || {};
 			);
 
 			// TODO: Call initAutoComplete only after the user has stopped typing for a period of time
+			// This is smelly code
 			$('#' + pseudoGuid).keydown(function(){
 				$('#' + pseudoGuid).keydown(initAutoComplete('#' + pseudoGuid, self));
 			});
