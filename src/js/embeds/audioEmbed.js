@@ -66,7 +66,6 @@
 
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
-
 		$el.find("input[name='audioFile']").fileupload({
 			dataType: 'json',
 			add: function(e, data){

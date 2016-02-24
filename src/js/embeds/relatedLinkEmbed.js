@@ -64,7 +64,7 @@
 		var urlForms = $el.find('.related-link-url');
 		for(var i = 0; i < urlForms.length; i++)
 		{
-			self.model.links.push(formFields[i].value);
+			self.model.links.push(urlForms[i].value);
 		}
 	};
 
@@ -86,7 +86,6 @@
 
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
-
 		var linkClass = 'related-link-url';
 		var removeLinkClass = 'remove-link-btn';
 		var $linkList = $el.find('#related-link-list');
@@ -98,7 +97,7 @@
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
 					'<div class="embed-modal-form">' +
-						'<input id="' + pseudoGuid + '" type="text" placeholder="link url" class="embed-modal-form-control">' +
+						'<input id="' + pseudoGuid + '" type="url" placeholder="link url" class="embed-modal-form-control" required>' +
 					'</div>' + 
 					'<button class="' + removeLinkClass + '">' + 
 						'<i class="fa fa-minus"></i>' + 

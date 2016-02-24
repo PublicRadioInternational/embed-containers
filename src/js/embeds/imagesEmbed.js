@@ -104,7 +104,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
+
 		loadLicenses(this.options.httpPaths.get);
+
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
 			add: function(e, data){

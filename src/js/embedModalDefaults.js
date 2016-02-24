@@ -94,6 +94,12 @@ var EntityEmbed = EntityEmbed || {};
 						scope.currentEmbedType.model.title = '';
 					}
 
+
+					var $form = scope.currentEmbedType.$view.find('form');
+
+					if(!$form.valid()){
+						return;
+					}
 					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 					{
 						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
@@ -131,7 +137,42 @@ var EntityEmbed = EntityEmbed || {};
 								console.log('post failed');
 							}
 						);
+
 					}
+						if (scope.modalType == EntityEmbed.embedModalTypes.edit)
+						{
+							scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
+
+							EntityEmbed.apiService.put(
+								scope.currentEmbedType.options.httpPaths.put, 
+								scope.currentEmbedType.model,
+								// TODO : save spinner
+								function(data){
+									console.log('put succeeded');
+									scope.modalCtrl.$el.completeModal();
+								}, 
+								function(data){
+									// TODO : UI failure message
+									console.log('put failed');
+								}
+							);
+						}
+						else if (scope.modalType == EntityEmbed.embedModalTypes.add){
+							EntityEmbed.apiService.post(
+								scope.currentEmbedType.options.httpPaths.post, 
+								scope.currentEmbedType.model,
+								// TODO : save spinner
+								function(data){
+									scope.currentEmbedType.model.object_id = data.response.object_id;
+									console.log('post succeeded');
+									scope.modalCtrl.$el.completeModal();
+								}, 
+								function(data){
+									// TODO : UI failure message
+									console.log('post failed');
+								}
+							);
+						}
 				};
 
 				scope.populateSelectExistingView = function(scope){
@@ -210,6 +251,10 @@ var EntityEmbed = EntityEmbed || {};
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
 					var figureClass = 'entity-embed'
+					if(!scope.currentEmbedType.defaultStyle)
+					{
+						console.log('Hey bitch!');
+					}
 					if (!!scope.currentEmbedType.defaultStyle)
 					{
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;

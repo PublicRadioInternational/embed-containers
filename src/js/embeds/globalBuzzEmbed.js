@@ -48,7 +48,6 @@
 
 	globalBuzzEmbed.prototype.parseForEditor = function(){
 		var self = this;
-
 		return '<div class="global-buzz">' +
 					'<article class="global-buzz-quote-wrapper engagement-badge-wrapper">' +
 						'<div class="engagement-badge"></div>' +

@@ -41,6 +41,7 @@
 
 		// TODO: Need to extract this block of code, and instead call parent function
 		var formFields = $el.find('.embed-modal-form-control');
+	
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -66,6 +67,7 @@
 					'<div class="fb-post" data-href="'+ this.model.url + '" data-width="500">' +
 					'</div>';
 		self.model[embedCodeName] = code;
+	
 	};
 	// PUBLIC
 	facebookEmbed.prototype.cleanModel = function(){
@@ -76,7 +78,6 @@
 
 	facebookEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
 		// TODO: Need to make user unable to interact with embed
 		return '<div class="facebook-embed">' +
 					'<div class="facebook-info">' +
