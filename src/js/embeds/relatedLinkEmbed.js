@@ -66,11 +66,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		EntityEmbed.apiService.get(
 			self.options.httpPaths.get,
+			// TODO: Object id is currently hard-coded, this needs to be changed.
 			{object_id: '5ce1b659ac36423f8e939596ac0b0c83'},
 			function(fetchedData){
-				var content = {
+				var autocompleteSettingsAndData = {
 					data: fetchedData.response.stories,
-					getValue: "Title",
+					getValue: 'Title',
 					list: {
 						maxNumberOfElements: 10,
 						match: {
@@ -82,7 +83,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				};
 
-				$( htmlElementID ).easyAutocomplete(content);
+				$( htmlElementID ).easyAutocomplete(autocompleteSettingsAndData);
 				$( htmlElementID ).focus();
 			},
 			function(data){
