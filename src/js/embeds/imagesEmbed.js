@@ -26,7 +26,7 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'image'
 		};
 
-	var formatFileSize  = function(bytes) {
+	var formatFileSize = function(bytes) {
 		if (typeof bytes !== 'number')
 		{
 			return '';
@@ -43,9 +43,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
-
-
-
 
 	var loadLicenses = function (getPath){
 			EntityEmbed.apiService.get(
