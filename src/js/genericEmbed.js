@@ -113,6 +113,12 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
+	genericEmbed.prototype.validate = function($el){
+		var $form = $el.find('form')
+		$form.validate();
+		return $form.valid();
+	};
+
 	EntityEmbedTypes.genericEmbed = genericEmbed;
 
 	// augment Function to enable simple inheritance, if not already done so
