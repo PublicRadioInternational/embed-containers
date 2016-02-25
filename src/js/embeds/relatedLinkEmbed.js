@@ -1,3 +1,5 @@
+var EntityEmbed = EntityEmbed || {};
+
 (function(base, EntityEmbedTypes){
 
 	'use strict';
@@ -41,7 +43,7 @@
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	};
-
+ 
 	relatedLinkEmbed.inherits(EntityEmbedTypes.genericEmbed);
 	EntityEmbedTypes[embedName] = relatedLinkEmbed;
 
@@ -54,6 +56,40 @@
 			displayTitle: null,
 			links: []
 		};
+	};
+
+	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
+	//  begin typing the title of a story and have a dropdown list of stories displayed to them
+	//  based on their input.
+	var initAutoComplete = function(htmlElementID, self){
+		// TODO: Make function take in user input to pass to API
+
+		EntityEmbed.apiService.get(
+			self.options.httpPaths.get,
+			// TODO: Object id is currently hard-coded, this needs to be changed.
+			{object_id: '5ce1b659ac36423f8e939596ac0b0c83'},
+			function(fetchedData){
+				var autocompleteSettingsAndData = {
+					data: fetchedData.response.stories,
+					getValue: 'Title',
+					list: {
+						maxNumberOfElements: 10,
+						match: {
+							enabled: true
+						},
+						sort: {
+							enabled: true
+						},		
+					}
+				};
+
+				$( htmlElementID ).easyAutocomplete(autocompleteSettingsAndData);
+				$( htmlElementID ).focus();
+			},
+			function(data){
+				console.log('failed to retrieve any stories!');
+			}
+		);
 	};
 
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
@@ -105,11 +141,16 @@
 				'</div>'
 			);
 
-			//self.initiAutoComplete($('#' + pseudoGuid)
+			// TODO: Call initAutoComplete only after the user has stopped typing for a period of time
+			// This is smelly code
+			$('#' + pseudoGuid).keydown(function(){
+				$('#' + pseudoGuid).keydown(initAutoComplete('#' + pseudoGuid, self));
+			});
 		});
 
 		$el.on('click', '.' + removeLinkClass, function(){
 			$(document.activeElement).closest('.' + linkClass).remove();
 		});
 	};
+
 })('', EntityEmbedTypes);
