@@ -113,9 +113,14 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
-	genericEmbed.prototype.validate = function($el){
+	genericEmbed.prototype.validate = function($el, options){
+		if (!!options)
+		{
+			options = {};
+		}
+
 		var $form = $el.find('form')
-		$form.validate();
+		$form.validate(options);
 		return $form.valid();
 	};
 

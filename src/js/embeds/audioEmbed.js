@@ -21,7 +21,10 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'audio'
+			object_type: 'audio',
+			validationOptions: {
+				
+			}
 		};
 
 	function formatFileSize(bytes) {
@@ -116,5 +119,8 @@
 				'</div>';
 	};
 
-
+	audioEmbed.prototype.validate = function($el){
+		var self = this;
+		self.parent.validate($el, self.options.validationOptions);
+	};
 })('', EntityEmbedTypes);
