@@ -13,7 +13,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	// TODO : allow configuration of this object
 	var embedModalSelectors = {
-			buttons: {
+		buttons: {
 				saveEmbed: '#btn-save-modal', // saves the modal
 				abortModal: '#btn-abort-modal', // aborts (cancels) the modal
 				showSelectExisting: '#btn-show-select-existing', // shows the select-existing-embed view
@@ -34,8 +34,8 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		tableRowHtml = function(title, id){
 			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' + 
-						'<td>' + title + '</tr>'+
-					'</td>';
+			'<td>' + title + '</tr>'+
+			'</td>';
 		},
 		toggleEditorTyping = function(scope, toggleCmd){
 			// enable/disable typing in the editor by finding the first class
@@ -44,11 +44,11 @@ var EntityEmbed = EntityEmbed || {};
 			$("." + currentEditorClass[0]).attr("contenteditable", toggleCmd);
 		};
 
-	function embedModalDefaults() {};
+		function embedModalDefaults() {};
 
-	embedModalDefaults.prototype.functions = {
-		init:{
-			before: function(scope){
+		embedModalDefaults.prototype.functions = {
+			init:{
+				before: function(scope){
 				/* 
 				 * define necessary fields for scope
 				 *
@@ -59,35 +59,35 @@ var EntityEmbed = EntityEmbed || {};
 				 *		scope.$modalBody
 				 *		scope.embedTypes
 				 */
-				scope.currentEmbedType = null;
-				
-				scope.setModalView = function(scope, embedType){
-					if (!embedType)
-					{
-						return;
-					}
+				 scope.currentEmbedType = null;
+				 
+				 scope.setModalView = function(scope, embedType){
+				 	if (!embedType)
+				 	{
+				 		return;
+				 	}
 
-					if (!!scope.currentEmbedType)
-					{
-						scope.currentEmbedType.$view.hide();
-						scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-					}
+				 	if (!!scope.currentEmbedType)
+				 	{
+				 		scope.currentEmbedType.$view.hide();
+				 		scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				 	}
 
-					scope.currentEmbedType = $.grep(scope.embedTypes, function(et){
-						return et.options.object_type == embedType;
-					})[0];
+				 	scope.currentEmbedType = $.grep(scope.embedTypes, function(et){
+				 		return et.options.object_type == embedType;
+				 	})[0];
 
-					scope.currentEmbedType.$view.show();
-					scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
-				};
+				 	scope.currentEmbedType.$view.show();
+				 	scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
+				 };
 
-				scope.resetModalView = function(scope){
-					var embedName = scope.embedTypes[0].options.object_type;
-					scope.setModalView(scope, embedName);
-				};
+				 scope.resetModalView = function(scope){
+				 	var embedName = scope.embedTypes[0].options.object_type;
+				 	scope.setModalView(scope, embedName);
+				 };
 
-				scope.saveEmbed = function(scope){
-					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+				 scope.saveEmbed = function(scope){
+				 	scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 					// TODO : put title on each embed type's form
 					if (!scope.currentEmbedType.model.title)
 					{
@@ -117,7 +117,7 @@ var EntityEmbed = EntityEmbed || {};
 								// TODO : UI failure message
 								console.log('put failed');
 							}
-						);
+							);
 					}
 					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
 						// add the object_type onto the model
@@ -137,7 +137,7 @@ var EntityEmbed = EntityEmbed || {};
 								// TODO : UI failure message
 								console.log('post failed');
 							}
-						);
+							);
 					}						
 				};
 
@@ -163,8 +163,8 @@ var EntityEmbed = EntityEmbed || {};
 										var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
 										
 										$(embedModalSelectors.elements.selectExistingTableBody)
-											.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
-											.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
+										.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
+										.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
 
 										if (needToAddClass){
 											$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
@@ -175,77 +175,77 @@ var EntityEmbed = EntityEmbed || {};
 											$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
 										}
 									}
-								);
+									);
 							}		
 						},
 						function(data){
 							console.log('Failed to get list of current embed types for the Select Existing page.');
 						}
-					);
-				};
+						);
+};
 
-				scope.showCreateNewEmbedView = function(scope){
-					$(embedModalSelectors.buttons.showSelectExisting).show();
-					scope.$embedTypeSelect.show();
+scope.showCreateNewEmbedView = function(scope){
+	$(embedModalSelectors.buttons.showSelectExisting).show();
+	scope.$embedTypeSelect.show();
 
-					$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
-					$(embedModalSelectors.containers.createNewEmbed).slideDown();
+	$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
+	$(embedModalSelectors.containers.createNewEmbed).slideDown();
 
-					$(embedModalSelectors.containers.selectButtons).hide();
-					$(embedModalSelectors.containers.createButtons).show();
-				};
+	$(embedModalSelectors.containers.selectButtons).hide();
+	$(embedModalSelectors.containers.createButtons).show();
+};
 
-				scope.showEditEmbedView = function(scope){
-					$(embedModalSelectors.buttons.showSelectExisting).hide();
-					scope.$embedTypeSelect.hide();
+scope.showEditEmbedView = function(scope){
+	$(embedModalSelectors.buttons.showSelectExisting).hide();
+	scope.$embedTypeSelect.hide();
 
-					if ($(embedModalSelectors.containers.selectExistingEmbed).is(':visible'))
-					{
-						$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
-						$(embedModalSelectors.containers.createNewEmbed).slideDown();
-					}
+	if ($(embedModalSelectors.containers.selectExistingEmbed).is(':visible'))
+	{
+		$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
+		$(embedModalSelectors.containers.createNewEmbed).slideDown();
+	}
 
-					$(embedModalSelectors.containers.selectButtons).hide();
-					$(embedModalSelectors.containers.createButtons).show();
+	$(embedModalSelectors.containers.selectButtons).hide();
+	$(embedModalSelectors.containers.createButtons).show();
 
-					$(embedModalSelectors.buttons.showSelectExisting).hide();
+	$(embedModalSelectors.buttons.showSelectExisting).hide();
 
-				};
+};
 
-				scope.generateEmbedHtml = function(scope){
-					scope.$currentEditorLocation.addClass('entity-embed-center');
-					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
+scope.generateEmbedHtml = function(scope){
+	scope.$currentEditorLocation.addClass('entity-embed-center');
+	scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
-					var figureClass = 'entity-embed'
+	var figureClass = 'entity-embed'
 
-					if (!!scope.currentEmbedType.defaultStyle)
-					{
-						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
-					}
+	if (!!scope.currentEmbedType.defaultStyle)
+	{
+		figureClass += ' ' + scope.currentEmbedType.defaultStyle;
+	}
 
-					return '<div class="entity-embed-container">' + 
-								'<figure contenteditable="false" class="' + figureClass + '" ' + 
-									'id="' + scope.currentEmbedType.model.object_id + '" >' +
-									scope.currentEmbedType.parseForEditor() +
-								'</figure>' + 
-							'</div>'
+	return '<div class="entity-embed-container">' + 
+	'<figure contenteditable="false" class="' + figureClass + '" ' + 
+	'id="' + scope.currentEmbedType.model.object_id + '" >' +
+	scope.currentEmbedType.parseForEditor() +
+	'</figure>' + 
+	'</div>'
 							// ad a new paragraph after the embed so that user can continue typing
 							// TODO : make sure that no one can ever remove this
 							//			user could put self in bad editing state
 							'<p class="entity-embed-new-line">' + 
-								'<br />' + 
+							'<br />' + 
 							'</p>';
-				};
-			},
-			after: function(scope){
+						};
+					},
+					after: function(scope){
 				// first load all dynamic content
 
 				// load the select existing view
 				scope.$modalBody.find(embedModalSelectors.containers.selectExistingEmbed)
-					.load('modal/modal_selectedExisting.html', function(responseText, textStatus, xhr){
-						console.log('modal_selectedExisting.html load completed with status: ' + textStatus);
-						if (textStatus === 'error')
-						{
+				.load('modal/modal_selectedExisting.html', function(responseText, textStatus, xhr){
+					console.log('modal_selectedExisting.html load completed with status: ' + textStatus);
+					if (textStatus === 'error')
+					{
 							// TODO : error view (so that user knows something went wrong)
 						}
 
@@ -264,8 +264,8 @@ var EntityEmbed = EntityEmbed || {};
 
 					// create the embed view container and load the view into it
 					scope.$modalBody
-						.find(embedModalSelectors.containers.createNewEmbed)
-						.append('<div id="' + embedObject.name + '"></div>');
+					.find(embedModalSelectors.containers.createNewEmbed)
+					.append('<div id="' + embedObject.name + '"></div>');
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
 					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
@@ -351,7 +351,7 @@ var EntityEmbed = EntityEmbed || {};
 								// TODO: show error UI
 								console.log('failed to get embed type!');
 							}
-						);
+							);
 					});
 			}
 		},
@@ -377,7 +377,7 @@ var EntityEmbed = EntityEmbed || {};
 						function(data){
 							console.log('failed to get embed type!');
 						}
-					);
+						);
 
 				}
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
