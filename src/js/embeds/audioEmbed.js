@@ -119,8 +119,4 @@
 				'</div>';
 	};
 
-	audioEmbed.prototype.validate = function($el){
-		var self = this;
-		self.parent.validate($el, self.options.validationOptions);
-	};
 })('', EntityEmbedTypes);
