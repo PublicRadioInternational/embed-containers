@@ -124,7 +124,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!!$toolbars[self.currentToolbarEmbedType])
 		{
-
 			$toolbars[self.currentToolbarEmbedType].find('button').each(function () {
 				if($activeLine.hasClass('entity-embed-' + $(this).data('action')))	
 				{

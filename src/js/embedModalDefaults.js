@@ -217,7 +217,8 @@ var EntityEmbed = EntityEmbed || {};
 
 					return '<div class="entity-embed-container">' + 
 								'<figure contenteditable="false" class="' + figureClass + '" ' + 
-									'id="' + scope.currentEmbedType.model.object_id + '" >' +
+									'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
+									'data-embed-type="' + scope.currentEmbedType.name + '" >' +
 									scope.currentEmbedType.parseForEditor() +
 								'</figure>' + 
 							'</div>'
