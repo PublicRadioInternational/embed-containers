@@ -216,17 +216,21 @@ scope.generateEmbedHtml = function(scope){
 
 	var figureClass = 'entity-embed'
 
+
 	if (!!scope.currentEmbedType.defaultStyle)
 	{
 		figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 	}
 
-	return '<div class="entity-embed-container">' + 
-	'<figure contenteditable="false" class="' + figureClass + '" ' + 
-	'id="' + scope.currentEmbedType.model.object_id + '" >' +
-	scope.currentEmbedType.parseForEditor() +
-	'</figure>' + 
-	'</div>'
+
+					return '<div class="entity-embed-container">' + 
+								'<figure contenteditable="false" class="' + figureClass + '" ' + 
+									'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
+									'data-embed-type="' + scope.currentEmbedType.name + '" >' +
+									scope.currentEmbedType.parseForEditor() +
+								'</figure>' + 
+							'</div>'
+
 							// ad a new paragraph after the embed so that user can continue typing
 							// TODO : make sure that no one can ever remove this
 							//			user could put self in bad editing state
