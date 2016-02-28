@@ -104,7 +104,7 @@ var EntityEmbed = EntityEmbed || {};
 		loadLicenses(this.options.httpPaths.get);
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
-    		replaceFileInput:false,
+    		replaceFileInput: false,
 			add: function(e, data){
 				data.submit().complete(function (result, textStatus, jqXHR) {
 					if (textStatus === 'success')

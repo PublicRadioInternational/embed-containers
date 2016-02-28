@@ -70,6 +70,7 @@
 
 		$el.find("input[name='thumbnailFile']").fileupload({
 			dataType: 'json',
+    		replaceFileInput: false,
 			add: function(e, data){
 				// TODO : better id (this one potentially has spaces)
 				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');
