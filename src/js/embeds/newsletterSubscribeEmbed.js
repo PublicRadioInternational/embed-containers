@@ -23,7 +23,16 @@ var EntityEmbed = EntityEmbed || {};
 				get: '',
 				del: ''
 			},
-			object_type: 'newsletter'
+			object_type: 'newsletter',
+			validationOptions: {
+				rules: {
+					internalTitle: 'required',
+					displayTitle: 'required',
+					teaser: 'required',
+					
+				}
+
+			}
 		};
 
 	var loadSubscription = function (getPath){

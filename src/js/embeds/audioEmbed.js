@@ -21,7 +21,15 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'audio'
+			object_type: 'audio',
+			validationOptions: {
+				rules: {
+					url: 'required',
+					credit: 'required',
+					creditLink: 'required',
+					audioFile: 'required'
+				}
+			}
 		};
 
 	function formatFileSize(bytes) {
@@ -66,7 +74,6 @@
 
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
-
 		$el.find("input[name='audioFile']").fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
@@ -100,7 +107,6 @@
 	audioEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el);
-
 		$('#audioList').children().remove();
 	};
 
@@ -117,6 +123,5 @@
 					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
 				'</div>';
 	};
-
 
 })('', EntityEmbedTypes);

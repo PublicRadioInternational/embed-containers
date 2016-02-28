@@ -21,7 +21,12 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'video'
+			object_type: 'video',
+			validationOptions: {
+				rules: {
+					url: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR

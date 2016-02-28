@@ -21,7 +21,17 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'external-link'
+			object_type: 'external-link',
+			validationOptions: {
+				rules: {
+					internalTitle: 'required',
+					displayTitle: 'required',
+					url: 'required',
+					linkText: 'required',
+					teaser: 'required',
+					thumbnailFile: 'required'
+				}
+			}
 		};
 
 	function formatFileSize(bytes) {
@@ -67,7 +77,6 @@
 
 	externalLinkEmbed.prototype.initModal = function($el){
 		var self = this;
-
 		$el.find("input[name='thumbnailFile']").fileupload({
 			dataType: 'json',
     		replaceFileInput: false,

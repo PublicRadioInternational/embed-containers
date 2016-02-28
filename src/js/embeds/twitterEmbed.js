@@ -21,7 +21,12 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'tweet'
+			object_type: 'tweet',
+			validationOptions: {
+				rules: {
+					tweetUrl: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR
