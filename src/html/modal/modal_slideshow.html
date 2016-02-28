@@ -1,7 +1,66 @@
-<div class="embed-modal-row">
-	<div class="embed-modal-full-column">
-		<div class="embed-modal-form">
-			
+<form action="uploadImage.php" method="post" enctype="multipart/form-data">
+	<div class="embed-modal-row">
+		<div class="embed-modal-full-column">
+			<div class="embed-modal-form">
+				<label for="title" class="embed-modal-label">Title</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
+			</div>
 		</div>
 	</div>
-</div>
+	<div class="embed-modal-row">
+		<div class="embed-modal-half-column">
+			<input class="" type="file" name="imageFile" />
+		</div>
+		<div class="embed-modal-half-column">
+			<select class="embed-modal-slideshow-image-select embed-modal-form-control">
+			</select>
+		</div>
+	</div>
+
+	<fieldset id="embed-modal-slideshow-image">
+		<legend></legend>
+		<div class="embed-modal-row">
+			<div class="embed-modal-half-column">
+				<div class="embed-modal-form">
+					<label for="altText" class="embed-modal-label">Alt Text</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
+				</div>
+			</div>
+			<div class="embed-modal-half-column">
+				<div class="embed-modal-form">
+					<label for="titleText" class="embed-modal-label">Title Text</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="titleText" />
+				</div>
+			</div>
+		</div>
+
+		<div class="embed-modal-row">
+			<div class="embed-modal-form">
+				<div class="embed-modal-half-column">
+					<label for="credit" class="embed-modal-label">Credit</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
+				</div>	
+				<div class="embed-modal-half-column">
+					<label for="creditLink" class="embed-modal-label">Credit Link</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="creditLink" />
+				</div>
+			</div>
+		</div>
+
+		<div class="embed-modal-row">
+			<div class="embed-modal-half-column">
+				<div class="embed-modal-form">
+					<label for="caption" class="embed-modal-label">Caption</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="caption" />
+				</div>
+			</div>
+			<div class="embed-modal-half-column">
+				<div class="embed-modal-form">
+					<label for="license" class="embed-modal-label">License</label>
+					<select class="embed-modal-form-control" type="text" name="license" id="license">
+					</select>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+</form>	

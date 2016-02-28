@@ -136,6 +136,9 @@ var EntityEmbed = EntityEmbed || {};
 			return l.orderIndex - r.orderIndex;
 		});
 
+		// TODO : only track these on global namespace, not on this addon
+		EntityEmbed.embedTypes = self.embedTypes;
+
 		var modalOptions;
 		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
 		if (!!self.options.modalOptions)
