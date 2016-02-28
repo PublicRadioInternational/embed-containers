@@ -99,6 +99,7 @@
 
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
+    		replaceFileInput: false,
 			add: function(e, data){
 				data.submit().complete(function (result, textStatus, jqXHR) {
 					if (textStatus !== 'success')
