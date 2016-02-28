@@ -87,7 +87,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
-			files: [], // TODO : only one file
+			file: null,
 			altText: null,
 			titleText: null,
 			credit: null,
@@ -104,21 +104,14 @@ var EntityEmbed = EntityEmbed || {};
 		loadLicenses(this.options.httpPaths.get);
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
+    		replaceFileInput:false,
 			add: function(e, data){
-				// TODO : better id (this one potentially has spaces)
-				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');
-				
-				listItem.find('span').html(data.files[0].name + ' - ' + 
-					'<i>' + formatFileSize(data.files[0].size) + '</i>');
-				
-				data.context = listItem.appendTo($('#imagesList'));
-				
 				data.submit().complete(function (result, textStatus, jqXHR) {
 					if (textStatus === 'success')
 					{
 						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
 						{
-							self.model.files.push(result.responseJSON.path);
+							self.model.file = result.responseJSON.path;
 						}
 					}
 					else
@@ -142,7 +135,7 @@ var EntityEmbed = EntityEmbed || {};
 		// TODO : use handlebars for this
 		var self = this;
 
-		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.files[0] +'" />' + 
+		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.file +'" />' + 
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
