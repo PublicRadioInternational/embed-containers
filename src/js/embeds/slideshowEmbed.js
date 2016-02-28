@@ -31,7 +31,6 @@
 					altText: 'required',
 					titleText: 'required',
 					caption: 'required',
-					//license: 'required',
 					title: 'required'
 				}
 			}

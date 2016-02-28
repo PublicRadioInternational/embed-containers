@@ -104,18 +104,6 @@
 		});
 	};
 
-	// audioEmbed.prototyp.validate = function($el,options)
-	// {
-	// 	var self = this;
-	// 	if (self.files.length == 0)
-	// 	{
-	// 		return false;
-	// 	} 
-	// 	else
-	// 	{
-
-	// 	}
-	// }
 	audioEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el);
