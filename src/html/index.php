@@ -25,6 +25,8 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
 		
+		<!-- validator -->
+		<script src="lib/jquery-validation/dist/jquery.validate.js"></script>
 	
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="contents/main.css">

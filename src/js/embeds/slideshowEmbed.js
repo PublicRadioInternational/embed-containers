@@ -21,7 +21,20 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'slideshow'
+			object_type: 'slideshow',
+			validationOptions: {
+				rules: {
+					url: 'required',
+					imageFile: 'required',
+					creditLink: 'required',
+					credit: 'required',
+					altText: 'required',
+					titleText: 'required',
+					caption: 'required',
+					//license: 'required',
+					title: 'required'
+				}
+			}
 		},
 		generateId = function () {
 			var seg = function(){

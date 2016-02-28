@@ -21,7 +21,12 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'instagram'
+			object_type: 'instagram',
+			validationOptions: {
+				rules: {
+					url: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR

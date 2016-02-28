@@ -3,6 +3,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 (function(){
 
 	'use strict';
+	
 
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
@@ -28,6 +29,9 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			right: true,
 			center: true,
 			wide: true
+		},
+		validationOptions: {
+
 		}
 	};
 
@@ -52,7 +56,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 
 	genericEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
+		var formFields = $el.find('.embed-modal-form');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -66,7 +70,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 
 	genericEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
-		var formFields = $form.find('.embed-modal-form-control');
+		var formFields = $form.find('.embed-modal-form');
 		for (var i = 0; i < formFields.length; i++)
 		{
 			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
@@ -110,6 +114,13 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 
 	genericEmbed.prototype.parseForEditor = function(){
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+	};
+
+	genericEmbed.prototype.validate = function($el){
+		var self = this;
+		var $form = $el.find('form')
+		$form.validate(this.options.validationOptions);
+		return $form.valid();
 	};
 
 	EntityEmbedTypes.genericEmbed = genericEmbed;
