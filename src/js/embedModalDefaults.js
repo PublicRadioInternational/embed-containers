@@ -222,7 +222,6 @@ scope.generateEmbedHtml = function(scope){
 		figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 	}
 
-
 					return '<div class="entity-embed-container">' + 
 								'<figure contenteditable="false" class="' + figureClass + '" ' + 
 									'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
