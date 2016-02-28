@@ -26,7 +26,7 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'image'
 		};
 
-	var formatFileSize  = function(bytes) {
+	var formatFileSize = function(bytes) {
 		if (typeof bytes !== 'number')
 		{
 			return '';
@@ -44,36 +44,33 @@ var EntityEmbed = EntityEmbed || {};
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
 
-
-
-
 	var loadLicenses = function (getPath){
-			EntityEmbed.apiService.get(
-						getPath,
-						//Current Guid value of the license list
-						//TODO: change this from a hardcoded value
-						{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
-						function(data){
-							//load object into license list
-						
-							if (!!data.response.list)
-							{
-								var licenseList = [];
-								var i = 0;
-								for(var licenseName in data.response.list)
-								{
-									if(!!licenseName){
-										licenseList[i] = "<option>" + licenseName + "</option>";
-									}
-									i++;
-								}
-								$("#license").html(licenseList);
-							}
-						},
-						function(data){
-							console.log('failed to find object with that id');
+		EntityEmbed.apiService.get(
+			getPath,
+			//Current Guid value of the license list
+			//TODO: change this from a hardcoded value
+			{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
+			function(data){
+				//load object into license list
+			
+				if (!!data.response.list)
+				{
+					var licenseList = [];
+					var i = 0;
+					for(var licenseName in data.response.list)
+					{
+						if(!!licenseName){
+							licenseList[i] = "<option>" + licenseName + "</option>";
 						}
-					);
+						i++;
+					}
+					$("#license").html(licenseList);
+				}
+			},
+			function(data){
+				console.log('failed to find object with that id');
+			}
+		);
 	};
 
 	// CONSTRUCTOR
@@ -90,7 +87,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
-			files: [],
+			files: [], // TODO : only one file
 			altText: null,
 			titleText: null,
 			credit: null,

@@ -48,7 +48,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbedTypes[embedName] = relatedLinkEmbed;
 
 	// PUBLIC
-	relatedLinkEmbed.prototype.orderIndex = 9;
+	relatedLinkEmbed.prototype.orderIndex = 10;
 
 	relatedLinkEmbed.prototype.cleanModel = function(){
 		return {

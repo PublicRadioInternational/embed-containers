@@ -34,7 +34,7 @@
 	EntityEmbedTypes[embedName] = videoEmbed;
 
 	// PUBLIC
-	videoEmbed.prototype.orderIndex = 3;
+	videoEmbed.prototype.orderIndex = 4;
 
 	videoEmbed.prototype.cleanModel = function(){
 		return {

@@ -26,6 +26,13 @@ $(document).ready(function(){
 							get: 'https://test-services.pri.org/admin/embed/fetch'
 						}
 					},
+					slideshow:{
+						httpPaths:{	
+							put: 'https://test-services.pri.org/admin/embed/edit',
+							post: 'https://test-services.pri.org/admin/embed/edit',
+							get: 'https://test-services.pri.org/admin/embed/fetch'
+						}
+					},
 					video:{
 						httpPaths:{	
 							put: 'https://test-services.pri.org/admin/embed/edit',
