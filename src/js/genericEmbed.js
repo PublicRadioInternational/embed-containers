@@ -29,6 +29,9 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			right: true,
 			center: true,
 			wide: true
+		},
+		validationOptions: {
+
 		}
 	};
 
@@ -113,14 +116,10 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
-	genericEmbed.prototype.validate = function($el, options){
-		if (!!options)
-		{
-			options = {};
-		}
-
+	genericEmbed.prototype.validate = function($el){
+		var self = this;
 		var $form = $el.find('form')
-		$form.validate(options);
+		$form.validate(this.options.validationOptions);
 		return $form.valid();
 	};
 

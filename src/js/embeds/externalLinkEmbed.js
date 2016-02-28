@@ -21,7 +21,16 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'external-link'
+			object_type: 'external-link',
+			validationOptions: {
+				rules: {
+					internalTitle: 'required',
+					displayTitle: 'required',
+					url: 'required',
+					linkText: 'required',
+					teaser: 'required'
+				}
+			}
 		};
 
 	function formatFileSize(bytes) {

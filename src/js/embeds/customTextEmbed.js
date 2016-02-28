@@ -22,7 +22,14 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'custom'
+			object_type: 'custom',
+			validationOptions: {
+				rules : {
+					internalTitle: 'required',
+					displayTitle: 'required',
+					customText: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR

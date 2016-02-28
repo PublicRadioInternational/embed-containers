@@ -23,7 +23,13 @@ var EntityEmbed = EntityEmbed || {};
 				get: '',
 				del: ''
 			},
-			object_type: 'related-link'
+			object_type: 'related-link',
+			validationOptions: {
+				rules: {
+					internalTitle: "required",
+					displayTitle:  "required"
+				}
+			}
 		};
 		
 	// generates a pseudo guid (not guatanteed global uniqueness)

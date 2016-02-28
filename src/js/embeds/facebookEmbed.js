@@ -21,7 +21,12 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'facebook'
+			object_type: 'facebook',
+			validationOptions: {
+				rules: {
+					url: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR

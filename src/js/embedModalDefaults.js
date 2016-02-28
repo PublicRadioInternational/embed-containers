@@ -94,13 +94,6 @@ var EntityEmbed = EntityEmbed || {};
 						scope.currentEmbedType.model.title = '';
 					}
 
-					// var $form = scope.currentEmbedType.$view.find('form');
-					// $form.validate();
-
-					// if(!$form.valid())
-					// {
-					// 	return;
-					// }
 					if (!scope.currentEmbedType.validate(scope.currentEmbedType.$view))
 					{
 						return;

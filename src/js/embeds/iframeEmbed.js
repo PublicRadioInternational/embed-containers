@@ -21,7 +21,12 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'iframe'
+			object_type: 'iframe',
+			validationOptions: {
+				rules: {
+					url: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR

@@ -8,7 +8,7 @@
 
 	if (!file_exists($audioDir))
 	{
-		mkdir($audioDir);
+		mkdir($audioDir,true);
 	}
 
 		$acceptableTypes = array('mp3', 'mpeg', 'wav', 'flac','m4a');

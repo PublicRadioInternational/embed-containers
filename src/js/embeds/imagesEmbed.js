@@ -23,7 +23,16 @@ var EntityEmbed = EntityEmbed || {};
 				get: '',
 				del: ''
 			},
-			object_type: 'image'
+			object_type: 'image',
+			validationOptions: {
+				rules: {
+					altText: 'required',
+					titleText: 'required',
+					credit: 'required',
+					creditLink: 'required',
+					caption: 'required', 
+				}
+			}
 		};
 
 	var formatFileSize  = function(bytes) {

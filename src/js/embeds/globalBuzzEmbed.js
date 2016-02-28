@@ -21,7 +21,18 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'global-buzz'
+			object_type: 'global-buzz',
+			validationOptions: {
+				rules: {
+					internalTitle: 'required',
+					quote: 'required',
+					credit: 'required',
+					quoteUrlText: 'required',
+					quoteUrl: 'required',
+					url: 'required'
+				}
+
+			}
 		};
 
 	// CONSTRUCTOR
