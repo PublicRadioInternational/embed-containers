@@ -31,6 +31,7 @@ var EntityEmbed = EntityEmbed || {};
 					credit: 'required',
 					creditLink: 'required',
 					caption: 'required', 
+					imageFile: 'required'
 				}
 			}
 		};

@@ -28,7 +28,8 @@
 					displayTitle: 'required',
 					url: 'required',
 					linkText: 'required',
-					teaser: 'required'
+					teaser: 'required',
+					thumbnailFile: 'required'
 				}
 			}
 		};

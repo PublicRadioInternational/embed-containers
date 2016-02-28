@@ -26,7 +26,8 @@
 				rules: {
 					url: 'required',
 					credit: 'required',
-					creditLink: 'required'
+					creditLink: 'required',
+					audioFile: 'required'
 				}
 			}
 		};
