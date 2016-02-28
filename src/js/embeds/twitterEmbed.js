@@ -39,7 +39,7 @@
 	EntityEmbedTypes[embedName] = twitterEmbed;
 
 	// PUBLIC
-	twitterEmbed.prototype.orderIndex = 5;
+	twitterEmbed.prototype.orderIndex = 6;
 
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;

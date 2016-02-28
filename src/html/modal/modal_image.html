@@ -1,11 +1,20 @@
 <form action="uploadImage.php" method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row">
 		<div class="embed-modal-half-column">
-		<input type="file" name="imageFile" required/>
+			<input type="file" name="imageFile" required/>
 		</div>
+	</div>
+	<div class="embed-modal-row">
 		<div class="embed-modal-half-column">
-			<ul id="imagesList">
-			</ul>
+			<div class="embed-modal-form">
+				<label for="altText" class="embed-modal-label">Alt Text</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
+
+			</div>
+			<div class="embed-modal-half-column">
+				<ul id="imagesList">
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="embed-modal-row">
@@ -42,12 +51,13 @@
 				<input class="embed-modal-input embed-modal-form-control" type="text" name="caption"/>
 			</div>
 		</div>			
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form">
-			<label for="license" class="embed-modal-label">License</label>
-			<select class="embed-modal-form-control" type="text" name="license" id="license">
-			</select>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label for="license" class="embed-modal-label">License</label>
+				<select class="embed-modal-form-control" type="text" name="license" id="license">
+				</select>
 
+			</div>
 		</div>
 	</div>
 </form>

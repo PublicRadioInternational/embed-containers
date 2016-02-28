@@ -86,7 +86,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 				});
 				formFields[i].selectedIndex = optionIndex;
 			}
-			else
+			else if (!!self.model[formFields[i].name])
 			{
 				formFields[i].value = self.model[formFields[i].name];
 			}

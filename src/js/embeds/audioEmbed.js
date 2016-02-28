@@ -59,7 +59,7 @@
 	EntityEmbedTypes[embedName] = audioEmbed;
 
 	// PUBLIC
-	audioEmbed.prototype.orderIndex = 2;
+	audioEmbed.prototype.orderIndex = 3;
 
 	audioEmbed.prototype.defaultStyle = 'entity-embed-center'; 
 
@@ -75,6 +75,7 @@
 		var self = this;	
 		$el.find("input[name='audioFile']").fileupload({
 			dataType: 'json',
+    		replaceFileInput: false,
 			add: function(e, data){
 				// TODO : better id (this one potentially has spaces)
 				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');

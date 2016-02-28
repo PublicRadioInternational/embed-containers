@@ -74,7 +74,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbedTypes[embedName] = newsletterSubscribeEmbed;
 
 	// PUBLIC
-	newsletterSubscribeEmbed.prototype.orderIndex = 11;
+	newsletterSubscribeEmbed.prototype.orderIndex = 12;
 
 	newsletterSubscribeEmbed.prototype.cleanModel = function(){
 		return {
