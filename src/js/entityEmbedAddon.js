@@ -235,7 +235,10 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.editorSerialize = function() {
 		var self = this;
 		var data = self._serializePreEmbeds();
-		var cleanedData = '';
+		var cleanedData = {
+			storyHtml: '',
+			embeds: []
+		};
 
 		$.each(data, function(key){
 			var $data = $('<div />').html(data[key].value);
@@ -254,11 +257,11 @@ var EntityEmbed = EntityEmbed || {};
 					type: $embed.attr('data-embed-type')
 				};
 
-				var embedString = '[[' + JSON.stringify(embed) + ']]';
-				$($embedContainers[i]).html(embedString);
+				cleanedData.embeds.push(embed)
+				$($embedContainers[i]).html('[[' + (cleanedData.length - 1) + ']]');
 			}
 
-			cleanedData += $data.html();
+			cleanedData.storyHtml += $data.html();
 		});
 
 		return cleanedData;

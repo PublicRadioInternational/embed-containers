@@ -120,7 +120,7 @@ $(document).ready(function(){
 
 	$getContentBtn.click(function(){
 		var $storyDataWell = $('.story-content #data');
-
-		$storyDataWell.text(medEditor.serialize());
+		var storyObject = medEditor.serialize();
+		$storyDataWell.text(JSON.stringify(storyObject, null, 4));
 	});
 });
