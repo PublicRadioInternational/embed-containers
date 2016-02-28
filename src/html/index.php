@@ -37,9 +37,12 @@
 	</head>
 
 	<body>
-		<div class="editable editor">
-			This is editable content - try typing in here!
-		</div>
+		<fieldset class="editor-content">
+			<legend>Story Editor</legend>
+			<div class="editable editor">
+				This is editable content - try typing in here!
+			</div>
+		</fieldset>
 		
 		<button id="get-story-content">Get Story Content</button>
 		
