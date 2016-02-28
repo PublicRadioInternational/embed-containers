@@ -2,6 +2,8 @@ $(document).ready(function(){
 	
  	var medEditor = new MediumEditor('.editable');
 
+ 	var $getContentBtn = $('#get-story-content');
+
 	$('.editable').mediumInsert({
 		editor: medEditor,
 		enabled: true,
@@ -115,8 +117,10 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+	$getContentBtn.click(function(){
+		var $storyDataWell = $('.story-content #data');
+
+		$storyDataWell.text(medEditor.serialize());
+	});
 });
-
-
-
-
