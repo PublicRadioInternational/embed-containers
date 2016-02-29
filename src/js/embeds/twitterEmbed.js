@@ -24,6 +24,7 @@
 			object_type: 'tweet',
 			validationOptions: {
 				rules: {
+					title: 'required',
 					tweet: 'required'
 				}
 			}
@@ -68,6 +69,7 @@
 	// PUBLIC
 	twitterEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null
 		};
 	};

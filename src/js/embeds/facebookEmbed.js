@@ -24,6 +24,7 @@
 			object_type: 'facebook',
 			validationOptions: {
 				rules: {
+					title: 'required',
 					url: 'required'
 				}
 			}
@@ -77,6 +78,7 @@
 	// PUBLIC
 	facebookEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null
 		};
 	};

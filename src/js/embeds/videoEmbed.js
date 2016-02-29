@@ -24,6 +24,7 @@
 			object_type: 'video',
 			validationOptions: {
 				rules: {
+					title: 'required',
 					url: 'required'
 				}
 			}
@@ -43,6 +44,7 @@
 
 	videoEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null
 		};
 	};

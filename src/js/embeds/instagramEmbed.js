@@ -24,6 +24,7 @@
 			object_type: 'instagram',
 			validationOptions: {
 				rules: {
+					title: 'required',
 					url: 'required'
 				}
 			}
@@ -70,6 +71,7 @@
 	// PUBLIC
 	instagramEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null
 		};
 	};
