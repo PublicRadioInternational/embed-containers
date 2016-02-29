@@ -1,15 +1,21 @@
 <form action="uploadImage.php" method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row">
-		<div class="embed-modal-full-column">
+		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
-				<label for="title" class="embed-modal-label">Title</label>
-				<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
+				<label for="slideshowTitle" class="embed-modal-label">Slideshow Title</label>
+				<input class="embed-modal-input embed-modal-form-control" placeholder="Enter a title for internal use" type="text" name="slideshowTitle" />
+			</div>
+		</div>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label for="displayTitle" class="embed-modal-label">Display Title</label>
+				<input class="embed-modal-input embed-modal-form-control" placeholder="Enter a title to display" type="text" name="displayTitle" />
 			</div>
 		</div>
 	</div>
 	<div class="embed-modal-row">
 		<div class="embed-modal-half-column">
-			<input class="" type="file" name="imageFile" />
+			<input class="embed-modal-input" type="file" name="imageFile" />
 		</div>
 		<div class="embed-modal-half-column">
 			<select class="embed-modal-slideshow-image-select embed-modal-form-control">
@@ -22,18 +28,17 @@
 		<div class="embed-modal-row">
 			<div class="embed-modal-half-column">
 				<div class="embed-modal-form">
-					<label for="altText" class="embed-modal-label">Alt Text</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
+					<label for="title" class="embed-modal-label">Title</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
 				</div>
 			</div>
 			<div class="embed-modal-half-column">
 				<div class="embed-modal-form">
-					<label for="titleText" class="embed-modal-label">Title Text</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="titleText" />
+					<label for="altText" class="embed-modal-label">Alt Text</label>
+					<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
 				</div>
 			</div>
 		</div>
-
 		<div class="embed-modal-row">
 			<div class="embed-modal-form">
 				<div class="embed-modal-half-column">
@@ -57,8 +62,7 @@
 			<div class="embed-modal-half-column">
 				<div class="embed-modal-form">
 					<label for="license" class="embed-modal-label">License</label>
-					<select class="embed-modal-form-control" type="text" name="license" id="license">
-					</select>
+					<select class="embed-modal-form-control" type="text" name="license" id="license"></select>
 				</div>
 			</div>
 		</div>

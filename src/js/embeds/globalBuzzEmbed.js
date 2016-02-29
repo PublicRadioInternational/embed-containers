@@ -24,7 +24,7 @@
 			object_type: 'global-buzz',
 			validationOptions: {
 				rules: {
-					internalTitle: 'required',
+					title: 'required',
 					quote: 'required',
 					credit: 'required',
 					quoteUrlText: 'required',
@@ -49,8 +49,7 @@
 
 	globalBuzzEmbed.prototype.cleanModel = function(){
 		return {
-
-			internalTitle: null,
+			title: null,
 			quote: null,
 			credit: null,
 			quoteUrl: null
@@ -67,11 +66,11 @@
 							'<div class="buzz-field-quote">' + 
 							'<img class ="buzz-field-quote-png" src="http://www.pri.org/sites/all/themes/pri/images/icon-open-quote.png">' +
 							'<div class="buzz-quote-inner">' +
-							self.model.quote + 
+								self.model.quote + 
 							'</div>' +
 							'</div>' + 
 							'<div class="buzz-field-quote-credit">' + 
-							self.model.credit +
+								self.model.credit +
 							'</div>' + 
 							'<a class="btn btn-primary global-buzz-link" href="' + self.model.quoteUrl + '">' + self.model.quoteUrlText + 
 							'</a>' +

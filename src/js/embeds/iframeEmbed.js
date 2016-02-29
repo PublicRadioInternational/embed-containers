@@ -24,6 +24,7 @@
 			object_type: 'iframe',
 			validationOptions: {
 				rules: {
+					title: 'required',
 					url: 'required'
 				}
 			}
@@ -45,6 +46,7 @@
 
 	iframeEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null,
 			allowsScroll: false
 		};

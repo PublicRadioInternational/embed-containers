@@ -1,33 +1,32 @@
 <form action="uploadImage.php" method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row" id="image-file-upload-row">
 		<div class="embed-modal-full-column">
-			<input type="file" name="imageFile"/>
+			<input class="embed-modal-input embed-modal-form-control" type="file" name="imageFile" />
 		</div>
 	</div>
 	<div class="embed-modal-row">
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
-				<label for="altText" class="embed-modal-label">Alt Text</label>
-				<input class="embed-modal-input embed-modal-form-control" type="text" name="altText"/>
+				<label for="title" class="embed-modal-label">Title</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
 			</div>
 		</div>
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
-				<label for="titleText" class="embed-modal-label">Title Text</label>
-				<input class="embed-modal-input embed-modal-form-control" type="text" name="titleText"/>
+				<label for="altText" class="embed-modal-label">Alt Text</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
 			</div>
 		</div>
 	</div>
-
 	<div class="embed-modal-row">
 		<div class="embed-modal-form">
 			<div class="embed-modal-half-column">
 				<label for="credit" class="embed-modal-label">Credit</label>
-				<input class="embed-modal-input embed-modal-form-control" type="text" name="credit"/>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
 			</div>	
 			<div class="embed-modal-half-column">
 				<label for="creditLink" class="embed-modal-label">Credit Link</label>
-				<input class="embed-modal-input embed-modal-form-control" type="url" name="creditLink"/>
+				<input class="embed-modal-input embed-modal-form-control" type="url" name="creditLink" />
 			</div>
 		</div>
 	</div>
@@ -35,15 +34,13 @@
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label for="caption" class="embed-modal-label">Caption</label>
-				<input class="embed-modal-input embed-modal-form-control" type="text" name="caption"/>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="caption" />
 			</div>
 		</div>			
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label for="license" class="embed-modal-label">License</label>
-				<select class="embed-modal-form-control" type="text" name="license" id="license">
-				</select>
-
+				<select class="embed-modal-form-control" type="text" name="license" id="license"></select>
 			</div>
 		</div>
 	</div>

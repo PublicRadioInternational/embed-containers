@@ -24,7 +24,7 @@
 			object_type: 'tweet',
 			validationOptions: {
 				rules: {
-					tweetUrl: 'required'
+					tweet: 'required'
 				}
 			}
 		};
@@ -58,7 +58,7 @@
 		
 		var embedCodeName = 'embedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-						'<a href="' + this.model.tweetUrl + '">' +
+						'<a href="' + this.model.tweet + '">' +
 						'</a>' +
 					'</blockquote>' +
 					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
@@ -81,9 +81,7 @@
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 					'<div class="overlay">' +
-
-					self.model.embedCode + 
-
+						self.model.embedCode + 
 					'</div>' +
 					'<div class="twitter-info">' +
 						'<span>click here to show the toolbars</span>' +

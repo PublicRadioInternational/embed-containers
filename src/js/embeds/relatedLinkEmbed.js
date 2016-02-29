@@ -26,7 +26,7 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'related-link',
 			validationOptions: {
 				rules: {
-					internalTitle: "required",
+					title: "required",
 					displayTitle:  "required"
 				}
 			}
@@ -58,7 +58,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	relatedLinkEmbed.prototype.cleanModel = function(){
 		return {
-			internalTitle: null,
+			title: null,
 			displayTitle: null,
 			links: []
 		};

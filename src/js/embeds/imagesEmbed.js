@@ -27,7 +27,7 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					altText: 'required',
-					titleText: 'required',
+					title: 'required',
 					credit: 'required',
 					creditLink: 'required',
 					caption: 'required', 
@@ -98,8 +98,8 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
 			file: null,
+			title: null,
 			altText: null,
-			titleText: null,
 			credit: null,
 			creditLink: null,
 			caption: null,

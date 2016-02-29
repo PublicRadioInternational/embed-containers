@@ -36,8 +36,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 	};
 
 	genericEmbed.prototype.cleanModel = function(){
-		return {
-		};
+		return {};
 	};
 
 	genericEmbed.prototype.defaultStyle = ''; 
@@ -92,7 +91,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			}
 		}
 	};
-
+ 
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
 		var formFields = $el.find('.embed-modal-form-control');
@@ -119,11 +118,12 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
+
+	// returns validator object
 	genericEmbed.prototype.validate = function($el){
 		var self = this;
 		var $form = $el.find('form')
-		$form.validate(this.options.validationOptions);
-		return $form.valid();
+		return $form.validate(self.options.validationOptions);
 	};
 
 	EntityEmbedTypes.genericEmbed = genericEmbed;
