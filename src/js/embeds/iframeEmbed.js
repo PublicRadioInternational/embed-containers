@@ -42,8 +42,6 @@
 	// PUBLIC
 	iframeEmbed.prototype.orderIndex = 11;
 
-	iframeEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	iframeEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,

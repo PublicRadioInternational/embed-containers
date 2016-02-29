@@ -86,8 +86,6 @@
 	// PUBLIC
 	slideshowEmbed.prototype.orderIndex = 2;
 
-	slideshowEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	slideshowEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,

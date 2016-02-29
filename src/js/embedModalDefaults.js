@@ -209,7 +209,6 @@ var EntityEmbed = EntityEmbed || {};
 					};
 
 					scope.generateEmbedHtml = function(scope){
-						scope.$currentEditorLocation.addClass('entity-embed-center');
 						scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
 						var figureClass = 'entity-embed'
@@ -226,13 +225,11 @@ var EntityEmbed = EntityEmbed || {};
 										'data-embed-type="' + scope.currentEmbedType.name + '" >' +
 										scope.currentEmbedType.parseForEditor() +
 									'</figure>' + 
-								'</div>'
-								// ad a new paragraph after the embed so that user can continue typing
+								'</div>' + 
+								// add a new paragraph after the embed so that user can continue typing
 								// TODO : make sure that no one can ever remove this
 								//			user could put self in bad editing state
-								'<p class="entity-embed-new-line">' + 
-									'<br />' + 
-								'</p>';
+								'<p class="entity-embed-new-line">&nbsp</p>';
 					};
 				},
 				after: function(scope){

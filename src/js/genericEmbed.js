@@ -39,7 +39,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return {};
 	};
 
-	genericEmbed.prototype.defaultStyle = ''; 
+	genericEmbed.prototype.defaultStyle = 'entity-embed-center'; 
 
 	genericEmbed.prototype.init = function(){
 		var self = this;

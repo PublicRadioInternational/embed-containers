@@ -62,8 +62,6 @@
 	// PUBLIC
 	audioEmbed.prototype.orderIndex = 3;
 
-	audioEmbed.prototype.defaultStyle = 'entity-embed-center'; 
-
 	audioEmbed.prototype.cleanModel = function(){
 		return {
 			files: [],

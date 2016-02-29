@@ -107,8 +107,6 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	imagesEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
 

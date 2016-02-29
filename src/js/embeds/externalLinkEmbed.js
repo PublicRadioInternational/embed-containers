@@ -24,7 +24,7 @@
 			object_type: 'external-link',
 			validationOptions: {
 				rules: {
-					internalTitle: 'required',
+					title: 'required',
 					displayTitle: 'required',
 					url: 'required',
 					linkText: 'required',
@@ -49,8 +49,8 @@
 	externalLinkEmbed.prototype.cleanModel = function(){
 		return {
 			thumbnailFile: null,
+			title: null,
 			displayTitle: null,
-			internalTitle: null,
 			teaser: null,
 			linkText: null,
 			url: null,

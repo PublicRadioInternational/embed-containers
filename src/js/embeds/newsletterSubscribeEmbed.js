@@ -88,8 +88,6 @@ var EntityEmbed = EntityEmbed || {};
 		loadSubscription(this.options.httpPaths.get);
 	}
 
-	newsletterSubscribeEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		return '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +

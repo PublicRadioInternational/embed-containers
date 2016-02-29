@@ -12,6 +12,7 @@ var EntityEmbed = EntityEmbed || {};
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
 		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
+		entityEmbedContainerClass = 'entity-embed-container',
 		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
 			// TODO change class names
 			var toolbarClasses = '';
@@ -188,7 +189,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	toolbarManager.prototype.actionToolbarDo = function($toolbarButton) {
 		var self = this;
-		var $activeEmbed = $('.' + activeEmbedClass);
+		var $activeEmbed = $('.' + entityEmbedContainerClass);
 		var action = self.actions[$toolbarButton.data('action')].clicked;
 		action(self.mediumEditorAddon, $activeEmbed);
 	};
