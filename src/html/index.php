@@ -39,10 +39,19 @@
 	</head>
 
 	<body>
-		<div class="editable editor">
-			This is editable content - try typing in here!
-		</div>
+		<fieldset class="editor-content">
+			<legend>Story Editor</legend>
+			<div class="editable editor">
+				This is editable content - try typing in here!
+			</div>
+		</fieldset>
 		
+		<button id="get-story-content">Get Story Content</button>
+		
+		<fieldset class="story-content">
+			<legend>Story Data</legend>
+			<div id="data"></div>
+		</fieldset>
 
 		<div id="embed-modal">
 			<?php include "modal/modal_main.html"; ?>
