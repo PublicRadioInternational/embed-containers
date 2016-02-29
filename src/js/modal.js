@@ -7,6 +7,7 @@
 		backdropClass: 'embed-modal-backdrop',
 		closeBtnIcon: 'fa fa-times',
 		showCloseBtn: true,
+		clickingBackdropClosesModal: true,
 		// TODO : add boolean to disable backdrop click to close
 		// elements to open, abort, or complete the modal on click
 		$openEl: $(''),
@@ -22,7 +23,9 @@
 				after: function(scope){}
 			},
 			abort:{
-				before: function(scope){},
+				before: function(scope){
+					return true;
+				},
 				after: function(scope){}
 			},
 			complete:{
@@ -106,9 +109,12 @@
 		// link back drop to this modal
 		self.$el.before(self.backdropHtml(backdropId));
 		self.$backdrop = $('#' + backdropId);
-		self.$backdrop.click(function(){
-			self.$el.abortModal();
-		});
+		if (self.options.clickingBackdropClosesModal)
+		{
+			self.$backdrop.click(function(){
+				self.$el.abortModal();
+			});
+		}
 
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
@@ -187,23 +193,39 @@
 		});
 	};
 
-	$.fn.abortModal = function(){
+	$.fn.abortModal = function(addToScope){
 		return this.each(function(){
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
-				modalCtrl.options.functions.abort.before(modalCtrl.$el.data('scope'));
-				modalCtrl.toggle(modalCtrl);
-				modalCtrl.options.functions.abort.after(modalCtrl.$el.data('scope'));
+				if (!!addToScope)
+				{
+					var currentScope = modalCtrl.$el.data('scope');
+					var newScope = $.extend(true, {}, currentScope, addToScope);
+					modalCtrl.$el.data('scope', newScope);
+				}
+
+				if (modalCtrl.options.functions.abort.before(modalCtrl.$el.data('scope')))
+				{
+					modalCtrl.toggle(modalCtrl);
+					modalCtrl.options.functions.abort.after(modalCtrl.$el.data('scope'));
+				}
 			}
 		});
 	};
 
-	$.fn.completeModal = function(){
+	$.fn.completeModal = function(addToScope){
 		return this.each(function(){
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
+				if (!!addToScope)
+				{
+					var currentScope = modalCtrl.$el.data('scope');
+					var newScope = $.extend(true, {}, currentScope, addToScope);
+					modalCtrl.$el.data('scope', newScope);
+				}
+				
 				if (modalCtrl.options.functions.complete.before(modalCtrl.$el.data('scope')))
 				{
 					modalCtrl.toggle(modalCtrl);
