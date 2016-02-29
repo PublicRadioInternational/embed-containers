@@ -258,7 +258,7 @@ var EntityEmbed = EntityEmbed || {};
 				};
 
 				cleanedData.embeds.push(embed)
-				$($embedContainers[i]).html('[[' + (cleanedData.length - 1) + ']]');
+				$($embedContainers[i]).html('[[' + (cleanedData.embeds.length - 1) + ']]');
 			}
 
 			cleanedData.storyHtml += $data.html();

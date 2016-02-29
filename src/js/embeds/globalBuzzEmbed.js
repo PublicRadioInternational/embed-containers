@@ -21,7 +21,18 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'global-buzz'
+			object_type: 'global-buzz',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					quote: 'required',
+					credit: 'required',
+					quoteUrlText: 'required',
+					quoteUrl: 'required',
+					url: 'required'
+				}
+
+			}
 		};
 
 	// CONSTRUCTOR
@@ -38,8 +49,7 @@
 
 	globalBuzzEmbed.prototype.cleanModel = function(){
 		return {
-
-			internalTitle: null,
+			title: null,
 			quote: null,
 			credit: null,
 			quoteUrl: null
@@ -48,7 +58,6 @@
 
 	globalBuzzEmbed.prototype.parseForEditor = function(){
 		var self = this;
-
 		return '<div class="global-buzz">' +
 					'<article class="global-buzz-quote-wrapper engagement-badge-wrapper">' +
 						'<div class="engagement-badge"></div>' +
@@ -57,11 +66,11 @@
 							'<div class="buzz-field-quote">' + 
 							'<img class ="buzz-field-quote-png" src="http://www.pri.org/sites/all/themes/pri/images/icon-open-quote.png">' +
 							'<div class="buzz-quote-inner">' +
-							self.model.quote + 
+								self.model.quote + 
 							'</div>' +
 							'</div>' + 
 							'<div class="buzz-field-quote-credit">' + 
-							self.model.credit +
+								self.model.credit +
 							'</div>' + 
 							'<a class="btn btn-primary global-buzz-link" href="' + self.model.quoteUrl + '">' + self.model.quoteUrlText + 
 							'</a>' +

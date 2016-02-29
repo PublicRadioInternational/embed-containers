@@ -25,6 +25,8 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
 		
+		<!-- validator -->
+		<script src="lib/jquery-validation/dist/jquery.validate.js"></script>
 	
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="contents/main.css">
@@ -39,16 +41,14 @@
 	<body>
 		<fieldset class="editor-content">
 			<legend>Story Editor</legend>
-			<div class="editable editor">
-				This is editable content - try typing in here!
-			</div>
+			<div class="editable editor">This is editable content. Try typing in here.</div>
 		</fieldset>
 		
 		<button id="get-story-content">Get Story Content</button>
 		
 		<fieldset class="story-content">
 			<legend>Story Data</legend>
-			<div id="data"></div>
+			<pre id="data"></pre>
 		</fieldset>
 
 		<div id="embed-modal">

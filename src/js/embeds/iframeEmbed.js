@@ -21,7 +21,13 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'iframe'
+			object_type: 'iframe',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					url: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR
@@ -36,10 +42,9 @@
 	// PUBLIC
 	iframeEmbed.prototype.orderIndex = 11;
 
-	iframeEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	iframeEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null,
 			allowsScroll: false
 		};

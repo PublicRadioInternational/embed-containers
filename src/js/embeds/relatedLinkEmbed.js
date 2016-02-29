@@ -23,7 +23,13 @@ var EntityEmbed = EntityEmbed || {};
 				get: '',
 				del: ''
 			},
-			object_type: 'related-link'
+			object_type: 'related-link',
+			validationOptions: {
+				rules: {
+					title: "required",
+					displayTitle:  "required"
+				}
+			}
 		};
 		
 	// generates a pseudo guid (not guatanteed global uniqueness)
@@ -52,7 +58,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	relatedLinkEmbed.prototype.cleanModel = function(){
 		return {
-			internalTitle: null,
+			title: null,
 			displayTitle: null,
 			links: []
 		};
@@ -100,7 +106,7 @@ var EntityEmbed = EntityEmbed || {};
 		var urlForms = $el.find('.related-link-url');
 		for(var i = 0; i < urlForms.length; i++)
 		{
-			self.model.links.push(formFields[i].value);
+			self.model.links.push(urlForms[i].value);
 		}
 	};
 
@@ -122,7 +128,6 @@ var EntityEmbed = EntityEmbed || {};
 
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
-
 		var linkClass = 'related-link-url';
 		var removeLinkClass = 'remove-link-btn';
 		var $linkList = $el.find('#related-link-list');
@@ -134,7 +139,7 @@ var EntityEmbed = EntityEmbed || {};
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
 					'<div class="embed-modal-form">' +
-						'<input id="' + pseudoGuid + '" type="text" placeholder="link url" class="embed-modal-form-control">' +
+						'<input id="' + pseudoGuid + '" type="url" placeholder="link url" class="embed-modal-form-control" required>' +
 					'</div>' + 
 					'<button class="' + removeLinkClass + '">' + 
 						'<i class="fa fa-minus"></i>' + 
