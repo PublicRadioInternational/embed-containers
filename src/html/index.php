@@ -44,7 +44,9 @@
 			<div class="editable editor">This is editable content. Try typing in here.</div>
 		</fieldset>
 		
-		<button id="get-story-content">Get Story Content</button>
+		<button id="extract-story-content">Extract Story Content</button>
+
+		<button id="load-story-content">Load Story Conent</button>
 		
 		<fieldset class="story-content">
 			<legend>Story Data</legend>

@@ -110,6 +110,7 @@ var EntityEmbed = EntityEmbed || {};
 		if (self.core.getEditor()) {
 			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
 			self.core.getEditor().serialize = self.editorSerialize;
+			self.core.getEditor().loadStory = self.loadStory;
 		}
 
 		self.init();
@@ -268,6 +269,40 @@ var EntityEmbed = EntityEmbed || {};
 
 		return cleanedData;
 	 };
+
+ 	/**
+	 * Extend editor to allow dynamic loading of content
+	 * 
+	 * retrieves story by id and loads content into editor
+     *
+     * @return {void}
+     */
+
+	EntityEmbeds.prototype.loadStory = function(storyId) {
+		EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
+			{
+				object_id : storyId
+			},
+			function(data){
+				var regex = /\[\[[0-9]*\]\]/gi,
+					indices = [],
+					result;
+				while ( result = regex.exec(data.response.storyHtml) ) {
+				    var match = result[0];
+				    var embedIndex = parseInt(match.substring(2, match.length - 2)); // trim off the two characters on either side
+				    // TODO
+				    // now we have index - need to get object
+				    // then grab HTML from object
+				    	// HTML not on all objects
+				    // put object HTML in storyHtml (replace [[i]])
+				}
+			},	
+			function(data){
+				console.log('Failed to get story with id ' + storyId);
+			}
+		);
+	};
+
 
 	/**
 	 * Add embed
