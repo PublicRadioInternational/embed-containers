@@ -8,9 +8,29 @@ body
 	padding: 20px;
 }
 
-.editor
+.story-content, .editor-content
 {
-	margin: 50px;
-	padding: 10px;
-	border: 1px	dotted #000;
+	.well();
+	margin: 10px 50px;
+	dislay: none;
+
+	legend
+	{
+		border: none;
+		width: auto;
+		font-weight: bold;
+	}
+
+	pre
+	{
+		border: none;
+	}
+}
+
+#get-story-content
+{
+	margin-top: 50px;
+	margin-left: 50px;
+	.btn();
+	.btn-primary();
 }

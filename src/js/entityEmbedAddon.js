@@ -106,6 +106,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.toolbarManager = new EntityEmbed.toolbarManager(self, self.options.styles, self.options.actions, activeEmbedClass);
 
+		// Extend editor's functions
+		if (self.core.getEditor()) {
+			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
+			self.core.getEditor().serialize = self.editorSerialize;
+		}
+
 		self.init();
 	}
 
@@ -207,7 +213,6 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 			});
-
 	};
 
 	/**
@@ -219,6 +224,48 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.getCore = function () {
 		return this.core;
 	};
+	
+
+	/**
+	 * Extend editor's serialize function
+     *
+     * @return {object} Serialized data
+     */
+
+	EntityEmbeds.prototype.editorSerialize = function() {
+		var self = this;
+		var data = self._serializePreEmbeds();
+		var cleanedData = {
+			storyHtml: '',
+			embeds: []
+		};
+
+		$.each(data, function(key){
+			var $data = $('<div />').html(data[key].value);
+			var $embedContainers = $data.find('.entity-embed-container');
+
+			for(var i = 0; i < $embedContainers.length; i++)
+			{
+				var $embed = $($embedContainers[i]).find('figure');
+				if (!$embed)
+				{
+					continue;
+				}
+				var embed = {
+					id: $embed.attr('id'),
+					style: $embed.attr('class'),
+					type: $embed.attr('data-embed-type')
+				};
+
+				cleanedData.embeds.push(embed)
+				$($embedContainers[i]).html('[[' + (cleanedData.length - 1) + ']]');
+			}
+
+			cleanedData.storyHtml += $data.html();
+		});
+
+		return cleanedData;
+	 };
 
 	/**
 	 * Add embed
