@@ -242,6 +242,8 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.each(data, function(key){
 			var $data = $('<div />').html(data[key].value);
+			$data.find('.entity-embed-new-line').remove();
+
 			var $embedContainers = $data.find('.entity-embed-container');
 
 			for(var i = 0; i < $embedContainers.length; i++)
@@ -296,7 +298,7 @@ var EntityEmbed = EntityEmbed || {};
 		var scope = {
 			$currentEditorLocation: $embed.parent(),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed.attr('id')
+			embedId: $embed.find('figure').attr('id')
 		};
 		self.toolbarManager.hideToolbar();
 		self.options.$modalEl.openModal(scope);

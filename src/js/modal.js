@@ -22,7 +22,9 @@
 				after: function(scope){}
 			},
 			abort:{
-				before: function(scope){},
+				before: function(scope){
+					return true;
+				},
 				after: function(scope){}
 			},
 			complete:{
@@ -109,7 +111,7 @@
 		self.$backdrop.click(function(){
 			self.$el.abortModal();
 		});
-
+	
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
 			self.$el.after(self.closeBtnHtml());
@@ -187,23 +189,39 @@
 		});
 	};
 
-	$.fn.abortModal = function(){
+	$.fn.abortModal = function(addToScope){
 		return this.each(function(){
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
-				modalCtrl.options.functions.abort.before(modalCtrl.$el.data('scope'));
-				modalCtrl.toggle(modalCtrl);
-				modalCtrl.options.functions.abort.after(modalCtrl.$el.data('scope'));
+				if (!!addToScope)
+				{
+					var currentScope = modalCtrl.$el.data('scope');
+					var newScope = $.extend(true, {}, currentScope, addToScope);
+					modalCtrl.$el.data('scope', newScope);
+				}
+
+				if (modalCtrl.options.functions.abort.before(modalCtrl.$el.data('scope')))
+				{
+					modalCtrl.toggle(modalCtrl);
+					modalCtrl.options.functions.abort.after(modalCtrl.$el.data('scope'));
+				}
 			}
 		});
 	};
 
-	$.fn.completeModal = function(){
+	$.fn.completeModal = function(addToScope){
 		return this.each(function(){
 			var modalCtrl = $.data(this, 'ctrl');
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
+				if (!!addToScope)
+				{
+					var currentScope = modalCtrl.$el.data('scope');
+					var newScope = $.extend(true, {}, currentScope, addToScope);
+					modalCtrl.$el.data('scope', newScope);
+				}
+				
 				if (modalCtrl.options.functions.complete.before(modalCtrl.$el.data('scope')))
 				{
 					modalCtrl.toggle(modalCtrl);

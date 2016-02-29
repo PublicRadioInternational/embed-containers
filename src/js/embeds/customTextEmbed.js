@@ -25,7 +25,7 @@
 			object_type: 'custom',
 			validationOptions: {
 				rules : {
-					internalTitle: 'required',
+					title: 'required',
 					displayTitle: 'required',
 					customText: 'required'
 				}
@@ -71,6 +71,13 @@
 		}
 	};
 
+	customTextEmbed.prototype.cleanModel = function(){
+		return {
+			title: null,
+			displayTitle: null,
+			text: null
+		};
+	}
 
 	customTextEmbed.prototype.clearForm = function($el){
 		var self = this;
