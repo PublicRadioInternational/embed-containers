@@ -298,7 +298,7 @@ var EntityEmbed = EntityEmbed || {};
 		var scope = {
 			$currentEditorLocation: $embed.parent(),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed.attr('id')
+			embedId: $embed.find('figure').attr('id')
 		};
 		self.toolbarManager.hideToolbar();
 		self.options.$modalEl.openModal(scope);

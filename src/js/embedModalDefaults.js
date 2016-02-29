@@ -428,8 +428,6 @@ var EntityEmbed = EntityEmbed || {};
 		open: {
 			before: function(scope){},
 			after: function(scope){
-				$('#embed-modal-save-warning').hide();
-
 				toggleEditorTyping(scope, "false");	
 
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
@@ -442,7 +440,9 @@ var EntityEmbed = EntityEmbed || {};
 							object_id: scope.embedId
 						},
 						function(data){
-							scope.setModalView(scope, data.response.object_type); // todo : this does not work for everything (some name have dashes now)
+							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+
+							scope.setModalView(scope, data.response.object_type);
 							scope.currentEmbedType.model = data.response;
 							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
@@ -477,7 +477,7 @@ var EntityEmbed = EntityEmbed || {};
 							}
 						}
 					}
-					if (isFormDirty(scope.currentEmbedType.$view)) // this is an add modal
+					else if (isFormDirty(scope.currentEmbedType.$view)) // this is an add modal
 					{
 						$(embedModalSelectors.elements.confirmModal).openModal();
 						return false;

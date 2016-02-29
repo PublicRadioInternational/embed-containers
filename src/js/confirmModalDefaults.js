@@ -29,8 +29,6 @@ var EntityEmbed = EntityEmbed || {};
 		self.$completeEl = $('#' + self.options.completeElId);
 	};
 
-	confirmModalDefaults.prototype.clickingBackdropClosesModal = false; 
-
 	confirmModalDefaults.prototype.functions = {
 		init: {
 			before: function(scope){

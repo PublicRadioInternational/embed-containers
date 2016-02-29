@@ -7,7 +7,6 @@
 		backdropClass: 'embed-modal-backdrop',
 		closeBtnIcon: 'fa fa-times',
 		showCloseBtn: true,
-		clickingBackdropClosesModal: true,
 		// TODO : add boolean to disable backdrop click to close
 		// elements to open, abort, or complete the modal on click
 		$openEl: $(''),
@@ -109,13 +108,10 @@
 		// link back drop to this modal
 		self.$el.before(self.backdropHtml(backdropId));
 		self.$backdrop = $('#' + backdropId);
-		if (self.options.clickingBackdropClosesModal)
-		{
-			self.$backdrop.click(function(){
-				self.$el.abortModal();
-			});
-		}
-
+		self.$backdrop.click(function(){
+			self.$el.abortModal();
+		});
+	
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
 			self.$el.after(self.closeBtnHtml());
