@@ -136,6 +136,12 @@ var EntityEmbed = EntityEmbed || {};
 							scope.currentEmbedType.model,
 							// TODO : save spinner
 							function(data){
+								if (data.status === 'ERROR')
+								{
+									console.log('put failed');
+									return;
+								}
+
 								console.log('put succeeded');
 								scope.modalCtrl.$el.completeModal();
 							},
@@ -155,6 +161,11 @@ var EntityEmbed = EntityEmbed || {};
 							scope.currentEmbedType.model,
 							// TODO : save spinner
 							function(data){
+								if (data.status === 'ERROR')
+								{
+									console.log('post failed');
+									return;
+								}
 								scope.currentEmbedType.model.object_id = data.response.object_id;
 								console.log('post succeeded');
 								scope.modalCtrl.$el.completeModal();
@@ -240,28 +251,34 @@ var EntityEmbed = EntityEmbed || {};
 					$(embedModalSelectors.buttons.showSelectExisting).hide();
 				};
 
-				scope.generateEmbedHtml = function(scope){
-					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-
+				scope.generateEmbedHtml = function(scope, addNewLine){
 					var figureClass = 'entity-embed'
 
+					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
 
 					if (!!scope.currentEmbedType.defaultStyle)
 					{
 						figureClass += ' ' + scope.currentEmbedType.defaultStyle;
 					}
 
-					return '<div class="entity-embed-container">' + 
-								'<figure contenteditable="false" class="' + figureClass + '" ' + 
-									'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
-									'data-embed-type="' + scope.currentEmbedType.name + '" >' +
-									scope.currentEmbedType.parseForEditor() +
-								'</figure>' + 
-							'</div>' + 
-							// add a new paragraph after the embed so that user can continue typing
-							// TODO : make sure that no one can ever remove this
-							//			user could put self in bad editing state
-							'<p class="entity-embed-new-line">&nbsp</p>';
+					var ret =
+						'<div class="entity-embed-container">' + 
+							'<figure contenteditable="false" class="' + figureClass + '" ' + 
+								'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
+								'data-embed-type="' + scope.currentEmbedType.name + '" >' +
+								scope.currentEmbedType.parseForEditor() +
+							'</figure>' + 
+						'</div>';
+
+					if (addNewLine)
+					{
+						// add a new paragraph after the embed so that user can continue typing
+						// TODO : make sure that no one can ever remove this
+						//			user could put self in bad editing state
+						ret = ret + '<p class="entity-embed-new-line">&nbsp</p>';
+					}
+
+					return ret;
 				};
 			},
 			after: function(scope){
@@ -427,6 +444,7 @@ var EntityEmbed = EntityEmbed || {};
 						function(data){
 							scope.setModalView(scope, data.response.object_type); // todo : this does not work for everything (some name have dashes now)
 							scope.currentEmbedType.model = data.response;
+							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 						},
 						function(data){
@@ -445,17 +463,32 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				var self = this;
 
-				if (!scope.confirmedLeave && isFormDirty(scope.currentEmbedType.$view))
+				if (!scope.confirmedLeave)
 				{
-					$(embedModalSelectors.elements.confirmModal).openModal();
+					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.staleModel) // this is an edit modal - compare current model to stale model
+					{
+						scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+						for (var fieldName in scope.currentEmbedType.model)
+						{
+							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
+							{
+								$(embedModalSelectors.elements.confirmModal).openModal();
+								return false;			
+							}
+						}
+					}
+					if (isFormDirty(scope.currentEmbedType.$view)) // this is an add modal
+					{
+						$(embedModalSelectors.elements.confirmModal).openModal();
+						return false;
+					}
 				}
-				else // no changes made OR leave already confirmed - okay to close without prompting user
-				{
-					var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
-					$validator.resetForm();
-					delete scope.confirmedLeave;
-					return true;
-				}
+
+				// no changes made OR leave already confirmed - okay to close without prompting user
+				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
+				$validator.resetForm();
+				delete scope.confirmedLeave;
+				return true;
 			},
 			after: function(scope){
 				scope.showCreateNewEmbedView(scope);
@@ -467,8 +500,9 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");	
-				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope));
+				toggleEditorTyping(scope, "true");
+				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
+				scope.$currentEditorLocation.html(scope.generateEmbedHtml(scope, needNewlineAtEnd));
 			}
 		}
 	};

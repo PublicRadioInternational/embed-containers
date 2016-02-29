@@ -55,7 +55,7 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		complete: {
 			before: function(scope){
-				scope.parentModalCtrl.$el.abortModal({ confirmedLeave:true });
+				scope.parentModalCtrl.$el.abortModal({ confirmedLeave: true });
 				return true;
 			},
 			after: function(scope){}

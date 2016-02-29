@@ -24,6 +24,7 @@
 			object_type: 'audio',
 			validationOptions: {
 				rules: {
+					title: 'required',
 					url: 'required',
 					credit: 'required',
 					creditLink: 'required',
@@ -64,6 +65,7 @@
 
 	audioEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			files: [],
 			credit: null,
 			creditLink: null
