@@ -26,8 +26,8 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'image',
 			validationOptions: {
 				rules: {
-					altText: 'required',
 					title: 'required',
+					altText: 'required',
 					credit: 'required',
 					creditLink: 'required',
 					caption: 'required', 

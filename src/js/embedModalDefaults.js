@@ -88,7 +88,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	 				scope.saveEmbed = function(scope){
 						var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
-						if (!$validator.valid())
+						if (!scope.currentEmbedType.$view.find('form').valid())
 						{
 							return;
 						}
