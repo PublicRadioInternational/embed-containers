@@ -1,4 +1,5 @@
 var EntityEmbedTypes = EntityEmbedTypes || {};
+var EntityEmbed = EntityEmbed || {};
 
 (function(){
 
@@ -118,13 +119,41 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
 	};
 
-
 	// returns validator object
 	genericEmbed.prototype.validate = function($el){
 		var self = this;
 		var $form = $el.find('form');
 		return $form.validate(self.options.validationOptions);
 	};
+
+	// ASSUMPTION - model is already populated
+	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc){
+		var self = this;
+
+		self.model.editorHtml = self.parseForEditor();
+
+		if (embedIsNew){
+			// add the object_type onto the model
+			//		this code smells, do something better here... maybe put in cleanModel?
+			self.model.object_type = self.options.object_type;
+
+			EntityEmbed.apiService.post(
+				self.options.httpPaths.post, 
+				self.model,
+				successFunc,
+				failFunc
+			);
+		}
+		else
+		{
+			EntityEmbed.apiService.put(
+				self.options.httpPaths.put, 
+				self.model,
+				successFunc,
+				failFunc
+			);
+		}
+	}
 
 	EntityEmbedTypes.genericEmbed = genericEmbed;
 

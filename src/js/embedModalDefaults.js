@@ -126,41 +126,10 @@ var EntityEmbed = EntityEmbed || {};
 					}
 
 					scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-
-					if (scope.modalType == EntityEmbed.embedModalTypes.edit)
+					var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add;
+					if (isAddModal)
 					{
-						scope.currentEmbedType.model.object_id = scope.currentEmbedType.model.id;
-
-						EntityEmbed.apiService.put(
-							scope.currentEmbedType.options.httpPaths.put, 
-							scope.currentEmbedType.model,
-							// TODO : save spinner
-							function(data){
-								if (data.status === 'ERROR')
-								{
-									console.log('put failed');
-									return;
-								}
-
-								console.log('put succeeded');
-								scope.modalCtrl.$el.completeModal();
-							},
-							function(data){
-								// TODO : UI failure message
-								console.log('put failed');
-							}
-						);
-					}
-					else if (scope.modalType == EntityEmbed.embedModalTypes.add){
-						// add the object_type onto the model
-						//		this code smells, do something better here...
-						scope.currentEmbedType.model.object_type = scope.currentEmbedType.options.object_type;
-
-						EntityEmbed.apiService.post(
-							scope.currentEmbedType.options.httpPaths.post, 
-							scope.currentEmbedType.model,
-							// TODO : save spinner
-							function(data){
+						var successFunction = function(data){
 								if (data.status === 'ERROR')
 								{
 									console.log('post failed');
@@ -170,12 +139,30 @@ var EntityEmbed = EntityEmbed || {};
 								console.log('post succeeded');
 								scope.modalCtrl.$el.completeModal();
 							}, 
-							function(data){
+							failFunction = function(data){
 								// TODO : UI failure message
 								console.log('post failed');
-							}
-						);
+							};
 					}
+					else
+					{
+						var successFunction = function(data){
+								if (data.status === 'ERROR')
+								{
+									console.log('put failed');
+									return;
+								}
+
+								console.log('put succeeded');
+								scope.modalCtrl.$el.completeModal();
+							},
+							failFunction = function(data){
+								// TODO : UI failure message
+								console.log('put failed');
+							};
+					}
+
+					scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction);
 
 					$validator.resetForm();
 				};

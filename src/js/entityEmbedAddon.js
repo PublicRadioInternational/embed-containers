@@ -285,7 +285,6 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			function(data){
 				var regex = /\[\[[0-9]*\]\]/gi,
-					indices = [],
 					result;
 				while ( result = regex.exec(data.response.storyHtml) ) {
 				    var match = result[0];
