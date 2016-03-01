@@ -44,28 +44,41 @@ gulp.task('devConcatJs', function()		// development concatenation task for javas
 		.pipe(gulp.dest(jsDest));
 });
 
+// produciton tasks
 gulp.task('move', function()
 {
 	gulp.src(htmlPath + '**/*')
-		.pipe(gulp.dest(htmlDest));
+		.pipe(gulp.dest(buildPath + 'content/'));
 });
 
-// TODO : include library style sheets in production release?
-gulp.task('less', function(){			// production less task
-	gulp.src(lessPath + 'embed-containers.less')	
+gulp.task('less', function(){
+	gulp.src([lessPath + 'embed-containers.less',
+			lessPath + '/priEmbeds/priEntityEmbeds.less'])	
 		.pipe(less())
 		.pipe(minifyCss())
-		.pipe(gulp.dest(buildPath));
+		.pipe(gulp.dest(buildPath + 'css/'));
 });
 
 gulp.task('concatJs', function()
 {
-	gulp.src([jsPath + 'entityEmbedAddon.js',
+	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
+			jsPath + 'genericEmbed.js',
 			jsPath + 'modal.js',
-			jsPath + 'embedModalDefaults.js'])
+			jsPath + 'confirmModalDefaults.js',
+			jsPath + 'embedModalDefaults.js',
+			jsPath + 'embeds/*.js',
+			jsPath + 'entityEmbedAddon.js'])
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest(buildPath));
+		.pipe(gulp.dest(buildPath + 'js/'));
+});
+
+// development task
+gulp.task('devMove', function()
+{
+	gulp.src(htmlPath + '**/*')
+		.pipe(gulp.dest(htmlDest));
 });
 
 gulp.task('copyLibJs', function(){
@@ -98,16 +111,16 @@ gulp.task('watchJs', function()
 
 gulp.task('watchHtml', function()
 {
-	gulp.watch(htmlPath + '**/*.html', ['move']);
+	gulp.watch(htmlPath + '**/*.html', ['devMove']);
 });
 
 gulp.task('watchPhp', function()
 {
-	gulp.watch(htmlPath + '**/*.php', ['move']);
+	gulp.watch(htmlPath + '**/*.php', ['devMove']);
 });
 
 gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml', 'watchPhp']);
 
-gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'move', 'watch']);
+gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'devMove', 'watch']);
 
-gulp.task('build', ['less', 'concatJs'])
+gulp.task('build', ['less', 'concatJs', 'move'])
