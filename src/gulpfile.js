@@ -48,7 +48,7 @@ gulp.task('devConcatJs', function()		// development concatenation task for javas
 gulp.task('move', function()
 {
 	gulp.src(htmlPath + '**/*')
-		.pipe(gulp.dest(buildPath + 'content/'));
+		.pipe(gulp.dest(buildPath + 'contents/'));
 });
 
 gulp.task('less', function(){
