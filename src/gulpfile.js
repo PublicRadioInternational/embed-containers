@@ -22,14 +22,6 @@ var htmlDest = config.serverRoot + '/',
 	libDest = config.serverRoot + '/lib/';
 var fontDest = libDest + fontPathSegment;
 
-gulp.task('devLess', function(){		// development less task
-	gulp.src([lessPath + 'main.less',
-			lessPath + '/priEmbeds/priEntityEmbeds.less'])
-		.pipe(less())
-		.pipe(gulp.dest(cssDest));
-});
-
-
 // PRODUCTION TASKS
 
 gulp.task('move', function()
@@ -40,8 +32,7 @@ gulp.task('move', function()
 });
 
 gulp.task('less', function(){
-	gulp.src([lessPath + 'embed-containers.less',
-			lessPath + '/priEmbeds/priEntityEmbeds.less'])	
+	gulp.src(lessPath + 'embed-containers.less')	
 		.pipe(less())
 		.pipe(minifyCss())
 		.pipe(gulp.dest(buildPath + 'css/'));
@@ -63,6 +54,13 @@ gulp.task('concatJs', function()
 });
 
 // DEVELOPMENT TASKS
+
+gulp.task('devLess', function(){
+	gulp.src([lessPath + 'main.less',
+			lessPath + '/priEmbeds/priEntityEmbeds.less'])
+		.pipe(less())
+		.pipe(gulp.dest(cssDest));
+});
 
 gulp.task('devConcatJs', function()
 {
