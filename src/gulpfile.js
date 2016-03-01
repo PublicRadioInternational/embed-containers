@@ -29,25 +29,13 @@ gulp.task('devLess', function(){		// development less task
 		.pipe(gulp.dest(cssDest));
 });
 
-gulp.task('devConcatJs', function()		// development concatenation task for javascript
-{										// same as concatJs but it does not uglify
-	gulp.src([jsPath + 'apiService.js',
-			jsPath + 'entityEmbedToolbar.js',
-			jsPath + 'genericEmbed.js',
-			jsPath + 'modal.js',
-			jsPath + 'confirmModalDefaults.js',
-			jsPath + 'embedModalDefaults.js',
-			jsPath + 'embeds/*.js',
-			jsPath + 'entityEmbedAddon.js',
-			jsPath + 'demo.js'])
-		.pipe(gConcat('main.js'))
-		.pipe(gulp.dest(jsDest));
-});
 
-// produciton tasks
+// PRODUCTION TASKS
+
 gulp.task('move', function()
 {
-	gulp.src(htmlPath + '**/*')
+	gulp.src([htmlPath + '**/*',
+			'!' + htmlPath + 'index.php'])
 		.pipe(gulp.dest(buildPath + 'contents/'));
 });
 
@@ -74,7 +62,23 @@ gulp.task('concatJs', function()
 		.pipe(gulp.dest(buildPath + 'js/'));
 });
 
-// development task
+// DEVELOPMENT TASKS
+
+gulp.task('devConcatJs', function()
+{
+	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
+			jsPath + 'genericEmbed.js',
+			jsPath + 'modal.js',
+			jsPath + 'confirmModalDefaults.js',
+			jsPath + 'embedModalDefaults.js',
+			jsPath + 'embeds/*.js',
+			jsPath + 'entityEmbedAddon.js',
+			jsPath + 'demo.js'])
+		.pipe(gConcat('main.js'))
+		.pipe(gulp.dest(jsDest));
+});
+
 gulp.task('devMove', function()
 {
 	gulp.src(htmlPath + '**/*')
