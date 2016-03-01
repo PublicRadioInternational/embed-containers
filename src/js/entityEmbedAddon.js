@@ -286,6 +286,7 @@ var EntityEmbed = EntityEmbed || {};
 			function(data){
 				var regex = /\[\[[0-9]*\]\]/gi,
 					result;
+				// class selector for entity-embed-container
 				while ( result = regex.exec(data.response.storyHtml) ) {
 				    var match = result[0];
 				    var embedIndex = parseInt(match.substring(2, match.length - 2)); // trim off the two characters on either side
