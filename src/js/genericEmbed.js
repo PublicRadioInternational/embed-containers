@@ -3,6 +3,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 (function(){
 
 	'use strict';
+	
 
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
@@ -28,15 +29,17 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			right: true,
 			center: true,
 			wide: true
+		},
+		validationOptions: {
+
 		}
 	};
 
 	genericEmbed.prototype.cleanModel = function(){
-		return {
-		};
+		return {};
 	};
 
-	genericEmbed.prototype.defaultStyle = ''; 
+	genericEmbed.prototype.defaultStyle = 'entity-embed-center'; 
 
 	genericEmbed.prototype.init = function(){
 		var self = this;
@@ -88,7 +91,7 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			}
 		}
 	};
-
+ 
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
 		var formFields = $el.find('.embed-modal-form-control');
@@ -100,6 +103,9 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			}
 			else
 			{
+				//TO DO: figure out reset form when modal is closed when invalid.
+				//var validator = $('form').validate();
+				//validator.resetForm();
 				formFields[i].value = null;
 			}
 		}
@@ -110,6 +116,14 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 
 	genericEmbed.prototype.parseForEditor = function(){
 		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+	};
+
+
+	// returns validator object
+	genericEmbed.prototype.validate = function($el){
+		var self = this;
+		var $form = $el.find('form');
+		return $form.validate(self.options.validationOptions);
 	};
 
 	EntityEmbedTypes.genericEmbed = genericEmbed;

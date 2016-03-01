@@ -21,7 +21,13 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'video'
+			object_type: 'video',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					url: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR
@@ -38,6 +44,7 @@
 
 	videoEmbed.prototype.cleanModel = function(){
 		return {
+			title: null,
 			url: null
 		};
 	};
@@ -70,9 +77,7 @@
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 
 					'<div class="overlay"></div>' +
-
-					self.model.videoHtmlString  +  
-					
+						self.model.videoHtmlString  +  
 					'<div class="video-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' + 

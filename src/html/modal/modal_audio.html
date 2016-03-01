@@ -1,29 +1,30 @@
-<div class="embed-modal-row">
-	<div class="embed-modal-half-column">
-		<div class="embed-modal-form"> 
-			<label class="embed-modal-label" for="files">Upload Audio File</label>
-			<form action="uploadAudio.php" method="post" enctype="multipart/form-data">
-			<input type="file" name="audioFile" />
-			</form>
+<form action="uploadAudio.php" method="post" enctype="multipart/form-data">
+	<div class="embed-modal-row">
+		<div class="embed-modal-full-column">
+			<div class="embed-modal-form"> 
+				<label class="embed-modal-label" for="audioFile">Upload Audio File</label>
+				<input class="embed-modal-input" type="file" name="audioFile"/>
+			</div>
 		</div>
 	</div>
-
-	<div class="embed-modal-half-column">
-		<ul id="audioList">
-		</ul>
-	</div>
-</div>
-
-
-<div class="embed-modal-row">
-	<div class="embed-modal-form">
-		<div class="embed-modal-half-column">
-			<label for="credit" class="embed-modal-label">Credit</label>
-			<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
-		</div>	
-		<div class="embed-modal-half-column">
-			<label for="creditLink" class="embed-modal-label">Credit Link</label>
-			<input class="embed-modal-input embed-modal-form-control" type="text" name="creditLink" />
+	<div class="embed-modal-row">
+		<div class="embed-modal-full-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="title">Title</label>
+				<input name="title" type="text" placeholder="Enter a title" class="embed-modal-input embed-modal-form-control" />
+			</div>
 		</div>
 	</div>
-</div>
+	<div class="embed-modal-row">
+		<div id="audio-credits" class="embed-modal-form">
+			<div class="embed-modal-half-column">
+				<label for="credit" class="embed-modal-label">Credit</label>
+				<input id="credit" class="embed-modal-form-control embed-modal-input" type="text" name="credit" />
+			</div>	
+			<div class="embed-modal-half-column">
+				<label for="creditLink" class="embed-modal-label">Credit Link</label>
+				<input id="creditLink" class="embed-modal-form-control embed-modal-input" type="url" name="creditLink" />
+			</div>
+		</div>
+	</div>	
+</form>

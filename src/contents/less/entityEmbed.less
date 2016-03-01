@@ -45,10 +45,6 @@
 {
 	.form-group;
 
-	.embed-modal-input
-	{
-	}
-
 	.embed-modal-label
 	{
 		font-weight: bold;
@@ -109,6 +105,16 @@
 	}
 }
 
+.error
+{
+	color: #ff0000;
+}
+
+.error.embed-modal-form-control 
+{
+	border: 1px #e60000 solid;
+}
+
 .embed-modal-select-existing
 {
 	table
@@ -119,5 +125,28 @@
 		{
 			background-color: #f2f2f2;
 		}
+	}
+
+}
+
+.entity-embed-container
+{
+	.clearfix();
+}
+
+#leave-confirmation-modal
+{
+	display:none;
+	width: 400px;
+	#btn-confirm-leave
+	{
+		.btn();
+		.btn-primary();
+	}
+
+	#btn-cancel-leave
+	{
+		.btn();
+		.btn-default();
 	}
 }

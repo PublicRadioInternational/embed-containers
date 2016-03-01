@@ -21,26 +21,18 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'external-link'
+			object_type: 'external-link',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					displayTitle: 'required',
+					url: 'required',
+					linkText: 'required',
+					teaser: 'required',
+					thumbnailFile: 'required'
+				}
+			}
 		};
-
-	function formatFileSize(bytes) {
-		if (typeof bytes !== 'number')
-		{
-			return '';
-		}
-
-		if (bytes >= 100000000)
-		{
-			return (bytes / 1000000000).toFixed(2) + ' GB';
-		}
-
-		if (bytes >= 1000000)
-		{
-			return (bytes / 1000000).toFixed(2) + ' MB';
-		}
-		return (bytes / 1000).toFixed(2) + ' KB';
-	};
 
 	// CONSTRUCTOR
 	function externalLinkEmbed(options){
@@ -56,9 +48,9 @@
 
 	externalLinkEmbed.prototype.cleanModel = function(){
 		return {
-			files: [],
+			thumbnailFile: null,
+			title: null,
 			displayTitle: null,
-			internalTitle: null,
 			teaser: null,
 			linkText: null,
 			url: null,
@@ -67,24 +59,16 @@
 
 	externalLinkEmbed.prototype.initModal = function($el){
 		var self = this;
-
 		$el.find("input[name='thumbnailFile']").fileupload({
 			dataType: 'json',
-			add: function(e, data){
-				// TODO : better id (this one potentially has spaces)
-				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');
-				
-				listItem.find('span').html(data.files[0].name + ' - ' + 
-					'<i>' + formatFileSize(data.files[0].size) + '</i>');
-				
-				data.context = listItem.appendTo($('#thumbnailList'));
-				
+    		replaceFileInput: false,
+			add: function(e, data){				
 				data.submit().complete(function (result, textStatus, jqXHR) {
 					if (textStatus === 'success')
 					{
 						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
 						{
-							self.model.files.push(result.responseJSON.path);
+							self.model.thumbnailFile = result.responseJSON.path;
 						}
 					}
 					else

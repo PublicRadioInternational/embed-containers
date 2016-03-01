@@ -22,7 +22,14 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'custom'
+			object_type: 'custom',
+			validationOptions: {
+				rules : {
+					title: 'required',
+					displayTitle: 'required',
+					customText: 'required'
+				}
+			}
 		};
 
 	// CONSTRUCTOR
@@ -64,6 +71,13 @@
 		}
 	};
 
+	customTextEmbed.prototype.cleanModel = function(){
+		return {
+			title: null,
+			displayTitle: null,
+			text: null
+		};
+	}
 
 	customTextEmbed.prototype.clearForm = function($el){
 		var self = this;

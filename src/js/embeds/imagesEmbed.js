@@ -23,7 +23,17 @@ var EntityEmbed = EntityEmbed || {};
 				get: '',
 				del: ''
 			},
-			object_type: 'image'
+			object_type: 'image',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					altText: 'required',
+					credit: 'required',
+					creditLink: 'required',
+					caption: 'required', 
+					imageFile: 'required'
+				}
+			}
 		};
 
 	var formatFileSize = function(bytes) {
@@ -49,20 +59,16 @@ var EntityEmbed = EntityEmbed || {};
 			getPath,
 			//Current Guid value of the license list
 			//TODO: change this from a hardcoded value
-			{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
+
+			{object_id: "2e7d8341d92a499dae3a19019550d518" },
 			function(data){
 				//load object into license list
-			
 				if (!!data.response.list)
 				{
 					var licenseList = [];
-					var i = 0;
-					for(var licenseName in data.response.list)
+					for(var i = 0; i < data.response.list.length;i++ )
 					{
-						if(!!licenseName){
-							licenseList[i] = "<option>" + licenseName + "</option>";
-						}
-						i++;
+						licenseList[i] = "<option>" + data.response.list[i].licenseName + "</option>";
 					}
 					$("#license").html(licenseList);
 				}
@@ -87,9 +93,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
-			files: [], // TODO : only one file
+			file: null,
+			title: null,
 			altText: null,
-			titleText: null,
 			credit: null,
 			creditLink: null,
 			caption: null,
@@ -97,28 +103,21 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	imagesEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
+
 		loadLicenses(this.options.httpPaths.get);
+
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
+    		replaceFileInput: false,
 			add: function(e, data){
-				// TODO : better id (this one potentially has spaces)
-				var listItem = $('<li id="' + data.files[0].name + '"><span></span></li>');
-				
-				listItem.find('span').html(data.files[0].name + ' - ' + 
-					'<i>' + formatFileSize(data.files[0].size) + '</i>');
-				
-				data.context = listItem.appendTo($('#imagesList'));
-				
 				data.submit().complete(function (result, textStatus, jqXHR) {
 					if (textStatus === 'success')
 					{
 						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
 						{
-							self.model.files.push(result.responseJSON.path);
+							self.model.file = result.responseJSON.path;
 						}
 					}
 					else
@@ -142,7 +141,7 @@ var EntityEmbed = EntityEmbed || {};
 		// TODO : use handlebars for this
 		var self = this;
 
-		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.files[0] +'" />' + 
+		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.file +'" />' + 
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};

@@ -21,17 +21,24 @@
 				get: '',
 				del: ''
 			},
-			object_type: 'slideshow'
+			object_type: 'slideshow',
+			validationOptions: {
+				rules: {
+					slideshowTitle: 'required',
+					displayTitle: 'required',
+					imageFile: 'required',
+					creditLink: 'required',
+					credit: 'required',
+					title: 'required',
+					altText: 'required',
+					caption: 'required'
+				}
+			}
 		},
 		generateId = function () {
-			var seg = function(){
-				return Math.floor((1 + Math.random()) * 0x10000)
-					.toString(16)
-					.substring(1);
-			};
-			var ret = "";
+			var ret = '';
 			for(var i = 0; i < 8; i++){
-				ret += seg();
+				ret += Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 			}
 			return ret;
 		},
@@ -43,7 +50,6 @@
 			var currentImageId = $(imageForm).find('legend').attr('data-image-id');
 			imageEmbed.getModelFromForm($(imageForm));
 			imageObjects[currentImageId] = imageEmbed.model;
-			
 		},
 		selectSlideshowImage = function(imageId){
 			var $newImageSelectOption = $('#' + imageId); 
@@ -80,8 +86,6 @@
 	// PUBLIC
 	slideshowEmbed.prototype.orderIndex = 2;
 
-	slideshowEmbed.prototype.defaultStyle = 'entity-embed-center';
-
 	slideshowEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
@@ -99,6 +103,7 @@
 
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
+    		replaceFileInput: false,
 			add: function(e, data){
 				data.submit().complete(function (result, textStatus, jqXHR) {
 					if (textStatus !== 'success')
@@ -154,7 +159,7 @@
 	{
 		var self = this;
 		saveChangesToImageModel();
-		self.model.title = $form.find('input[name=title]').val();
+		self.model.title = $form.find('input[name=slideshowTitle]').val();
 		self.model.images = [];
 
 		for (var image in imageObjects)

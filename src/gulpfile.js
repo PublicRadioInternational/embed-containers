@@ -35,6 +35,7 @@ gulp.task('devConcatJs', function()		// development concatenation task for javas
 			jsPath + 'entityEmbedToolbar.js',
 			jsPath + 'genericEmbed.js',
 			jsPath + 'modal.js',
+			jsPath + 'confirmModalDefaults.js',
 			jsPath + 'embedModalDefaults.js',
 			jsPath + 'embeds/*.js',
 			jsPath + 'entityEmbedAddon.js',
