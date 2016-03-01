@@ -66,7 +66,6 @@ var EntityEmbed = EntityEmbed || {};
 				if (!!data.response.list)
 				{
 					var licenseList = [];
-					//for(var license in data.response.list)
 					for(var i = 0; i < data.response.list.length;i++ )
 					{
 						licenseList[i] = "<option>" + data.response.list[i].licenseName + "</option>";
