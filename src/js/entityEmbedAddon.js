@@ -279,23 +279,34 @@ var EntityEmbed = EntityEmbed || {};
      */
 
 	EntityEmbeds.prototype.loadStory = function(storyId) {
+		var self = this;
 		EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
 			{
 				object_id : storyId
 			},
 			function(data){
-				var regex = /\[\[[0-9]*\]\]/gi,
+				// regex string will match any any element with class entity-embed-container whose inner HTML is ONLY [[#]] where # is an any real number
+				var regex = /<[^<^>.]*class[^<^>.]*=[ ]*"[^<^>^"^'.]*entity-embed-container[^<^>^"^'.]*"[^"^'.]*>\[\[[0-9]*\]\]<[ ]*\/[ ]*[a-zA-Z]*[ ]*>/gi,
+					fullStoryHtml = data.response.storyHtml,
 					result;
-				// class selector for entity-embed-container
-				while ( result = regex.exec(data.response.storyHtml) ) {
-				    var match = result[0];
-				    var embedIndex = parseInt(match.substring(2, match.length - 2)); // trim off the two characters on either side
-				    // TODO
-				    // now we have index - need to get object
-				    // then grab HTML from object
-				    	// HTML not on all objects
-				    // put object HTML in storyHtml (replace [[i]])
+				while ( result = regex.exec(fullStoryHtml) ) {
+					if (result.length < 1)
+					{
+						continue
+					}
+					var match = result[0];
+					var delimitedIndex = /\[\[[0-9]*\]\]/gi.exec(result); // find the [[#]]
+					if (!delimitedIndex || delimitedIndex.length < 1)
+					{
+						continue;
+					}
+					var embedIndex = parseInt(delimitedIndex[0].substr(2, delimitedIndex[0].length - 2)); // trim off the characters [[ and ]]
+					var startIndex = fullStoryHtml.indexOf(match) + match.indexOf(delimitedIndex[0]);
+					fullStoryHtml = fullStoryHtml.replace( 
+						fullStoryHtml.substr(startIndex , delimitedIndex[0].length),
+						data.response.embeds[embedIndex].parsedHtml);
 				}
+				$(self.origElements).html(fullStoryHtml);
 			},	
 			function(data){
 				console.log('Failed to get story with id ' + storyId);

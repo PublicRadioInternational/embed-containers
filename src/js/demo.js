@@ -128,4 +128,10 @@ $(document).ready(function(){
 	$loadContentBtn.click(function(){
 		medEditor.loadStory('97381d1231a144038b79ab9a08e9fff3'); // this ID is hardcoded only for demonstration purposes
 	});
+
+	$('#test').click(function(){
+		//$('#embed-modal').embedModalOpen_add('audio');
+		//$('#embed-modal').embedModalOpen_add();
+		$('#embed-modal').embedModalOpen_edit('image', 'eb9d104cc0524023847d4142459df926');
+	});
 });
