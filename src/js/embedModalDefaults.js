@@ -109,9 +109,9 @@ var EntityEmbed = EntityEmbed || {};
 						return et.options.object_type == embedType;
 					})[0];
 
-					var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);					
+					var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);	
+					$validator.resetForm();				
 					scope.currentEmbedType.$view.show();
-					$validator.resetForm();
 					scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 				};
 
