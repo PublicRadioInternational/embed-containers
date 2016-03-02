@@ -27,7 +27,6 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: "required",
-					displayTitle:  "required"
 				}
 			}
 		};
