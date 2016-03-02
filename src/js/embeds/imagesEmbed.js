@@ -28,10 +28,7 @@ var EntityEmbed = EntityEmbed || {};
 				rules: {
 					title: 'required',
 					altText: 'required',
-					credit: 'required',
-					creditLink: 'required',
-					caption: 'required', 
-					imageFile: 'required'
+					license: 'required'
 				}
 			}
 		};

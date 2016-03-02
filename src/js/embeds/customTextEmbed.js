@@ -26,7 +26,6 @@
 			validationOptions: {
 				rules : {
 					title: 'required',
-					displayTitle: 'required',
 					customText: 'required'
 				}
 			}
