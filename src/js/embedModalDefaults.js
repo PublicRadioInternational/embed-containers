@@ -109,11 +109,13 @@ var EntityEmbed = EntityEmbed || {};
 						return et.options.object_type == embedType;
 					})[0];
 
+					var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);					
 					scope.currentEmbedType.$view.show();
+					$validator.resetForm();
 					scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 				};
 
-				scope.resetModalView = function(scope){
+				scope.resetModalView = function(scope){					
 					var embedName = scope.embedTypes[0].options.object_type;
 					scope.setModalView(scope, embedName);
 				};
@@ -483,7 +485,6 @@ var EntityEmbed = EntityEmbed || {};
 						return false;
 					}
 				}
-
 				// no changes made OR leave already confirmed - okay to close without prompting user
 				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
 				$validator.resetForm();

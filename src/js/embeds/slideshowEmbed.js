@@ -25,13 +25,9 @@
 			validationOptions: {
 				rules: {
 					slideshowTitle: 'required',
-					displayTitle: 'required',
-					imageFile: 'required',
-					creditLink: 'required',
-					credit: 'required',
 					title: 'required',
 					altText: 'required',
-					caption: 'required'
+					license: 'required'
 				}
 			}
 		},

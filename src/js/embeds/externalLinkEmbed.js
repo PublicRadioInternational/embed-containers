@@ -25,11 +25,8 @@
 			validationOptions: {
 				rules: {
 					title: 'required',
-					displayTitle: 'required',
 					url: 'required',
-					linkText: 'required',
-					teaser: 'required',
-					thumbnailFile: 'required'
+					linkText: 'required'
 				}
 			}
 		};

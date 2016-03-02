@@ -27,8 +27,7 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
-					displayTitle: 'required',
-					teaser: 'required',	
+					newsletter: 'required',					
 				}
 			}
 		},
