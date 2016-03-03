@@ -110,7 +110,9 @@ var EntityEmbed = EntityEmbed || {};
 		if (self.core.getEditor()) {
 			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
 			self.core.getEditor().serialize = self.editorSerialize;
-			self.core.getEditor().loadStory = self.loadStory;
+			self.core.getEditor().loadStory = function(storyId){
+				self.loadStory(storyId);
+			};
 		}
 
 		self.init();
@@ -146,15 +148,15 @@ var EntityEmbed = EntityEmbed || {};
 		// TODO : only track these on global namespace, not on this addon
 		EntityEmbed.embedTypes = self.embedTypes;
 
-		var modalOptions;
+		self.finalModalOptions = {};
 		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
 		if (!!self.options.modalOptions)
 		{
-			modalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
+			self.finalModalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
 		}
 		else
 		{
-			modalOptions = defaultModalOptions;
+			self.finalModalOptions = defaultModalOptions;
 		}
 
 		var modalScope = {
@@ -163,7 +165,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		modalScope = $.extend(true, {}, self.options.modalScope, modalScope);
 
-		self.options.$modalEl.modal(modalOptions, modalScope);
+		self.options.$modalEl.modal(self.finalModalOptions, modalScope);
 	};
 
 	/**
@@ -280,33 +282,67 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.loadStory = function(storyId) {
 		var self = this;
+
 		EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
 			{
 				object_id : storyId
 			},
 			function(data){
-				// regex string will match any any element with class entity-embed-container whose inner HTML is ONLY [[#]] where # is an any real number
-				var regex = /<[^<^>.]*class[^<^>.]*=[ ]*"[^<^>^"^'.]*entity-embed-container[^<^>^"^'.]*"[^"^'.]*>\[\[[0-9]*\]\]<[ ]*\/[ ]*[a-zA-Z]*[ ]*>/gi,
-					fullStoryHtml = data.response.storyHtml,
-					result;
-				while ( result = regex.exec(fullStoryHtml) ) {
-					if (result.length < 1)
-					{
-						continue
-					}
-					var match = result[0];
-					var delimitedIndex = /\[\[[0-9]*\]\]/gi.exec(result); // find the [[#]]
-					if (!delimitedIndex || delimitedIndex.length < 1)
-					{
-						continue;
-					}
-					var embedIndex = parseInt(delimitedIndex[0].substr(2, delimitedIndex[0].length - 2)); // trim off the characters [[ and ]]
-					var startIndex = fullStoryHtml.indexOf(match) + match.indexOf(delimitedIndex[0]);
-					fullStoryHtml = fullStoryHtml.replace( 
-						fullStoryHtml.substr(startIndex , delimitedIndex[0].length),
-						data.response.embeds[embedIndex].parsedHtml);
+				var deferreds = [];
+				for (var i = 0; i < data.response.embeds.length; i++)
+				{
+					data.response.embeds[i].embedType = $.grep(self.embedTypes, function(et){
+						return et.options.object_type == data.response.embeds[i].type;
+					})[0];
+
+					var dfrrd = EntityEmbed.apiService.get(
+						data.response.embeds[i].embedType.options.httpPaths.get,
+						{
+							object_id: data.response.embeds[i].id
+						},
+						function(request){
+							if (request.status === 'ERROR')
+							{
+								console.log('failed to get embed object!');
+							}
+							
+							// find the embed by id (cannot use local i variable because this is async)
+							var embedInfo = $.grep(data.response.embeds, function(embed){
+								return embed.id === request.response.object_id;
+							})[0];
+							var embedInfoIndex = data.response.embeds.indexOf(embedInfo);
+							data.response.embeds[embedInfoIndex].embedType.model = request.response;
+							data.response.embeds[embedInfoIndex] = self.finalModalOptions.generateEmbedHtml(data.response.embeds[embedInfoIndex].embedType, false);
+						}
+					);
+
+					deferreds.push(dfrrd);
 				}
-				$(self.origElements).html(fullStoryHtml);
+
+				$.when.apply($, deferreds).done(function(){
+					// regex string will match any any element with class entity-embed-container whose inner HTML is ONLY [[#]] where # is an any real number
+					var regex = /<[^<^>.]*class[^<^>.]*=[ ]*"[^<^>^"^'.]*entity-embed-container[^<^>^"^'.]*"[^"^'.]*>\[\[[0-9]*\]\]<[ ]*\/[ ]*[a-zA-Z]*[ ]*>/gi,
+						fullStoryHtml = data.response.storyHtml,
+						result;
+					while ( result = regex.exec(fullStoryHtml) ) {
+						if (result.length < 1)
+						{
+							continue
+						}
+						var match = result[0];
+						var delimitedIndex = /\[\[[0-9]*\]\]/gi.exec(result); // find the [[#]]
+						if (!delimitedIndex || delimitedIndex.length < 1)
+						{
+							continue;
+						}
+						var embedIndex = parseInt(delimitedIndex[0].substr(2, delimitedIndex[0].length - 2)); // trim off the characters [[ and ]]
+						var startIndex = fullStoryHtml.indexOf(match) + match.indexOf(delimitedIndex[0]);
+						fullStoryHtml = fullStoryHtml.replace( 
+							fullStoryHtml.substr(startIndex , delimitedIndex[0].length),
+							data.response.embeds[embedIndex].editorHtml);
+					}
+					$(self.origElements).html(fullStoryHtml);
+				});
 			},	
 			function(data){
 				console.log('Failed to get story with id ' + storyId);

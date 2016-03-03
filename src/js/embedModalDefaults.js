@@ -110,36 +110,36 @@ var EntityEmbed = EntityEmbed || {};
 			if (isAddModal)
 			{
 				var successFunction = function(data){
-						if (data.status === 'ERROR')
-						{
-							console.log('post failed');
-							return;
-						}
-						scope.currentEmbedType.model.object_id = data.response.object_id;
-						console.log('post succeeded');
-						scope.modalCtrl.$el.completeModal();
-					}, 
-					failFunction = function(data){
-						// TODO : UI failure message
+					if (data.status === 'ERROR')
+					{
 						console.log('post failed');
-					};
+						return;
+					}
+					scope.currentEmbedType.model.object_id = data.response.object_id;
+					console.log('post succeeded');
+					scope.modalCtrl.$el.completeModal();
+				}, 
+				failFunction = function(data){
+					// TODO : UI failure message
+					console.log('post failed');
+				};
 			}
 			else
 			{
 				var successFunction = function(data){
-						if (data.status === 'ERROR')
-						{
-							console.log('put failed');
-							return;
-						}
-
-						console.log('put succeeded');
-						scope.modalCtrl.$el.completeModal();
-					},
-					failFunction = function(data){
-						// TODO : UI failure message
+					if (data.status === 'ERROR')
+					{
 						console.log('put failed');
-					};
+						return;
+					}
+
+					console.log('put succeeded');
+					scope.modalCtrl.$el.completeModal();
+				},
+				failFunction = function(data){
+					// TODO : UI failure message
+					console.log('put failed');
+				};
 			}
 
 			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction);
@@ -214,35 +214,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			$(embedModalSelectors.buttons.showSelectExisting).hide();
 		},
-		generateEmbedHtml = function(scope, addNewLine){
-			var figureClass = 'entity-embed'
-
-			scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-
-			if (!!scope.currentEmbedType.defaultStyle)
-			{
-				figureClass += ' ' + scope.currentEmbedType.defaultStyle;
-			}
-
-			var ret =
-				'<div class="entity-embed-container">' + 
-					'<figure contenteditable="false" class="' + figureClass + '" ' + 
-						'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
-						'data-embed-type="' + scope.currentEmbedType.options.object_type + '" >' +
-						scope.currentEmbedType.parseForEditor() +
-					'</figure>' + 
-				'</div>';
-
-			if (addNewLine)
-			{
-				// add a new paragraph after the embed so that user can continue typing
-				// TODO : make sure that no one can ever remove this
-				//			user could put self in bad editing state
-				ret = ret + '<p class="entity-embed-new-line">&nbsp</p>';
-			}
-
-			return ret;
-		},
 		getEmbedTypeFromTypeString = function(object_type){
 
 			var ret = $.grep(embedTypes_stale, function(et){
@@ -257,9 +228,38 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				return null;
 			}
+		},
+		generateEmbedHtmlInternal = function(embedType, addNewLine){
+			var figureClass = 'entity-embed'
+
+			if (!!embedType.defaultStyle)
+			{
+				figureClass += ' ' + embedType.defaultStyle;
+			}
+
+			var ret =
+				'<div class="entity-embed-container">' + 
+					'<figure contenteditable="false" class="' + figureClass + '" ' + 
+						'id="' + embedType.model.object_id  + '" ' + 
+						'data-embed-type="' + embedType.options.object_type + '" >' +
+						embedType.parseForEditor() +
+					'</figure>' + 
+				'</div>';
+
+			if (addNewLine)
+			{
+				// add a new paragraph after the embed so that user can continue typing
+				// TODO : make sure that no one can ever remove this
+				//			user could put self in bad editing state
+				ret = ret + '<p class="entity-embed-new-line">&nbsp</p>';
+			}
+
+			return ret;
 		};
 
 	function embedModalDefaults() {};
+
+	embedModalDefaults.prototype.generateEmbedHtml = generateEmbedHtmlInternal;
 
 	embedModalDefaults.prototype.functions = {
 		init:{
@@ -512,7 +512,9 @@ var EntityEmbed = EntityEmbed || {};
 			after: function(scope){
 				toggleEditorTyping(scope, "true");
 				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
-				scope.$currentEditorLocation.html(generateEmbedHtml(scope, needNewlineAtEnd));
+
+				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
+				scope.$currentEditorLocation.html(generateEmbedHtml(scope.currentEmbedType, needNewlineAtEnd));
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
