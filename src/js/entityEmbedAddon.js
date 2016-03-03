@@ -294,8 +294,9 @@ var EntityEmbed = EntityEmbed || {};
 					data.response.embeds[i].embedType = $.grep(self.embedTypes, function(et){
 						return et.options.object_type == data.response.embeds[i].type;
 					})[0];
+					data.response.embeds[i].embedType.model = data.response.embeds[i].embedType.cleanModel();
 
-					var dfrrd = EntityEmbed.apiService.get(
+					deferreds.push(EntityEmbed.apiService.get(
 						data.response.embeds[i].embedType.options.httpPaths.get,
 						{
 							object_id: data.response.embeds[i].id
@@ -312,13 +313,12 @@ var EntityEmbed = EntityEmbed || {};
 							})[0];
 							var embedInfoIndex = data.response.embeds.indexOf(embedInfo);
 							data.response.embeds[embedInfoIndex].embedType.model = request.response;
-							data.response.embeds[embedInfoIndex] = self.finalModalOptions.generateEmbedHtml(data.response.embeds[embedInfoIndex].embedType, false);
+							data.response.embeds[embedInfoIndex].editorHtml = self.finalModalOptions.generateEmbedHtml(data.response.embeds[embedInfoIndex].embedType, false);
 						}
-					);
-
-					deferreds.push(dfrrd);
+					));
 				}
 
+				// execute this function when all the AJAX calls to get embed types are done
 				$.when.apply($, deferreds).done(function(){
 					// regex string will match any any element with class entity-embed-container whose inner HTML is ONLY [[#]] where # is an any real number
 					var regex = /<[^<^>.]*class[^<^>.]*=[ ]*"[^<^>^"^'.]*entity-embed-container[^<^>^"^'.]*"[^"^'.]*>\[\[[0-9]*\]\]<[ ]*\/[ ]*[a-zA-Z]*[ ]*>/gi,
@@ -341,7 +341,7 @@ var EntityEmbed = EntityEmbed || {};
 							fullStoryHtml.substr(startIndex , delimitedIndex[0].length),
 							data.response.embeds[embedIndex].editorHtml);
 					}
-					$(self.origElements).html(fullStoryHtml);
+					self.$el.html(fullStoryHtml);
 				});
 			},	
 			function(data){
