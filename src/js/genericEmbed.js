@@ -103,9 +103,6 @@ var EntityEmbedTypes = EntityEmbedTypes || {};
 			}
 			else
 			{
-				//TO DO: figure out reset form when modal is closed when invalid.
-				//var validator = $('form').validate();
-				//validator.resetForm();
 				formFields[i].value = null;
 			}
 		}

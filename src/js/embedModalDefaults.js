@@ -105,13 +105,11 @@ var EntityEmbed = EntityEmbed || {};
 						scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 					}
 
+					
 					scope.currentEmbedType = $.grep(scope.embedTypes, function(et){
 						return et.options.object_type == embedType;
 					})[0];
-
-					var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);	
-					$validator.resetForm();				
-					scope.currentEmbedType.$view.show();
+					scope.currentEmbedType.$view.show();					
 					scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 				};
 
@@ -119,6 +117,7 @@ var EntityEmbed = EntityEmbed || {};
 					var embedName = scope.embedTypes[0].options.object_type;
 					scope.setModalView(scope, embedName);
 				};
+
 
 				scope.saveEmbed = function(scope){
 					var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
