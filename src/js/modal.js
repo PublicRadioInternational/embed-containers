@@ -12,7 +12,7 @@
 		$openEl: $(''),
 		$abortEl: $(''),
 		$completeEl: $(''),
-		functions:{
+		functions:{ // TODO : rename to hooks
 			init:{
 				before: function(scope){},
 				after: function(scope){}

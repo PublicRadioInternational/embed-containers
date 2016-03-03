@@ -54,9 +54,34 @@ var EntityEmbed = EntityEmbed || {};
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
 
-	var loadLicenses = function (getPath){
+	// CONSTRUCTOR
+	function imagesEmbed(options){
+		var self = this;
+		self.parent.constructor(options, defaults, embedName, self);
+	};
+
+	imagesEmbed.inherits(EntityEmbedTypes.genericEmbed);
+	EntityEmbedTypes[embedName] = imagesEmbed;
+
+	// PUBLIC
+	imagesEmbed.prototype.orderIndex = 1;
+
+	imagesEmbed.prototype.cleanModel = function(){
+		return {
+			file: null,
+			title: null,
+			altText: null,
+			credit: null,
+			creditLink: null,
+			caption: null,
+			license: null
+		};
+	};
+
+	imagesEmbed.prototype.loadLicenses = function (){
+		var self = this;
 		EntityEmbed.apiService.get({
-			path: getPath,
+			path: self.options.httpPaths.get,
 			//Current Guid value of the license list
 			//TODO: change this from a hardcoded value
 			data: {
@@ -84,36 +109,12 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	// CONSTRUCTOR
-	function imagesEmbed(options){
-		var self = this;
-		self.parent.constructor(options, defaults, embedName, self);
-	};
-
-	imagesEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = imagesEmbed;
-
-	// PUBLIC
-	imagesEmbed.prototype.orderIndex = 1;
-
-	imagesEmbed.prototype.cleanModel = function(){
-		return {
-			file: null,
-			title: null,
-			altText: null,
-			credit: null,
-			creditLink: null,
-			caption: null,
-			license: null
-		};
-	};
-
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
 
-		loadLicenses(this.options.httpPaths.get);
+		self.loadLicenses();
 
-		$el.find("input[name='imageFile']").fileupload({
+		$el.find('input[name="imageFile"]').fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
 			add: function(e, data){

@@ -134,7 +134,7 @@ var EntityEmbed = EntityEmbed || {};
 			//		this code smells, do something better here... maybe put in cleanModel?
 			self.model.object_type = self.options.object_type;
 
-			EntityEmbed.apiService.post({
+			return EntityEmbed.apiService.post({
 				path: self.options.httpPaths.post, 
 				data: self.model,
 				success: successFunc,
@@ -143,7 +143,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		else
 		{
-			EntityEmbed.apiService.put({
+			return EntityEmbed.apiService.put({
 				path: self.options.httpPaths.put, 
 				data: self.model,
 				success: successFunc,
