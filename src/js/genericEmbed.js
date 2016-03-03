@@ -127,28 +127,28 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc){
 		var self = this;
 
-		self.model.editorHtml = self.parseForEditor();
+		self.model.auth_token = 'abc123';
 
 		if (embedIsNew){
 			// add the object_type onto the model
 			//		this code smells, do something better here... maybe put in cleanModel?
 			self.model.object_type = self.options.object_type;
 
-			EntityEmbed.apiService.post(
-				self.options.httpPaths.post, 
-				self.model,
-				successFunc,
-				failFunc
-			);
+			EntityEmbed.apiService.post({
+				path: self.options.httpPaths.post, 
+				data: self.model,
+				success: successFunc,
+				fail: failFunc
+			});
 		}
 		else
 		{
-			EntityEmbed.apiService.put(
-				self.options.httpPaths.put, 
-				self.model,
-				successFunc,
-				failFunc
-			);
+			EntityEmbed.apiService.put({
+				path: self.options.httpPaths.put, 
+				data: self.model,
+				success: successFunc,
+				fail: failFunc
+			});
 		}
 	}
 

@@ -55,28 +55,33 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	var loadLicenses = function (getPath){
-		EntityEmbed.apiService.get(
-			getPath,
+		EntityEmbed.apiService.get({
+			path: getPath,
 			//Current Guid value of the license list
 			//TODO: change this from a hardcoded value
-
-			{object_id: "2e7d8341d92a499dae3a19019550d518" },
-			function(data){
+			data: {
+				object_id: '2e7d8341d92a499dae3a19019550d518',
+				auth_token: 'abc123'
+			},
+			success: function(data){
 				//load object into license list
 				if (!!data.response.list)
 				{
 					var licenseList = [];
 					for(var i = 0; i < data.response.list.length;i++ )
 					{
-						licenseList[i] = "<option>" + data.response.list[i].licenseName + "</option>";
+						licenseList[i] =
+							'<option>' +
+								data.response.list[i].licenseName +
+							'</option>';
 					}
-					$("#license").html(licenseList);
+					$('#license').html(licenseList);
 				}
 			},
-			function(data){
-				console.log('failed to find object with that id');
+			fail: function(data){
+				console.log('failed to find load image license options');
 			}
-		);
+		});
 	};
 
 	// CONSTRUCTOR

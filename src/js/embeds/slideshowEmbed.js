@@ -153,8 +153,19 @@
 					// content
 				'</div>';
 	};
-*/
 
+
+	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc)
+	{
+		var self = this;
+		var deferreds = [];
+		for(var i = 0; i < self.model.images.length; i++)
+		{
+			imageEmbed.model = self.model.images[i].model;
+			imageEmbed.saveEmbed()
+		}
+	}
+*/
 	slideshowEmbed.prototype.getModelFromForm = function($form)
 	{
 		var self = this;

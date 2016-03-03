@@ -3,25 +3,22 @@ var EntityEmbed = EntityEmbed || {};
 (function(){
 
 	// PRIVATE
-	function ajaxWrapper(methodType, path, data, doneFunc, failFunc, alwaysFunc){
-		// avoid null reference errors
-		if (!doneFunc)
-		{
-			doneFunc = function(){};
-		}
-		if (!failFunc)
-		{
-			failFunc = function(){};
-		}
-		if (!alwaysFunc)
-		{
-			alwaysFunc = function(){};
-		}
+
+	var defaultConfig = {
+		success : function(){},
+		fail : function(){},
+		always : function(){},
+		data: {
+			// object_id: '',
+			// auth_token: ''
+		},
+		path: ''
+	};
+
+	function ajaxWrapper(config){
+		config = $.extend(true, {}, defaultConfig, config);
 
 		$.support.cors = true;
-
-		data.auth_token='abc123';
-		data.debug = 1;
 
 		return $.ajax({
 				timeout: 15000,
@@ -32,26 +29,29 @@ var EntityEmbed = EntityEmbed || {};
 				type: 'POST', 
 				
 				dataType: 'json',
-				url: path,
-				data: JSON.stringify(data)
+				url: config.path,
+				data: JSON.stringify(config.data)
 			})
-			.done(doneFunc)
-			.fail(failFunc)
-			.always(alwaysFunc);
+			.done(config.success)
+			.fail(config.fail)
+			.always(config.always);
 	};
 
 	function apiService(){};
 
-	apiService.prototype.put = function(path, data, doneFunc, failFunc, alwaysFunc) {
-		return ajaxWrapper('PUT', path, data, doneFunc, failFunc, alwaysFunc);
+	apiService.prototype.put = function(config) {
+		config.methodType = 'PUT';
+		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.post = function(path, data, doneFunc, failFunc, alwaysFunc) {
-		return ajaxWrapper('POST', path, data, doneFunc, failFunc, alwaysFunc);
+	apiService.prototype.post = function(config) {
+		config.methodType = 'POST';
+		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.get = function(path, data, doneFunc, failFunc, alwaysFunc) {
-		return ajaxWrapper('GET', path, data, doneFunc, failFunc, alwaysFunc);
+	apiService.prototype.get = function(config) {
+		config.methodType = 'GET';
+		return ajaxWrapper(config);
 	};
 
 	apiService.prototype.del = function() {
