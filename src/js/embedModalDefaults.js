@@ -88,9 +88,7 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = $.grep(scope.embedTypes, function(et){
-				return et.options.object_type == embedType;
-			})[0];
+			scope.currentEmbedType = getEmbedTypeFromTypeString(embedType);
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
@@ -98,6 +96,7 @@ var EntityEmbed = EntityEmbed || {};
 		resetModalView = function(scope){
 			var embedName = scope.embedTypes[0].options.object_type;
 			setModalView(scope, embedName);
+			scope.$embedTypeSelect.show();
 		},
 		saveEmbed = function(scope){
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
@@ -229,7 +228,7 @@ var EntityEmbed = EntityEmbed || {};
 				'<div class="entity-embed-container">' + 
 					'<figure contenteditable="false" class="' + figureClass + '" ' + 
 						'id="' + scope.currentEmbedType.model.object_id  + '" ' + 
-						'data-embed-type="' + scope.currentEmbedType.name + '" >' +
+						'data-embed-type="' + scope.currentEmbedType.options.object_type + '" >' +
 						scope.currentEmbedType.parseForEditor() +
 					'</figure>' + 
 				'</div>';
@@ -243,6 +242,21 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			return ret;
+		},
+		getEmbedTypeFromTypeString = function(object_type){
+
+			var ret = $.grep(embedTypes_stale, function(et){
+				return et.options.object_type == object_type;
+			});
+
+			if (ret.length > 0)
+			{
+				return ret[0];
+			}
+			else
+			{
+				return null;
+			}
 		};
 
 	function embedModalDefaults() {};
@@ -408,12 +422,14 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		open: {
-			before: function(scope){},
+			before: function(scope){
+			}, 
 			after: function(scope){
-				toggleEditorTyping(scope, "false");	
+				toggleEditorTyping(scope, "false");
 
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
+					scope.currentEmbedType = getEmbedTypeFromTypeString(scope.embedType);
 					showEditEmbedView(scope);
 					
 					EntityEmbed.apiService.get(
@@ -433,6 +449,8 @@ var EntityEmbed = EntityEmbed || {};
 							console.log('failed to get embed type!');
 						}
 					);
+
+					delete scope.embedType;
 				}
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
 				{
@@ -483,8 +501,8 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				showCreateNewEmbedView(scope);
-				toggleEditorTyping(scope, "true");	
+				toggleEditorTyping(scope, "true");
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
 		complete: {
@@ -495,6 +513,7 @@ var EntityEmbed = EntityEmbed || {};
 				toggleEditorTyping(scope, "true");
 				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
 				scope.$currentEditorLocation.html(generateEmbedHtml(scope, needNewlineAtEnd));
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
 	};
@@ -517,15 +536,13 @@ var EntityEmbed = EntityEmbed || {};
 
 	// embedType should match the object_type field on some configured embed type object
 	$.fn.embedModalOpen_edit = function(embedTypeStr, id){
-		var currEmbedType = $.grep(embedTypes_stale, function(et){
-				return et.options.object_type == embedTypeStr;
-			})[0];
-
 		var scope = {
 			$currentEditorLocation: $('.medium-insert-active'),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			currentEmbedType: currEmbedType
+			embedId: id,
+			embedType: embedTypeStr
 		};
+
 		this.openModal(scope); 
 	};
 	EntityEmbed.embedModalDefaults = embedModalDefaults;

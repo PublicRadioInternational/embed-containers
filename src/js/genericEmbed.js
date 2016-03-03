@@ -4,7 +4,6 @@ var EntityEmbed = EntityEmbed || {};
 (function(){
 
 	'use strict';
-	
 
 	// CONSTRUCTOR
 	function genericEmbed(options, defaults, embedName, ref){
@@ -31,9 +30,7 @@ var EntityEmbed = EntityEmbed || {};
 			center: true,
 			wide: true
 		},
-		validationOptions: {
-
-		}
+		validationOptions: {}
 	};
 
 	genericEmbed.prototype.cleanModel = function(){

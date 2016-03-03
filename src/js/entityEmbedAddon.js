@@ -342,10 +342,12 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		
 		var scope = {
-			$currentEditorLocation: $embed.parent(),
+			$currentEditorLocation: $('.medium-insert-active'),
 			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed.find('figure').attr('id')
+			embedId: $embed.find('figure').attr('id'),
+			embedType: $embed.find('[data-embed-type]').attr('data-embed-type')
 		};
+
 		self.toolbarManager.hideToolbar();
 		self.options.$modalEl.openModal(scope);
 	};
