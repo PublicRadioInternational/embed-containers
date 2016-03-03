@@ -59,20 +59,16 @@ var EntityEmbed = EntityEmbed || {};
 			getPath,
 			//Current Guid value of the license list
 			//TODO: change this from a hardcoded value
-			{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
+
+			{object_id: "2e7d8341d92a499dae3a19019550d518" },
 			function(data){
 				//load object into license list
-			
 				if (!!data.response.list)
 				{
 					var licenseList = [];
-					var i = 0;
-					for(var licenseName in data.response.list)
+					for(var i = 0; i < data.response.list.length;i++ )
 					{
-						if(!!licenseName){
-							licenseList[i] = "<option>" + licenseName + "</option>";
-						}
-						i++;
+						licenseList[i] = "<option>" + data.response.list[i].licenseName + "</option>";
 					}
 					$("#license").html(licenseList);
 				}

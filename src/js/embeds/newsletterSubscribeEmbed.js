@@ -35,23 +35,18 @@ var EntityEmbed = EntityEmbed || {};
 		loadSubscription = function (getPath){
 			EntityEmbed.apiService.get(
 				getPath,
-				// Current Guid value of the Subscription list
-				// TODO: change this from a hardcoded value to one pointing at a newsletter subscription list
-				{object_id: "f75bd456f84a40d0b5785f8cea4d5937" },
+				//Current Guid value of the license list
+				//TODO: change this from a hardcoded value
+
+				{object_id: "2e7d8341d92a499dae3a19019550d518" },
 				function(data){
 					//load object into license list
-				
 					if (!!data.response.list)
 					{
 						var subscriptionList = [];
-						var i = 0;
-						for(var subscriptionName in data.response.list)
+						for(var i = 0; i < data.response.list.length;i++ )
 						{
-							if(!!subscriptionName){
-								subscriptionList[i] = "<option value=" + data.response.list[subscriptionName] + 
-								">" + subscriptionName + "</option>";
-							}
-							i++;
+							subscriptionList[i] = "<option value=" + data.response.list[i].licenseCode +">" + data.response.list[i].licenseName + "</option>";
 						}
 						$("#subscription").html(subscriptionList);
 					}

@@ -73,7 +73,7 @@ var EntityEmbed = EntityEmbed || {};
 		EntityEmbed.apiService.get(
 			self.options.httpPaths.get,
 			// TODO: Object id is currently hard-coded, this needs to be changed.
-			{object_id: '5ce1b659ac36423f8e939596ac0b0c83'},
+			{object_id: 'dbbc5fc38d2e4d359572743d2c00d581'},
 			function(fetchedData){
 				var autocompleteSettingsAndData = {
 					data: fetchedData.response.stories,

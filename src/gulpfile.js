@@ -22,15 +22,48 @@ var htmlDest = config.serverRoot + '/',
 	libDest = config.serverRoot + '/lib/';
 var fontDest = libDest + fontPathSegment;
 
-gulp.task('devLess', function(){		// development less task
+// PRODUCTION TASKS
+
+gulp.task('move', function()
+{
+	gulp.src([htmlPath + '**/*',
+			'!' + htmlPath + 'index.php'])
+		.pipe(gulp.dest(buildPath + 'contents/'));
+});
+
+gulp.task('less', function(){
+	gulp.src(lessPath + 'embed-containers.less')	
+		.pipe(less())
+		.pipe(minifyCss())
+		.pipe(gulp.dest(buildPath + 'css/'));
+});
+
+gulp.task('concatJs', function()
+{
+	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
+			jsPath + 'genericEmbed.js',
+			jsPath + 'modal.js',
+			jsPath + 'confirmModalDefaults.js',
+			jsPath + 'embedModalDefaults.js',
+			jsPath + 'embeds/*.js',
+			jsPath + 'entityEmbedAddon.js'])
+		.pipe(gConcat('embed-containers.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(buildPath + 'js/'));
+});
+
+// DEVELOPMENT TASKS
+
+gulp.task('devLess', function(){
 	gulp.src([lessPath + 'main.less',
 			lessPath + '/priEmbeds/priEntityEmbeds.less'])
 		.pipe(less())
 		.pipe(gulp.dest(cssDest));
 });
 
-gulp.task('devConcatJs', function()		// development concatenation task for javascript
-{										// same as concatJs but it does not uglify
+gulp.task('devConcatJs', function()
+{
 	gulp.src([jsPath + 'apiService.js',
 			jsPath + 'entityEmbedToolbar.js',
 			jsPath + 'genericEmbed.js',
@@ -44,28 +77,10 @@ gulp.task('devConcatJs', function()		// development concatenation task for javas
 		.pipe(gulp.dest(jsDest));
 });
 
-gulp.task('move', function()
+gulp.task('devMove', function()
 {
 	gulp.src(htmlPath + '**/*')
 		.pipe(gulp.dest(htmlDest));
-});
-
-// TODO : include library style sheets in production release?
-gulp.task('less', function(){			// production less task
-	gulp.src(lessPath + 'embed-containers.less')	
-		.pipe(less())
-		.pipe(minifyCss())
-		.pipe(gulp.dest(buildPath));
-});
-
-gulp.task('concatJs', function()
-{
-	gulp.src([jsPath + 'entityEmbedAddon.js',
-			jsPath + 'modal.js',
-			jsPath + 'embedModalDefaults.js'])
-		.pipe(gConcat('embed-containers.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest(buildPath));
 });
 
 gulp.task('copyLibJs', function(){
@@ -98,16 +113,16 @@ gulp.task('watchJs', function()
 
 gulp.task('watchHtml', function()
 {
-	gulp.watch(htmlPath + '**/*.html', ['move']);
+	gulp.watch(htmlPath + '**/*.html', ['devMove']);
 });
 
 gulp.task('watchPhp', function()
 {
-	gulp.watch(htmlPath + '**/*.php', ['move']);
+	gulp.watch(htmlPath + '**/*.php', ['devMove']);
 });
 
 gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml', 'watchPhp']);
 
-gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'move', 'watch']);
+gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'devMove', 'watch']);
 
-gulp.task('build', ['less', 'concatJs'])
+gulp.task('build', ['less', 'concatJs', 'move'])
