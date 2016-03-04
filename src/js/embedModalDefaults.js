@@ -229,22 +229,27 @@ var EntityEmbed = EntityEmbed || {};
 				return null;
 			}
 		},
-		generateEmbedHtmlInternal = function(embedType, addNewLine){
-			var figureClass = 'entity-embed'
+		generateEmbedHtmlInternal = function(embedType, addNewLine, noWrapper){
+			var figureClass = 'entity-embed';
 
 			if (!!embedType.defaultStyle)
 			{
 				figureClass += ' ' + embedType.defaultStyle;
 			}
 
-			var ret =
+			var ret = '<figure contenteditable="false" class="' + figureClass + '" ' +
+				'id="' + embedType.model.object_id  + '" ' +
+				'data-embed-type="' + embedType.options.object_type + '" >' +
+				embedType.parseForEditor() +
+			'</figure>';
+
+			if (!noWrapper)
+			{
+			 ret =
 				'<div class="entity-embed-container">' +
-					'<figure contenteditable="false" class="' + figureClass + '" ' +
-						'id="' + embedType.model.object_id  + '" ' +
-						'data-embed-type="' + embedType.options.object_type + '" >' +
-						embedType.parseForEditor() +
-					'</figure>' +
+					 ret +
 				'</div>';
+			}
 
 			if (addNewLine)
 			{

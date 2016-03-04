@@ -282,11 +282,9 @@ var EntityEmbed = EntityEmbed || {};
 			var $data, $embedContainers;
 
 			$data = $('<div />').html(data[key].value);
-			$data.find('.entity-embed-entity-line').remove();
+			$data.find('.entity-embed-new-line').remove();
 
 			$embedContainers = $data.find('.entity-embed-container', $data);
-
-			console.log(key, data[key], data);
 
 			// jQuery has a builtin method to iterate over all match elements.
 			// Callback is fired in the context of the current element, so the
@@ -314,8 +312,6 @@ var EntityEmbed = EntityEmbed || {};
 						// Inlcude embed type name so embed can be rendered correctly during deserialization
 						type: $embed.attr('data-embed-type')
 					};
-
-					console.log('serialized embed', embed, cleanedData);
 
 					// Add embed model to embeds list to be returned
 					cleanedData.embeds.push(embed);
@@ -347,8 +343,6 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this,
 			isString = (typeof storyData === 'string'),
 			fullStoryHtml;
-
-		console.log('storyData', storyData, isString);
 
 		function updateHtml(data) {
 			var deferreds;
@@ -404,7 +398,7 @@ var EntityEmbed = EntityEmbed || {};
 							embed.embedType.model = request.response;
 
 							// Generate the embed HTML
-							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false);
+							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false, true);
 
 							// Construct placeholder string
 							placeholder = generatePlaceholderString(embed);
@@ -422,7 +416,7 @@ var EntityEmbed = EntityEmbed || {};
 
 			// execute this function when all the AJAX calls to get embed types are done
 			$.when.apply($, deferreds).done(function(){
-				// Each of our deferred callbacks should have updated the full story HTML with embed data,
+				// Each of our deferreds should have updated the full story HTML with embed data,
 				// so all we have to do now is add it to our editor element.
 				setEditorHtml();
 			});
@@ -442,7 +436,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		if(isString)
 		{
-			console.log('What!!');
 			EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
 				{
 					object_id : storyData
