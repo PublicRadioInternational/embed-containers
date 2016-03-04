@@ -94,7 +94,7 @@ var EntityEmbed = EntityEmbed || {};
 	 * @return {String}       Placeholder string unique the the embed being serialized/inserted
 	 */
 	function generatePlaceholderString(embed) {
-		var placeholder, placeholderKey
+		var placeholder, placeholderKey,
 			placeholderPrefix = '[[',
 			placeholderSuffix = ']]';
 
@@ -282,18 +282,22 @@ var EntityEmbed = EntityEmbed || {};
 			var $data, $embedContainers;
 
 			$data = $('<div />').html(data[key].value);
-			$data.find('.entity-embed-new-line').remove();
+			$data.find('.entity-embed-entity-line').remove();
 
-			$embedContainers = $data.find('.entity-embed-container');
+			$embedContainers = $data.find('.entity-embed-container', $data);
+
+			console.log(key, data[key], data);
 
 			// jQuery has a builtin method to iterate over all match elements.
 			// Callback is fired in the context of the current element, so the
 			// keyword 'this' refers to the element, in this case our embed container.
 			$embedContainers.each(function(index) {
-				var $embed, embed, placeholder;
+				var $this, $embed, embed, placeholder;
+
+				$this = $(this);
 
 				// Find child figure element, which should hold embed's data attributes
-				$embed = this.find('figure');
+				$embed = $this.find('figure');
 
 				// jQuery.each() iteration loop can be stop by returning false. There is no continue equivelant,
 				// so we nest our found embed logic in a truthy condition.
@@ -311,6 +315,8 @@ var EntityEmbed = EntityEmbed || {};
 						type: $embed.attr('data-embed-type')
 					};
 
+					console.log('serialized embed', embed, cleanedData);
+
 					// Add embed model to embeds list to be returned
 					cleanedData.embeds.push(embed);
 
@@ -318,7 +324,7 @@ var EntityEmbed = EntityEmbed || {};
 					placeholder = generatePlaceholderString(embed);
 
 					// Repace container's HTML with placeholder
-					this.html(placeholder);
+					$this.html(placeholder);
 				}
 			});
 
@@ -337,79 +343,129 @@ var EntityEmbed = EntityEmbed || {};
      * @return {void}
      */
 
-	EntityEmbeds.prototype.loadStory = function(storyId) {
-		var self = this;
+	EntityEmbeds.prototype.loadStory = function(storyData) {
+		var self = this,
+			isString = (typeof storyData === 'string'),
+			fullStoryHtml;
 
-		EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
+		console.log('storyData', storyData, isString);
+
+		function updateHtml(data) {
+			var deferreds;
+
+			if(!data)
 			{
-				object_id : storyId
-			},
-			function(data){
-				var deferreds = []
-					,fullStoryHtml = data.response.storyHtml || '';
-
-				// Iterate over returned embeds
-				for (var i = 0; i < data.response.embeds.length; i++)
-				{
-					// Convert returned type name to a useful embedType object
-					data.response.embeds[i].embedType = $.grep(self.embedTypes, function(et){
-						return et.options.object_type == data.response.embeds[i].type;
-					})[0];
-
-					// Establish a clean model to work with
-					data.response.embeds[i].embedType.model = data.response.embeds[i].embedType.cleanModel();
-
-					// Send request for complete emebed data, adding the promise to our deferreds list.
-					deferreds.push(EntityEmbed.apiService.get(
-						data.response.embeds[i].embedType.options.httpPaths.get,
-						{
-							object_id: data.response.embeds[i].id
-						},
-						(function(embed) {
-							// Encapsulate embed data by passing data.response.embeds[i] into self invoking function (See **EMBED** below).
-							// The embed parameter should retain it's reference when the returned async function is fired.
-							// Changes made to embed should bind out of the async function, but that is not required
-							// since we don't need to comunicate any changes to the embed object to the done callback
-							// below. All logic need to insert embed HTML is contained in the async function.
-							return function(request){
-								var embedHtml, placeholder;
-
-								if (request.status === 'ERROR')
-								{
-									console.log('failed to get embed object!');
-								}
-
-								// Update embed model with API data
-								embed.embedType.model = request.response;
-
-								// Generate the embed HTML
-								embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false);
-
-								// Construct placeholder string
-								placeholder = generatePlaceholderString(embed);
-
-								// Replace placeholder string in full story HTML with the embed HTML
-								// A quick split and join should work since our placeholder is unique to:
-								// 		- our addon (eg. addonName)
-								// 		- the embed being inserted (eg. embed.id)
-								// 		- the position the embed is inserted (embed.index)
-								fullStoryHtml = fullStoryHtml.split(placeholder).join(embedHtml);
-							};
-						})(data.response.embeds[i]) // **EMBED**
-					));
-				}
-
-				// execute this function when all the AJAX calls to get embed types are done
-				$.when.apply($, deferreds).done(function(){
-					// Each of our deferred callbacks should have updated the full story HTML with embed data,
-					// so all we have to do now is add it to our editor element.
-					self.$el.html(fullStoryHtml);
-				});
-			},
-			function(data){
-				console.log('Failed to get story with id ' + storyId);
+				setEditorHtml();
+				return;
 			}
-		);
+
+			fullStoryHtml = data.storyHtml || '';
+
+			if(!data.embeds)
+			{
+				setEditorHtml();
+				return;
+			}
+
+			deferreds = [];
+
+			// Iterate over returned embeds
+			for (var i = 0; i < data.embeds.length; i++)
+			{
+				// Convert returned type name to a useful embedType object
+				data.embeds[i].embedType = $.grep(self.embedTypes, function(et){
+					return et.options.object_type == data.embeds[i].type;
+				})[0];
+
+				// Establish a clean model to work with
+				data.embeds[i].embedType.model = data.embeds[i].embedType.cleanModel();
+
+				// Send request for complete emebed data, adding the promise to our deferreds list.
+				deferreds.push(EntityEmbed.apiService.get(
+					data.embeds[i].embedType.options.httpPaths.get,
+					{
+						object_id: data.embeds[i].id
+					},
+					(function(embed) {
+						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
+						// The embed parameter should retain it's reference when the returned async function is fired.
+						// Changes made to embed should bind out of the async function, but that is not required
+						// since we don't need to comunicate any changes to the embed object to the done callback
+						// below. All logic need to insert embed HTML is contained in the async function.
+						return function(request){
+							var embedHtml, placeholder;
+
+							if (request.status === 'ERROR')
+							{
+								console.log('failed to get embed object!');
+							}
+
+							// Update embed model with API data
+							embed.embedType.model = request.response;
+
+							// Generate the embed HTML
+							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false);
+
+							// Construct placeholder string
+							placeholder = generatePlaceholderString(embed);
+
+							// Replace placeholder string in full story HTML with the embed HTML
+							// A quick split and join should work since our placeholder is unique to:
+							// 		- our addon (eg. addonName)
+							// 		- the embed being inserted (eg. embed.id)
+							// 		- the position the embed is inserted (embed.index)
+							fullStoryHtml = fullStoryHtml.split(placeholder).join(embedHtml);
+						};
+					})(data.embeds[i]) // **EMBED**
+				));
+			}
+
+			// execute this function when all the AJAX calls to get embed types are done
+			$.when.apply($, deferreds).done(function(){
+				// Each of our deferred callbacks should have updated the full story HTML with embed data,
+				// so all we have to do now is add it to our editor element.
+				setEditorHtml();
+			});
+		}
+
+		function setEditorHtml() {
+			self.$el.html(fullStoryHtml);
+		}
+
+		if(!storyData)
+		{
+			console.log('Must provide either story id or serialived story data.');
+			return;
+		}
+
+		fullStoryHtml = !isString ? storyData.storyHtml : '';
+
+		if(isString)
+		{
+			console.log('What!!');
+			EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
+				{
+					object_id : storyData
+				},
+				function(data){
+
+					if (data.status === 'ERROR')
+					{
+						console.log('Failed to get story with id ' + storyData);
+						return;
+					}
+
+					updateHtml(data.repsonse);
+				},
+				function(data){
+					console.log('Failed to get story with id ' + storyData);
+				}
+			);
+		}
+		else
+		{
+			updateHtml(storyData);
+		}
 	};
 
 
