@@ -2,7 +2,8 @@ $(document).ready(function(){
 	
  	var medEditor = new MediumEditor('.editable');
 
- 	var $getContentBtn = $('#get-story-content');
+ 	var $extractContentBtn = $('#extract-story-content');
+ 	var $loadContentBtn = $('#load-story-content');
 
 	$('.editable').mediumInsert({
 		editor: medEditor,
@@ -118,9 +119,18 @@ $(document).ready(function(){
 		}
 	});
 
-	$getContentBtn.click(function(){
+	$extractContentBtn.click(function(){
 		var $storyDataWell = $('.story-content #data');
 		var storyObject = medEditor.serialize();
 		$storyDataWell.text(JSON.stringify(storyObject, null, 4));
+	});
+
+	$loadContentBtn.click(function(){
+		medEditor.loadStory('97381d1231a144038b79ab9a08e9fff3'); // this ID is hardcoded only for demonstration purposes
+	});
+
+	$('#test').click(function(){
+		// f4200604e9814a87bd58f62b94c04b35
+		$('#embed-modal').embedModalOpen_edit('image', 'ace27d60df7540368933643859280413');
 	});
 });
