@@ -73,7 +73,6 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 			});
-
 			return isDirty;
 		},
 		setModalView = function(scope, embedType){
@@ -139,12 +138,13 @@ var EntityEmbed = EntityEmbed || {};
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('put failed');
+
 				};
 			}
-
 			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction);
 
 			$validator.resetForm();
+
 		},
 		populateSelectExistingView = function(scope){
 			$(embedModalSelectors.elements.selectExistingTableRow).remove();
@@ -157,6 +157,7 @@ var EntityEmbed = EntityEmbed || {};
 				function(data){
 					// this is how we expect things to be 
 					if (!data.response.list){
+
 						return;
 					}
 					scope.selectExistingItems = data.response.list;
@@ -493,7 +494,6 @@ var EntityEmbed = EntityEmbed || {};
 						return false;
 					}
 				}
-
 				// no changes made OR leave already confirmed - okay to close without prompting user
 				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
 				$validator.resetForm();

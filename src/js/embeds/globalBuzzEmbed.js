@@ -26,9 +26,6 @@
 				rules: {
 					title: 'required',
 					quote: 'required',
-					credit: 'required',
-					quoteUrlText: 'required',
-					quoteUrl: 'required',
 					url: 'required'
 				}
 
