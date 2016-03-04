@@ -415,6 +415,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
+		var $currentActiveEmbed = $('.' + activeEmbedClass);
+
+		$currentActiveEmbed.toggleClass(activeEmbedClass);
 		$embed.toggleClass(activeEmbedClass);
 		
 		if (!!self.options.actions)
