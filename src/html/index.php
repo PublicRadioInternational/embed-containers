@@ -41,8 +41,6 @@
 	<body>
     <div class="container-fluid">
       <div id="demo-wrapper" class="row">
-    		<button class="btn btn-primary" id="test">TEST</button>
-
     		<fieldset class="editor-content">
     			<legend>Story Editor</legend>
     			<div class="editable editor">This is editable content. Try typing in here.</div>
@@ -60,7 +58,6 @@
     		</fieldset>
         </div>
     </div>
-
 		<div id="embed-modal">
 			<?php include "modal/modal_main.html"; ?>
 		</div>

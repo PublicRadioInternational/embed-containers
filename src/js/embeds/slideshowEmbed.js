@@ -25,13 +25,9 @@
 			validationOptions: {
 				rules: {
 					slideshowTitle: 'required',
-					displayTitle: 'required',
-					imageFile: 'required',
-					creditLink: 'required',
-					credit: 'required',
 					title: 'required',
 					altText: 'required',
-					caption: 'required'
+					license: 'required'
 				}
 			}
 		},
@@ -101,6 +97,8 @@
 			return et.name == 'image';
 		})[0];
 
+		imageEmbed.loadLicenses(); // TODO : fix 
+
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
@@ -153,7 +151,57 @@
 					// content
 				'</div>';
 	};
+
 */
+	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc)
+	{
+		var self = this;
+		var deferreds = [];
+
+		for(var i = 0; i < self.model.images.length; i++)
+		{
+			imageEmbed.model = self.model.images[i];
+			imageEmbed.model.order = i;
+			var imageEmbedIsNew = !imageEmbed.model.object_id;
+			deferreds.push(imageEmbed.saveEmbed(
+				imageEmbedIsNew,
+				function(data){
+					if (data.status == 'ERROR')
+					{
+						console.log('failed to put/post a slideshow image');
+					}
+
+					self.model.images[data.response.order] = data.response.object_id;	
+				},
+				function(){
+					console.log('failed to put/post a slideshow image');
+				}
+			));
+			$.when.apply($, deferreds).done(function(){
+				// TODO : this code is copied from generic embed - find a better way to do this (reduce duplicated code)
+				//			why did we copy it? when we call self.parent.saveEmbed the options object is null///
+				if (embedIsNew){
+					self.model.object_type = self.options.object_type;
+
+					return EntityEmbed.apiService.post({
+						path: self.options.httpPaths.post, 
+						data: self.model,
+						success: successFunc,
+						fail: failFunc
+					});
+				}
+				else
+				{
+					return EntityEmbed.apiService.put({
+						path: self.options.httpPaths.put, 
+						data: self.model,
+						success: successFunc,
+						fail: failFunc
+					});
+				}
+			});
+		}
+	}
 
 	slideshowEmbed.prototype.getModelFromForm = function($form)
 	{

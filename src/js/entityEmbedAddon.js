@@ -145,8 +145,8 @@ var EntityEmbed = EntityEmbed || {};
 		if (self.core.getEditor()) {
 			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
 			self.core.getEditor().serialize = self.editorSerialize;
-			self.core.getEditor().loadStory = function(storyId){
-				self.loadStory(storyId);
+			self.core.getEditor().loadStory = function(id, path){ // this is done like so in order to allow access the EntityEmbeds object
+				self.loadStory(id, path);
 			};
 		}
 
@@ -393,7 +393,6 @@ var EntityEmbed = EntityEmbed || {};
 							{
 								console.log('failed to get embed object!');
 							}
-
 							// Update embed model with API data
 							embed.embedType.model = request.response;
 
@@ -523,6 +522,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
+		var $currentActiveEmbed = $('.' + activeEmbedClass);
+
+		$currentActiveEmbed.toggleClass(activeEmbedClass);
 		$embed.toggleClass(activeEmbedClass);
 
 		if (!!self.options.actions)

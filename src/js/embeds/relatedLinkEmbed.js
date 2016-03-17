@@ -27,7 +27,6 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: "required",
-					displayTitle:  "required"
 				}
 			}
 		};
@@ -67,14 +66,17 @@ var EntityEmbed = EntityEmbed || {};
 	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
 	//  begin typing the title of a story and have a dropdown list of stories displayed to them
 	//  based on their input.
-	var initAutoComplete = function(htmlElementID, self){
+	var initAutoComplete = function(htmlElementId, self){
 		// TODO: Make function take in user input to pass to API
 
-		EntityEmbed.apiService.get(
-			self.options.httpPaths.get,
+		EntityEmbed.apiService.get({
+			path: self.options.httpPaths.get,
 			// TODO: Object id is currently hard-coded, this needs to be changed.
-			{object_id: 'dbbc5fc38d2e4d359572743d2c00d581'},
-			function(fetchedData){
+			data: {
+				object_id: 'dbbc5fc38d2e4d359572743d2c00d581',
+				auth_token: 'abc123'
+			},
+			success: function(fetchedData){
 				var autocompleteSettingsAndData = {
 					data: fetchedData.response.stories,
 					getValue: 'Title',
@@ -89,13 +91,13 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				};
 
-				$( htmlElementID ).easyAutocomplete(autocompleteSettingsAndData);
-				$( htmlElementID ).focus();
+				$( htmlElementId ).easyAutocomplete(autocompleteSettingsAndData);
+				$( htmlElementId ).focus();
 			},
-			function(data){
+			fail: function(data){
 				console.log('failed to retrieve any stories!');
 			}
-		);
+		});
 	};
 
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
