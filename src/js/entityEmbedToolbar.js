@@ -189,7 +189,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	toolbarManager.prototype.actionToolbarDo = function($toolbarButton) {
 		var self = this;
-		var $activeEmbed = $('.' + entityEmbedContainerClass);
+		var $activeEmbed = $('.' + activeEmbedClass);
 		var action = self.actions[$toolbarButton.data('action')].clicked;
 		action(self.mediumEditorAddon, $activeEmbed);
 	};

@@ -51,31 +51,6 @@ var EntityEmbed = EntityEmbed || {};
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
 
-	var loadLicenses = function (getPath){
-		EntityEmbed.apiService.get(
-			getPath,
-			//Current Guid value of the license list
-			//TODO: change this from a hardcoded value
-
-			{object_id: "2e7d8341d92a499dae3a19019550d518" },
-			function(data){
-				//load object into license list
-				if (!!data.response.list)
-				{
-					var licenseList = [];
-					for(var i = 0; i < data.response.list.length;i++ )
-					{
-						licenseList[i] = "<option>" + data.response.list[i].licenseName + "</option>";
-					}
-					$("#license").html(licenseList);
-				}
-			},
-			function(data){
-				console.log('failed to find object with that id');
-			}
-		);
-	};
-
 	// CONSTRUCTOR
 	function imagesEmbed(options){
 		var self = this;
@@ -100,12 +75,43 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+	imagesEmbed.prototype.loadLicenses = function (){
+		var self = this;
+		EntityEmbed.apiService.get({
+			path: self.options.httpPaths.get,
+			//Current Guid value of the license list
+			//TODO: change this from a hardcoded value
+			data: {
+				object_id: '2e7d8341d92a499dae3a19019550d518',
+				auth_token: 'abc123'
+			},
+			success: function(data){
+				//load object into license list
+				if (!!data.response.list)
+				{
+					var licenseList = [];
+					for(var i = 0; i < data.response.list.length;i++ )
+					{
+						licenseList[i] =
+							'<option>' +
+								data.response.list[i].licenseName +
+							'</option>';
+					}
+					$('#license').html(licenseList);
+				}
+			},
+			fail: function(data){
+				console.log('failed to find load image license options');
+			}
+		});
+	};
+
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
 
-		loadLicenses(this.options.httpPaths.get);
+		self.loadLicenses();
 
-		$el.find("input[name='imageFile']").fileupload({
+		$el.find('input[name="imageFile"]').fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
 			add: function(e, data){

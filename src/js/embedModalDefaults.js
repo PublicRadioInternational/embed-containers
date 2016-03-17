@@ -149,12 +149,13 @@ var EntityEmbed = EntityEmbed || {};
 		populateSelectExistingView = function(scope){
 			$(embedModalSelectors.elements.selectExistingTableRow).remove();
 
-			EntityEmbed.apiService.get(
-				scope.currentEmbedType.options.httpPaths.get,
-				{
-					object_id: scope.currentEmbedType.options.getAllObjectId
+			EntityEmbed.apiService.get({
+				path: scope.currentEmbedType.options.httpPaths.get,
+				data: {
+					object_id: scope.currentEmbedType.options.getAllObjectId,
+					auth_token: 'abc123'
 				},
-				function(data){
+				success: function(data){
 					// this is how we expect things to be 
 					if (!data.response.list){
 
@@ -185,10 +186,10 @@ var EntityEmbed = EntityEmbed || {};
 						});
 					}		
 				},
-				function(data){
+				fail: function(data){
 					console.log('Failed to get list of current embed types for the Select Existing page.');
 				}
-			);
+			});
 		},
 		showCreateNewEmbedView = function(scope){
 			$(embedModalSelectors.buttons.showSelectExisting).show();
@@ -404,20 +405,21 @@ var EntityEmbed = EntityEmbed || {};
 							return;
 						}
 
-						EntityEmbed.apiService.get(
-							currentScope.currentEmbedType.options.httpPaths.get,
-							{
-								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
+						EntityEmbed.apiService.get({
+							path: currentScope.currentEmbedType.options.httpPaths.get,
+							data: {
+								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id'),
+								auth_token: 'abc123'
 							},
-							function(data){
+							success: function(data){
 								currentScope.currentEmbedType.model = data.response;
 								currentScope.modalCtrl.$el.completeModal();
 							},
-							function(data){
+							fail: function(data){
 								// TODO: show error UI
 								console.log('failed to get embed type!');
 							}
-						);
+						});
 					}
 				);
 			}
@@ -433,12 +435,12 @@ var EntityEmbed = EntityEmbed || {};
 					scope.currentEmbedType = getEmbedTypeFromTypeString(scope.embedType);
 					showEditEmbedView(scope);
 					
-					EntityEmbed.apiService.get(
-						scope.currentEmbedType.options.httpPaths.get,
-						{
+					EntityEmbed.apiService.get({
+						path: scope.currentEmbedType.options.httpPaths.get,
+						data: {
 							object_id: scope.embedId
 						},
-						function(data){
+						success: function(data){
 							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 
 							setModalView(scope, data.response.object_type);
@@ -446,10 +448,10 @@ var EntityEmbed = EntityEmbed || {};
 							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 						},
-						function(data){
+						fail: function(data){
 							console.log('failed to get embed type!');
 						}
-					);
+					});
 
 					delete scope.embedType;
 				}
@@ -514,7 +516,7 @@ var EntityEmbed = EntityEmbed || {};
 				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
 
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				scope.$currentEditorLocation.html(generateEmbedHtml(scope.currentEmbedType, needNewlineAtEnd));
+				scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, needNewlineAtEnd));
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}

@@ -110,8 +110,8 @@ var EntityEmbed = EntityEmbed || {};
 		if (self.core.getEditor()) {
 			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
 			self.core.getEditor().serialize = self.editorSerialize;
-			self.core.getEditor().loadStory = function(storyId){
-				self.loadStory(storyId);
+			self.core.getEditor().loadStory = function(id, path){ // this is done like so in order to allow access the EntityEmbeds object
+				self.loadStory(id, path);
 			};
 		}
 
@@ -275,19 +275,21 @@ var EntityEmbed = EntityEmbed || {};
  	/**
 	 * Extend editor to allow dynamic loading of content
 	 * 
-	 * retrieves story by id and loads content into editor
+	 * retrieves object by id and loads content into editor
      *
      * @return {void}
      */
 
-	EntityEmbeds.prototype.loadStory = function(storyId) {
+	EntityEmbeds.prototype.loadStory = function(objectId, getApiUrlPath) {
 		var self = this;
 
-		EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
-			{
-				object_id : storyId
+		EntityEmbed.apiService.get({
+			path: getApiUrlPath,
+			data: {
+				object_id : objectId,
+				auth_token: 'abc123'
 			},
-			function(data){
+			success: function(data){
 				var deferreds = [];
 				for (var i = 0; i < data.response.embeds.length; i++)
 				{
@@ -296,12 +298,13 @@ var EntityEmbed = EntityEmbed || {};
 					})[0];
 					data.response.embeds[i].embedType.model = data.response.embeds[i].embedType.cleanModel();
 
-					deferreds.push(EntityEmbed.apiService.get(
-						data.response.embeds[i].embedType.options.httpPaths.get,
-						{
-							object_id: data.response.embeds[i].id
+					deferreds.push(EntityEmbed.apiService.get({
+						path: data.response.embeds[i].embedType.options.httpPaths.get,
+						data: {
+							object_id: data.response.embeds[i].id,
+							auth_token: 'abc123'
 						},
-						function(request){
+						success: function(request){
 							if (request.status === 'ERROR')
 							{
 								console.log('failed to get embed object!');
@@ -315,7 +318,7 @@ var EntityEmbed = EntityEmbed || {};
 							data.response.embeds[embedInfoIndex].embedType.model = request.response;
 							data.response.embeds[embedInfoIndex].editorHtml = self.finalModalOptions.generateEmbedHtml(data.response.embeds[embedInfoIndex].embedType, false);
 						}
-					));
+					}));
 				}
 
 				// execute this function when all the AJAX calls to get embed types are done
@@ -344,10 +347,10 @@ var EntityEmbed = EntityEmbed || {};
 					self.$el.html(fullStoryHtml);
 				});
 			},	
-			function(data){
-				console.log('Failed to get story with id ' + storyId);
+			fail: function(data){
+				console.log('Failed to get story with id ' + objectId);
 			}
-		);
+		});
 	};
 
 
@@ -412,6 +415,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
+		var $currentActiveEmbed = $('.' + activeEmbedClass);
+
+		$currentActiveEmbed.toggleClass(activeEmbedClass);
 		$embed.toggleClass(activeEmbedClass);
 		
 		if (!!self.options.actions)
