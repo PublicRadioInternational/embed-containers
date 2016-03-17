@@ -15,7 +15,7 @@
 		<script src="lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
 		<script src="lib/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
 		<script src="lib/blueimp-file-upload/js/jquery.fileupload.js"></script>
-		
+
 		<!-- medium editor insert plugin -->
 		<link rel="stylesheet" href="lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.min.css">
 		<script src="lib/handlebars/handlebars.runtime.min.js"></script>
@@ -24,10 +24,10 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/core.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
-		
+
 		<!-- validator -->
 		<script src="lib/jquery-validation/dist/jquery.validate.js"></script>
-	
+
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="contents/main.css">
 		<link rel="stylesheet" href="contents/priEntityEmbeds.css">
@@ -35,24 +35,29 @@
 
 		<!-- JQuery Autocomplete Plugin -->
 		<link rel="stylesheet" href="lib/EasyAutocomplete/dist/easy-autocomplete.min.css">
-		<script src="lib/EasyAutocomplete/dist/jquery.easy-autocomplete.min.js"></script> 
+		<script src="lib/EasyAutocomplete/dist/jquery.easy-autocomplete.min.js"></script>
 	</head>
 
 	<body>
-		<fieldset class="editor-content">
-			<legend>Story Editor</legend>
-			<div class="editable editor">This is editable content. Try typing in here.</div>
-		</fieldset>
-		
-		<button id="extract-story-content">Extract Story Content</button>
+    <div class="container-fluid">
+      <div id="demo-wrapper" class="row">
+    		<fieldset class="editor-content">
+    			<legend>Story Editor</legend>
+    			<div class="editable editor">This is editable content. Try typing in here!</div>
+    		</fieldset>
 
-		<button id="load-story-content">Load Story Conent</button>
-		
-		<fieldset class="story-content">
-			<legend>Story Data</legend>
-			<pre id="data"></pre>
-		</fieldset>
+    		<button id="extract-story-content">Extract Story Content</button>
 
+        	<button id="load-default-story">Load Default Story</button>
+
+    		<button id="load-story-content">Load Story Conent</button>
+
+    		<fieldset class="story-content">
+    			<legend>Story Data</legend>
+    			<pre id="data"></pre>
+    		</fieldset>
+        </div>
+    </div>
 		<div id="embed-modal">
 			<?php include "modal/modal_main.html"; ?>
 		</div>
