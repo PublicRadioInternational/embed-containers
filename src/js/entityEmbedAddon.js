@@ -145,8 +145,8 @@ var EntityEmbed = EntityEmbed || {};
 		if (self.core.getEditor()) {
 			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
 			self.core.getEditor().serialize = self.editorSerialize;
-			self.core.getEditor().loadStory = function(id, path){ // this is done like so in order to allow access the EntityEmbeds object
-				self.loadStory(id, path);
+			self.core.getEditor().loadStory = function(storyData){ // this is done like so in order to allow access the EntityEmbeds object
+				self.loadStory(storyData);
 			};
 		}
 

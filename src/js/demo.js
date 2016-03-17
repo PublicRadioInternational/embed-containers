@@ -7,14 +7,14 @@ $(document).ready(function(){
 	var $loadStoryBtn = $('#load-story-content');
 
 	var storyObject = {
-		"storyHtml": "<p>This is a the defaullt story.</p><p class=\"entity-embed-editor-line\"></p><div class=\"entity-embed-container\">[[EntityEmbeds:0:a8c3ff363d5844d0a93edc2f4364e535]]</div><p>This is editable content. Try typing in here.</p><p class=\"entity-embed-editor-line\"></p>",
+		"storyHtml": "<p>This is a the defaullt story.</p><p class=\"entity-embed-editor-line\"></p><div class=\"entity-embed-container\">[[0]]</div><p>This is editable content. Try typing in here.</p><p class=\"entity-embed-editor-line\"></p>",
 		"embeds": [
-				{
-					"index": 0,
-					"id": "a8c3ff363d5844d0a93edc2f4364e535", // this ID is hardcoded only for demonstration purposes
-					"style": "entity-embed entity-embed-center",
-					"type": "custom"
-				}
+			{
+				"index": 0,
+				"id": "a8c3ff363d5844d0a93edc2f4364e535", // this ID is hardcoded only for demonstration purposes
+				"style": "entity-embed entity-embed-center",
+				"type": "custom"
+			}
 		]
 	};
 
