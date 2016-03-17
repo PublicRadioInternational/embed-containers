@@ -3,15 +3,15 @@ $(document).ready(function(){
 	var medEditor = new MediumEditor('.editable');
 
 	var $extractContentBtn = $('#extract-story-content');
-	var $loadLastExtractBtn = $('#load-last-extract');
+	var $loadDefaultStoryBtn = $('#load-default-story');
 	var $loadStoryBtn = $('#load-story-content');
 
 	var storyObject = {
-		"storyHtml": "<p>This is editable content. Try typing in here.</p><p class=\"entity-embed-editor-line\"></p><div class=\"entity-embed-container\">[[EntityEmbeds:0:a8c3ff363d5844d0a93edc2f4364e535]]</div><p>This is editable content. Try typing in here.</p><p class=\"entity-embed-editor-line\"></p>",
+		"storyHtml": "<p>This is a the defaullt story.</p><p class=\"entity-embed-editor-line\"></p><div class=\"entity-embed-container\">[[EntityEmbeds:0:a8c3ff363d5844d0a93edc2f4364e535]]</div><p>This is editable content. Try typing in here.</p><p class=\"entity-embed-editor-line\"></p>",
 		"embeds": [
 				{
 					"index": 0,
-					"id": "a8c3ff363d5844d0a93edc2f4364e535",
+					"id": "a8c3ff363d5844d0a93edc2f4364e535", // this ID is hardcoded only for demonstration purposes
 					"style": "entity-embed entity-embed-center",
 					"type": "custom"
 				}
@@ -132,25 +132,17 @@ $(document).ready(function(){
 		}
 	});
 
-	// Start off Demo with some content
-	// medEditor.loadStory(storyObject); // this ID is hardcoded only for demonstration purposes
-
 	$extractContentBtn.click(function(){
 		var $storyDataWell = $('.story-content #data');
 		storyObject = medEditor.serialize();
 		$storyDataWell.text(JSON.stringify(storyObject, null, 4));
 	});
 
-	$loadLastExtractBtn.click(function(){
+	$loadDefaultStoryBtn.click(function(){
 		medEditor.loadStory(storyObject); // this ID is hardcoded only for demonstration purposes
 	});
 
 	$loadStoryBtn.click(function(){
 		medEditor.loadStory('97381d1231a144038b79ab9a08e9fff3'); // this ID is hardcoded only for demonstration purposes
-	});
-
-	$('#test').click(function(){
-		// f4200604e9814a87bd58f62b94c04b35
-		$('#embed-modal').embedModalOpen_edit('image', 'ace27d60df7540368933643859280413');
 	});
 });
