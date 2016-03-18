@@ -36,7 +36,7 @@ var EntityEmbed = EntityEmbed || {};
 				path: getPath,
 				//TODO: change this from a hardcoded value
 				data: {
-					object_id: '2e7d8341d92a499dae3a19019550d518',
+					object_id: '5a0b9980894a4e898d03eb08e279099f',
 					auth_token: 'abc123'
 				},
 				success: function(data){
