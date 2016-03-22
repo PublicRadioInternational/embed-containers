@@ -8,6 +8,9 @@ var EntityEmbed = EntityEmbed || {};
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // first char is uppercase
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
+		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
+		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
+		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: { // default scope to pass to the modal
@@ -188,7 +191,6 @@ var EntityEmbed = EntityEmbed || {};
 			$(self.options.insertBtn).click(function(e){
 				e.stopPropagation();
 				self.add();
-				
 			});
 		});
 
@@ -204,7 +206,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			})
 			// toggle select embed when embed is clicked
-			.on('click', '.entity-embed', function(e){
+			.on('click', '.' + entityEmbedContainerClass, function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
@@ -221,6 +223,9 @@ var EntityEmbed = EntityEmbed || {};
 						self.toolbarManager.hideToolbar();
 					}
 				}
+			})
+			.on('entityEmbedAdded', '.' + entityEmbedContainerClass, function(e){
+				self.addEmbed($(this), e.embedType)
 			});
 	};
 
@@ -322,7 +327,7 @@ var EntityEmbed = EntityEmbed || {};
 							})[0];
 							var embedInfoIndex = data.response.embeds.indexOf(embedInfo);
 							data.response.embeds[embedInfoIndex].embedType.model = request.response;
-							data.response.embeds[embedInfoIndex].editorHtml = self.finalModalOptions.generateEmbedHtml(data.response.embeds[embedInfoIndex].embedType, false);
+							data.response.embeds[embedInfoIndex].editorHtml = self.finalModalOptions.generateEmbedHtml(data.response.embeds[embedInfoIndex].embedType);
 						}
 					}));
 				}
@@ -371,7 +376,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.add = function () {
 		var self = this;
 		var addToScope = {
-			$currentEditorLocation: $('.medium-insert-active'),
+			$currentEditorLocation: $(mediumEditorActiveSelector),
 			modalType: EntityEmbed.embedModalTypes.add
 		};
 		self.options.$modalEl.openModal(addToScope);
@@ -387,7 +392,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		
 		var scope = {
-			$currentEditorLocation: $('.medium-insert-active'),
+			$currentEditorLocation: $(mediumEditorActiveSelector),
 			modalType: EntityEmbed.embedModalTypes.edit,
 			embedId: $embed.find('figure').attr('id'),
 			embedType: $embed.find('[data-embed-type]').attr('data-embed-type')
@@ -454,6 +459,22 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
+
+	/**
+	 * Add custom content
+	 *
+	 * This function is called when a user completes the entity embed modal
+	 *
+	 * @return {void}
+	 */
+
+	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed) {
+		var self = this;
+
+		// apply the default styling to the embed that was just added
+		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
+		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
+	};	
 
 	/** Addon initialization */
 

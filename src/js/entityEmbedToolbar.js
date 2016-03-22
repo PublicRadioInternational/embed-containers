@@ -12,7 +12,7 @@ var EntityEmbed = EntityEmbed || {};
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
 		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
-		entityEmbedContainerClass = 'entity-embed-container',
+		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
 			// TODO change class names
 			var toolbarClasses = '';
@@ -133,16 +133,12 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			});
 
-			if (!$activeButton)
-			{
-				$activeButton = $toolbars[self.currentToolbarEmbedType].find('button').first();
-			}
-
-			$activeButton.addClass(activeToolbarBtnClass);
-
-			self.styleToolbarDo($activeButton);
-
 			$toolbars[self.currentToolbarEmbedType].show();
+
+			if (!!$activeButton)
+			{
+				$activeButton.addClass(activeToolbarBtnClass);
+			}
 		}
 
 		self.positionToolbars($embed);
@@ -166,14 +162,7 @@ var EntityEmbed = EntityEmbed || {};
 
 			if ($curButton.hasClass(activeToolbarBtnClass))
 			{
-				$activeLine.addClass(className);
-				if (!!self.styles[$curButton.data('action')].added)
-				{
-					self.styles[$curButton.data('action')].added($activeLine)
-				}
-				setTimeout(function(){
-					self.positionToolbars($('.' + activeEmbedClass));
-				}, 50);
+				self.addStyle($activeLine, className, $curButton.data('action'), true);
 			}
 			else
 			{
@@ -184,6 +173,22 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			}
 		});
+	};
+
+	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
+		var self = this;
+
+		$activeLine.addClass(styleClass);
+		if (!!self.styles[buttonAction].added)
+		{
+			self.styles[buttonAction].added($activeLine)
+		}
+		if (shouldPositionToolbar)
+		{
+			setTimeout(function(){
+				self.positionToolbars($('.' + activeEmbedClass));
+			}, 50);
+		}
 	};
 
 
