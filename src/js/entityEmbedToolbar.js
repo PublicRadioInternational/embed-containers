@@ -221,7 +221,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		// TODO : position action tool bar in a way that doesn't suck
 		//			this positioning frequently interferes with the other toolbar
-		//			the code for this is convoluted
 
 		var $toolbarLocator = $embed.find('.' + actionToolbarLocatorClass);
 		if ($toolbarLocator.length === 0)
@@ -235,7 +234,7 @@ var EntityEmbed = EntityEmbed || {};
 		if (left > ($(window).width() - self.$actionToolbar.width()))
 		{
 			top -= (self.$actionToolbar.height() + 8); //8 px - distance from border
-			left = ($(window).width() - self.$actionToolbar.width()) - 50; // 100 px - width of the toolbar;  50 px - addittional room
+			left = ($(window).width() - self.$actionToolbar.width()) - 50; // 50 px - addittional room
 		}
 
 		self.$actionToolbar
