@@ -117,9 +117,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	toolbarManager.prototype.showToolbars = function($embed) {
 		var self = this;
-		var $activeLine = $embed.parent();
+		var $activeLine = $('.' + activeEmbedClass);
 		var $activeButton;
-		self.currentToolbarEmbedType = $embed.attr('data-embed-type');
+		self.currentToolbarEmbedType = $embed.find('[data-embed-type]').attr('data-embed-type');
 
 		self.$actionToolbar.show();
 
@@ -147,7 +147,7 @@ var EntityEmbed = EntityEmbed || {};
 	toolbarManager.prototype.styleToolbarDo = function($buttonClicked) {
 		var self = this;
 		var $buttonList = $buttonClicked.closest('li').closest('ul');
-		var $activeLine = $('.' + activeEmbedClass).closest('.' + entityEmbedEditorLineClass);
+		var $activeLine = $('.' + activeEmbedClass);
 
 		// change the active button to this one
 		// there should only be one active button
