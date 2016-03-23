@@ -59,7 +59,6 @@ $(document).ready(function(){
 							post: 'https://test-services.pri.org/admin/embed/edit',
 							get: 'https://test-services.pri.org/admin/embed/fetch',
 						},
-						getAllObjectId: '6bfd4d96f06944489531e40050d3e2c9' // this is a hack for testing/ demoing
 					},
 					audio:{
 						httpPaths:{

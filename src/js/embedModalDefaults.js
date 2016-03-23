@@ -149,6 +149,8 @@ var EntityEmbed = EntityEmbed || {};
 		populateSelectExistingView = function(scope){
 			$(embedModalSelectors.elements.selectExistingTableRow).remove();
 
+			// TODO : update API path to correct value
+			//			getAllObjectId is not a thing anymore
 			EntityEmbed.apiService.get({
 				path: scope.currentEmbedType.options.httpPaths.get,
 				data: {
