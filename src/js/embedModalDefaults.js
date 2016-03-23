@@ -505,7 +505,7 @@ var EntityEmbed = EntityEmbed || {};
 			after: function(scope){
 				toggleEditorTyping(scope, 'true');
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType), true);
+				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				
 				// create an event to be raised
