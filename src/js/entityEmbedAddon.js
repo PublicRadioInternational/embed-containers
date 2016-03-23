@@ -551,7 +551,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 
+		// hide current toolbars and deactive any active embed
+		self.toolbarManager.hideToolbar();
 		$currentActiveEmbed.toggleClass(activeEmbedClass);
+
+		// activate this embed
 		$embed.toggleClass(activeEmbedClass);
 
 		if (!!self.options.actions)
