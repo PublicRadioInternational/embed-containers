@@ -239,7 +239,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			})
 			// toggle select embed when embed is clicked
-			.on('click', '.entity-embed', function(e){
+			.on('click', '.entity-embed-container', function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
@@ -288,7 +288,6 @@ var EntityEmbed = EntityEmbed || {};
 			var $data, $embedContainers;
 
 			$data = $('<div />').html(data[key].value);
-			$data.find('.entity-embed-new-line').remove();
 
 			$embedContainers = $data.find('.entity-embed-container', $data);
 

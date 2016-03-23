@@ -119,7 +119,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $activeLine = $embed.parent();
 		var $activeButton;
-		self.currentToolbarEmbedType = $embed.attr('data-embed-type');
+		self.currentToolbarEmbedType = $embed.find('[data-embed-type]').attr('data-embed-type');
 
 		self.$actionToolbar.show();
 
