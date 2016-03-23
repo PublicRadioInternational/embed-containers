@@ -62,6 +62,12 @@ var EntityEmbed = EntityEmbed || {};
 					clicked: function(entityEmbed, $embed){
 						entityEmbed.editEmbed($embed);
 					}
+				},
+				newline:{
+					label: '<span class="fa fa-i-cursor"></span>',
+					clicked: function(entityEmbed, $embed){
+						entityEmbed.addNewline($embed);
+					}
 				}
 			},
 			embedTypes: { // options for different embed types
@@ -510,6 +516,22 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.toolbarManager.hideToolbar();
 		$embed.remove();
+	};
+
+	/**
+	 * Add a new line before and after an embed
+	 *
+	 * Sometimes this cannot be done with the cursor, so this toolbar button is important 
+	 *
+	 * @return {void}
+	 */
+
+	EntityEmbeds.prototype.addNewline = function ($embed) {
+		var self = this;
+		var newline = '<p class="entity-embed-new-line">&nbsp</p>';
+		$embed.before(newline);
+		$embed.after(newline);
+		self.toolbarManager.positionToolbars($embed);
 	};
 
 	/**

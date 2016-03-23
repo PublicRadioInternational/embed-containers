@@ -27,6 +27,7 @@
 
 		<!-- validator -->
 		<script src="lib/jquery-validation/dist/jquery.validate.js"></script>
+		<script src="lib/jquery-validation/dist/additional-methods.js"></script>
 
 		<!-- dependencies / code for this project -->
 		<link rel="stylesheet" href="contents/main.css">
