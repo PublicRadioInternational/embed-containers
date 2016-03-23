@@ -83,7 +83,7 @@
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
 
-		$el.find("input[name='wavFile']").fileupload({
+		$el.find(".audio-file-group").fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
 			add: function(e, data){
@@ -103,30 +103,6 @@
 				});
 			}
 		});
-
-		$el.find("input[name='mp3File']").fileupload({
-					dataType: 'json',
-		    		replaceFileInput: false,
-					add: function(e, data){
-						data.submit().complete(function (result, textStatus, jqXHR) {
-							if (textStatus === 'success')
-							{
-								if (!!result && !!result.responseJSON && !!result.responseJSON.path)
-								{
-									self.model.file = result.responseJSON.path;
-								}
-							}
-							else
-							{
-								console.log('file upload completed with status "' + textStatus + '"');
-								console.log(result);
-							}
-						});
-					}
-				});
-
-
-
 	};
 
 	audioEmbed.prototype.clearForm = function($el){

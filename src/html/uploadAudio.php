@@ -5,6 +5,8 @@
 	$status = '';
 	$error = '';
 	$audioPath = '';
+	$errorCode = '';
+
 
 	if (!file_exists($audioDir))
 	{
@@ -32,6 +34,7 @@
 	if($fileFound)
 	{
 		$fileName = $_FILES[$currentInputName]['name'];
+		$errorCode = $_FILES[$currentInputName]['error'];
 		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
 		if(in_array(strtolower($extension), $acceptableTypes)){
 			
@@ -61,7 +64,7 @@
 	
 
 	echo'{"status":"'. $status . '",'
-		. '"errorCode":"' . $_FILES[$currentInputName]['error'] . '",'
+		. '"errorCode": '. $errorCode .','
 		. '"error":"' . $error . '",'
 		. '"path":"'  . $audioPath . '"}';
 	exit;
