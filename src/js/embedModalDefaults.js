@@ -233,37 +233,15 @@ var EntityEmbed = EntityEmbed || {};
 				return null;
 			}
 		},
-		generateEmbedHtmlInternal = function(embedType, addNewLine, noWrapper){
+		generateEmbedHtmlInternal = function(embedType){
 			var figureClass = 'entity-embed';
-
-			if (!!embedType.defaultStyle)
-			{
-				figureClass += ' ' + embedType.defaultStyle;
-			}
-
-			var ret = '<figure contenteditable="false" class="' + figureClass + '" ' +
-				'id="' + embedType.model.object_id  + '" ' +
-				'data-embed-type="' + embedType.options.object_type + '" >' +
-				embedType.parseForEditor() +
-			'</figure>';
-
-			if (!noWrapper)
-			{
-			 ret =
-				'<div class="entity-embed-container">' +
-					 ret +
-				'</div>';
-			}
-
-			if (addNewLine)
-			{
-				// add a new paragraph after the embed so that user can continue typing
-				// TODO : make sure that no one can ever remove this
-				//			user could put self in bad editing state
-				ret = ret + '<p class="entity-embed-new-line">&nbsp</p>';
-			}
-
-			return ret;
+			return	'<div class="entity-embed-container">' + 
+						'<figure contenteditable="false" ' +
+							'id="' + embedType.model.object_id  + '" ' + 
+							'data-embed-type="' + embedType.options.object_type + '" >' +
+							embedType.parseForEditor() +
+						'</figure>' + 
+					'</div>';
 		};
 
 	function embedModalDefaults() {};
@@ -510,7 +488,7 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");
+				toggleEditorTyping(scope, 'true');
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
@@ -519,12 +497,16 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");
-				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
-
+				toggleEditorTyping(scope, 'true');
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, needNewlineAtEnd));
+				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType));
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				
+				// create an event to be raised
+				var addEvent = jQuery.Event('entityEmbedAdded');
+				// add data to it so the handler knows what to do
+				addEvent.embedType = scope.currentEmbedType;
+				$embedHtml.trigger(addEvent);
 			}
 		}
 	};
@@ -542,7 +524,6 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: embedType
 		};
 		this.openModal(addToScope);
-		console.log('called embed modal open...')
 	};
 
 	// embedType should match the object_type field on some configured embed type object
