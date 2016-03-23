@@ -407,7 +407,7 @@ var EntityEmbed = EntityEmbed || {};
 							embed.embedType.model = request.response;
 
 							// Generate the embed HTML
-							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false, true);
+							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false);
 
 							// Construct placeholder string
 							placeholder = generatePlaceholderString(embed);

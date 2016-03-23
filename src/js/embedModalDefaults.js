@@ -233,15 +233,21 @@ var EntityEmbed = EntityEmbed || {};
 				return null;
 			}
 		},
-		generateEmbedHtmlInternal = function(embedType){
+		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var figureClass = 'entity-embed';
-			return	'<div class="entity-embed-container">' + 
-						'<figure contenteditable="false" ' +
+			var ret = '<figure contenteditable="false" ' +
 							'id="' + embedType.model.object_id  + '" ' + 
 							'data-embed-type="' + embedType.options.object_type + '" >' +
 							embedType.parseForEditor() +
-						'</figure>' + 
-					'</div>';
+						'</figure>';
+
+			if (includeWrapper)
+			{
+				return	'<div class="entity-embed-container">' + 
+							ret + 
+						'</div>';
+			}
+			return ret;
 		};
 
 	function embedModalDefaults() {};
@@ -499,7 +505,7 @@ var EntityEmbed = EntityEmbed || {};
 			after: function(scope){
 				toggleEditorTyping(scope, 'true');
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType));
+				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType), true);
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				
 				// create an event to be raised
