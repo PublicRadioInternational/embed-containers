@@ -1,15 +1,17 @@
 <form action="uploadAudio.php" method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row">
-		<div class="embed-modal-full-column">
+		<div class="embed-modal-half-column">
 			<div class="embed-modal-form"> 
-				<label class="embed-modal-label" for="audioFile">Upload WAV File</label>
-				<input class="embed-modal-input" type="file" name="audioFile"/>
+				<label class="embed-modal-label" for="mp3File">Upload MP3 File</label>
+				<input class="embed-modal-input audio-file-group" id="test" type="file" name="mp3File"/>
+			</div>
+		</div>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form"> 
+				<label class="embed-modal-label" for="wavFile">Upload WAV File</label>
+				<input class="embed-modal-input audio-file-group"  type="file" name="wavFile"/>
 			</div>
 
-			<div class="embed-modal-form"> 
-				<label class="embed-modal-label" for="audioFile">Upload MP3 File</label>
-				<input class="embed-modal-input" type="file" name="audioFile"/>
-			</div>
 		</div>
 	</div>
 	<div class="embed-modal-row">

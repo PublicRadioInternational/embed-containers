@@ -23,10 +23,20 @@
 			},
 			object_type: 'audio',
 			validationOptions: {
+				debug:true,
 				rules: {
 					title: 'required',
 					url: 'required',
-					audioFile: 'required'
+
+					mp3File: {
+						require_from_group: [1, ".audio-file-group"],
+						extension: "mp3"
+					},
+					wavFile: {
+						require_from_group: [1, ".audio-file-group"],
+						extension: "wav"
+					}
+	
 				}
 			}
 		};
@@ -72,7 +82,8 @@
 
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
-		$el.find("input[name='audioFile']").fileupload({
+
+		$el.find("input[name='wavFile']").fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
 			add: function(e, data){
@@ -92,6 +103,30 @@
 				});
 			}
 		});
+
+		$el.find("input[name='mp3File']").fileupload({
+					dataType: 'json',
+		    		replaceFileInput: false,
+					add: function(e, data){
+						data.submit().complete(function (result, textStatus, jqXHR) {
+							if (textStatus === 'success')
+							{
+								if (!!result && !!result.responseJSON && !!result.responseJSON.path)
+								{
+									self.model.file = result.responseJSON.path;
+								}
+							}
+							else
+							{
+								console.log('file upload completed with status "' + textStatus + '"');
+								console.log(result);
+							}
+						});
+					}
+				});
+
+
+
 	};
 
 	audioEmbed.prototype.clearForm = function($el){

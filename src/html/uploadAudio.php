@@ -1,7 +1,7 @@
 <?php
 	$audioDir = 'contents/audio/';
-	$inputName = 'audioFile';
-	
+	$firstInputName = 'wavFile';
+	$secondInputName ='mp3File';
 	$status = '';
 	$error = '';
 	$audioPath = '';
@@ -12,9 +12,26 @@
 	}
 
 	$acceptableTypes = array('mp3', 'wav');
+	$fileFound = false;
+	if(isset($_FILES[$firstInputName]) && $_FILES[$firstInputName]['error'] == 0)
+	{
+		$currentInputName = $firstInputName;
+		$fileFound = true; 
+	}
+	elseif(isset($_FILES[$secondInputName]) && $_FILES[$secondInputName]['error'] == 0)
+	{
+		$currentInputName = $secondInputName;
+		$fileFound = true;
+	}
+	else
+	{
+		$status = 'failure';
+		$error = 'Could not find file: please verify that the form is configured accurately.';
+	}
 
-	if(isset($_FILES[$inputName]) && $_FILES[$inputName]['error'] == 0){
-		$fileName = $_FILES[$inputName]['name'];
+	if($fileFound)
+	{
+		$fileName = $_FILES[$currentInputName]['name'];
 		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
 		if(in_array(strtolower($extension), $acceptableTypes)){
 			
@@ -25,7 +42,7 @@
 				mkdir($newDir);
 			}
 
-			if(move_uploaded_file($_FILES[$inputName]['tmp_name'], $newDir . $fileName)){
+			if(move_uploaded_file($_FILES[$currentInputName]['tmp_name'], $newDir . $fileName)){
 				$status = 'success';
 				$audioPath = $newDir . $fileName;
 			}
@@ -37,17 +54,14 @@
 		}
 		else{
 			$status = 'failure';
-			$error = 'File type not permitted.';
+			$error = 'File type not permitted: ' . $extension;
 		}	
 	}
-	else
-	{
-		$status = 'failure';
-		$error = 'Could not find file: please verify that the form is configured accurately.';
-	}
+
+	
 
 	echo'{"status":"'. $status . '",'
-		. '"errorCode":"' . $_FILES[$inputName]['error'] . '",'
+		. '"errorCode":"' . $_FILES[$currentInputName]['error'] . '",'
 		. '"error":"' . $error . '",'
 		. '"path":"'  . $audioPath . '"}';
 	exit;
