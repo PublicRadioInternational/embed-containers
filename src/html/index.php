@@ -49,9 +49,7 @@
 
     		<button id="extract-story-content">Extract Story Content</button>
 
-        	<button id="load-default-story">Load Default Story</button>
-
-    		<button id="load-story-content">Load Story Conent</button>
+			<button id="load-default-story">Load Default Story</button>
 
     		<fieldset class="story-content">
     			<legend>Story Data</legend>

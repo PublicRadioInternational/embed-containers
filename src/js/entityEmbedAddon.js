@@ -381,12 +381,12 @@ var EntityEmbed = EntityEmbed || {};
 				data.embeds[i].embedType.model = data.embeds[i].embedType.cleanModel();
 
 				// Send request for complete emebed data, adding the promise to our deferreds list.
-				deferreds.push(EntityEmbed.apiService.get(
-					data.embeds[i].embedType.options.httpPaths.get,
-					{
+				deferreds.push(EntityEmbed.apiService.get({
+					path: data.embeds[i].embedType.options.httpPaths.get,
+					data: {
 						object_id: data.embeds[i].id
 					},
-					(function(embed) {
+					success: (function(embed) {
 						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
 						// The embed parameter should retain it's reference when the returned async function is fired.
 						// Changes made to embed should bind out of the async function, but that is not required
@@ -416,7 +416,7 @@ var EntityEmbed = EntityEmbed || {};
 							fullStoryHtml = fullStoryHtml.split(placeholder).join(embedHtml);
 						};
 					})(data.embeds[i]) // **EMBED**
-				));
+				}));
 			}
 
 			// execute this function when all the AJAX calls to get embed types are done
@@ -441,11 +441,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		if(isString)
 		{
-			EntityEmbed.apiService.get('https://test-services.pri.org/admin/embed/edit',
-				{
+			EntityEmbed.apiService.get({
+				path: 'https://test-services.pri.org/admin/embed/edit',
+				data: {
 					object_id : storyData
 				},
-				function(data){
+				sucess: function(data){
 
 					if (data.status === 'ERROR')
 					{
@@ -455,10 +456,10 @@ var EntityEmbed = EntityEmbed || {};
 
 					updateHtml(data.repsonse);
 				},
-				function(data){
+				fail: function(data){
 					console.log('Failed to get story with id ' + storyData);
 				}
-			);
+			});
 		}
 		else
 		{
@@ -529,6 +530,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.addNewline = function ($embed) {
 		var self = this;
 		var newline = '<p class="entity-embed-new-line">&nbsp</p>';
+		// TODO : check if there is already a newline before / after
 		$embed.before(newline);
 		$embed.after(newline);
 		self.toolbarManager.positionToolbars($embed);

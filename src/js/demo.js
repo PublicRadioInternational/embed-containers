@@ -3,17 +3,21 @@ $(document).ready(function(){
 	var medEditor = new MediumEditor('.editable');
 
 	var $extractContentBtn = $('#extract-story-content');
-	var $loadDefaultStoryBtn = $('#load-default-story');
-	var $loadStoryBtn = $('#load-story-content');
-
+	var $loadStoryBtn = $('#load-default-story');
 	var storyObject = {
-		"storyHtml": "<p>This is a the defaullt story.</p><p class=\"entity-embed-editor-line\"></p><div class=\"entity-embed-container\">[[0]]</div><p>This is editable content. Try typing in here.</p><p class=\"entity-embed-editor-line\"></p>",
+		"storyHtml": "<p>Some people think that koalas are just hella lazy.&nbsp;</p><p class=\"entity-embed-editor-line\"></p><div class=\"entity-embed-container\">[[EntityEmbeds:0:74b364de12584d5b85f0a9604776c3b3]]</div><div class=\"entity-embed-container\">[[EntityEmbeds:1:663efccda9ad4065aefdff98da78ffb3]]</div><p></p><p></p>",
 		"embeds": [
 			{
 				"index": 0,
-				"id": "a8c3ff363d5844d0a93edc2f4364e535", // this ID is hardcoded only for demonstration purposes
+				"id": "74b364de12584d5b85f0a9604776c3b3",
 				"style": "entity-embed entity-embed-center",
-				"type": "custom"
+				"type": "image"
+			},
+			{
+				"index": 1,
+				"id": "663efccda9ad4065aefdff98da78ffb3",
+				"style": "entity-embed entity-embed-center",
+				"type": "video"
 			}
 		]
 	};
@@ -138,11 +142,7 @@ $(document).ready(function(){
 		$storyDataWell.text(JSON.stringify(storyObject, null, 4));
 	});
 
-	$loadDefaultStoryBtn.click(function(){
-		medEditor.loadStory(storyObject); // this ID is hardcoded only for demonstration purposes
-	});
-
 	$loadStoryBtn.click(function(){
-		medEditor.loadStory('97381d1231a144038b79ab9a08e9fff3'); // this ID is hardcoded only for demonstration purposes
+		medEditor.loadStory(storyObject);
 	});
 });
