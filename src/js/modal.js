@@ -185,6 +185,17 @@
 				modalCtrl.options.functions.open.before(modalCtrl.$el.data('scope'));
 				modalCtrl.toggle(modalCtrl);
 				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
+
+				// position the modal withying the viewport
+				if ($(document).height() > $(window).height())
+				{
+					var newTopVal = modalCtrl.$el.css('top');
+					newTopVal.replace('px', '');
+					newTopVal = parseInt(newTopVal);
+					newTopVal = 50 + $(document).height() - $(window).height(); // 50 px from top of window
+
+					modalCtrl.$el.css('top', newTopVal);
+				}
 			}
 		});
 	};
