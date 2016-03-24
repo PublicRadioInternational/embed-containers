@@ -34,7 +34,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		tableRowHtml = function(title, id){
-			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' + 
+			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' +
 						'<td>' + title + '</tr>'+
 					'</td>';
 		},
@@ -59,7 +59,7 @@ var EntityEmbed = EntityEmbed || {};
 				if ((formField.type == 'radio' || formField.type == 'checkbox') && formField.defaultChecked != formField.checked)
 				{
 					isDirty = true;
-					return false;	
+					return false;
 				}
 
 				// check select one and select multiple forms
@@ -117,7 +117,7 @@ var EntityEmbed = EntityEmbed || {};
 					scope.currentEmbedType.model.object_id = data.response.object_id;
 					console.log('post succeeded');
 					scope.modalCtrl.$el.completeModal();
-				}, 
+				},
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('post failed');
@@ -149,6 +149,8 @@ var EntityEmbed = EntityEmbed || {};
 		populateSelectExistingView = function(scope){
 			$(embedModalSelectors.elements.selectExistingTableRow).remove();
 
+			// TODO : update API path to correct value
+			//			getAllObjectId is not a thing anymore
 			EntityEmbed.apiService.get({
 				path: scope.currentEmbedType.options.httpPaths.get,
 				data: {
@@ -166,11 +168,11 @@ var EntityEmbed = EntityEmbed || {};
 					{
 						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].id));
 						$(embedModalSelectors.elements.selectExistingTableBody).append($row);
-						
+
 						scope.modalCtrl.registerEvent($row, 'click', function(e, scope){
 							// we do not need to add the class back if it is already on the item being clicked
 							var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
-							
+
 							$(embedModalSelectors.elements.selectExistingTableBody)
 								.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
 								.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
@@ -184,7 +186,7 @@ var EntityEmbed = EntityEmbed || {};
 								$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
 							}
 						});
-					}		
+					}
 				},
 				fail: function(data){
 					console.log('Failed to get list of current embed types for the Select Existing page.');
@@ -231,31 +233,20 @@ var EntityEmbed = EntityEmbed || {};
 				return null;
 			}
 		},
-		generateEmbedHtmlInternal = function(embedType, addNewLine){
-			var figureClass = 'entity-embed'
+		generateEmbedHtmlInternal = function(embedType, includeWrapper){
+			var figureClass = 'entity-embed';
+			var ret = '<figure contenteditable="false" ' +
+							'id="' + embedType.model.object_id  + '" ' + 
+							'data-embed-type="' + embedType.options.object_type + '" >' +
+							embedType.parseForEditor() +
+						'</figure>';
 
-			if (!!embedType.defaultStyle)
+			if (includeWrapper)
 			{
-				figureClass += ' ' + embedType.defaultStyle;
+				return	'<div class="entity-embed-container">' + 
+							ret + 
+						'</div>';
 			}
-
-			var ret =
-				'<div class="entity-embed-container">' + 
-					'<figure contenteditable="false" class="' + figureClass + '" ' + 
-						'id="' + embedType.model.object_id  + '" ' + 
-						'data-embed-type="' + embedType.options.object_type + '" >' +
-						embedType.parseForEditor() +
-					'</figure>' + 
-				'</div>';
-
-			if (addNewLine)
-			{
-				// add a new paragraph after the embed so that user can continue typing
-				// TODO : make sure that no one can ever remove this
-				//			user could put self in bad editing state
-				ret = ret + '<p class="entity-embed-new-line">&nbsp</p>';
-			}
-
 			return ret;
 		};
 
@@ -266,7 +257,7 @@ var EntityEmbed = EntityEmbed || {};
 	embedModalDefaults.prototype.functions = {
 		init:{
 			before: function(scope){
-				/* 
+				/*
 				 * define necessary fields for scope
 				 *
 				 * assume that these are already defined:
@@ -300,7 +291,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					var embedObject = scope.embedTypes[i];
 					// create option in dropdown for this embed
-					scope.$embedTypeSelect.append('<option value="' + 
+					scope.$embedTypeSelect.append('<option value="' +
 						embedObject.options.object_type + '">' + embedObject.options.displayName +
 						'</option>');
 
@@ -312,13 +303,13 @@ var EntityEmbed = EntityEmbed || {};
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
 					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
-						
+
 						if (textStatus === 'error')
 						{
 							// TODO : error view (so that user knows something went wrong)
 						}
 					});
-					
+
 					// augment the embedObject for use with this modal
 					embedObject.$view = $embedView;
 					embedObject.optionIndex = optionIndex;
@@ -426,7 +417,7 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		open: {
 			before: function(scope){
-			}, 
+			},
 			after: function(scope){
 				toggleEditorTyping(scope, "false");
 
@@ -434,7 +425,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					scope.currentEmbedType = getEmbedTypeFromTypeString(scope.embedType);
 					showEditEmbedView(scope);
-					
+
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
@@ -486,7 +477,7 @@ var EntityEmbed = EntityEmbed || {};
 							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
 							{
 								$(embedModalSelectors.elements.confirmModal).openModal();
-								return false;			
+								return false;
 							}
 						}
 					}
@@ -503,7 +494,7 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");
+				toggleEditorTyping(scope, 'true');
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
@@ -512,12 +503,16 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");
-				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
-
+				toggleEditorTyping(scope, 'true');
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, needNewlineAtEnd));
+				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				
+				// create an event to be raised
+				var addEvent = jQuery.Event('entityEmbedAdded');
+				// add data to it so the handler knows what to do
+				addEvent.embedType = scope.currentEmbedType;
+				$embedHtml.trigger(addEvent);
 			}
 		}
 	};
@@ -535,7 +530,6 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: embedType
 		};
 		this.openModal(addToScope);
-		console.log('called embed modal open...')
 	};
 
 	// embedType should match the object_type field on some configured embed type object
@@ -547,7 +541,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: embedTypeStr
 		};
 
-		this.openModal(scope); 
+		this.openModal(scope);
 	};
 	EntityEmbed.embedModalDefaults = embedModalDefaults;
 }());
