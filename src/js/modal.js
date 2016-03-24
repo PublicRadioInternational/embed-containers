@@ -186,13 +186,15 @@
 				modalCtrl.toggle(modalCtrl);
 				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
 
-				// position the modal withying the viewport
+				// position the modal within the viewport
 				if ($(document).height() > $(window).height())
 				{
+					var distanceFromTop = $(window).height() * .1; // 10% from top of the window
 					var newTopVal = modalCtrl.$el.css('top');
 					newTopVal.replace('px', '');
 					newTopVal = parseInt(newTopVal);
-					newTopVal = 50 + $(document).height() - $(window).height(); // 50 px from top of window
+
+					newTopVal = distanceFromTop + $(document).height() - $(window).height();
 
 					modalCtrl.$el.css('top', newTopVal);
 				}
