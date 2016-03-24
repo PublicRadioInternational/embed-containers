@@ -92,19 +92,12 @@ var EntityEmbed = EntityEmbed || {};
  
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
+		var formList = $el.find('form');
+		for (var x = 0; x < formList.length; x++)
 		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
-			{
-				formFields[i].selectedIndex = 0;
-			}
-			else
-			{
-				formFields[i].value = null;
-			}
+			formList[x].reset();
 		}
-		self.model = self.cleanModel();
+	 	self.model = self.cleanModel();
 	};
 
 	genericEmbed.prototype.editorEvents = function(){};
