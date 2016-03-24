@@ -42,7 +42,7 @@
 	<body>
 		<fieldset class="editor-content">
 			<legend>Story Editor</legend>
-			<div class="editable editor">This is editable content. Try typing in here.</div>
+			<div id="editable-editor" class="editable editor">This is editable content. Try typing in here.</div>
 		</fieldset>
 		
 		<button id="extract-story-content">Extract Story Content</button>
