@@ -30,6 +30,7 @@ var EntityEmbed = EntityEmbed || {};
 					altText: 'required',
 					license: 'required',
 					imageFile: {
+						required: true,
 						extension: "png|jpg|jpeg|gif"
 					}
 				}
