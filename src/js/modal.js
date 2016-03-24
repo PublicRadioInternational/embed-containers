@@ -80,12 +80,11 @@
 			+ self.options.backdropClass + '"></div>';
 	};
 
-	modal.prototype.closeBtnHtml = function()
+	modal.prototype.closeBtnHtml = function(id)
 	{
 		var self = this;
-		var style = self.closeBtnClass +  
-			' ' + self.options.closeBtnIcon;
-		return '<i class="' + style + '"></i>';
+		var style = self.closeBtnClass + ' ' + self.options.closeBtnIcon;
+		return '<i id="' + id + '"" class="' + style + '"></i>';
 	};
 
 	modal.prototype.toggle = function(ctrl)
@@ -114,8 +113,9 @@
 	
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
-			self.$el.append(self.closeBtnHtml());
-			self.$closeBtn = $('.' + self.closeBtnClass);
+			var closeBtnId = self.generateId();
+			self.$el.prepend(self.closeBtnHtml(closeBtnId));
+			self.$closeBtn = $('.' + self.closeBtnClass + '#' + closeBtnId);
 			self.$closeBtn.click(function(){
 				self.$el.abortModal();
 			});
