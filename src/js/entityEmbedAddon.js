@@ -556,6 +556,10 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.toggleSelectEmbed = function ($embed) {
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
+		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
+		var embedName = $.grep(self.embedTypes, function(et){
+			return et.options.object_type === embedObjectType;
+		})[0].name;
 
 		// hide current toolbars and deactive any active embed
 		self.toolbarManager.hideToolbar();
@@ -568,7 +572,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			if ($embed.hasClass(activeEmbedClass))
 			{
-				self.toolbarManager.showToolbars($embed);
+				self.toolbarManager.showToolbars($embed, embedName);
 			}
 			else
 			{

@@ -109,17 +109,19 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!deletedEveryField)
 		{
-			$location.append(toolbarHtml(stylesCopy, embed.name)); // .trim() ?
+			$location.append(toolbarHtml(stylesCopy, embed.name));
 			$toolbars[embed.name] = $('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
 			$toolbars[embed.name].hide();
 		}
 	};
 
-	toolbarManager.prototype.showToolbars = function($embed) {
+	// $embed is the embed html element
+	// embedType is the name of the embed (name field on embed object)
+	toolbarManager.prototype.showToolbars = function($embed, embedType) {
 		var self = this;
 		var $activeLine = $('.' + activeEmbedClass);
 		var $activeButton;
-		self.currentToolbarEmbedType = $embed.find('[data-embed-type]').attr('data-embed-type');
+		self.currentToolbarEmbedType = embedType;
 
 		self.$actionToolbar.show();
 
