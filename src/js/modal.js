@@ -192,7 +192,7 @@
 					var newTopVal = modalCtrl.$el.css('top');
 					newTopVal.replace('px', '');
 					newTopVal = parseInt(newTopVal);
-					newTopVal += $(document).height() - $(window).height();
+					newTopVal = 50 + $(document).height() - $(window).height(); // 50 px from top of window
 
 					modalCtrl.$el.css('top', newTopVal);
 				}
