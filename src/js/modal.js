@@ -114,7 +114,7 @@
 	
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
-			self.$el.after(self.closeBtnHtml());
+			self.$el.append(self.closeBtnHtml());
 			self.$closeBtn = $('.' + self.closeBtnClass);
 			self.$closeBtn.click(function(){
 				self.$el.abortModal();
@@ -187,17 +187,12 @@
 				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
 
 				// position the modal within the viewport
-				if ($(document).height() > $(window).height())
-				{
-					var distanceFromTop = $(window).height() * .1; // 10% from top of the window
-					var newTopVal = modalCtrl.$el.css('top');
-					newTopVal.replace('px', '');
-					newTopVal = parseInt(newTopVal);
+				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
+				var newTopVal = modalCtrl.$el.css('top');
+				newTopVal.replace('px', '');
+				newTopVal = parseInt(newTopVal);
 
-					newTopVal = distanceFromTop + $(document).height() - $(window).height();
-
-					modalCtrl.$el.css('top', newTopVal);
-				}
+				newTopVal = distanceFromTop + $(document).scrollTop();
 			}
 		});
 	};
