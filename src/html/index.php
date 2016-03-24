@@ -40,6 +40,7 @@
 	</head>
 
 	<body>
+
     <div class="container-fluid">
       <div id="demo-wrapper" class="row">
     		<fieldset class="editor-content">
