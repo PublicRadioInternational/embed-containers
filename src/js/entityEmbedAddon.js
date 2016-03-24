@@ -247,16 +247,14 @@ var EntityEmbed = EntityEmbed || {};
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown', '#editable-editor', function(e){
-				if(e.which == 8 || e.which == 46)
+			.on('keydown', '.editable.editor', function(e){ // 
+				if(e.which == 8 || e.which == 46) // backspace or delete 
 				{
-					var numChildren = $('#editable-editor p').length;
+					var numChildren = $('.editable.editor p').length;
 					if(numChildren <= 1)
 					{
-						var list = $('#editable-editor p:first-child').find('br');
-						var visible = (list.length > 0 && !$('.medium-insert-buttons-show').is(':visible') ||
-							list.length > 0 && $('.medium-insert-buttons-show').is(':visible'));
-						if(visible)
+						var editorText = $('.editable.editor p').text();
+						if (!editorText || editorText === '')
 						{
 							e.preventDefault();
 						}
