@@ -31,7 +31,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 		
-	var psuedoGuids = [0];
+	var psuedoGuids = [];
 
 	// generates a pseudo guid (not guatanteed global uniqueness)
 	var generateId = function () {
@@ -105,21 +105,25 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
 	{
 		var self = this;
-		self.parent.getModelFromForm($el);
+		var formFields = $el.find('.embed-modal-form-control');
 
-		//var urlForms = $el.find('.embed-modal-form-control');
-		//for(var i = 0; i < urlForms.length; i++)
-		//{
-		//	self.model.links.push(urlForms[i].value);
-		//}
+		// TODO: Need to extract this block of code, and instead call parent function
+		for(var i = 0; i < 2; i++)
+		{
+			var name = formFields[i].name;
+			var value = formFields[i].value;
+			if (!!name && !!value)
+			{
+				self.model[name] = value;
+			}
+		}
+
+		// Retrieve all urls from the form
 		for(var i = 0; i < psuedoGuids.length; i++)
 		{
 			var urlForms = $el.find('#'+psuedoGuids[i]);
-			self.model.links.push(urlForms.value);
+			self.model.links.push(urlForms[0].value);
 		}
-
-
-
 	};
 
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
@@ -147,9 +151,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
-			var pseudoGuidLength = pseudoGuid.length++;
-
-			psuedoGuids[pseudoGuidLength] = pseudoGuid;
+			psuedoGuids.push(pseudoGuid);
 
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
