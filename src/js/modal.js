@@ -80,12 +80,11 @@
 			+ self.options.backdropClass + '"></div>';
 	};
 
-	modal.prototype.closeBtnHtml = function()
+	modal.prototype.closeBtnHtml = function(id)
 	{
 		var self = this;
-		var style = self.closeBtnClass +  
-			' ' + self.options.closeBtnIcon;
-		return '<i class="' + style + '"></i>';
+		var style = self.closeBtnClass + ' ' + self.options.closeBtnIcon;
+		return '<i id="' + id + '"" class="' + style + '"></i>';
 	};
 
 	modal.prototype.toggle = function(ctrl)
@@ -114,8 +113,9 @@
 	
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
-			self.$el.after(self.closeBtnHtml());
-			self.$closeBtn = $('.' + self.closeBtnClass);
+			var closeBtnId = self.generateId();
+			self.$el.prepend(self.closeBtnHtml(closeBtnId));
+			self.$closeBtn = $('.' + self.closeBtnClass + '#' + closeBtnId);
 			self.$closeBtn.click(function(){
 				self.$el.abortModal();
 			});
@@ -186,16 +186,14 @@
 				modalCtrl.toggle(modalCtrl);
 				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
 
-				// position the modal withying the viewport
-				if ($(document).height() > $(window).height())
-				{
-					var newTopVal = modalCtrl.$el.css('top');
-					newTopVal.replace('px', '');
-					newTopVal = parseInt(newTopVal);
-					newTopVal = 50 + $(document).height() - $(window).height(); // 50 px from top of window
+				// position the modal within the viewport
+				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
+				var newTopVal = modalCtrl.$el.css('top');
+				newTopVal.replace('px', '');
+				newTopVal = parseInt(newTopVal);
 
-					modalCtrl.$el.css('top', newTopVal);
-				}
+				newTopVal = distanceFromTop + $(document).scrollTop();
+				modalCtrl.$el.css('top', newTopVal);
 			}
 		});
 	};
