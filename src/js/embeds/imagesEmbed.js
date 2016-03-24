@@ -140,6 +140,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el);
+		self.model.file = null;
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
