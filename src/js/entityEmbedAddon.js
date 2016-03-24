@@ -246,6 +246,21 @@ var EntityEmbed = EntityEmbed || {};
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
+			// prevent user from destroying modal functionality when deleting first element
+			.on('keydown', '.editable.editor', function(e){ // 
+				if(e.which == 8 || e.which == 46) // backspace or delete 
+				{
+					var numChildren = $('.editable.editor p').length;
+					if(numChildren <= 1)
+					{
+						var editorText = $('.editable.editor p').text();
+						if (!editorText || editorText === '')
+						{
+							e.preventDefault();
+						}
+					}	
+				}
+			})
 			// conditionally remove embed
 			.on('keydown', function(e){
 				// TODO : this will not be fired if the user highlights content and begins typing
