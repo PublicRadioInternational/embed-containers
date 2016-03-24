@@ -31,6 +31,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 		
+	var psuedoGuids = [0];
+
 	// generates a pseudo guid (not guatanteed global uniqueness)
 	var generateId = function () {
 		var seg = function()
@@ -105,11 +107,19 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.getModelFromForm($el);
 
-		var urlForms = $el.find('.related-link-url');
-		for(var i = 0; i < urlForms.length; i++)
+		//var urlForms = $el.find('.embed-modal-form-control');
+		//for(var i = 0; i < urlForms.length; i++)
+		//{
+		//	self.model.links.push(urlForms[i].value);
+		//}
+		for(var i = 0; i < psuedoGuids.length; i++)
 		{
-			self.model.links.push(urlForms[i].value);
+			var urlForms = $el.find('#'+psuedoGuids[i]);
+			self.model.links.push(urlForms.value);
 		}
+
+
+
 	};
 
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
@@ -137,6 +147,9 @@ var EntityEmbed = EntityEmbed || {};
 
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
+			var pseudoGuidLength = pseudoGuid.length++;
+
+			psuedoGuids[pseudoGuidLength] = pseudoGuid;
 
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
