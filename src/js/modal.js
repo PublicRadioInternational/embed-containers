@@ -193,6 +193,7 @@
 				newTopVal = parseInt(newTopVal);
 
 				newTopVal = distanceFromTop + $(document).scrollTop();
+				modalCtrl.$el.css('top', newTopVal);
 			}
 		});
 	};
