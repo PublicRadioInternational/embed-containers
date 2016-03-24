@@ -247,7 +247,7 @@ var EntityEmbed = EntityEmbed || {};
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown', '.editable.editor', function(e){ // 
+			.on('keydown', '.editable.editor', function(e){ 
 				if(e.which == 8 || e.which == 46) // backspace or delete 
 				{
 					var numChildren = $('.editable.editor p').length;
