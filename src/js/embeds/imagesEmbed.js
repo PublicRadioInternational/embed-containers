@@ -28,7 +28,11 @@ var EntityEmbed = EntityEmbed || {};
 				rules: {
 					title: 'required',
 					altText: 'required',
-					license: 'required'
+					license: 'required',
+					imageFile: {
+						required: true,
+						extension: "png|jpg|jpeg|gif"
+					}
 				}
 			}
 		};
@@ -136,8 +140,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el);
-
-		$('#imagesList').children().remove();
+		self.model.file = null;
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
