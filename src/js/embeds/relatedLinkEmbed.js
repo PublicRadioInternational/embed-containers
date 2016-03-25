@@ -17,12 +17,6 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: base + 'modal/modal_relatedLink.html',
 			displayName: 'Related Link',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'related-link',
 			validationOptions: {
 				rules: {

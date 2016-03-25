@@ -111,16 +111,21 @@ var EntityEmbed = EntityEmbed || {};
 				var successFunction = function(data){
 					if (data.status === 'ERROR')
 					{
-						console.log('post failed');
+						console.log('POST failed');
+						return;
+					}
+					if (typeof data.response === 'string')
+					{
+						console.log('Failed to POST embed type: ' + data.response);
 						return;
 					}
 					scope.currentEmbedType.model.object_id = data.response.object_id;
-					console.log('post succeeded');
+					console.log('POST succeeded');
 					scope.modalCtrl.$el.completeModal();
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
-					console.log('post failed');
+					console.log('POST failed');
 				};
 			}
 			else
@@ -128,16 +133,20 @@ var EntityEmbed = EntityEmbed || {};
 				var successFunction = function(data){
 					if (data.status === 'ERROR')
 					{
-						console.log('put failed');
+						console.log('PUT failed');
 						return;
 					}
-
-					console.log('put succeeded');
+					if (typeof data.response === 'string')
+					{
+						console.log('Failed to PUT embed type: ' + data.response);
+						return;
+					}
+					console.log('PUT succeeded');
 					scope.modalCtrl.$el.completeModal();
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
-					console.log('put failed');
+					console.log('PUT failed');
 
 				};
 			}
@@ -151,24 +160,29 @@ var EntityEmbed = EntityEmbed || {};
 
 			// TODO : update API path to correct value
 			//			getAllObjectId is not a thing anymore
-			EntityEmbed.apiService.get({
-				path: scope.currentEmbedType.options.httpPaths.get,
+			EntityEmbed.apiService.post({
+				path: scope.currentEmbedType.options.httpPaths.getAll,
 				data: {
-					object_id: scope.currentEmbedType.options.getAllObjectId,
+					object_type: scope.currentEmbedType.options.object_type,
 					auth_token: 'abc123'
 				},
-				success: function(data){
-					// this is how we expect things to be 
-					if (!data.response.list){
-
+				success: function(obj){
+					if (typeof data.response === 'string')
+					{
+						console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
 						return;
 					}
-					scope.selectExistingItems = data.response.list;
+
+					if (!obj.response.data){
+						return;
+					}
+					scope.selectExistingItems = obj.response.data;
 					for (var i = 0; i < scope.selectExistingItems.length; i++)
 					{
-						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].id));
+						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].object_id));
 						$(embedModalSelectors.elements.selectExistingTableBody).append($row);
 
+						// add click event to highlight (select) a row
 						scope.modalCtrl.registerEvent($row, 'click', function(e, scope){
 							// we do not need to add the class back if it is already on the item being clicked
 							var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
@@ -403,6 +417,12 @@ var EntityEmbed = EntityEmbed || {};
 								auth_token: 'abc123'
 							},
 							success: function(data){
+								if (typeof data.response === 'string')
+								{
+									console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
+									return;
+								}
+								
 								currentScope.currentEmbedType.model = data.response;
 								currentScope.modalCtrl.$el.completeModal();
 							},
@@ -426,9 +446,17 @@ var EntityEmbed = EntityEmbed || {};
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
-							object_id: scope.embedId
+							object_id: scope.embedId,
+							auth_token: 'abc123'
 						},
 						success: function(data){
+							if (typeof data.response === 'string')
+							{
+								console.log('Failed to get embed type: ' + data.response);
+								// show UI error here								
+								return;
+							}
+
 							setModalView(scope, data.response.object_type);
 							showEditEmbedView(scope);
 							scope.currentEmbedType.model = data.response;

@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_video.html',
 			displayName: 'Video',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'video',
 			validationOptions: {
 				rules: {

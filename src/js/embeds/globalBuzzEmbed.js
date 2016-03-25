@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_globalBuzz.html',
 			displayName: 'Global Buzz',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'global-buzz',
 			validationOptions: {
 				rules: {

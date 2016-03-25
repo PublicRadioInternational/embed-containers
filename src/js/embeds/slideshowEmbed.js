@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_slideshow.html',
 			displayName: 'Slideshow',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'slideshow',
 			validationOptions: {
 				rules: {
