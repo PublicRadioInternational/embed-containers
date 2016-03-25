@@ -1,0 +1,151 @@
+@bootstrap-columns-per-row: 12;
+
+.medium-insert-buttons
+{
+	color: #212121 !important;
+}
+
+.medium-insert-buttons-addons
+{
+	display: none !important;
+}
+
+.medium-insert-buttons-show
+{
+	background: none !important;
+}
+
+.modal-content
+{
+	padding: 0 20px;
+
+	.modal-header
+	{
+		margin-bottom: 15px;
+		padding-left: 0px;
+
+		.header-text
+		{
+			display: inline;
+		}
+	}
+
+	.embed-modal-row
+	{
+		.make-row();
+		margin-bottom: 20px;
+		&:last-child
+		{
+			margin-bottom: 0px;
+		}
+	}
+}
+
+.embed-modal-form
+{
+	.form-group;
+
+	.embed-modal-label
+	{
+		font-weight: bold;
+	}
+}
+
+.embed-modal-full-column
+{
+	.make-xs-column(@bootstrap-columns-per-row);
+}
+
+.embed-modal-half-column
+{
+	.make-xs-column(@bootstrap-columns-per-row/2);	
+}
+
+#embed-modal-select-existing
+{
+	display: none;
+}
+
+#embed-modal-buttons-create
+{
+	#btn-save-modal
+	{
+		.btn();
+		.btn-success();
+	}
+
+	#btn-abort-modal
+	{
+		.btn();
+		.btn-default();	
+	}
+
+	#btn-show-select-existing
+	{
+		float: left; 
+		.btn();
+		.btn-primary();
+	}
+}
+
+#embed-modal-buttons-select
+{
+	display: none;
+
+	#btn-select-existing-embed
+	{
+		.btn();
+		.btn-primary();
+	}
+
+	#btn-cancel-select-existing
+	{
+		.btn();
+		.btn-default();	
+	}
+}
+
+.error
+{
+	color: #ff0000;
+}
+
+.error.embed-modal-form-control 
+{
+	border: 1px #e60000 solid;
+}
+
+.embed-modal-select-existing
+{
+	table
+	{
+		.table();
+
+		.embed-modal-active-row
+		{
+			background-color: #bfbfbf;
+		}
+	}
+
+}
+
+.entity-embed-container
+{
+	.clearfix();
+}
+
+#leave-confirmation-modal
+{
+	display:none;
+	#btn-confirm-leave
+	{
+		.btn();
+		.btn-primary();
+	}
+
+	#btn-cancel-leave
+	{
+		.btn();
+		.btn-default();
+	}
+}
