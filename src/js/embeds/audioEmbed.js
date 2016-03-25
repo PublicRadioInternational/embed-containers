@@ -32,11 +32,6 @@
 						require_from_group: [1, ".audio-file-group"],
 						extension: "mp3"
 					},
-					wavFile: {
-						require_from_group: [1, ".audio-file-group"],
-						extension: "wav"
-					}
-	
 				}
 			}
 		};
