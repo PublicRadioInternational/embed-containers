@@ -27,11 +27,13 @@
 				rules: {
 					title: 'required',
 					url: 'required',
-
 					mp3File: {
-						require_from_group: [1, ".audio-file-group"],
+						required: true,
 						extension: "mp3"
 					},
+					wavFile: {
+						extension: "wav"
+					}
 				}
 			}
 		};
