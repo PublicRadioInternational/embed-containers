@@ -505,7 +505,7 @@ var EntityEmbed = EntityEmbed || {};
 				var addEvent = jQuery.Event('entityEmbedAdded');
 				// add data to it so the handler knows what to do
 				addEvent.embedType = scope.currentEmbedType;
-				$embedHtml.trigger(addEvent);
+				$embedHtml.find('.entity-embed-container').trigger(addEvent);
 			}
 		}
 	};
