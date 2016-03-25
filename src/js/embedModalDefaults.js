@@ -417,24 +417,20 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		open: {
 			before: function(scope){
+				toggleEditorTyping(scope, "false");
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "false");
-
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
-					scope.currentEmbedType = getEmbedTypeFromTypeString(scope.embedType);
-					showEditEmbedView(scope);
-
+					// TODO : loading spinner
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
 							object_id: scope.embedId
 						},
 						success: function(data){
-							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-
 							setModalView(scope, data.response.object_type);
+							showEditEmbedView(scope);
 							scope.currentEmbedType.model = data.response;
 							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
@@ -495,7 +491,6 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			after: function(scope){
 				toggleEditorTyping(scope, 'true');
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		},
 		complete: {
@@ -505,9 +500,7 @@ var EntityEmbed = EntityEmbed || {};
 			after: function(scope){
 				toggleEditorTyping(scope, 'true');
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
-				
+				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
 				// create an event to be raised
 				var addEvent = jQuery.Event('entityEmbedAdded');
 				// add data to it so the handler knows what to do

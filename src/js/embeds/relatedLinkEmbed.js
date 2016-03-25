@@ -132,12 +132,12 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.populateFormWithModel($form);
 
 		var linkClass = 'related-link-url';
-		var $linkList = $el.find('#related-link-list');
-		var $addLinkBtn = $el.find('#add-link-btn');
+		var $linkList = $form.find('#related-link-list');
+		var $addLinkBtn = $form.find('#add-link-btn');
 
 		for(var i = 0; i < self.model.links.length; i++)
 		{
-			$addLinkBtn.click();	
+			$addLinkBtn.click();
 			$form.find('.' + linkClass).last().val(self.model.links[i]);
 		}
 	};
@@ -174,6 +174,13 @@ var EntityEmbed = EntityEmbed || {};
 		$el.on('click', '.' + removeLinkClass, function(){
 			$(document.activeElement).closest('.' + linkClass).remove();
 		});
+	};
+
+	relatedLinkEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el);
+		var $linkList = $el.find('#related-link-list');
+		linkList.children().remove();
 	};
 
 	relatedLinkEmbed.prototype.parseForEditor = function(){

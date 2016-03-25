@@ -10,6 +10,7 @@ var EntityEmbed = EntityEmbed || {};
 		workaroundHtmlId = 'workaround-element', // id of HTML element in place to avoid BUG060
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
+		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
@@ -519,7 +520,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		var scope = {
-			$currentEditorLocation: $(mediumEditorActiveSelector),
+			$currentEditorLocation: $('.' + activeEmbedClass),
 			modalType: EntityEmbed.embedModalTypes.edit,
 			embedId: $embed.find('figure').attr('id'),
 			embedType: $embed.find('[data-embed-type]').attr('data-embed-type')
