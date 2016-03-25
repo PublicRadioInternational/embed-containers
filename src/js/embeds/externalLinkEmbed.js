@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_externalLink.html',
 			displayName: 'External Link',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'external-link',
 			validationOptions: {
 				rules: {

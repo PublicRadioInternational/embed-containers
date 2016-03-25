@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_instagram.html',
 			displayName: 'Instagram',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'instagram',
 			validationOptions: {
 				rules: {

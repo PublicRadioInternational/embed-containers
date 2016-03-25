@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_audio.html',
 			displayName: 'Audio',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'audio',
 			validationOptions: {
 				debug:true,

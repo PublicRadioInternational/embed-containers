@@ -17,12 +17,6 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: base + 'modal/modal_image.html',
 			displayName: 'Image(s)',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'image',
 			validationOptions: {
 				rules: {

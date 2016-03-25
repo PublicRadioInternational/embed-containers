@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_iframe.html',
 			displayName: 'iFrame',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'iframe',
 			validationOptions: {
 				rules: {

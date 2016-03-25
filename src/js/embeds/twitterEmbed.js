@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_twitter.html',
 			displayName: 'Twitter',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'tweet',
 			validationOptions: {
 				rules: {
