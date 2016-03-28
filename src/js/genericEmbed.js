@@ -89,9 +89,17 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
- 
+ 	genericEmbed.prototype.resetForm = function(){
+ 		var self = this;
+ 		if(!self.$validator){
+ 			return;
+ 		}
+ 		self.$validator.resetForm();
+ 	};
+
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.resetForm();
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)
 		{

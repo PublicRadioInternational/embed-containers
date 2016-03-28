@@ -87,7 +87,15 @@
 				formFields[i].innerHTML ="";
 			}
 		}
+		self.resetForm($el);
 		self.model = self.cleanModel();
+	};
+
+	customTextEmbed.prototype.resetForm = function($el){
+		var self = this;
+		var $form = $el.find('form');
+		var $validator = $form.validate(self.options.validationOptions);
+ 		$validator.resetForm();
 	};
 
 	customTextEmbed.prototype.populateFormWithModel = function($form){
