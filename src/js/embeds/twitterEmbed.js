@@ -19,7 +19,7 @@
 			validationOptions: {
 				rules: {
 					title: 'required',
-					tweet: 'required'
+					url: 'required'
 				}
 			}
 		};
@@ -60,6 +60,19 @@
 		self.model[embedCodeName] = code;
 	};
 
+	twitterEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.resetForm($el);
+		self.parent.clearForm($el);
+	};
+
+	twitterEmbed.prototype.resetForm = function($el){
+		var self = this;
+		var $form = $el.find('form');
+		var $validator = $form.validate(self.options.validationOptions);
+ 		$validator.resetForm();
+	};
+
 	// PUBLIC
 	twitterEmbed.prototype.cleanModel = function(){
 		return {
@@ -67,7 +80,7 @@
 			url: null
 		};
 	};
-	
+
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		

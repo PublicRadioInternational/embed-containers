@@ -210,8 +210,16 @@
 		}
 	};
 
+	slideshowEmbed.prototype.resetForm = function($el){
+		var self = this;
+		var $form = $el.find('form');
+		var $validator = $form.validate(self.options.validationOptions);
+ 		$validator.resetForm();
+	};
+
 	slideshowEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.resetForm($el);
 		self.parent.clearForm($el);
 
 		$el.find(imageSelect).children().remove();

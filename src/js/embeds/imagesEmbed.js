@@ -133,8 +133,16 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.resetForm($el);
 		self.parent.clearForm($el);
 		self.model.file = null;
+	};
+
+	imagesEmbed.prototype.resetForm = function($el){
+		var self = this;
+		var $form = $el.find('form');
+		var $validator = $form.validate(self.options.validationOptions);
+ 		$validator.resetForm();
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){

@@ -90,6 +90,13 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
  
+ 	genericEmbed.prototype.resetForm = function($el){
+ 		var self = this;
+ 		var $form = $el.find('form');
+ 		var $validator = $form.validate($el.options.validationOptions);
+ 		$validator.resetForm();
+ 	};
+
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
 		var formList = $el.find('form');
@@ -97,7 +104,9 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			formList[x].reset();
 		}
+		self.options = $el.options;
 	 	self.model = self.cleanModel();
+	 	//$formList.resetForm($el);
 	};
 
 	genericEmbed.prototype.editorEvents = function(){};
