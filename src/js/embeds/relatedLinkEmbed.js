@@ -170,11 +170,19 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
+	relatedLinkEmbed.prototype.resetForm = function($el){
+		var self = this;
+		var $form = $el.find('form');
+		var $validator = $form.validate(self.options.validationOptions);
+ 		$validator.resetForm();
+	};
+
 	relatedLinkEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.resetForm($el);
 		self.parent.clearForm($el);
 		var $linkList = $el.find('#related-link-list');
-		linkList.children().remove();
+		$linkList.children().remove();
 	};
 
 	relatedLinkEmbed.prototype.parseForEditor = function(){
