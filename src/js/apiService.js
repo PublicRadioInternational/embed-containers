@@ -12,22 +12,20 @@ var EntityEmbed = EntityEmbed || {};
 			// object_id: '',
 			// auth_token: ''
 		},
+		debug: 0,
 		path: ''
 	};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
+		config.data.debug = config.debug;
 
 		$.support.cors = true;
 
 		return $.ajax({
 				timeout: 15000,
 				crossDomain: true,
-				
-				// TODO : this will not always be the case, but it
-				// is how the API we are currently using is set up
-				type: 'POST', 
-				
+				type: config.methodType, 
 				dataType: 'json',
 				url: config.path,
 				data: JSON.stringify(config.data)
@@ -37,10 +35,16 @@ var EntityEmbed = EntityEmbed || {};
 			.always(config.always);
 	};
 
-	function apiService(){};
+	function apiService(isDebug){
+		if (isDebug){
+			defaultConfig.debug = 1;
+		}
+	};
+
+	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
 
 	apiService.prototype.put = function(config) {
-		config.methodType = 'PUT';
+		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
@@ -50,13 +54,9 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	apiService.prototype.get = function(config) {
-		config.methodType = 'GET';
+		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.del = function() {
-		console.log('apiService.delete is not yet implemented');
-	};
-
-	EntityEmbed.apiService = new apiService();
+	EntityEmbed.apiService = new apiService(true); // TODO : change this to false when building for production
 })();

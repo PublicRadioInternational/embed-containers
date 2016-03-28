@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_facebook.html',
 			displayName: 'Facebook',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'facebook',
 			validationOptions: {
 				rules: {

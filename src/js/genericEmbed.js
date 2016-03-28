@@ -19,10 +19,10 @@ var EntityEmbed = EntityEmbed || {};
 		viewPath: '',
 		displayName: 'Generic',
 		httpPaths:{
-			put: '',
-			post: '',
-			get: '',
-			del: ''
+			put: 'https://test-services.pri.org/admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
+			post: 'https://test-services.pri.org/admin/embed/edit',
+			get: 'https://test-services.pri.org/admin/embed/fetch',
+			getAll: 'https://test-services.pri.org/admin/embed/list'
 		},
 		styles: {
 			left: true,

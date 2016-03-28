@@ -87,7 +87,7 @@ var EntityEmbed = EntityEmbed || {};
 				globalBuzz:{},
 				newsletterSubscribe:{},
 				iframe:{},
-				customTexd:{}
+				customText:{}
 			}
 		};
 

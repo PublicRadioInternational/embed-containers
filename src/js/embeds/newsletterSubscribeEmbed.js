@@ -17,12 +17,6 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: base + 'modal/modal_newsletterSubscribe.html',
 			displayName: 'Newsletter Subscribe',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'newsletter',
 			validationOptions: {
 				rules: {
