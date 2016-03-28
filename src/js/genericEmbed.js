@@ -89,24 +89,23 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
- 
- 	genericEmbed.prototype.resetForm = function($el){
+ 	genericEmbed.prototype.resetForm = function(){
  		var self = this;
- 		var $form = $el.find('form');
- 		var $validator = $form.validate($el.options.validationOptions);
- 		$validator.resetForm();
+ 		if(!self.$validator){
+ 			return;
+ 		}
+ 		self.$validator.resetForm();
  	};
 
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.resetForm();
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)
 		{
 			formList[x].reset();
 		}
-		self.options = $el.options;
 	 	self.model = self.cleanModel();
-	 	//$formList.resetForm($el);
 	};
 
 	genericEmbed.prototype.editorEvents = function(){};
