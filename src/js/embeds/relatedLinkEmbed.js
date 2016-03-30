@@ -170,13 +170,6 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	relatedLinkEmbed.prototype.clearForm = function($el){
-		var self = this;
-		self.parent.clearForm($el);
-		var $linkList = $el.find('#related-link-list');
-		linkList.children().remove();
-	};
-
 	relatedLinkEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
