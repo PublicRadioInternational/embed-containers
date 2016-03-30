@@ -15,12 +15,6 @@
 		defaults = {
 			viewPath: base + 'modal/modal_twitter.html',
 			displayName: 'Twitter',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'tweet',
 			validationOptions: {
 				rules: {
@@ -59,7 +53,7 @@
 		
 		var embedCodeName = 'embedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-						'<a href="' + this.model.tweet + '">' +
+						'<a href="' + self.model.url + '">' +
 						'</a>' +
 					'</blockquote>' +
 					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';

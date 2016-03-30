@@ -15,20 +15,19 @@
 		defaults = {
 			viewPath: base + 'modal/modal_audio.html',
 			displayName: 'Audio',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'audio',
 			validationOptions: {
+				debug:true,
 				rules: {
 					title: 'required',
 					url: 'required',
-					credit: 'required',
-					creditLink: 'required',
-					audioFile: 'required'
+					mp3File: {
+						required: true,
+						extension: "mp3"
+					},
+					wavFile: {
+						extension: "wav"
+					}
 				}
 			}
 		};
@@ -74,7 +73,8 @@
 
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
-		$el.find("input[name='audioFile']").fileupload({
+
+		$el.find(".audio-file-group").fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
 			add: function(e, data){
@@ -99,7 +99,6 @@
 	audioEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el);
-		$('#audioList').children().remove();
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){

@@ -61,12 +61,11 @@
 {
 	@em-close-btn-size: 20px;
 
-	position: absolute;
+	position: relative;
 	display: none;
 
 	font-size: @em-close-btn-size;
-	top: @embed-modal-top;
-	left: @embed-modal-width + ((100 - @embed-modal-width) / 2);
+	left: 100%;
 
 	margin-left: -1 * @em-close-btn-size;
 
@@ -85,6 +84,8 @@
 .embed-modal-content
 {
 	.modal-content();
+	box-shadow: none;
+	border-top: none;
 }
 
 .embed-modal-body

@@ -17,21 +17,16 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: base + 'modal/modal_relatedLink.html',
 			displayName: 'Related Link',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'related-link',
 			validationOptions: {
 				rules: {
 					title: "required",
-					displayTitle:  "required"
 				}
 			}
 		};
 		
+	var psuedoGuids = [];
+
 	// generates a pseudo guid (not guatanteed global uniqueness)
 	var generateId = function () {
 		var seg = function()
@@ -67,14 +62,17 @@ var EntityEmbed = EntityEmbed || {};
 	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
 	//  begin typing the title of a story and have a dropdown list of stories displayed to them
 	//  based on their input.
-	var initAutoComplete = function(htmlElementID, self){
+	var initAutoComplete = function(htmlElementId, self){
 		// TODO: Make function take in user input to pass to API
 
-		EntityEmbed.apiService.get(
-			self.options.httpPaths.get,
+		EntityEmbed.apiService.get({
+			path: self.options.httpPaths.get,
 			// TODO: Object id is currently hard-coded, this needs to be changed.
-			{object_id: 'dbbc5fc38d2e4d359572743d2c00d581'},
-			function(fetchedData){
+			data: {
+				object_id: 'dbbc5fc38d2e4d359572743d2c00d581',
+				auth_token: 'abc123'
+			},
+			success: function(fetchedData){
 				var autocompleteSettingsAndData = {
 					data: fetchedData.response.stories,
 					getValue: 'Title',
@@ -89,24 +87,36 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				};
 
-				$( htmlElementID ).easyAutocomplete(autocompleteSettingsAndData);
-				$( htmlElementID ).focus();
+				$( htmlElementId ).easyAutocomplete(autocompleteSettingsAndData);
+				$( htmlElementId ).focus();
 			},
-			function(data){
+			fail: function(data){
 				console.log('failed to retrieve any stories!');
 			}
-		);
+		});
 	};
 
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
 	{
 		var self = this;
-		self.parent.getModelFromForm($el);
+		var formFields = $el.find('.embed-modal-form-control');
 
-		var urlForms = $el.find('.related-link-url');
-		for(var i = 0; i < urlForms.length; i++)
+		// TODO: Need to extract this block of code, and instead call parent function
+		for(var i = 0; i < 2; i++)
 		{
-			self.model.links.push(urlForms[i].value);
+			var name = formFields[i].name;
+			var value = formFields[i].value;
+			if (!!name && !!value)
+			{
+				self.model[name] = value;
+			}
+		}
+
+		// Retrieve all urls from the form
+		for(var i = 0; i < psuedoGuids.length; i++)
+		{
+			var urlForms = $el.find('#'+psuedoGuids[i]);
+			self.model.links.push(urlForms[0].value);
 		}
 	};
 
@@ -116,12 +126,12 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.populateFormWithModel($form);
 
 		var linkClass = 'related-link-url';
-		var $linkList = $el.find('#related-link-list');
-		var $addLinkBtn = $el.find('#add-link-btn');
+		var $linkList = $form.find('#related-link-list');
+		var $addLinkBtn = $form.find('#add-link-btn');
 
 		for(var i = 0; i < self.model.links.length; i++)
 		{
-			$addLinkBtn.click();	
+			$addLinkBtn.click();
 			$form.find('.' + linkClass).last().val(self.model.links[i]);
 		}
 	};
@@ -135,6 +145,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
+			psuedoGuids.push(pseudoGuid);
 
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
@@ -157,6 +168,22 @@ var EntityEmbed = EntityEmbed || {};
 		$el.on('click', '.' + removeLinkClass, function(){
 			$(document.activeElement).closest('.' + linkClass).remove();
 		});
+	};
+
+	relatedLinkEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el);
+		var $linkList = $el.find('#related-link-list');
+		linkList.children().remove();
+	};
+
+	relatedLinkEmbed.prototype.parseForEditor = function(){
+		var self = this;
+
+		return '<div class="relatedLink-embed">' +
+					'<p class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </p>' +
+					'<p  class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</p>' +
+				'</div>';
 	};
 
 })('', EntityEmbedTypes);

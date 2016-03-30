@@ -19,10 +19,10 @@ var EntityEmbed = EntityEmbed || {};
 		viewPath: '',
 		displayName: 'Generic',
 		httpPaths:{
-			put: '',
-			post: '',
-			get: '',
-			del: ''
+			put: 'https://test-services.pri.org/admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
+			post: 'https://test-services.pri.org/admin/embed/edit',
+			get: 'https://test-services.pri.org/admin/embed/fetch',
+			getAll: 'https://test-services.pri.org/admin/embed/list'
 		},
 		styles: {
 			left: true,
@@ -92,22 +92,12 @@ var EntityEmbed = EntityEmbed || {};
  
 	genericEmbed.prototype.clearForm = function($el){
 		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
+		var formList = $el.find('form');
+		for (var x = 0; x < formList.length; x++)
 		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
-			{
-				formFields[i].selectedIndex = 0;
-			}
-			else
-			{
-				//TO DO: figure out reset form when modal is closed when invalid.
-				//var validator = $('form').validate();
-				//validator.resetForm();
-				formFields[i].value = null;
-			}
+			formList[x].reset();
 		}
-		self.model = self.cleanModel();
+	 	self.model = self.cleanModel();
 	};
 
 	genericEmbed.prototype.editorEvents = function(){};
@@ -127,28 +117,28 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc){
 		var self = this;
 
-		self.model.editorHtml = self.parseForEditor();
+		self.model.auth_token = 'abc123';
 
 		if (embedIsNew){
 			// add the object_type onto the model
 			//		this code smells, do something better here... maybe put in cleanModel?
 			self.model.object_type = self.options.object_type;
 
-			EntityEmbed.apiService.post(
-				self.options.httpPaths.post, 
-				self.model,
-				successFunc,
-				failFunc
-			);
+			return EntityEmbed.apiService.post({
+				path: self.options.httpPaths.post, 
+				data: self.model,
+				success: successFunc,
+				fail: failFunc
+			});
 		}
 		else
 		{
-			EntityEmbed.apiService.put(
-				self.options.httpPaths.put, 
-				self.model,
-				successFunc,
-				failFunc
-			);
+			return EntityEmbed.apiService.put({
+				path: self.options.httpPaths.put, 
+				data: self.model,
+				success: successFunc,
+				fail: failFunc
+			});
 		}
 	}
 

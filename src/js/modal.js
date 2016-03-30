@@ -12,7 +12,7 @@
 		$openEl: $(''),
 		$abortEl: $(''),
 		$completeEl: $(''),
-		functions:{
+		functions:{ // TODO : rename to hooks
 			init:{
 				before: function(scope){},
 				after: function(scope){}
@@ -80,12 +80,11 @@
 			+ self.options.backdropClass + '"></div>';
 	};
 
-	modal.prototype.closeBtnHtml = function()
+	modal.prototype.closeBtnHtml = function(id)
 	{
 		var self = this;
-		var style = self.closeBtnClass +  
-			' ' + self.options.closeBtnIcon;
-		return '<i class="' + style + '"></i>';
+		var style = self.closeBtnClass + ' ' + self.options.closeBtnIcon;
+		return '<i id="' + id + '"" class="' + style + '"></i>';
 	};
 
 	modal.prototype.toggle = function(ctrl)
@@ -114,8 +113,9 @@
 	
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
-			self.$el.after(self.closeBtnHtml());
-			self.$closeBtn = $('.' + self.closeBtnClass);
+			var closeBtnId = self.generateId();
+			self.$el.prepend(self.closeBtnHtml(closeBtnId));
+			self.$closeBtn = $('.' + self.closeBtnClass + '#' + closeBtnId);
 			self.$closeBtn.click(function(){
 				self.$el.abortModal();
 			});
@@ -185,6 +185,15 @@
 				modalCtrl.options.functions.open.before(modalCtrl.$el.data('scope'));
 				modalCtrl.toggle(modalCtrl);
 				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
+
+				// position the modal within the viewport
+				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
+				var newTopVal = modalCtrl.$el.css('top');
+				newTopVal.replace('px', '');
+				newTopVal = parseInt(newTopVal);
+
+				newTopVal = distanceFromTop + $(document).scrollTop();
+				modalCtrl.$el.css('top', newTopVal);
 			}
 		});
 	};

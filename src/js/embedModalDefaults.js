@@ -34,7 +34,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		tableRowHtml = function(title, id){
-			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' + 
+			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' +
 						'<td>' + title + '</tr>'+
 					'</td>';
 		},
@@ -59,7 +59,7 @@ var EntityEmbed = EntityEmbed || {};
 				if ((formField.type == 'radio' || formField.type == 'checkbox') && formField.defaultChecked != formField.checked)
 				{
 					isDirty = true;
-					return false;	
+					return false;
 				}
 
 				// check select one and select multiple forms
@@ -73,7 +73,6 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 			});
-
 			return isDirty;
 		},
 		setModalView = function(scope, embedType){
@@ -112,16 +111,21 @@ var EntityEmbed = EntityEmbed || {};
 				var successFunction = function(data){
 					if (data.status === 'ERROR')
 					{
-						console.log('post failed');
+						console.log('POST failed');
+						return;
+					}
+					if (typeof data.response === 'string')
+					{
+						console.log('Failed to POST embed type: ' + data.response);
 						return;
 					}
 					scope.currentEmbedType.model.object_id = data.response.object_id;
-					console.log('post succeeded');
+					console.log('POST succeeded');
 					scope.modalCtrl.$el.completeModal();
-				}, 
+				},
 				failFunction = function(data){
 					// TODO : UI failure message
-					console.log('post failed');
+					console.log('POST failed');
 				};
 			}
 			else
@@ -129,46 +133,60 @@ var EntityEmbed = EntityEmbed || {};
 				var successFunction = function(data){
 					if (data.status === 'ERROR')
 					{
-						console.log('put failed');
+						console.log('PUT failed');
 						return;
 					}
-
-					console.log('put succeeded');
+					if (typeof data.response === 'string')
+					{
+						console.log('Failed to PUT embed type: ' + data.response);
+						return;
+					}
+					console.log('PUT succeeded');
 					scope.modalCtrl.$el.completeModal();
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
-					console.log('put failed');
+					console.log('PUT failed');
+
 				};
 			}
-
 			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction);
 
 			$validator.resetForm();
+
 		},
 		populateSelectExistingView = function(scope){
 			$(embedModalSelectors.elements.selectExistingTableRow).remove();
 
-			EntityEmbed.apiService.get(
-				scope.currentEmbedType.options.httpPaths.get,
-				{
-					object_id: scope.currentEmbedType.options.getAllObjectId
+			// TODO : update API path to correct value
+			//			getAllObjectId is not a thing anymore
+			EntityEmbed.apiService.post({
+				path: scope.currentEmbedType.options.httpPaths.getAll,
+				data: {
+					object_type: scope.currentEmbedType.options.object_type,
+					auth_token: 'abc123'
 				},
-				function(data){
-					// this is how we expect things to be 
-					if (!data.response.list){
+				success: function(obj){
+					if (typeof data.response === 'string')
+					{
+						console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
 						return;
 					}
-					scope.selectExistingItems = data.response.list;
+
+					if (!obj.response.data){
+						return;
+					}
+					scope.selectExistingItems = obj.response.data;
 					for (var i = 0; i < scope.selectExistingItems.length; i++)
 					{
-						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].id));
+						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].object_id));
 						$(embedModalSelectors.elements.selectExistingTableBody).append($row);
-						
+
+						// add click event to highlight (select) a row
 						scope.modalCtrl.registerEvent($row, 'click', function(e, scope){
 							// we do not need to add the class back if it is already on the item being clicked
 							var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
-							
+
 							$(embedModalSelectors.elements.selectExistingTableBody)
 								.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
 								.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
@@ -182,12 +200,12 @@ var EntityEmbed = EntityEmbed || {};
 								$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
 							}
 						});
-					}		
+					}
 				},
-				function(data){
+				fail: function(data){
 					console.log('Failed to get list of current embed types for the Select Existing page.');
 				}
-			);
+			});
 		},
 		showCreateNewEmbedView = function(scope){
 			$(embedModalSelectors.buttons.showSelectExisting).show();
@@ -229,31 +247,20 @@ var EntityEmbed = EntityEmbed || {};
 				return null;
 			}
 		},
-		generateEmbedHtmlInternal = function(embedType, addNewLine){
-			var figureClass = 'entity-embed'
+		generateEmbedHtmlInternal = function(embedType, includeWrapper){
+			var figureClass = 'entity-embed';
+			var ret = '<figure contenteditable="false" ' +
+							'id="' + embedType.model.object_id  + '" ' + 
+							'data-embed-type="' + embedType.options.object_type + '" >' +
+							embedType.parseForEditor() +
+						'</figure>';
 
-			if (!!embedType.defaultStyle)
+			if (includeWrapper)
 			{
-				figureClass += ' ' + embedType.defaultStyle;
+				return	'<div class="entity-embed-container">' + 
+							ret + 
+						'</div>';
 			}
-
-			var ret =
-				'<div class="entity-embed-container">' + 
-					'<figure contenteditable="false" class="' + figureClass + '" ' + 
-						'id="' + embedType.model.object_id  + '" ' + 
-						'data-embed-type="' + embedType.options.object_type + '" >' +
-						embedType.parseForEditor() +
-					'</figure>' + 
-				'</div>';
-
-			if (addNewLine)
-			{
-				// add a new paragraph after the embed so that user can continue typing
-				// TODO : make sure that no one can ever remove this
-				//			user could put self in bad editing state
-				ret = ret + '<p class="entity-embed-new-line">&nbsp</p>';
-			}
-
 			return ret;
 		};
 
@@ -264,7 +271,7 @@ var EntityEmbed = EntityEmbed || {};
 	embedModalDefaults.prototype.functions = {
 		init:{
 			before: function(scope){
-				/* 
+				/*
 				 * define necessary fields for scope
 				 *
 				 * assume that these are already defined:
@@ -298,7 +305,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					var embedObject = scope.embedTypes[i];
 					// create option in dropdown for this embed
-					scope.$embedTypeSelect.append('<option value="' + 
+					scope.$embedTypeSelect.append('<option value="' +
 						embedObject.options.object_type + '">' + embedObject.options.displayName +
 						'</option>');
 
@@ -310,13 +317,13 @@ var EntityEmbed = EntityEmbed || {};
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
 					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
-						
+
 						if (textStatus === 'error')
 						{
 							// TODO : error view (so that user knows something went wrong)
 						}
 					});
-					
+
 					// augment the embedObject for use with this modal
 					embedObject.$view = $embedView;
 					embedObject.optionIndex = optionIndex;
@@ -403,52 +410,63 @@ var EntityEmbed = EntityEmbed || {};
 							return;
 						}
 
-						EntityEmbed.apiService.get(
-							currentScope.currentEmbedType.options.httpPaths.get,
-							{
-								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
+						EntityEmbed.apiService.get({
+							path: currentScope.currentEmbedType.options.httpPaths.get,
+							data: {
+								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id'),
+								auth_token: 'abc123'
 							},
-							function(data){
+							success: function(data){
+								if (typeof data.response === 'string')
+								{
+									console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
+									return;
+								}
+								
 								currentScope.currentEmbedType.model = data.response;
 								currentScope.modalCtrl.$el.completeModal();
 							},
-							function(data){
+							fail: function(data){
 								// TODO: show error UI
 								console.log('failed to get embed type!');
 							}
-						);
+						});
 					}
 				);
 			}
 		},
 		open: {
 			before: function(scope){
-			}, 
-			after: function(scope){
 				toggleEditorTyping(scope, "false");
-
+			},
+			after: function(scope){
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
-					scope.currentEmbedType = getEmbedTypeFromTypeString(scope.embedType);
-					showEditEmbedView(scope);
-					
-					EntityEmbed.apiService.get(
-						scope.currentEmbedType.options.httpPaths.get,
-						{
-							object_id: scope.embedId
+					// TODO : loading spinner
+					EntityEmbed.apiService.get({
+						path: scope.currentEmbedType.options.httpPaths.get,
+						data: {
+							object_id: scope.embedId,
+							auth_token: 'abc123'
 						},
-						function(data){
-							scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+						success: function(data){
+							if (typeof data.response === 'string')
+							{
+								console.log('Failed to get embed type: ' + data.response);
+								// show UI error here								
+								return;
+							}
 
 							setModalView(scope, data.response.object_type);
+							showEditEmbedView(scope);
 							scope.currentEmbedType.model = data.response;
 							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 						},
-						function(data){
+						fail: function(data){
 							console.log('failed to get embed type!');
 						}
-					);
+					});
 
 					delete scope.embedType;
 				}
@@ -483,7 +501,7 @@ var EntityEmbed = EntityEmbed || {};
 							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
 							{
 								$(embedModalSelectors.elements.confirmModal).openModal();
-								return false;			
+								return false;
 							}
 						}
 					}
@@ -493,7 +511,6 @@ var EntityEmbed = EntityEmbed || {};
 						return false;
 					}
 				}
-
 				// no changes made OR leave already confirmed - okay to close without prompting user
 				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
 				$validator.resetForm();
@@ -501,8 +518,7 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				toggleEditorTyping(scope, 'true');
 			}
 		},
 		complete: {
@@ -510,12 +526,14 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				toggleEditorTyping(scope, "true");
-				var needNewlineAtEnd = $('.entity-embed-new-line').length == 0;
-
+				toggleEditorTyping(scope, 'true');
 				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				scope.$currentEditorLocation.html(generateEmbedHtml(scope.currentEmbedType, needNewlineAtEnd));
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
+				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
+				// create an event to be raised
+				var addEvent = jQuery.Event('entityEmbedAdded');
+				// add data to it so the handler knows what to do
+				addEvent.embedType = scope.currentEmbedType;
+				$embedHtml.find('.entity-embed-container').trigger(addEvent);
 			}
 		}
 	};
@@ -533,7 +551,6 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: embedType
 		};
 		this.openModal(addToScope);
-		console.log('called embed modal open...')
 	};
 
 	// embedType should match the object_type field on some configured embed type object
@@ -545,7 +562,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: embedTypeStr
 		};
 
-		this.openModal(scope); 
+		this.openModal(scope);
 	};
 	EntityEmbed.embedModalDefaults = embedModalDefaults;
 }());

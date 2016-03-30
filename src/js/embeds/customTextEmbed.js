@@ -16,17 +16,10 @@
 		defaults = {
 			viewPath: base + 'modal/modal_customText.html',
 			displayName: 'Custom Text',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'custom',
 			validationOptions: {
 				rules : {
 					title: 'required',
-					displayTitle: 'required',
 					customText: 'required'
 				}
 			}

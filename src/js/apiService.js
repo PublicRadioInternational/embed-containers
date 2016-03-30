@@ -3,60 +3,60 @@ var EntityEmbed = EntityEmbed || {};
 (function(){
 
 	// PRIVATE
-	function ajaxWrapper(methodType, path, data, doneFunc, failFunc, alwaysFunc){
-		// avoid null reference errors
-		if (!doneFunc)
-		{
-			doneFunc = function(){};
-		}
-		if (!failFunc)
-		{
-			failFunc = function(){};
-		}
-		if (!alwaysFunc)
-		{
-			alwaysFunc = function(){};
-		}
+
+	var defaultConfig = {
+		success : function(){},
+		fail : function(){},
+		always : function(){},
+		data: {
+			// object_id: '',
+			// auth_token: ''
+		},
+		debug: 0,
+		path: ''
+	};
+
+	function ajaxWrapper(config){
+		config = $.extend(true, {}, defaultConfig, config);
+		config.data.debug = config.debug;
 
 		$.support.cors = true;
-
-		data.auth_token='abc123';
-		data.debug = 1;
 
 		return $.ajax({
 				timeout: 15000,
 				crossDomain: true,
-				
-				// TODO : this will not always be the case, but it
-				// is how the API we are currently using is set up
-				type: 'POST', 
-				
+				type: config.methodType, 
 				dataType: 'json',
-				url: path,
-				data: JSON.stringify(data)
+				url: config.path,
+				data: JSON.stringify(config.data)
 			})
-			.done(doneFunc)
-			.fail(failFunc)
-			.always(alwaysFunc);
+			.done(config.success)
+			.fail(config.fail)
+			.always(config.always);
 	};
 
-	function apiService(){};
-
-	apiService.prototype.put = function(path, data, doneFunc, failFunc, alwaysFunc) {
-		return ajaxWrapper('PUT', path, data, doneFunc, failFunc, alwaysFunc);
+	function apiService(isDebug){
+		if (isDebug){
+			defaultConfig.debug = 1;
+		}
 	};
 
-	apiService.prototype.post = function(path, data, doneFunc, failFunc, alwaysFunc) {
-		return ajaxWrapper('POST', path, data, doneFunc, failFunc, alwaysFunc);
+	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
+
+	apiService.prototype.put = function(config) {
+		config.methodType = 'POST';
+		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.get = function(path, data, doneFunc, failFunc, alwaysFunc) {
-		return ajaxWrapper('GET', path, data, doneFunc, failFunc, alwaysFunc);
+	apiService.prototype.post = function(config) {
+		config.methodType = 'POST';
+		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.del = function() {
-		console.log('apiService.delete is not yet implemented');
+	apiService.prototype.get = function(config) {
+		config.methodType = 'POST';
+		return ajaxWrapper(config);
 	};
 
-	EntityEmbed.apiService = new apiService();
+	EntityEmbed.apiService = new apiService(true); // TODO : change this to false when building for production
 })();

@@ -15,20 +15,11 @@
 		defaults = {
 			viewPath: base + 'modal/modal_globalBuzz.html',
 			displayName: 'Global Buzz',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'global-buzz',
 			validationOptions: {
 				rules: {
 					title: 'required',
 					quote: 'required',
-					credit: 'required',
-					quoteUrlText: 'required',
-					quoteUrl: 'required',
 					url: 'required'
 				}
 

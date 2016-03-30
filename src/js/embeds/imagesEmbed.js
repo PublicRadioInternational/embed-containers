@@ -17,21 +17,16 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: base + 'modal/modal_image.html',
 			displayName: 'Image(s)',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'image',
 			validationOptions: {
 				rules: {
 					title: 'required',
 					altText: 'required',
-					credit: 'required',
-					creditLink: 'required',
-					caption: 'required', 
-					imageFile: 'required'
+					license: 'required',
+					imageFile: {
+						required: true,
+						extension: "png|jpg|jpeg|gif"
+					}
 				}
 			}
 		};
@@ -52,31 +47,6 @@ var EntityEmbed = EntityEmbed || {};
 			return (bytes / 1000000).toFixed(2) + ' MB';
 		}
 		return (bytes / 1000).toFixed(2) + ' KB';
-	};
-
-	var loadLicenses = function (getPath){
-		EntityEmbed.apiService.get(
-			getPath,
-			//Current Guid value of the license list
-			//TODO: change this from a hardcoded value
-
-			{object_id: "2e7d8341d92a499dae3a19019550d518" },
-			function(data){
-				//load object into license list
-				if (!!data.response.list)
-				{
-					var licenseList = [];
-					for(var i = 0; i < data.response.list.length;i++ )
-					{
-						licenseList[i] = "<option>" + data.response.list[i].licenseName + "</option>";
-					}
-					$("#license").html(licenseList);
-				}
-			},
-			function(data){
-				console.log('failed to find object with that id');
-			}
-		);
 	};
 
 	// CONSTRUCTOR
@@ -103,12 +73,43 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+	imagesEmbed.prototype.loadLicenses = function (){
+		var self = this;
+		EntityEmbed.apiService.get({
+			path: self.options.httpPaths.get,
+			//Current Guid value of the license list
+			//TODO: change this from a hardcoded value
+			data: {
+				object_id: '5a0b9980894a4e898d03eb08e279099f',
+				auth_token: 'abc123'
+			},
+			success: function(data){
+				//load object into license list
+				if (!!data.response.list)
+				{
+					var licenseList = [];
+					for(var i = 0; i < data.response.list.length;i++ )
+					{
+						licenseList[i] =
+							'<option>' +
+								data.response.list[i].licenseName +
+							'</option>';
+					}
+					$('#license').html(licenseList);
+				}
+			},
+			fail: function(data){
+				console.log('failed to find load image license options');
+			}
+		});
+	};
+
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
 
-		loadLicenses(this.options.httpPaths.get);
+		self.loadLicenses();
 
-		$el.find("input[name='imageFile']").fileupload({
+		$el.find('input[name="imageFile"]').fileupload({
 			dataType: 'json',
     		replaceFileInput: false,
 			add: function(e, data){
@@ -133,8 +134,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el);
-
-		$('#imagesList').children().remove();
+		self.model.file = null;
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){

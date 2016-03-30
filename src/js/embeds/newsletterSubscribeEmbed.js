@@ -17,44 +17,41 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: base + 'modal/modal_newsletterSubscribe.html',
 			displayName: 'Newsletter Subscribe',
-			httpPaths: {
-				put: '',
-				post: '',
-				get: '',
-				del: ''
-			},
 			object_type: 'newsletter',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					displayTitle: 'required',
-					teaser: 'required',	
+					newsletter: 'required',					
 				}
 			}
 		},
 		loadSubscription = function (getPath){
-			EntityEmbed.apiService.get(
-				getPath,
-				//Current Guid value of the license list
+			EntityEmbed.apiService.get({
+				path: getPath,
 				//TODO: change this from a hardcoded value
-
-				{object_id: "2e7d8341d92a499dae3a19019550d518" },
-				function(data){
+				data: {
+					object_id: '5a0b9980894a4e898d03eb08e279099f',
+					auth_token: 'abc123'
+				},
+				success: function(data){
 					//load object into license list
 					if (!!data.response.list)
 					{
 						var subscriptionList = [];
 						for(var i = 0; i < data.response.list.length;i++ )
 						{
-							subscriptionList[i] = "<option value=" + data.response.list[i].licenseCode +">" + data.response.list[i].licenseName + "</option>";
+							subscriptionList[i] =
+								'<option value="' + data.response.list[i].licenseCode +'" >' + 
+									data.response.list[i].licenseName +
+								'</option>';
 						}
 						$("#subscription").html(subscriptionList);
 					}
 				},
-				function(data){
-					console.log('failed to find object with that id');
+				fail: function(data){
+					console.log('failed to load newsletter subscription options');
 				}
-			);
+			});
 		};
 
 	// CONSTRUCTOR
