@@ -89,20 +89,23 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
- 	genericEmbed.prototype.resetForm = function(){
- 		var self = this;
- 		if(!self.$validator){
- 			return;
- 		}
- 		self.$validator.resetForm();
- 	};
-
+	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, self){
+		function resetForm(){
+ 			if(!self.$validator)
+ 			{
+ 				return;
+ 			}
+ 			self.$validator.resetForm();
+ 		};
+		
 		if (!self){
 			self = this;
 		}
-		
-		self.resetForm();
+		else{
+			self = self;
+		}
+		resetForm(self);
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)
 		{
@@ -161,7 +164,7 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		Function.prototype.inherits = function(parent){
 			var self = this;
-			self.prototype = new parent;
+			self.prototype = new parent; // TODO: Better way to mock protected data members
 			self.prototype.constructor = self;
 			self.prototype.parent = parent.prototype;
 			return self;
