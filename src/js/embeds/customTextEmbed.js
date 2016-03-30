@@ -72,8 +72,9 @@
 		};
 	}
 
-	customTextEmbed.prototype.clearForm = function($el){
+	customTextEmbed.prototype.clearForm = function($el, self){
 		var self = this;
+		self.parent.clearForm($el, self);
 		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{

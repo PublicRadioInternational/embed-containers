@@ -19,7 +19,7 @@
 			validationOptions: {
 				rules: {
 					title: 'required',
-					tweet: 'required'
+					url: 'required'
 				}
 			}
 		};
@@ -67,7 +67,7 @@
 			url: null
 		};
 	};
-	
+
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		

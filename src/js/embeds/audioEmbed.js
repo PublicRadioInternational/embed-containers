@@ -96,11 +96,6 @@
 		});
 	};
 
-	audioEmbed.prototype.clearForm = function($el){
-		var self = this;
-		self.parent.clearForm($el);
-	};
-
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		

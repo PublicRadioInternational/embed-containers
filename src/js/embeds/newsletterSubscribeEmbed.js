@@ -74,7 +74,7 @@ var EntityEmbed = EntityEmbed || {};
 			teaser: null
 		};
 	};
-
+	
 	newsletterSubscribeEmbed.prototype.initModal = function($el){
 		var self = this;
 		loadSubscription(this.options.httpPaths.get);
