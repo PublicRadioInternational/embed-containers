@@ -77,19 +77,6 @@
 		};
 	};
 
-	facebookEmbed.prototype.clearForm = function($el){
-		var self = this;
-		self.resetForm($el);
-		self.parent.clearForm($el);
-	};
-
-	facebookEmbed.prototype.resetForm = function($el) {
-		var self = this;
-		var $form = $el.find('form');
-		var $validator = $form.validate(self.options.validationOptions);
- 		$validator.resetForm();
-	};
-
 	facebookEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		// TODO: Need to make user unable to interact with embed

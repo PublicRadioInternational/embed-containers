@@ -97,8 +97,11 @@ var EntityEmbed = EntityEmbed || {};
  		self.$validator.resetForm();
  	};
 
-	genericEmbed.prototype.clearForm = function($el){
-		var self = this;
+	genericEmbed.prototype.clearForm = function($el, self){
+		if (!self){
+			self = this;
+		}
+		
 		self.resetForm();
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)
@@ -118,7 +121,8 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.validate = function($el){
 		var self = this;
 		var $form = $el.find('form');
-		return $form.validate(self.options.validationOptions);
+		self.$validator = $form.validate(self.options.validationOptions);
+		return self.$validator;
 	};
 
 	// ASSUMPTION - model is already populated

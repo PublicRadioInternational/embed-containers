@@ -44,19 +44,6 @@
 		};
 	};
 
-	iframeEmbed.prototype.clearForm = function($el){
-		var self = this;
-		self.resetForm($el);
-		self.parent.clearForm($el);
-	};
-
-	iframeEmbed.prototype.resetForm = function($el){
-		var self = this;
-		var $form = $el.find('form');
-		var $validator = $form.validate(self.options.validationOptions);
- 		$validator.resetForm();
-	};
-
 	iframeEmbed.prototype.parseForEditor = function(){
 		return  '<div class="iframe-embed">' +
 					'<div class="iframe-info">' +

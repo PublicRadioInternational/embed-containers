@@ -72,8 +72,9 @@
 		};
 	}
 
-	customTextEmbed.prototype.clearForm = function($el){
+	customTextEmbed.prototype.clearForm = function($el, self){
 		var self = this;
+		self.parent.clearForm($el, self);
 		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
@@ -87,15 +88,7 @@
 				formFields[i].innerHTML ="";
 			}
 		}
-		self.resetForm($el);
 		self.model = self.cleanModel();
-	};
-
-	customTextEmbed.prototype.resetForm = function($el){
-		var self = this;
-		var $form = $el.find('form');
-		var $validator = $form.validate(self.options.validationOptions);
- 		$validator.resetForm();
 	};
 
 	customTextEmbed.prototype.populateFormWithModel = function($form){
