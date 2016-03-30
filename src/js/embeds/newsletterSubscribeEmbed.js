@@ -23,35 +23,10 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					newsletter: 'required',					
 				}
+			},
+			httpPaths:{
+				getNewsletters: 'https://test-services.pri.org/admin/newsletter/list'
 			}
-		},
-		loadSubscription = function (getPath){
-			EntityEmbed.apiService.get({
-				path: getPath,
-				//TODO: change this from a hardcoded value
-				data: {
-					object_id: '5a0b9980894a4e898d03eb08e279099f',
-					auth_token: 'abc123'
-				},
-				success: function(data){
-					//load object into license list
-					if (!!data.response.list)
-					{
-						var subscriptionList = [];
-						for(var i = 0; i < data.response.list.length;i++ )
-						{
-							subscriptionList[i] =
-								'<option value="' + data.response.list[i].licenseCode +'" >' + 
-									data.response.list[i].licenseName +
-								'</option>';
-						}
-						$("#subscription").html(subscriptionList);
-					}
-				},
-				fail: function(data){
-					console.log('failed to load newsletter subscription options');
-				}
-			});
 		};
 
 	// CONSTRUCTOR
@@ -77,7 +52,31 @@ var EntityEmbed = EntityEmbed || {};
 	
 	newsletterSubscribeEmbed.prototype.initModal = function($el){
 		var self = this;
-		loadSubscription(this.options.httpPaths.get);
+		EntityEmbed.apiService.get({
+			path: self.options.httpPaths.getNewsletters,
+			data: {
+				auth_token: 'abc123'
+			},
+			success: function(list){
+				//load object into license list
+				if (!list.response.data)
+				{
+					return;
+				}
+				var subscriptionList = [];
+				for(var i = 0; i < list.response.data.length; i++)
+				{
+					subscriptionList[i] =
+						'<option value="' + list.response.data[i].newsletter_id +'" >' + 
+							list.response.data[i].title +
+						'</option>';
+				}
+				$el.find('[name="newsletter"]').html(subscriptionList);
+			},
+			fail: function(){
+				console.log('failed to load newsletter subscription options');
+			}
+		});
 	}
 
 	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
