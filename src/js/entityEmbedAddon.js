@@ -16,10 +16,10 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: { // default scope to pass to the modal
-				$embedTypeSelect: $(''),
-				$modalBody: $('')
+				$embedTypeSelect: null,
+				$modalBody: null
 			},
-			$modalEl: $(''),
+			$modalEl: null,
 			insertBtn: '.medium-insert-buttons', // selector for insert button
 			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
 				url: 'upload.php',
@@ -89,6 +89,31 @@ var EntityEmbed = EntityEmbed || {};
 				iframe:{},
 				customText:{}
 			}
+		},
+		defaultElementSelectors = function(){
+			// we cant specify certain elements as default options
+			// because they are not yet loaded into the DOM when this script runs
+			// so if they are null, select them her 
+
+			if (!defaults.$modalEl)
+			{
+				defaults.$modalEl = $('#embed-modal');
+			}
+
+			if (!defaults.modalScope.$embedTypeSelect)
+			{
+				defaults.modalScope.$embedTypeSelect = $('#select-embed-type'); 
+			}
+
+			if (!defaults.modalScope.$modalBody)
+			{
+				defaults.modalScope.$modalBody = $('.embed-modal-body');
+			}
+
+			if (!defaults.modalOptions.$abortEl)
+			{
+				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
+			}
 		};
 
 	/**
@@ -143,6 +168,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.el = el;
 		self.$el = $(el);
 		self.templates = window.MediumInsert.Templates;
+		defaultElementSelectors();
+
 		self.core = self.$el.data('plugin_'+ pluginName);
 
 		self.options = $.extend(true, {}, defaults, options);
@@ -172,6 +199,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
+
 		self.toolbarManager.createActionToolbar($('body'));
 
 		self.events();

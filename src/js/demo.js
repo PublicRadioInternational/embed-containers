@@ -47,16 +47,7 @@ $(document).ready(function(){
 		addons: {
 			images: false,
 			embeds: false,
-			entityEmbeds: {
-				$modalEl: $('#embed-modal'),
-				modalScope: { // default scope to pass to the modal
-					$embedTypeSelect: $('#select-embed-type'),
-					$modalBody: $('.embed-modal-body')
-				},
-				modalOptions: {
-					$abortEl: $('#btn-abort-modal')
-				},
-			}
+			entityEmbeds: true
 		}
 	});
 
