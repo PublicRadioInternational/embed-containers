@@ -1,5 +1,5 @@
 var basePath = '../',					// relative path to repository root
-	fontPathSegment = 'components-font-awesome/fonts/';
+	fontPathSegment = 'font-awesome/fonts/';
 
 var buildPath = basePath + 'dist/', 	// path from repo root to dist folder
 	jsPath = basePath + 'src/js/',

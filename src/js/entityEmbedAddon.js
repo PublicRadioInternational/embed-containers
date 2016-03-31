@@ -16,10 +16,10 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: { // default scope to pass to the modal
-				$embedTypeSelect: $(''),
-				$modalBody: $('')
+				$embedTypeSelect: null,
+				$modalBody: null
 			},
-			$modalEl: $(''),
+			$modalEl: null,
 			insertBtn: '.medium-insert-buttons', // selector for insert button
 			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
 				url: 'upload.php',
@@ -89,6 +89,31 @@ var EntityEmbed = EntityEmbed || {};
 				iframe:{},
 				customText:{}
 			}
+		},
+		defaultElementSelectors = function(){
+			// we cant specify certain elements as default options
+			// because they are not yet loaded into the DOM when this script runs
+			// so if they are null, select them her 
+
+			if (!defaults.$modalEl)
+			{
+				defaults.$modalEl = $('#embed-modal');
+			}
+
+			if (!defaults.modalScope.$embedTypeSelect)
+			{
+				defaults.modalScope.$embedTypeSelect = $('#select-embed-type'); 
+			}
+
+			if (!defaults.modalScope.$modalBody)
+			{
+				defaults.modalScope.$modalBody = $('.embed-modal-body');
+			}
+
+			if (!defaults.modalOptions.$abortEl)
+			{
+				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
+			}
 		};
 
 	/**
@@ -143,6 +168,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.el = el;
 		self.$el = $(el);
 		self.templates = window.MediumInsert.Templates;
+		defaultElementSelectors();
+
 		self.core = self.$el.data('plugin_'+ pluginName);
 
 		self.options = $.extend(true, {}, defaults, options);
@@ -154,10 +181,16 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Extend editor's functions
 		if (self.core.getEditor()) {
-			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
-			self.core.getEditor().serialize = self.editorSerialize;
-			self.core.getEditor().loadStory = function(storyData){ // this is done like so in order to allow access the EntityEmbeds object
+
+			// allow access the EntityEmbeds object by keeping the object on this prototype
+			self.core.getEditor().get_story = function(){
+				return self.getStory();
+			};
+			self.core.getEditor().load_story = function(storyData){
 				self.loadStory(storyData);
+			};
+			self.core.getEditor().embed_modal_open = function(embedTypeStr, id){
+				self.embedModalOpen(embedTypeStr, id);
 			};
 		}
 
@@ -172,6 +205,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
+
 		self.toolbarManager.createActionToolbar($('body'));
 
 		self.events();
@@ -293,14 +327,14 @@ var EntityEmbed = EntityEmbed || {};
 
 
 	/**
-	 * Extend editor's serialize function
+	 * Get the story data from the editor and serialize it
      *
      * @return {object} Serialized data
      */
 
-	EntityEmbeds.prototype.editorSerialize = function() {
+	EntityEmbeds.prototype.getStory = function() {
 		var self = this;
-		var data = self._serializePreEmbeds();
+		var data = self.core.getEditor().serialize();
 		var cleanedData = {
 			storyHtml: '',
 			embeds: []
@@ -612,6 +646,35 @@ var EntityEmbed = EntityEmbed || {};
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 	};	
+
+	// if embedTypeStr is specified then the modal will only show that embed type
+	//		and the select embed type dropdown will be hidden
+	// embedTypeStr should match the object_type field on some configured embed type object
+	EntityEmbeds.prototype.embedModalOpen = function(embedTypeStr, id){
+		var self = this;
+		var mType;
+		if (!!id)
+		{
+			mType = EntityEmbed.embedModalTypes.edit;
+		}
+		else if (!!embedTypeStr)
+		{
+			mType = EntityEmbed.embedModalTypes.addSingle;
+		}
+		else
+		{
+			mType = EntityEmbed.embedModalTypes.add;
+		}
+
+		var scope = {
+			$currentEditorLocation: $('.medium-insert-active'),
+			modalType: mType,
+			embedId: id,
+			embedType: embedTypeStr
+		};
+
+		self.options.$modalEl.openModal(scope);
+	};
 
 	/** Addon initialization */
 

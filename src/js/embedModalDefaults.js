@@ -5,8 +5,9 @@ var EntityEmbed = EntityEmbed || {};
 	// MODAL TYPE ENUM
 	EntityEmbed.embedModalTypes = {
 		add: 0,
-		edit: 1,
-		selectExisting: 2
+		addSingle: 1, // this is for adding a specific embed type
+		edit: 2,
+		selectExisting: 3
 	};
 
 	// PRIVATE
@@ -449,10 +450,18 @@ var EntityEmbed = EntityEmbed || {};
 		open: {
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
+				if (!!scope.embedTypeString){
+					setModalView(scope, scope.embedType);
+				}
+				else{
+					resetModalView(scope);
+				}
 			},
 			after: function(scope){
 				if (scope.modalType == EntityEmbed.embedModalTypes.edit)
 				{
+					showEditEmbedView(scope);
+					// TODO : loading spinner
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
@@ -468,7 +477,6 @@ var EntityEmbed = EntityEmbed || {};
 							}
 
 							setModalView(scope, data.response.object_type);
-							showEditEmbedView(scope);
 							scope.currentEmbedType.model = data.response;
 							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
 							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
@@ -483,17 +491,11 @@ var EntityEmbed = EntityEmbed || {};
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
 				{
 					showCreateNewEmbedView(scope);
-					if (!!scope.embedType)
-					{
-						// TODO : when modal opens in this context, modify modal header to
-						//		  be more descriptive (i.e. 'Embed Content' --> 'Embed <type>')
-						setModalView(scope, scope.embedType);
-						scope.$embedTypeSelect.hide();
-					}
-					else
-					{
-						resetModalView(scope);
-					}
+				}
+				else if (scope.modalType == EntityEmbed.embedModalTypes.addSingle)
+				{
+					showCreateNewEmbedView(scope);
+					scope.$embedTypeSelect.hide();
 				}
 			},
 		},
@@ -548,31 +550,5 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	// expose necessary functionality
-
-
-	// if embedType is specified then the modal will only show that embed type
-	//		and the select embed type dropdown will be hidden
-	// embedType should match the object_type field on some configured embed type object
-	$.fn.embedModalOpen_add = function(embedType){
-		var addToScope = {
-			$currentEditorLocation: $('.medium-insert-active'),
-			modalType: EntityEmbed.embedModalTypes.add,
-			embedType: embedType
-		};
-		this.openModal(addToScope);
-	};
-
-	// embedType should match the object_type field on some configured embed type object
-	$.fn.embedModalOpen_edit = function(embedTypeStr, id){
-		var scope = {
-			$currentEditorLocation: $('.medium-insert-active'),
-			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: id,
-			embedType: embedTypeStr
-		};
-
-		this.openModal(scope);
-	};
 	EntityEmbed.embedModalDefaults = embedModalDefaults;
 }());
