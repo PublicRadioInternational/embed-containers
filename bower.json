@@ -1,9 +1,10 @@
 {
-  "name": "medium-editor-insert-plugin",
-  "version": "2.1.1",
+  "name": "embed-containers",
+  "version": "0.0.0",
   "description": "custom addon for the medium editor insert plugin",
   "main": [
-    "src/js/medium-editor-insert-plugin.js"
+    "dist/js/embed-containers.min.js",
+    "dist/css/embed-containers.css"
   ],
   "authors": [
     "Erik Thorne <erik.j.thorne@gmail.com>"
