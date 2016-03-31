@@ -65,8 +65,11 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	genericEmbed.prototype.populateFormWithModel = function($form){
-		var self = this;
+	genericEmbed.prototype.populateFormWithModel = function($form, self){
+		if (!self){
+			self = this;
+		}
+
 		var formFields = $form.find('.embed-modal-form-control');
 		for (var i = 0; i < formFields.length; i++)
 		{
@@ -102,9 +105,7 @@ var EntityEmbed = EntityEmbed || {};
 		if (!self){
 			self = this;
 		}
-		else{
-			self = self;
-		}
+		
 		resetForm(self);
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)

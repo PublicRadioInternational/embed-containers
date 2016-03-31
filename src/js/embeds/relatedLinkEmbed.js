@@ -59,6 +59,13 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+	relatedLinkEmbed.prototype.clearForm = function($el, self){
+ 		var self = this;
+ 		self.parent.clearForm($el, self);
+ 		var $linkList = $el.find('#related-link-list');
+ 		$linkList.children().remove();
+ 	};
+
 	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
 	//  begin typing the title of a story and have a dropdown list of stories displayed to them
 	//  based on their input.
@@ -123,45 +130,28 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
 	{
 		var self = this;
-		
-		var formFields = $form.find('.embed-modal-form-control');
-		var linkCounter = 0;
-		for (var i = 0; i < formFields.length; i++)
+		self.parent.populateFormWithModel($form, self);
+
+		var linkClass = 'related-link-url';
+		var $linkList = $form.find('#related-link-list');
+		var $addLinkBtn = $form.find('#add-link-btn');
+
+		for(var i = 0; i < self.model.links.length; i++)
 		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
-			{
-				var options = $(formFields[i]).find('option');
-				var selectedOption = self.model[formFields[i].name];
-				var optionIndex = 0;
-				options.each(function(index){
-					if (this.value === selectedOption)
-					{
-						optionIndex = index;
-					}
-				});
-				formFields[i].selectedIndex = optionIndex;
-			}
-			else if (!!self.model[formFields[i].name])
-			{
-				formFields[i].value = self.model[formFields[i].name];
-			}
-			// This if statement is what requires function to be overriden
-			else if(!!self.model.links[linkCounter] && i > 1)
-			{
-				formFields[i].value = self.model.links[linkCounter];
-				linkCounter++;
-			}
+			$addLinkBtn.click();
+			$form.find('.' + linkClass).last().val(self.model.links[i]);
 		}
+
 	};
 
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
 		var linkClass = 'related-link-url';
 		var removeLinkClass = 'remove-link-btn';
-		var $linkList = $el.find('#related-link-list');
 		var $addLinkBtn = $el.find('#add-link-btn');
 
 		$addLinkBtn.click(function(){
+			var $linkList = $el.find('#related-link-list');
 			var pseudoGuid = generateId();
 			psuedoGuids.push(pseudoGuid);
 
