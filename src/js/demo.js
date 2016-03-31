@@ -53,7 +53,7 @@ $(document).ready(function(){
 
 	$extractContentBtn.click(function(){
 		var $storyDataWell = $('.story-content #data');
-		storyObject = medEditor.serialize();
+		storyObject = medEditor.getStory();
 		$storyDataWell.text(JSON.stringify(storyObject, null, 4));
 	});
 

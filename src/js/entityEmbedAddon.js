@@ -181,9 +181,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Extend editor's functions
 		if (self.core.getEditor()) {
-			self.core.getEditor()._serializePreEmbeds = self.core.getEditor().serialize;
-			self.core.getEditor().serialize = self.editorSerialize;
-			self.core.getEditor().loadStory = function(storyData){ // this is done like so in order to allow access the EntityEmbeds object
+			self.core.getEditor().getStory = function(){			// this is done like so in order to allow access the EntityEmbeds object
+				return self.getStory();
+			};
+			self.core.getEditor().loadStory = function(storyData){	// this is done like so in order to allow access the EntityEmbeds object
 				self.loadStory(storyData);
 			};
 		}
@@ -321,14 +322,14 @@ var EntityEmbed = EntityEmbed || {};
 
 
 	/**
-	 * Extend editor's serialize function
+	 * Get the story data from the editor and serialize it
      *
      * @return {object} Serialized data
      */
 
-	EntityEmbeds.prototype.editorSerialize = function() {
+	EntityEmbeds.prototype.getStory = function() {
 		var self = this;
-		var data = self._serializePreEmbeds();
+		var data = self.core.getEditor().serialize();
 		var cleanedData = {
 			storyHtml: '',
 			embeds: []
