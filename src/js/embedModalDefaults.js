@@ -13,14 +13,14 @@ var EntityEmbed = EntityEmbed || {};
 	// PRIVATE
 
 	var embedTypes_stale = undefined; // this is for the jquery plugin embedModalOpen_edit func (see bottom)
-
+	var isSaving = false; //this determines when a modal is being saved
 	var embedModalSelectors = {
 			buttons: {
 				saveEmbed: '#btn-save-modal', // saves the modal
 				abortModal: '#btn-abort-modal', // aborts (cancels) the modal
 				showSelectExisting: '#btn-show-select-existing', // shows the select-existing-embed view
 				selectExisting: '#btn-select-existing-embed', // confirms selection of existing embed
-				cancelSelectExisting: '#btn-cancel-select-existing' // cancels selection of existin embed
+				cancelSelectExisting: '#btn-cancel-select-existing' // cancels selection of existing embed
 			},
 			containers: {
 				createNewEmbed: '#embed-modal-create-new', // contains all the views for creating a new embed
@@ -31,7 +31,8 @@ var EntityEmbed = EntityEmbed || {};
 			elements: {
 				selectExistingTableBody: '.embed-modal-select-existing tbody',
 				selectExistingTableRow: '.embed-modal-select-existing-item',
-				selectExistingActiveItem: 'embed-modal-active-row'
+				selectExistingActiveItem: 'embed-modal-active-row',
+				saveSpinner: '#embed-modal-spinner'
 			}
 		},
 		tableRowHtml = function(title, id){
@@ -100,11 +101,12 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		saveEmbed = function(scope){
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
-			if (!scope.currentEmbedType.$view.find('form').valid())
+			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
 			{
 				return;
 			}
-
+			isSaving = true;
+			$(embedModalSelectors.elements.saveSpinner).show();
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add;
 			if (isAddModal)
@@ -127,6 +129,10 @@ var EntityEmbed = EntityEmbed || {};
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('POST failed');
+				},
+				alwaysFunction = function(data){
+					isSaving = false;
+					$(embedModalSelectors.elements.saveSpinner).hide();
 				};
 			}
 			else
@@ -149,9 +155,13 @@ var EntityEmbed = EntityEmbed || {};
 					// TODO : UI failure message
 					console.log('PUT failed');
 
+				},
+				alwaysFunction = function(data){
+					isSaving = false;
+					$(embedModalSelectors.elements.saveSpinner).hide();
 				};
 			}
-			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction);
+			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction,alwaysFunction);
 
 			$validator.resetForm();
 
@@ -284,6 +294,7 @@ var EntityEmbed = EntityEmbed || {};
 				 */
 				scope.currentEmbedType = null;
 				embedTypes_stale = scope.embedTypes;
+				$(embedModalSelectors.elements.saveSpinner).hide();
 			},
 			after: function(scope){
 				// first load all dynamic content
