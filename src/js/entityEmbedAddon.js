@@ -252,7 +252,7 @@ var EntityEmbed = EntityEmbed || {};
 				if(e.which == 8 || e.which == 46) // backspace or delete 
 				{
 					var numChildren = $('.editable.editor p').length;
-					if(numChildren <= 2)
+					if(numChildren <= 1 || !!$('.editable.editor p:last-child'))
 					{
 						var editorText = $('.editable.editor p:first-child').text();
 						if (!editorText || editorText === '')
