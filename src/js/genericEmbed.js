@@ -129,7 +129,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// ASSUMPTION - model is already populated
-	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc){
+	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc,alwaysFunc){
 		var self = this;
 
 		self.model.auth_token = 'abc123';
@@ -143,7 +143,8 @@ var EntityEmbed = EntityEmbed || {};
 				path: self.options.httpPaths.post, 
 				data: self.model,
 				success: successFunc,
-				fail: failFunc
+				fail: failFunc,
+				always: alwaysFunc
 			});
 		}
 		else
@@ -152,7 +153,8 @@ var EntityEmbed = EntityEmbed || {};
 				path: self.options.httpPaths.put, 
 				data: self.model,
 				success: successFunc,
-				fail: failFunc
+				fail: failFunc,
+				always: alwaysFunc
 			});
 		}
 	}
