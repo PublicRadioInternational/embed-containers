@@ -181,11 +181,16 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Extend editor's functions
 		if (self.core.getEditor()) {
-			self.core.getEditor().getStory = function(){			// this is done like so in order to allow access the EntityEmbeds object
+
+			// allow access the EntityEmbeds object by keeping the object on this prototype
+			self.core.getEditor().get_story = function(){
 				return self.getStory();
 			};
-			self.core.getEditor().loadStory = function(storyData){	// this is done like so in order to allow access the EntityEmbeds object
+			self.core.getEditor().load_story = function(storyData){
 				self.loadStory(storyData);
+			};
+			self.core.getEditor().embed_modal_open = function(embedTypeStr, id){
+				self.embedModalOpen(embedTypeStr, id);
 			};
 		}
 
@@ -641,6 +646,35 @@ var EntityEmbed = EntityEmbed || {};
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 	};	
+
+	// if embedTypeStr is specified then the modal will only show that embed type
+	//		and the select embed type dropdown will be hidden
+	// embedTypeStr should match the object_type field on some configured embed type object
+	EntityEmbeds.prototype.embedModalOpen = function(embedTypeStr, id){
+		var self = this;
+		var mType;
+		if (!!id)
+		{
+			mType = EntityEmbed.embedModalTypes.edit;
+		}
+		else if (!!embedTypeStr)
+		{
+			mType = EntityEmbed.embedModalTypes.addSingle;
+		}
+		else
+		{
+			mType = EntityEmbed.embedModalTypes.add;
+		}
+
+		var scope = {
+			$currentEditorLocation: $('.medium-insert-active'),
+			modalType: mType,
+			embedId: id,
+			embedType: embedTypeStr
+		};
+
+		self.options.$modalEl.openModal(scope);
+	};
 
 	/** Addon initialization */
 

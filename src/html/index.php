@@ -25,14 +25,14 @@
 		<script src="lib/medium-editor-insert-plugin/src/js/embeds.js"></script>
 		<script src="lib/medium-editor-insert-plugin/src/js/images.js"></script>
 
-		<!-- validator -->
-		<script src="lib/jquery-validation/dist/jquery.validate.js"></script>
-		<script src="lib/jquery-validation/dist/additional-methods.js"></script>
-
-		<!-- dependencies / code for this project -->
+		<!-- dependencies / code for Embed Containers -->
 		<link rel="stylesheet" href="contents/main.css">
 		<link rel="stylesheet" href="contents/priEntityEmbeds.css">
 		<script src="js/main.js"></script>
+
+		<!-- validator -->
+		<script src="lib/jquery-validation/dist/jquery.validate.js"></script>
+		<script src="lib/jquery-validation/dist/additional-methods.js"></script>
 
 		<!-- JQuery Autocomplete Plugin -->
 		<link rel="stylesheet" href="lib/EasyAutocomplete/dist/easy-autocomplete.min.css">
@@ -41,26 +41,50 @@
 
 	<body>
 
-    <div class="container-fluid">
-      <div id="demo-wrapper" class="row">
-    		<fieldset class="editor-content">
-    			<legend>Story Editor</legend>
-    			<div class="editable editor">This is editable content. Try typing in here!</div>
-    		</fieldset>
+		<div class="container-fluid">
+		  <div id="demo-wrapper" class="row">
+				<fieldset class="editor-content">
+					<legend>Story Editor</legend>
+					<div class="editable editor">This is editable content. Try typing in here!</div>
+				</fieldset>
 
-    		<button id="extract-story-content">Extract Story Content</button>
+				<button id="extract-story-content">Extract Story Content</button>
 
-			<button id="load-default-story">Load Default Story</button>
+				<button id="load-default-story">Load Default Story</button>
 
-    		<fieldset class="story-content">
-    			<legend>Story Data</legend>
-    			<pre id="data"></pre>
-    		</fieldset>
-        </div>
-    </div>
+				<fieldset class="story-content">
+					<legend>Story Data</legend>
+					<pre id="data"></pre>
+				</fieldset>
+			</div>
+			<div id="space"></div>
+			<div id="open-modal-info">
+				<p>Below are three buttons that serve as demonstrations of opening the embed modal from an external file.</p>
+				<p>Please note that saving an embed from one of these modals will have unexpected results insofar as its placement in the editor.</p>
+				<p>These buttons are here only to show that one has this ability and how one can utilize this feature.</p>
+				<div>
+					<p>open an embed modal to add a an embed of a specified type
+					<button class="demo-button-open-modal open-add-single">Add Single Embed</button>
+					</p>
+				</div>
+				<div>
+					<p>open an embed modal to add an embed of any type
+					<button class="demo-button-open-modal open-add-any">Add Any Embed</button>
+					</p>
+				</div>
+				<div>
+					<p>open an embed modal to edit a particular embed embed type
+					<button class="demo-button-open-modal open-edit">Edit Embed</button>
+					</p>
+
+				</div>	
+			</div>
+		</div>
+
 		<div id="embed-modal">
 			<?php include "modal/modal_main.html"; ?>
 		</div>
+
 	</body>
 
 </html>
