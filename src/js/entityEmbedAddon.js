@@ -487,7 +487,7 @@ var EntityEmbed = EntityEmbed || {};
 			// self.$el.children().not('#' + workaroundHtmlId).not(self.options.insertBtn).remove();
 			// $('#' + workaroundHtmlId).after(fullHtml);
 			// $('#' + workaroundHtmlId).remove();
-			self.setContent(fullHtml);
+			self.core.getEditor().setContent(fullHtml);
 		}
 
 		if(!contentData)
