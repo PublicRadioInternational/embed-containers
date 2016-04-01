@@ -125,14 +125,19 @@ var EntityEmbed = EntityEmbed || {};
 					scope.currentEmbedType.model.object_id = data.response.object_id;
 					console.log('POST succeeded');
 					scope.modalCtrl.$el.completeModal();
+					if (!!scope.successCallback)
+					{
+						scope.successCallback(data.response);
+					}
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('POST failed');
-				},
-				alwaysFunction = function(data){
-					isSaving = false;
-					$(embedModalSelectors.elements.saveSpinner).hide();
+
+					if (!!scope.failCallback)
+					{
+						scope.failCallback();
+					}
 				};
 			}
 			else
@@ -150,18 +155,34 @@ var EntityEmbed = EntityEmbed || {};
 					}
 					console.log('PUT succeeded');
 					scope.modalCtrl.$el.completeModal();
+
+					if (!!scope.successCallback)
+					{
+						scope.successCallback(data.response);
+					}
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('PUT failed');
 
-				},
-				alwaysFunction = function(data){
-					isSaving = false;
-					$(embedModalSelectors.elements.saveSpinner).hide();
+					if (!!scope.failCallback)
+					{
+						scope.failCallback();
+					}
 				};
 			}
-			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction,alwaysFunction);
+
+			var alwaysFunction = function(data){
+				isSaving = false;
+				$(embedModalSelectors.elements.saveSpinner).hide();
+				
+				if (!!scope.alwaysCallback)
+				{
+					scope.alwaysCallback();
+				}
+			};
+
+			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction, alwaysFunction);
 
 			$validator.resetForm();
 
@@ -450,8 +471,9 @@ var EntityEmbed = EntityEmbed || {};
 		open: {
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
-				if (!!scope.embedTypeString){
+				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
+					delete scope.embedType;
 				}
 				else{
 					resetModalView(scope);
@@ -485,8 +507,6 @@ var EntityEmbed = EntityEmbed || {};
 							console.log('failed to get embed type!');
 						}
 					});
-
-					delete scope.embedType;
 				}
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
 				{
@@ -539,15 +559,61 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			after: function(scope){
 				toggleEditorTyping(scope, 'true');
-				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
-				// create an event to be raised
-				var addEvent = jQuery.Event('entityEmbedAdded');
-				// add data to it so the handler knows what to do
-				addEvent.embedType = scope.currentEmbedType;
-				$embedHtml.find('.entity-embed-container').trigger(addEvent);
+				if (scope.$currentEditorLocation.length > 0)
+				{
+					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
+					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
+					// create an event to be raised
+					var addEvent = jQuery.Event('entityEmbedAdded');
+					// add data to it so the handler knows what to do
+					addEvent.embedType = scope.currentEmbedType;
+					$embedHtml.find('.entity-embed-container').trigger(addEvent);
+				}
 			}
 		}
+	};
+
+	// if embedTypeStr is specified then the modal will only show that embed type
+	//		and the select embed type dropdown will be hidden
+	// embedTypeStr should match the object_type field on some configured embed type object
+	$.fn.embed_modal_open = function(options){
+		var defaultOptions = {
+			$currEditorLocation: $(''),
+			embedTypeStr: null,
+			id: null,
+			successCallback: function(data){},
+			failCallback: function(){},
+			alwaysCallback: function(){}
+		};
+
+		options = $.extend(true, {}, defaultOptions, options);
+
+		var self = this;
+		var mType;
+		if (!!options.id)
+		{
+			mType = EntityEmbed.embedModalTypes.edit;
+		}
+		else if (!!options.embedTypeStr)
+		{
+			mType = EntityEmbed.embedModalTypes.addSingle;
+		}
+		else
+		{
+			mType = EntityEmbed.embedModalTypes.add;
+		}
+
+		var scope = {
+			$currentEditorLocation: options.$currEditorLocation,
+			modalType: mType,
+			embedId: options.id,
+			embedType: options.embedTypeStr,
+			successCallback: options.successCallback,
+			failCallback: options.failCallback,
+			alwaysCallback: options.alwaysCallback
+		};
+
+		this.openModal(scope);
 	};
 
 	EntityEmbed.embedModalDefaults = embedModalDefaults;

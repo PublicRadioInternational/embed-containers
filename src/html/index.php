@@ -59,24 +59,26 @@
 			</div>
 			<div id="space"></div>
 			<div id="open-modal-info">
-				<p>Below are three buttons that serve as demonstrations of opening the embed modal from an external file.</p>
-				<p>Please note that saving an embed from one of these modals will have unexpected results insofar as its placement in the editor.</p>
-				<p>These buttons are here only to show that one has this ability and how one can utilize this feature.</p>
 				<div>
 					<p>open an embed modal to add a an embed of a specified type
 					<button class="demo-button-open-modal open-add-single">Add Single Embed</button>
 					</p>
 				</div>
+
+				<hr />
+				
 				<div>
 					<p>open an embed modal to add an embed of any type
 					<button class="demo-button-open-modal open-add-any">Add Any Embed</button>
 					</p>
 				</div>
+				
+				<hr />
+			
 				<div>
 					<p>open an embed modal to edit a particular embed embed type
 					<button class="demo-button-open-modal open-edit">Edit Embed</button>
 					</p>
-
 				</div>	
 			</div>
 		</div>
