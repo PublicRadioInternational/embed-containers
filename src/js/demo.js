@@ -66,15 +66,50 @@ $(document).ready(function(){
 	});
 
 	$openAddSingleEmbedBtn.click(function(){
-		medEditor.embed_modal_open('custom');
+		$('#embed-modal').embed_modal_open({
+			embedTypeStr: 'custom',
+			successCallback: function(data){
+				console.log('Embed modal open (add single) successfully saved, server response to follow.');
+				console.log(data);
+			},
+			failCallback: function(){
+				console.log('Embed modal open (add single) failed to save.');
+			},
+			alwaysCallback: function(){
+				console.log('Embed modal open (add single) completed.');
+			}
+		});
 	});
 
 	$openAddAnyEmbedBtn.click(function(){
-		medEditor.embed_modal_open();
+		$('#embed-modal').embed_modal_open({
+			successCallback: function(data){
+				console.log('Embed modal open (add any) successfully saved, server response to follow.');
+				console.log(data);
+			},
+			failCallback: function(){
+				console.log('Embed modal open (add any) failed to save.');
+			},
+			alwaysCallback: function(){
+				console.log('Embed modal open (add any) completed.');
+			}
+		});
 	});
 
-
 	$openEditEmbedBtn.click(function(){
-		medEditor.embed_modal_open('newsletter', '60954b32128440cea9ca66b14ede453f');
+		$('#embed-modal').embed_modal_open({
+			embedTypeStr: 'newsletter',
+			id: '2607f8daf38342f28054b29a7c26b118',
+			successCallback: function(data){
+				console.log('Embed modal open (edit) successfully saved, server response to follow.');
+				console.log(data);
+			},
+			failCallback: function(){
+				console.log('Embed modal open (edit) failed to save.');
+			},
+			alwaysCallback: function(){
+				console.log('Embed modal open (edit) completed.');
+			}
+		});
 	});
 });
