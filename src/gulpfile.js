@@ -1,61 +1,91 @@
-var basePath = '../';				// relative path to repository root
+var basePath = '../',					// relative path to repository root
+	fontPathSegment = 'font-awesome/fonts/';
+
 var buildPath = basePath + 'dist/', 	// path from repo root to dist folder
 	jsPath = basePath + 'src/js/',
 	htmlPath = basePath + 'src/html/',
 	lessPath = basePath + 'src/contents/less/',
-	libPath = basePath + 'bower_components/';
+	libPath = basePath + 'bower_components/',
+	fontPath = libPath + fontPathSegment;
 
 var gulp = require('gulp'),
-	util = require('gulp-util'),
 	less = require('gulp-less'),
 	uglify = require('gulp-uglify'),
 	minifyCss = require('gulp-minify-css'),
 	gConcat = require('gulp-concat'),
-	del = require('del'),
 	watch = require('gulp-watch'),
-	fs = require('fs'),
 	config = require(basePath + 'config.json');
 
 var htmlDest = config.serverRoot + '/',
 	jsDest = config.serverRoot + '/js/',
 	cssDest = config.serverRoot + '/contents/',
 	libDest = config.serverRoot + '/lib/';
+var fontDest = libDest + fontPathSegment;
 
-gulp.task('devLess', function(){		// development less task
-	gulp.src(lessPath + 'main.less')
-		.pipe(less())
-		.pipe(gulp.dest(cssDest));
-});
-
-gulp.task('devConcatJs', function()		// development concatenation task for javascript
-{										// same as concatJs but it does not uglify
-	gulp.src(jsPath + '*.js')
-		.pipe(gConcat('main.js'))
-		.pipe(gulp.dest(jsDest));
-});
+// PRODUCTION TASKS
 
 gulp.task('move', function()
 {
-	gulp.src(htmlPath + '**/*')
-		.pipe(gulp.dest(htmlDest));
+	gulp.src([htmlPath + '**/*',
+			'!' + htmlPath + 'index.php'])
+		.pipe(gulp.dest(buildPath + 'contents/'));
 });
 
-
-// TODO : include library style sheets in production release?
-gulp.task('less', function(){			// production less task
-	gulp.src(lessPath + 'modal.less')	// all other less files are for demo styling
+gulp.task('less', function(){
+	gulp.src([lessPath + 'embed-containers.less',
+			libPath + 'EasyAutocomplete/dist/easy-autocomplete.min.css'])	
 		.pipe(less())
+		.pipe(gConcat('embed-containers.min.css'))
 		.pipe(minifyCss())
-		.pipe(gulp.dest(buildPath));
+		.pipe(gulp.dest(buildPath + 'css/'));
 });
 
 gulp.task('concatJs', function()
 {
-	gulp.src([jsPath + 'entityEmbedAddon.js',
-			jsPath + 'modal.js'])
+	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
+			jsPath + 'genericEmbed.js',
+			jsPath + 'modal.js',
+			jsPath + 'confirmModalDefaults.js',
+			jsPath + 'embedModalDefaults.js',
+			jsPath + 'embeds/*.js',
+			jsPath + 'entityEmbedAddon.js',
+			libPath + 'jquery-validation/dist/jquery.validate.js',
+			libPath + 'jquery-validation/dist/additional-methods.js',
+			libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest(buildPath));
+		.pipe(gulp.dest(buildPath + 'js/'));
+});
+
+// DEVELOPMENT TASKS
+
+gulp.task('devLess', function(){
+	gulp.src([lessPath + 'main.less',
+			lessPath + '/priEmbeds/priEntityEmbeds.less'])
+		.pipe(less())
+		.pipe(gulp.dest(cssDest));
+});
+
+gulp.task('devConcatJs', function()
+{
+	gulp.src([jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
+			jsPath + 'genericEmbed.js',
+			jsPath + 'modal.js',
+			jsPath + 'confirmModalDefaults.js',
+			jsPath + 'embedModalDefaults.js',
+			jsPath + 'embeds/*.js',
+			jsPath + 'entityEmbedAddon.js',
+			jsPath + 'demo.js'])
+		.pipe(gConcat('main.js'))
+		.pipe(gulp.dest(jsDest));
+});
+
+gulp.task('devMove', function()
+{
+	gulp.src(htmlPath + '**/*')
+		.pipe(gulp.dest(htmlDest));
 });
 
 gulp.task('copyLibJs', function(){
@@ -68,30 +98,36 @@ gulp.task('copyLibCss', function(){
 		.pipe(gulp.dest(libDest));
 });
 
-gulp.task('copyLib', ['copyLibJs', 'copyLibCss']);
+gulp.task('copyLibFonts', function()
+{
+	gulp.src(fontPath + '*')
+		.pipe(gulp.dest(fontDest));
+});
+
+gulp.task('copyLib', ['copyLibJs', 'copyLibCss', 'copyLibFonts']);
 
 gulp.task('watchLess', function()
 {
-	gulp.watch(lessPath + '*.less', ['devLess']);
+	gulp.watch(lessPath + '**/*.less', ['devLess']);
 });
 
 gulp.task('watchJs', function()
 {
-	gulp.watch(jsPath + '*.js', ['devConcatJs']);
+	gulp.watch([jsPath + '*.js', jsPath + 'embeds/*.js'], ['devConcatJs']);
 });
 
 gulp.task('watchHtml', function()
 {
-	gulp.watch(htmlPath + '**/*.html', ['move']);
+	gulp.watch(htmlPath + '**/*.html', ['devMove']);
 });
 
 gulp.task('watchPhp', function()
 {
-	gulp.watch(htmlPath + '**/*.php', ['move']);
+	gulp.watch(htmlPath + '**/*.php', ['devMove']);
 });
 
 gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml', 'watchPhp']);
 
-gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'move', 'watch']);
+gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'devMove', 'watch']);
 
-gulp.task('build', ['less', 'concatJs'])
+gulp.task('build', ['less', 'concatJs', 'move'])
