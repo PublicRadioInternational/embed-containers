@@ -7,13 +7,13 @@ var EntityEmbed = EntityEmbed || {};
 	/** Default values */
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
-		workaroundHtmlId = 'workaround-element', // id of HTML element in place to avoid BUG060
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
+			label: '<span class="fa fa-code"></span>',
 			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: { // default scope to pass to the modal
 				$embedTypeSelect: null,
@@ -484,9 +484,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		function setEditorHtml() {
-			// self.$el.children().not('#' + workaroundHtmlId).not(self.options.insertBtn).remove();
-			// $('#' + workaroundHtmlId).after(fullHtml);
-			// $('#' + workaroundHtmlId).remove();
 			self.core.getEditor().setContent(fullHtml);
 		}
 
@@ -497,9 +494,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		fullHtml = !isString ? contentData.html : isHtml ? contentData : '';
-
-		// add one empty div to avoid BUG060
-		// self.$el.append('<div id="' + workaroundHtmlId + '"></div>');
 
 		if(isString && !isHtml)
 		{
