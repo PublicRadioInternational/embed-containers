@@ -173,34 +173,13 @@
 					console.log('failed to put/post a slideshow image');
 				}
 			));
-			$.when.apply($, deferreds).done(function(){
-				// TODO : this code is copied from generic embed - find a better way to do this (reduce duplicated code)
-				//			why did we copy it? because when we call self.parent.saveEmbed the options object is null (private member issue)
-				if (embedIsNew){
-					self.model.object_type = self.options.object_type;
-
-					return EntityEmbed.apiService.post({
-						path: self.options.httpPaths.post, 
-						data: self.model,
-						success: successFunc,
-						fail: failFunc
-					});
-				}
-				else
-				{
-					return EntityEmbed.apiService.put({
-						path: self.options.httpPaths.put, 
-						data: self.model,
-						success: successFunc,
-						fail: failFunc
-					});
-				}
+			return $.when.apply($, deferreds).done(function(){
+				return self.parent.saveEmbed(embedIsNew, successFunc, failFunc, function(){}, self)
 			});
 		}
 	}
 
-	slideshowEmbed.prototype.getModelFromForm = function($form)
-	{
+	slideshowEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		saveChangesToImageModel();
 		self.model.title = $form.find('input[name=slideshowTitle]').val();
@@ -210,6 +189,11 @@
 		{
 			self.model.images.push(imageObjects[image]);
 		}
+	};
+
+	slideshowEmbed.prototype.populateFormWithModel = function($el){
+		var self = this;
+		self.parent.populateFormWithModel($el, self);		
 	};
 
 	slideshowEmbed.prototype.clearForm = function($el){

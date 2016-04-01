@@ -51,8 +51,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 	};
 
-	genericEmbed.prototype.getModelFromForm = function($el){
-		var self = this;
+	genericEmbed.prototype.getModelFromForm = function($el, child){
+		var self = child || this;
 		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
@@ -65,8 +65,8 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	genericEmbed.prototype.populateFormWithModel = function($form){
-		var self = this;
+	genericEmbed.prototype.populateFormWithModel = function($form, child){
+		var self = child || this;
 		var formFields = $form.find('.embed-modal-form-control');
 		for (var i = 0; i < formFields.length; i++)
 		{
@@ -90,7 +90,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 	// TODO: Get rid of self paramater. See inherits function
-	genericEmbed.prototype.clearForm = function($el, self){
+	genericEmbed.prototype.clearForm = function($el, child){
 		function resetForm(){
  			if(!self.$validator)
  			{
@@ -99,12 +99,8 @@ var EntityEmbed = EntityEmbed || {};
  			self.$validator.resetForm();
  		};
 		
-		if (!self){
-			self = this;
-		}
-		else{
-			self = self;
-		}
+		var self = child || this;
+
 		resetForm(self);
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)
@@ -129,8 +125,8 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// ASSUMPTION - model is already populated
-	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc,alwaysFunc){
-		var self = this;
+	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc, child){
+		var self = child || this;
 
 		self.model.auth_token = 'abc123';
 
@@ -166,9 +162,9 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		Function.prototype.inherits = function(parent){
 			var self = this;
-			self.prototype = new parent; // TODO: Better way to mock protected data members
+			self.prototype = new parent; 
 			self.prototype.constructor = self;
-			self.prototype.parent = parent.prototype;
+			self.prototype.parent = parent.prototype; // TODO: better way to mock protected data members
 			return self;
 		};
 	}
