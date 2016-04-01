@@ -91,7 +91,7 @@
 			return et.name == 'image';
 		})[0];
 
-		imageEmbed.loadLicenses(); // TODO : fix 
+		imageEmbed.loadLicenses($el);
 
 		$el.find("input[name='imageFile']").fileupload({
 			dataType: 'json',
@@ -165,7 +165,9 @@
 						console.log('failed to put/post a slideshow image');
 					}
 
-					self.model.images[data.response.order] = data.response.object_id;	
+					self.model.images[data.response.order] = {
+						'object_id': data.response.object_id
+					};	
 				},
 				function(){
 					console.log('failed to put/post a slideshow image');
@@ -173,7 +175,7 @@
 			));
 			$.when.apply($, deferreds).done(function(){
 				// TODO : this code is copied from generic embed - find a better way to do this (reduce duplicated code)
-				//			why did we copy it? when we call self.parent.saveEmbed the options object is null///
+				//			why did we copy it? because when we call self.parent.saveEmbed the options object is null (private member issue)
 				if (embedIsNew){
 					self.model.object_type = self.options.object_type;
 

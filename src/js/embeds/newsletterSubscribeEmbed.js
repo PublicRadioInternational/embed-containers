@@ -52,6 +52,7 @@ var EntityEmbed = EntityEmbed || {};
 	
 	newsletterSubscribeEmbed.prototype.initModal = function($el){
 		var self = this;
+		var defaultSubscriptionOption = '<option disabled selected>-- select a newsletter --</option>';
 		EntityEmbed.apiService.get({
 			path: self.options.httpPaths.getNewsletters,
 			data: {
@@ -64,12 +65,15 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 				var subscriptionList = [];
+				subscriptionList.push(defaultSubscriptionOption);
+
 				for(var i = 0; i < list.response.data.length; i++)
 				{
-					subscriptionList[i] =
+					subscriptionList.push(
 						'<option value="' + list.response.data[i].newsletter_id +'" >' + 
 							list.response.data[i].title +
-						'</option>';
+						'</option>'
+					);
 				}
 				$el.find('[name="newsletter"]').html(subscriptionList);
 			},
