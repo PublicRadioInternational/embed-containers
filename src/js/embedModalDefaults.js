@@ -108,7 +108,8 @@ var EntityEmbed = EntityEmbed || {};
 			isSaving = true;
 			$(embedModalSelectors.elements.saveSpinner).show();
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add;
+			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
+							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
 			if (isAddModal)
 			{
 				var successFunction = function(data){
