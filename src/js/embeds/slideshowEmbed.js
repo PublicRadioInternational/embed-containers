@@ -62,6 +62,13 @@
 
 			$(imageForm).find('legend').attr('data-image-id', imageId);
 			$(imageSelect).val($newImageSelectOption.val());
+		},
+		addImageToOptionList = function($el, id, imageNum){
+			var listItem= $('<option id="' + id + '">' +
+					'image ' + imageNum + 
+				'</option>');
+
+			return listItem.appendTo($el.find(imageSelect));
 		};
 
 	// CONSTRUCTOR
@@ -109,6 +116,7 @@
 						return;
 					}
 
+					// TODO : use object_id for image
 					var id = generateId();
 					imageObjects[id] = imageEmbed.cleanModel();
 					
@@ -117,14 +125,8 @@
 					{
 						imageNum += 1;
 					}
-
-					// TODO : better id (this one potentially has spaces)
-					//			use ID from post to server?
-					var listItem= $('<option id="' + id + '">' +
-										'image ' + imageNum + 
-									'</option>');
-
-					data.context = listItem.appendTo($el.find(imageSelect));
+					
+					data.context = addImageToOptionList($el, id, imageNum);
 
 					selectSlideshowImage(id);
 				});
@@ -155,20 +157,21 @@
 		for(var i = 0; i < self.model.images.length; i++)
 		{
 			imageEmbed.model = self.model.images[i];
-			imageEmbed.model.order = i;
 			var imageEmbedIsNew = !imageEmbed.model.object_id;
 			deferreds.push(imageEmbed.saveEmbed(
 				imageEmbedIsNew,
-				function(data){
-					if (data.status == 'ERROR')
-					{
-						console.log('failed to put/post a slideshow image');
-					}
+				(function(imageOrder){
+					return function(data){
+						if (data.status == 'ERROR')
+						{
+							console.log('failed to put/post a slideshow image');
+						}
 
-					self.model.images[data.response.order] = {
-						'object_id': data.response.object_id
-					};	
-				},
+						self.model.images[imageOrder] = {
+							'object_id': data.response.object_id
+						};	
+					};
+				})(i),
 				function(){
 					console.log('failed to put/post a slideshow image');
 				}
@@ -183,6 +186,7 @@
 		var self = this;
 		saveChangesToImageModel();
 		self.model.title = $form.find('input[name=slideshowTitle]').val();
+		self.model.displayTitle = $form.find('input[name=displayTitle]').val();
 		self.model.images = [];
 
 		for (var image in imageObjects)
@@ -193,7 +197,41 @@
 
 	slideshowEmbed.prototype.populateFormWithModel = function($el){
 		var self = this;
-		self.parent.populateFormWithModel($el, self);		
+		$el.find('input[name=slideshowTitle]').val(self.model.title);
+		$el.find('input[name=displayTitle]').val(self.model.displayTitle);
+		var deferreds = [];
+
+		for(var i = 0; i < self.model.images.length; i++)
+		{
+			EntityEmbed.apiService.get({
+				path: imageEmbed.options.httpPaths.get,
+				data:{
+					object_id: self.model.images[i].object_id,
+					auth_token: 'abc123'
+				},
+				success: (function(embedOrder){
+					return function(data){
+						if (typeof data.response === 'string')
+						{
+							console.log('Failed to get slideshow image #' + embedOrder);
+							return;
+						}
+
+						self.model.images[embedOrder] = data.response;
+						addImageToOptionList($el, data.response.object_id, embedOrder + 1);
+						if (embedOrder === 0)
+						{
+							imageEmbed.model = data.response;
+							imageEmbed.populateFormWithModel($el.find(imageForm), imageEmbed);
+							selectSlideshowImage(data.response.object_id);
+						}
+					};											
+				})(i),
+				fail: function(data){
+					console.log('failed to get image embed type!');
+				}
+			});
+		}
 	};
 
 	slideshowEmbed.prototype.clearForm = function($el){
