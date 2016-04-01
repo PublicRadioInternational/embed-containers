@@ -403,7 +403,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.loadContent = function(contentData) {
 		var self = this,
 			isString = (typeof contentData === 'string'),
-			isHtml = isString && (/<[^>]>/g).test(contentData);
+			isHtml = isString && (/<[^>]>/g).test(contentData),
 			fullHtml;
 
 		function updateHtml(data) {
