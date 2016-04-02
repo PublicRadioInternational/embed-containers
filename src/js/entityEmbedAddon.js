@@ -257,12 +257,9 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
 
-		$(document).ready(function()
-		{
-			$(self.options.insertBtn).click(function(e){
-				e.stopPropagation();
-				self.add();
-			});
+		$(self.options.insertBtn).click(function(e){
+			e.stopPropagation();
+			self.add();
 		});
 
 		$(document)
