@@ -255,16 +255,10 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
 
-		function selfElmFocus(e) {
-			self.$el.find(self.options.insertBtn).click(function(e) {
-				e.preventDefault();
-				$.proxy(self,'add');
-			});
-
-			self.$el.off('focus', selfElmFocus);
-		}
-
-		self.$el.on('focus', selfElmFocus);
+		self.$el.on('click', self.options.insertBtn, function(e) {
+			e.preventDefault();
+			$.proxy(self, 'add');
+		});
 
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
