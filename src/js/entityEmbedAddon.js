@@ -254,20 +254,25 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
+		var $insertBtn, $modalBtn, insertBtnInterval;
 
-    window.setTimeout(function() {
-      var $insertBtn = self.$el.find(self.options.insertBtn);
-      var $modalBtn = $insertBtn.clone();
+    insertBtnInterval = window.setTimeout(function() {
+      $insertBtn = self.$el.find(self.options.insertBtn);
 
-      console.debug('$insertBtn', $insertBtn);
+      if(!!$insertBtn.length)
+      {
+      	window.clearInterval(insertBtnInterval);
 
-      $modalBtn.click(function(e){
-        $.proxy(self,'add');
-      });
+	      $modalBtn = $insertBtn.clone();
 
-      $modalBtn.insertAfter($insertBtn);
+	      $modalBtn.click(function(e){
+	        $.proxy(self,'add');
+	      });
 
-      $insertBtn.remove();
+	      $modalBtn.insertAfter($insertBtn);
+
+	      $insertBtn.remove();
+	    }
     }, 500);
 
 		$(document)
