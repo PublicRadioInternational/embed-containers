@@ -261,10 +261,10 @@ var EntityEmbed = EntityEmbed || {};
 				$.proxy(self,'add');
 			});
 
-			self.$elm.off('focus', selfElmFocus);
+			self.$el.off('focus', selfElmFocus);
 		}
 
-		self.$elm.on('focus', selfElmFocus);
+		self.$el.on('focus', selfElmFocus);
 
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
