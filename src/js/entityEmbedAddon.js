@@ -255,11 +255,15 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
 		var $insertBtn = self.$el.find(self.options.insertBtn);
-		var $modalBtn = $insertBtn.clone();
+		var $modalBtn = $('<a>').attr('class', $insertBtn.attr('class'));
 
-		$modalBtn.addClass('entity-embed-add-btn').insertAfter($insertBtn).click(function(e){
-			self.add();
+		console.debug('$insertBtn', $insertBtn);
+
+		$modalBtn.click(function(e){
+			$.proxy(self,'add');
 		});
+
+    $modalBtn.insertAfter($insertBtn);
 
 		$insertBtn.remove();
 
