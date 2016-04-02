@@ -20,7 +20,7 @@ var EntityEmbed = EntityEmbed || {};
 				$modalBody: null
 			},
 			$modalEl: null,
-			insertBtn: '.medium-insert-buttons', // selector for insert button
+			insertBtn: '.medium-insert-buttons-show', // selector for insert button
 			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
 				url: 'upload.php',
 				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
@@ -255,7 +255,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
 
-		$(self.options.insertBtn).click(function(e){
+		self.$el.find(self.options.insertBtn).click(function(e){
 			e.stopPropagation();
 			self.add();
 		});
