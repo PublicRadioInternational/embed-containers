@@ -256,14 +256,16 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $insertBtn, $modalBtn, insertBtnInterval;
 
-    insertBtnInterval = window.setTimeout(function() {
+    insertBtnInterval = window.setInterval(function() {
       $insertBtn = self.$el.find(self.options.insertBtn);
+
+      console.debug('$insertBtn', $insertBtn);
 
       if(!!$insertBtn.length)
       {
       	window.clearInterval(insertBtnInterval);
 
-	      $modalBtn = $insertBtn.clone();
+	      $modalBtn = $insertBtn.clone().addClass('entity-embed-btn-add');
 
 	      $modalBtn.click(function(e){
 	        $.proxy(self,'add');
