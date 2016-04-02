@@ -15,7 +15,7 @@
 		defaults = {
 			viewPath: base + 'modal/modal_twitter.html',
 			displayName: 'Twitter',
-			object_type: 'tweet',
+			object_type: 'twitter',
 			validationOptions: {
 				rules: {
 					title: 'required',

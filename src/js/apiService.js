@@ -35,8 +35,11 @@ var EntityEmbed = EntityEmbed || {};
 			.always(config.always);
 	};
 
-	function apiService(isDebug){
-		if (isDebug){
+	function apiService(){
+		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+		var isDevEnv = rgxDevEnv.test(window.location.host);
+		
+		if (isDevEnv){
 			defaultConfig.debug = 1;
 		}
 	};
@@ -58,5 +61,5 @@ var EntityEmbed = EntityEmbed || {};
 		return ajaxWrapper(config);
 	};
 
-	EntityEmbed.apiService = new apiService(true); // TODO : change this to false when building for production
+	EntityEmbed.apiService = new apiService();
 })();

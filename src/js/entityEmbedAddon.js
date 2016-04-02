@@ -77,6 +77,7 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			embedTypes: { // options for different embed types
 				image:{},
+				slideshow: {},
 				video:{},
 				audio:{},
 				twitter:{},
@@ -188,9 +189,6 @@ var EntityEmbed = EntityEmbed || {};
 			};
 			self.core.getEditor().load_content = function(contentData){
 				self.loadContent(contentData);
-			};
-			self.core.getEditor().embed_modal_open = function(embedTypeStr, id){
-				self.embedModalOpen(embedTypeStr, id);
 			};
 		}
 
@@ -638,35 +636,6 @@ var EntityEmbed = EntityEmbed || {};
 		// apply the default styling to the embed that was just added
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
-	};
-
-	// if embedTypeStr is specified then the modal will only show that embed type
-	//		and the select embed type dropdown will be hidden
-	// embedTypeStr should match the object_type field on some configured embed type object
-	EntityEmbeds.prototype.embedModalOpen = function(embedTypeStr, id){
-		var self = this;
-		var mType;
-		if (!!id)
-		{
-			mType = EntityEmbed.embedModalTypes.edit;
-		}
-		else if (!!embedTypeStr)
-		{
-			mType = EntityEmbed.embedModalTypes.addSingle;
-		}
-		else
-		{
-			mType = EntityEmbed.embedModalTypes.add;
-		}
-
-		var scope = {
-			$currentEditorLocation: $('.medium-insert-active'),
-			modalType: mType,
-			embedId: id,
-			embedType: embedTypeStr
-		};
-
-		self.options.$modalEl.openModal(scope);
 	};
 
 	/** Addon initialization */

@@ -78,6 +78,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
+		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		EntityEmbed.apiService.get({
 			path: self.options.httpPaths.getLicenses,
 			data: {
@@ -90,6 +91,7 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 				var licenseList = [];
+				licenseList.push(defaultLicenseOption);
 				for(var i = 0; i < list.response.data.length;i++)
 				{
 					licenseList.push(
