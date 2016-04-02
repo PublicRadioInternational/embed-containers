@@ -254,18 +254,21 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
-		var $insertBtn = self.$el.find(self.options.insertBtn);
-		var $modalBtn = $('<a>').attr('class', $insertBtn.attr('class'));
 
-		console.debug('$insertBtn', $insertBtn);
+    window.setTimeout(function() {
+      var $insertBtn = self.$el.find(self.options.insertBtn);
+      var $modalBtn = $insertBtn.clone();
 
-		$modalBtn.click(function(e){
-			$.proxy(self,'add');
-		});
+      console.debug('$insertBtn', $insertBtn);
 
-    $modalBtn.insertAfter($insertBtn);
+      $modalBtn.click(function(e){
+        $.proxy(self,'add');
+      });
 
-		$insertBtn.remove();
+      $modalBtn.insertAfter($insertBtn);
+
+      $insertBtn.remove();
+    }, 500);
 
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
