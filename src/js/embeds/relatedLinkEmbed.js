@@ -58,6 +58,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+<<<<<<< 9544eebb5f68756d060bb5aa4e6e67835546a933
 <<<<<<< 95b47008097324730d8fd6689d14e44ac903121f
 <<<<<<< aeae75c3b8355114f55043dc4faefbf6915acf1d
 	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
@@ -99,6 +100,9 @@ var EntityEmbed = EntityEmbed || {};
 =======
 >>>>>>> Got typeahead working
 =======
+=======
+/*
+>>>>>>> ignore this commit
 	relatedLinkEmbed.prototype.clearForm = function($el, self){
 		var self = this;
 		self.parent.clearForm($el, self);
@@ -117,6 +121,14 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		self.model = self.cleanModel();
 	}
+	*/
+
+	relatedLinkEmbed.prototype.clearForm = function($el, self){
+ 		//var self = this;
+ 		self.parent.clearForm($el);
+ 		var $linkList = $el.find('#related-link-list');
+ 		linkList.children().remove();
+ 	};
 
 >>>>>>> initial work on validation and editing rl
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
