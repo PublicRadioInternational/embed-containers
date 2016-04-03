@@ -13,11 +13,16 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: "required",
+
 				}
+			},
+			httpPaths:{
+				getRelatedStories: 'https://test-services.pri.org/admin/content/list'
 			}
 		};
 		
 	var psuedoGuids = [];
+	var linkTitlesAndIds = [];
 
 	// generates a pseudo guid (not guatanteed global uniqueness)
 	var generateId = function () {
@@ -51,6 +56,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+<<<<<<< aeae75c3b8355114f55043dc4faefbf6915acf1d
 	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
 	//  begin typing the title of a story and have a dropdown list of stories displayed to them
 	//  based on their input.
@@ -87,6 +93,8 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
+=======
+>>>>>>> Got typeahead working
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
 	{
 		var self = this;
@@ -103,11 +111,10 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 
-		// Retrieve all urls from the form
-		for(var i = 0; i < psuedoGuids.length; i++)
+		// Save all of the links
+		for(var i = 0; i < linkTitlesAndIds.length; i++)
 		{
-			var urlForms = $el.find('#'+psuedoGuids[i]);
-			self.model.links.push(urlForms[0].value);
+			self.model.links.push(linkTitlesAndIds[i]);
 		}
 	};
 
@@ -123,9 +130,83 @@ var EntityEmbed = EntityEmbed || {};
 		for(var i = 0; i < self.model.links.length; i++)
 		{
 			$addLinkBtn.click();
-			$form.find('.' + linkClass).last().val(self.model.links[i]);
+			$form.find('.' + linkClass).last().val(self.model.links[i].title);
 		}
 	};
+
+	var runAutoComplete = function (htmlElementID, linkNumber, self){
+		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+		var isDevEnv = rgxDevEnv.test(window.location.host);
+		var debug = 0;
+		if(isDevEnv)
+		{
+			debug = 1;
+		}
+		var options = {
+			url: function(phrase) {
+			   return self.options.httpPaths.getRelatedStories;
+			},
+
+			listLocation: function(listOfData)
+			{
+				return listOfData.response.data;
+			},
+
+			getValue: function(data) {
+				if(data.pub_state == 1)
+				{
+			   		return data.title;
+			   	}
+			   	else 
+			   	{
+			   		return '';
+			   	}
+			},
+
+			ajaxSettings: {
+				dataType: 'json',
+				method: 'POST',
+				data: {
+					auth_token: 'abc123',
+					debug: debug
+				}		
+			},
+
+			preparePostData: function(data) {
+				data.title = $(htmlElementID).val();
+				return JSON.stringify(data);
+			},
+
+			list: {
+				maxNumberOfElements: 10,
+				match: {
+					enabled: true
+				},
+				sort: {
+					enabled: true
+				},		
+				onClickEvent: function(storyObject)
+				{
+					var objectId = $(htmlElementID).getSelectedItemData().object_id;
+					var storyTitle = $(htmlElementID).getSelectedItemData().title;
+					var linkLocation = linkNumber - 1;
+					if(linkTitlesAndIds[linkLocation] === undefined)
+					{
+						linkTitlesAndIds.push({key: objectId, value: storyTitle});
+					}
+					else
+					{
+						linkTitlesAndIds[linkLocation].key = objectId;
+						linkTitlesAndIds[linkLocation].value = storyTitle;
+					}
+				}
+			},
+
+			requestDelay: 600
+		};
+
+		$(htmlElementID).easyAutocomplete(options);
+	}
 
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
@@ -133,15 +214,17 @@ var EntityEmbed = EntityEmbed || {};
 		var removeLinkClass = 'remove-link-btn';
 		var $linkList = $el.find('#related-link-list');
 		var $addLinkBtn = $el.find('#add-link-btn');
+		var numberOfLinks = 0;
 
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
 			psuedoGuids.push(pseudoGuid);
+			numberOfLinks++;
 
 			$linkList.append(
 				'<div class="' + linkClass + '">' + 
 					'<div class="embed-modal-form">' +
-						'<input id="' + pseudoGuid + '" type="url" placeholder="link url" class="embed-modal-form-control" required>' +
+						'<input id="' + pseudoGuid + '" type="text" placeholder="Begin typing story title" class="embed-modal-form-control" required/>' +
 					'</div>' + 
 					'<button class="' + removeLinkClass + '">' + 
 						'<i class="fa fa-minus"></i>' + 
@@ -149,12 +232,9 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>'
 			);
 
-			// TODO: Call initAutoComplete only after the user has stopped typing for a period of time
-			// This is smelly code
-			$('#' + pseudoGuid).keydown(function(){
-				$('#' + pseudoGuid).keydown(initAutoComplete('#' + pseudoGuid, self));
-			});
+			runAutoComplete('#' + pseudoGuid, numberOfLinks, self);
 		});
+			
 
 		$el.on('click', '.' + removeLinkClass, function(){
 			$(document.activeElement).closest('.' + linkClass).remove();
