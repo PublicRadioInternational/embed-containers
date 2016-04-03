@@ -23,6 +23,8 @@ var EntityEmbed = EntityEmbed || {};
 		
 	var psuedoGuids = [];
 	var linkTitlesAndIds = [];
+	// This array is for indicating whether or not a user has selected a story from the list
+	var storySelectionState = [];
 
 	// generates a pseudo guid (not guatanteed global uniqueness)
 	var generateId = function () {
@@ -56,6 +58,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+<<<<<<< 95b47008097324730d8fd6689d14e44ac903121f
 <<<<<<< aeae75c3b8355114f55043dc4faefbf6915acf1d
 	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
 	//  begin typing the title of a story and have a dropdown list of stories displayed to them
@@ -95,6 +98,27 @@ var EntityEmbed = EntityEmbed || {};
 
 =======
 >>>>>>> Got typeahead working
+=======
+	relatedLinkEmbed.prototype.clearForm = function($el, self){
+		var self = this;
+		self.parent.clearForm($el, self);
+		var formFields = $el.find('.embed-modal-form-control');
+		for(var i = 0; i < formFields.length; i++)
+		{
+			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
+			{
+				formFields[i].selectedIndex = 0;
+			}
+			else
+			{
+				formFields[i].value = null;
+				formFields[i].innerHTML ="";
+			}
+		}
+		self.model = self.cleanModel();
+	}
+
+>>>>>>> initial work on validation and editing rl
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
 	{
 		var self = this;
@@ -121,7 +145,27 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
 	{
 		var self = this;
-		self.parent.populateFormWithModel($form);
+		var formFields = $form.find('.embed-modal-form-control');
+		for (var i = 0; i < formFields.length; i++)
+		{
+			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
+			{
+				var options = $(formFields[i]).find('option');
+				var selectedOption = self.model[formFields[i].name];
+				var optionIndex = 0;
+				options.each(function(index){
+					if (this.value === selectedOption)
+					{
+						optionIndex = index;
+					}
+				});
+				formFields[i].selectedIndex = optionIndex;
+			}
+			else if (!!self.model[formFields[i].name])
+			{
+				formFields[i].value = self.model[formFields[i].name];
+			}
+		}
 
 		var linkClass = 'related-link-url';
 		var $linkList = $form.find('#related-link-list');
@@ -130,14 +174,27 @@ var EntityEmbed = EntityEmbed || {};
 		for(var i = 0; i < self.model.links.length; i++)
 		{
 			$addLinkBtn.click();
-			$form.find('.' + linkClass).last().val(self.model.links[i].title);
+			$form.find('.' + linkClass).last().val(self.model.links[i].value);
 		}
 	};
 
+	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
+	//  begin typing the title of a story and have a dropdown list of stories displayed to them
+	//  based on their input. This function also takes into account validation of the modal form.
 	var runAutoComplete = function (htmlElementID, linkNumber, self){
 		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
 		var isDevEnv = rgxDevEnv.test(window.location.host);
 		var debug = 0;
+		var linkLocation = linkNumber - 1;
+		if(storySelectionState[linkLocation] === undefined)
+		{
+			storySelectionState.push(false);
+		}
+		else
+		{
+			storySelectionState[linkLocation] = false;
+		}
+
 		if(isDevEnv)
 		{
 			debug = 1;
@@ -185,11 +242,12 @@ var EntityEmbed = EntityEmbed || {};
 				sort: {
 					enabled: true
 				},		
+				// This function stores the users story selection
 				onClickEvent: function(storyObject)
 				{
 					var objectId = $(htmlElementID).getSelectedItemData().object_id;
 					var storyTitle = $(htmlElementID).getSelectedItemData().title;
-					var linkLocation = linkNumber - 1;
+					storySelectionState[linkLocation] = true;
 					if(linkTitlesAndIds[linkLocation] === undefined)
 					{
 						linkTitlesAndIds.push({key: objectId, value: storyTitle});
@@ -206,6 +264,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		$(htmlElementID).easyAutocomplete(options);
+		// If the selectionState of the element is false, show a validation error
 	}
 
 	relatedLinkEmbed.prototype.initModal = function($el){
