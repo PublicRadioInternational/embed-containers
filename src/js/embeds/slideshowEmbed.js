@@ -1,14 +1,8 @@
-(function(base, EntityEmbedTypes){
+var EntityEmbed = EntityEmbed || {};
+
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'slideshow',
@@ -70,8 +64,8 @@
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-	slideshowEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = slideshowEmbed;
+	slideshowEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = slideshowEmbed;
 
 	// PUBLIC
 	slideshowEmbed.prototype.orderIndex = 2;
@@ -88,8 +82,23 @@
 		self.model =  self.cleanModel();
 
 		imageEmbed = $.grep(EntityEmbed.embedTypes, function(et){
-			return et.name == 'image';
-		})[0];
+			return et.name == 'imagesEmbed';
+		});
+
+		var imageEmbed = null;
+		for (var et in EntityEmbed.embedTypes)
+		{
+			if (EntityEmbed.embedTypes[et].name === 'imagesEmbed')
+			{
+				imageEmbed = new EntityEmbed.embedTypes[et]();
+				break;
+			}
+		}
+		if (!imageEmbed)
+		{
+			console.log('could not find image embed for use in slideshow embed');
+			return;
+		}
 
 		imageEmbed.loadLicenses($el);
 
@@ -222,4 +231,4 @@
 		$el.find('legend').attr('data-image-id', '');
 	};
 
-})('', EntityEmbedTypes);
+})('');
