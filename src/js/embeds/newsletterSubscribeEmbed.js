@@ -1,16 +1,8 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base, EntityEmbedTypes){
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'newsletterSubscribe',
@@ -35,8 +27,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-	newsletterSubscribeEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = newsletterSubscribeEmbed;
+	newsletterSubscribeEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = newsletterSubscribeEmbed;
 
 	// PUBLIC
 	newsletterSubscribeEmbed.prototype.orderIndex = 12;
@@ -97,4 +89,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('', EntityEmbedTypes);
+})('');

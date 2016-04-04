@@ -49,6 +49,7 @@ gulp.task('concatJs', function()
 			jsPath + 'confirmModalDefaults.js',
 			jsPath + 'embedModalDefaults.js',
 			jsPath + 'embeds/*.js',
+			jsPath + 'embedModal.js',
 			jsPath + 'entityEmbedAddon.js',
 			libPath + 'jquery-validation/dist/jquery.validate.js',
 			libPath + 'jquery-validation/dist/additional-methods.js',
@@ -76,6 +77,7 @@ gulp.task('devConcatJs', function()
 			jsPath + 'confirmModalDefaults.js',
 			jsPath + 'embedModalDefaults.js',
 			jsPath + 'embeds/*.js',
+			jsPath + 'embedModal.js',
 			jsPath + 'entityEmbedAddon.js',
 			jsPath + 'demo.js'])
 		.pipe(gConcat('main.js'))

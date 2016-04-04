@@ -11,7 +11,6 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// PRIVATE
-
 	var embedTypes_stale = undefined; // this is for the jquery plugin embedModalOpen_edit func (see bottom)
 	var isSaving = false; //this determines when a modal is being saved
 	var embedModalSelectors = {
@@ -198,7 +197,7 @@ var EntityEmbed = EntityEmbed || {};
 				data: {
 					object_type: scope.currentEmbedType.options.object_type,
 					auth_token: 'abc123'
-				},
+				},	
 				success: function(obj){
 					if (typeof data.response === 'string')
 					{
@@ -574,48 +573,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	// if embedTypeStr is specified then the modal will only show that embed type
-	//		and the select embed type dropdown will be hidden
-	// embedTypeStr should match the object_type field on some configured embed type object
-	$.fn.embed_modal_open = function(options){
-		var defaultOptions = {
-			$currEditorLocation: $(''),
-			embedTypeStr: null,
-			id: null,
-			successCallback: function(data){},
-			failCallback: function(){},
-			alwaysCallback: function(){}
-		};
-
-		options = $.extend(true, {}, defaultOptions, options);
-
-		var self = this;
-		var mType;
-		if (!!options.id)
-		{
-			mType = EntityEmbed.embedModalTypes.edit;
-		}
-		else if (!!options.embedTypeStr)
-		{
-			mType = EntityEmbed.embedModalTypes.addSingle;
-		}
-		else
-		{
-			mType = EntityEmbed.embedModalTypes.add;
-		}
-
-		var scope = {
-			$currentEditorLocation: options.$currEditorLocation,
-			modalType: mType,
-			embedId: options.id,
-			embedType: options.embedTypeStr,
-			successCallback: options.successCallback,
-			failCallback: options.failCallback,
-			alwaysCallback: options.alwaysCallback
-		};
-
-		this.openModal(scope);
-	};
-
 	EntityEmbed.embedModalDefaults = embedModalDefaults;
+
 }());

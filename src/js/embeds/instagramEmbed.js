@@ -1,14 +1,8 @@
-(function(base, EntityEmbedTypes){
+var EntityEmbed = EntityEmbed || {};
+
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'instagram',
@@ -30,8 +24,8 @@
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-	instagramEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = instagramEmbed;
+	instagramEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = instagramEmbed;
 
 	// PUBLIC
 	instagramEmbed.prototype.orderIndex = 8;
@@ -87,4 +81,4 @@
 				'</div>';
 	};
 
-})('', EntityEmbedTypes);
+})('');
