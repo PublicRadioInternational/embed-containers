@@ -32,8 +32,10 @@ gulp.task('move', function()
 });
 
 gulp.task('less', function(){
-	gulp.src(lessPath + 'embed-containers.less')	
+	gulp.src([lessPath + 'embed-containers.less',
+			libPath + 'EasyAutocomplete/dist/easy-autocomplete.min.css'])	
 		.pipe(less())
+		.pipe(gConcat('embed-containers.min.css'))
 		.pipe(minifyCss())
 		.pipe(gulp.dest(buildPath + 'css/'));
 });
@@ -47,7 +49,10 @@ gulp.task('concatJs', function()
 			jsPath + 'confirmModalDefaults.js',
 			jsPath + 'embedModalDefaults.js',
 			jsPath + 'embeds/*.js',
-			jsPath + 'entityEmbedAddon.js'])
+			jsPath + 'entityEmbedAddon.js',
+			libPath + 'jquery-validation/dist/jquery.validate.js',
+			libPath + 'jquery-validation/dist/additional-methods.js',
+			libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(buildPath + 'js/'));

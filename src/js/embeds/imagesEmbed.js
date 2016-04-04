@@ -28,6 +28,9 @@ var EntityEmbed = EntityEmbed || {};
 						extension: "png|jpg|jpeg|gif"
 					}
 				}
+			},
+			httpPaths:{
+				getLicenses: 'https://test-services.pri.org/admin/image-license/list'
 			}
 		};
 
@@ -73,30 +76,29 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	imagesEmbed.prototype.loadLicenses = function (){
+	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
 		EntityEmbed.apiService.get({
-			path: self.options.httpPaths.get,
-			//Current Guid value of the license list
-			//TODO: change this from a hardcoded value
+			path: self.options.httpPaths.getLicenses,
 			data: {
-				object_id: '5a0b9980894a4e898d03eb08e279099f',
 				auth_token: 'abc123'
 			},
-			success: function(data){
+			success: function(list){
 				//load object into license list
-				if (!!data.response.list)
+				if (!list.response.data)
 				{
-					var licenseList = [];
-					for(var i = 0; i < data.response.list.length;i++ )
-					{
-						licenseList[i] =
-							'<option>' +
-								data.response.list[i].licenseName +
-							'</option>';
-					}
-					$('#license').html(licenseList);
+					return;
 				}
+				var licenseList = [];
+				for(var i = 0; i < list.response.data.length;i++)
+				{
+					licenseList.push(
+						'<option value="' + list.response.data[i].license + '">' +
+							list.response.data[i].title +
+						'</option>'
+					);
+				}
+				$el.find('[name="license"]').html(licenseList);
 			},
 			fail: function(data){
 				console.log('failed to find load image license options');
@@ -107,7 +109,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.initModal = function($el){
 		var self = this;
 
-		self.loadLicenses();
+		self.loadLicenses($el);
 
 		$el.find('input[name="imageFile"]').fileupload({
 			dataType: 'json',
