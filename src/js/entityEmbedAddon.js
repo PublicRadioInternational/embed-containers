@@ -9,6 +9,7 @@ var EntityEmbed = EntityEmbed || {};
 		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
+		modalBtnClass = 'embed-modal-btn-open', // class name to give our (+) button
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
@@ -254,11 +255,37 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
+		var insertBtnInterval;
 
-		self.$el.on('click', self.options.insertBtn, function(e) {
-			e.preventDefault();
-			$.proxy(self, 'add');
-		});
+		// This addon is initialied as a jQuery plugin immediately, probably before
+		// mediume-editor-insert-pligin is even configured to a MediumEditor.
+		// Can't simply wait for document.ready event since that event will have past
+		// in AMD applications. Only options is to watch the editor element's children
+		// for MEIP's button to be added. We have to add our own and hide MEIP's button since
+		// MEIP will recreate the button and its click handler could fire before the
+		// handler we would add.
+		insertBtnInterval = window.setInterval(function() {
+			var $insertBtn = self.$el.find(self.options.insertBtn);
+			var $modalBtn;
+
+			// Check if MEIP insertBtn was found.
+			if(!!$insertBtn.length)
+			{
+				// Clear interval so we only add one button.
+				window.clearInterval(insertBtnInterval);
+
+				// Construct our btn and insert after MEIP insertBtn
+				$modalBtn = $('<a>+</a>')
+					.addClass(modalBtnClass)
+					.on('click', function() {
+						$.proxy(self, 'add');
+					})
+					.insertAfter($insertBtn);
+
+				// Hide MEIP insertBtn
+				$insertBtn.hide();
+			}
+		}, 100);
 
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
