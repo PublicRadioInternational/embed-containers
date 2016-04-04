@@ -2,23 +2,20 @@ var EntityEmbed = EntityEmbed || {};
 
 (function(){
 
-	// PRIVATE
-
 	var defaultConfig = {
-		success : function(){},
-		fail : function(){},
-		always : function(){},
-		data: {
-			// object_id: '',
-			// auth_token: ''
-		},
+		success: function(){},
+		fail: function(){},
+		always: function(){},
+		data: {},
 		debug: 0,
+		auth_token: '',
 		path: ''
 	};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
 		config.data.debug = config.debug;
+		config.data.auth_token = config.auth_token;
 
 		$.support.cors = true;
 
@@ -35,31 +32,38 @@ var EntityEmbed = EntityEmbed || {};
 			.always(config.always);
 	};
 
-	function apiService(){
-		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
-		var isDevEnv = rgxDevEnv.test(window.location.host);
-		
-		if (isDevEnv){
-			defaultConfig.debug = 1;
-		}
-	};
-
 	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
-
-	apiService.prototype.put = function(config) {
+	function put(config) {
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.post = function(config) {
+	function post(config) {
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	apiService.prototype.get = function(config) {
+	function get(config) {
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
+	function setAuthToken(token){
+		defaultConfig.auth_token = token;
+	};
 
-	EntityEmbed.apiService = new apiService();
+	// determine debug level
+	var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+	var isDevEnv = rgxDevEnv.test(window.location.host);
+	if (isDevEnv){
+		defaultConfig.debug = 1;
+		setAuthToken('abc123');
+	}
+
+	// expose necesary functionality
+	EntityEmbed.apiService = {
+		put: put,
+		post: post,
+		get: get,
+		setAuthToken
+	};	
 })();

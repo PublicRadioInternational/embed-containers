@@ -61,8 +61,7 @@ var EntityEmbed = EntityEmbed || {};
 			path: self.options.httpPaths.get,
 			// TODO: Object id is currently hard-coded, this needs to be changed.
 			data: {
-				object_id: 'dbbc5fc38d2e4d359572743d2c00d581',
-				auth_token: 'abc123'
+				object_id: 'dbbc5fc38d2e4d359572743d2c00d581'
 			},
 			success: function(fetchedData){
 				var autocompleteSettingsAndData = {

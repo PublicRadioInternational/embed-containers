@@ -73,9 +73,6 @@ var EntityEmbed = EntityEmbed || {};
 		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		EntityEmbed.apiService.get({
 			path: self.options.httpPaths.getLicenses,
-			data: {
-				auth_token: 'abc123'
-			},
 			success: function(list){
 				//load object into license list
 				if (!list.response.data)

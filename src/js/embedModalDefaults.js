@@ -195,8 +195,7 @@ var EntityEmbed = EntityEmbed || {};
 			EntityEmbed.apiService.post({
 				path: scope.currentEmbedType.options.httpPaths.getAll,
 				data: {
-					object_type: scope.currentEmbedType.options.object_type,
-					auth_token: 'abc123'
+					object_type: scope.currentEmbedType.options.object_type
 				},	
 				success: function(obj){
 					if (typeof data.response === 'string')
@@ -446,8 +445,7 @@ var EntityEmbed = EntityEmbed || {};
 						EntityEmbed.apiService.get({
 							path: currentScope.currentEmbedType.options.httpPaths.get,
 							data: {
-								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id'),
-								auth_token: 'abc123'
+								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
 							},
 							success: function(data){
 								if (typeof data.response === 'string')
@@ -487,8 +485,7 @@ var EntityEmbed = EntityEmbed || {};
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
-							object_id: scope.embedId,
-							auth_token: 'abc123'
+							object_id: scope.embedId
 						},
 						success: function(data){
 							if (typeof data.response === 'string')
