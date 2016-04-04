@@ -1,16 +1,8 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base, EntityEmbedTypes){
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'image',
@@ -58,8 +50,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-	imagesEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = imagesEmbed;
+	imagesEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = imagesEmbed;
 
 	// PUBLIC
 	imagesEmbed.prototype.orderIndex = 1;
@@ -78,6 +70,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
+		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		EntityEmbed.apiService.get({
 			path: self.options.httpPaths.getLicenses,
 			data: {
@@ -90,6 +83,7 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 				var licenseList = [];
+				licenseList.push(defaultLicenseOption);
 				for(var i = 0; i < list.response.data.length;i++)
 				{
 					licenseList.push(
@@ -141,4 +135,4 @@ var EntityEmbed = EntityEmbed || {};
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};
-})('', EntityEmbedTypes);
+})('');

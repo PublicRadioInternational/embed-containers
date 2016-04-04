@@ -1,14 +1,8 @@
-(function(base, EntityEmbedTypes){
+var EntityEmbed = EntityEmbed || {};
+
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'audio',
@@ -56,8 +50,8 @@
 		self.parent.constructor(options, defaults, embedName, self);
 	}
 
-	audioEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = audioEmbed;
+	audioEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = audioEmbed;
 
 	// PUBLIC
 	audioEmbed.prototype.orderIndex = 3;
@@ -110,4 +104,4 @@
 				'</div>';
 	};
 
-})('', EntityEmbedTypes);
+})('');

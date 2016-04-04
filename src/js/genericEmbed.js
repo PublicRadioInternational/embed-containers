@@ -1,4 +1,3 @@
-var EntityEmbedTypes = EntityEmbedTypes || {};
 var EntityEmbed = EntityEmbed || {};
 
 (function(){
@@ -159,7 +158,9 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
-	EntityEmbedTypes.genericEmbed = genericEmbed;
+	EntityEmbed.embedTypes = {
+		genericEmbed: genericEmbed
+	};
 
 	// augment Function to enable simple inheritance, if not already done so
 	if (!Function.prototype.inherits)

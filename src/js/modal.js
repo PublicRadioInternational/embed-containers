@@ -157,15 +157,12 @@
 
 	$.fn.modal = function(options, scope){
 		return this.each(function(){
-			if(!$.data(this, 'ctrl'))
+			// avoid null reference errors
+			if (!options)
 			{
-				// avoid null reference errors
-				if (!options)
-				{
-					options = {};
-				}
-				$.data(this, 'ctrl', new modal(this, options, scope));
+				options = {};
 			}
+			$.data(this, 'ctrl', new modal(this, options, scope));
 		});
 	};
 
