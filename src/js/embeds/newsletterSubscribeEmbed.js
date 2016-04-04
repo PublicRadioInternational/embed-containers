@@ -47,9 +47,6 @@ var EntityEmbed = EntityEmbed || {};
 		var defaultSubscriptionOption = '<option disabled selected>-- select a newsletter --</option>';
 		EntityEmbed.apiService.get({
 			path: self.options.httpPaths.getNewsletters,
-			data: {
-				auth_token: 'abc123'
-			},
 			success: function(list){
 				//load object into license list
 				if (!list.response.data)

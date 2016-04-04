@@ -131,8 +131,6 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc,alwaysFunc){
 		var self = this;
 
-		self.model.auth_token = 'abc123';
-
 		if (embedIsNew){
 			// add the object_type onto the model
 			//		this code smells, do something better here... maybe put in cleanModel?
