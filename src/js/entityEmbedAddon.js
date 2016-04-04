@@ -278,7 +278,6 @@ var EntityEmbed = EntityEmbed || {};
 				$modalBtn = $('<a>+</a>')
 					.addClass(modalBtnClass)
 					.on('click', function() {
-						console.debug('$modalBtn::click', self);
 						self.add();
 					})
 					.insertAfter($insertBtn);
