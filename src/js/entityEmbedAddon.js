@@ -562,6 +562,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.toolbarManager.hideToolbar();
 		$embed.remove();
+		slef.core.triggerInput();
 	};
 
 	/**
@@ -631,6 +632,8 @@ var EntityEmbed = EntityEmbed || {};
 		// apply the default styling to the embed that was just added
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
+
+		self.core.triggerInput();
 	};
 
 	/** Addon initialization */
