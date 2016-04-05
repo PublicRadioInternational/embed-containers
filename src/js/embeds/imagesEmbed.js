@@ -102,30 +102,43 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.loadLicenses($el);
 
-		$el.find('input[name="imageFile"]').fileupload({
+		$el.find('input[name="upload"]').fileupload({
+			replaceFileInput: false,
 			dataType: 'json',
-    		replaceFileInput: false,
+			type: 'POST',
+			url: 'https://test-services.pri.org/admin/embed/file-upload',
+			beforeSend: function(xhr, data){
+				//xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+				//data.headers["Access-Control-Allow-Origin"] = "*";
+				if (!!self.model && !!self.model.object_id)
+				{
+					//data.headers['x-object-id'] = self.model.object_id;
+					xhr.setRequestHeader('x-object-id', self.model.object_id);
+				}
+				// data.headers['x-auth-token'] = 'abc123';
+				// data.headers['x-debug'] = 1;
+				xhr.setRequestHeader('x-debug', 1);
+				xhr.setRequestHeader('x-auth-token', 'abc123');
+			},
 			add: function(e, data){
-				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (textStatus === 'success')
-					{
-						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
-						{
-							self.model.file = result.responseJSON.path;
-						}
-					}
-					else
-					{
-						console.log('file upload completed with status "' + textStatus + '"');
-						console.log(result);
-					}
-				});
+				self.imageUploadPromise = data;
 			}
 		});
 	};
 
+	imagesEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	{
+		var self = this;
+		self.parent.saveEmbed(embedIsNew, function(data){
+				self.model.object_id = data.response.object_id;
+				self.imageUploadPromise.submit().complete(function (result, textStatus, jqXHR) {
+					successFunc(data);
+				});
+			},
+			failFunc, alwaysFunc, self);
+	}
+
 	imagesEmbed.prototype.parseForEditor = function(){
-		// TODO : use handlebars for this
 		var self = this;
 
 		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.file +'" />' + 

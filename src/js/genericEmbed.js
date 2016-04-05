@@ -128,8 +128,8 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// ASSUMPTION - model is already populated
-	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc,alwaysFunc){
-		var self = this;
+	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc, child){
+		var self = child || this;
 
 		if (embedIsNew){
 			// add the object_type onto the model
