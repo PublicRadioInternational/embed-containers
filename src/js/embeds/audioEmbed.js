@@ -1,14 +1,8 @@
-(function(base, EntityEmbedTypes){
+var EntityEmbed = EntityEmbed || {};
+
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'audio',
@@ -16,8 +10,8 @@
 			viewPath: base + 'modal/modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
+			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
-				debug:true,
 				rules: {
 					title: 'required',
 					url: 'required',
@@ -29,6 +23,9 @@
 						extension: "wav"
 					}
 				}
+			},
+			httpPaths:{
+				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
 			}
 		};
 
@@ -56,8 +53,8 @@
 		self.parent.constructor(options, defaults, embedName, self);
 	}
 
-	audioEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = audioEmbed;
+	audioEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = audioEmbed;
 
 	// PUBLIC
 	audioEmbed.prototype.orderIndex = 3;
@@ -65,7 +62,7 @@
 	audioEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			file: [],
+			url_path: null,
 			credit: null,
 			creditLink: null
 		};
@@ -74,40 +71,83 @@
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
 
-		$el.find(".audio-file-group").fileupload({
-			dataType: 'json',
-    		replaceFileInput: false,
-			add: function(e, data){
-				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (textStatus === 'success')
-					{
-						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
-						{
-							self.model.file = result.responseJSON.path;
-						}
-					}
-					else
-					{
-						console.log('file upload completed with status "' + textStatus + '"');
-						console.log(result);
-					}
+		self.$mp3Form = $el.find('input[name="mp3File"]');
+		self.$wavForm = $el.find('input[name="wavFile"]');
+	};
+
+	audioEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	{
+		var self = this;
+		self.parent.saveEmbed(embedIsNew, function(data){
+			function sendFile(formData)
+			{
+				return $.ajax({
+					url: self.options.httpPaths.uploadFile,
+					type: 'POST',
+					data: formData,
+					headers: {
+						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
+						'x-object-id': data.response.object_id,
+						'x-debug': '1'
+					},
+					processData: false,
+					contentType: false
 				});
+			};
+
+			var mp3File = self.$mp3Form[0].files[0],
+				wavFile = self.$wavForm[0].files[0];
+			
+			var sendMp3 = !!mp3File || isAddModal,  // always send if isAddModal, otherwise only send if user specified
+				sendWav = !!wavFile;				// only send wav file if user specified
+
+			if (sendWav)
+			{
+				var wavFormData = new FormData();
+				wavFormData.append('upload', wavFile);
+				sendFile(wavFormData)
+					.success(function(data){
+							self.model.wavFile = self.options.audioLocation + data.response.url_path;
+						});
 			}
-		});
+			if (sendMp3)
+			{
+				var mp3FormData = new FormData();
+				mp3FormData.append('upload', mp3File);
+				sendFile(mp3FormData)
+					.success(function(data){
+						self.model.url_path = data.response.url_path;
+						successFunc(data);
+					})
+					.fail(failFunc)
+					.always(alwaysFunc);
+			}
+			else
+			{
+				successFunc(data);
+			}
+		}, failFunc, alwaysFunc, self);
+	};
+
+	audioEmbed.prototype.validate = function($el, isAddModal){
+		var self = this;
+
+		self.options.validationOptions.rules.mp3File.required = isAddModal;
+		return self.parent.validate($el, isAddModal, self);
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		
-		var fileType = self.model.file.substring(self.model.file.lastIndexOf('.') + 1);
+		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
 
 		return  '<div class="audio-embed">' + 
 					'<audio controls>' +
-						'<source src="' + self.model.file +'" type="audio/' + fileType + '">' + 
+						'<source src="' + self.options.audioLocation + self.model.url_path +'" type="audio/' + fileType + '">' + 
 					'</audio>' +
 					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
 					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
 				'</div>';
 	};
 
-})('', EntityEmbedTypes);
+})('');

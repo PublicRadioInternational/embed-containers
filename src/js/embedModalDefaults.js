@@ -11,7 +11,6 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// PRIVATE
-
 	var embedTypes_stale = undefined; // this is for the jquery plugin embedModalOpen_edit func (see bottom)
 	var isSaving = false; //this determines when a modal is being saved
 	var embedModalSelectors = {
@@ -100,7 +99,10 @@ var EntityEmbed = EntityEmbed || {};
 			scope.$embedTypeSelect.show();
 		},
 		saveEmbed = function(scope){
-			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
+			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
+							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
+			
+			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
 			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
 			{
 				return;
@@ -108,7 +110,6 @@ var EntityEmbed = EntityEmbed || {};
 			isSaving = true;
 			$(embedModalSelectors.elements.saveSpinner).show();
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add;
 			if (isAddModal)
 			{
 				var successFunction = function(data){
@@ -125,14 +126,19 @@ var EntityEmbed = EntityEmbed || {};
 					scope.currentEmbedType.model.object_id = data.response.object_id;
 					console.log('POST succeeded');
 					scope.modalCtrl.$el.completeModal();
+					if (!!scope.successCallback)
+					{
+						scope.successCallback(data.response);
+					}
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('POST failed');
-				},
-				alwaysFunction = function(data){
-					isSaving = false;
-					$(embedModalSelectors.elements.saveSpinner).hide();
+
+					if (!!scope.failCallback)
+					{
+						scope.failCallback();
+					}
 				};
 			}
 			else
@@ -150,18 +156,34 @@ var EntityEmbed = EntityEmbed || {};
 					}
 					console.log('PUT succeeded');
 					scope.modalCtrl.$el.completeModal();
+
+					if (!!scope.successCallback)
+					{
+						scope.successCallback(data.response);
+					}
 				},
 				failFunction = function(data){
 					// TODO : UI failure message
 					console.log('PUT failed');
 
-				},
-				alwaysFunction = function(data){
-					isSaving = false;
-					$(embedModalSelectors.elements.saveSpinner).hide();
+					if (!!scope.failCallback)
+					{
+						scope.failCallback();
+					}
 				};
 			}
-			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction,alwaysFunction);
+
+			var alwaysFunction = function(data){
+				isSaving = false;
+				$(embedModalSelectors.elements.saveSpinner).hide();
+				
+				if (!!scope.alwaysCallback)
+				{
+					scope.alwaysCallback();
+				}
+			};
+
+			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction, alwaysFunction);
 
 			$validator.resetForm();
 
@@ -174,9 +196,8 @@ var EntityEmbed = EntityEmbed || {};
 			EntityEmbed.apiService.post({
 				path: scope.currentEmbedType.options.httpPaths.getAll,
 				data: {
-					object_type: scope.currentEmbedType.options.object_type,
-					auth_token: 'abc123'
-				},
+					object_type: scope.currentEmbedType.options.object_type
+				},	
 				success: function(obj){
 					if (typeof data.response === 'string')
 					{
@@ -425,8 +446,7 @@ var EntityEmbed = EntityEmbed || {};
 						EntityEmbed.apiService.get({
 							path: currentScope.currentEmbedType.options.httpPaths.get,
 							data: {
-								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id'),
-								auth_token: 'abc123'
+								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
 							},
 							success: function(data){
 								if (typeof data.response === 'string')
@@ -450,8 +470,9 @@ var EntityEmbed = EntityEmbed || {};
 		open: {
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
-				if (!!scope.embedTypeString){
+				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
+					delete scope.embedType;
 				}
 				else{
 					resetModalView(scope);
@@ -465,8 +486,7 @@ var EntityEmbed = EntityEmbed || {};
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
-							object_id: scope.embedId,
-							auth_token: 'abc123'
+							object_id: scope.embedId
 						},
 						success: function(data){
 							if (typeof data.response === 'string')
@@ -485,8 +505,6 @@ var EntityEmbed = EntityEmbed || {};
 							console.log('failed to get embed type!');
 						}
 					});
-
-					delete scope.embedType;
 				}
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
 				{
@@ -524,7 +542,9 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
-				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
+				// TODO : track validator on scope, reset here, then delete from scope
+				// 			could also use validator on currentEmbedType object
+				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, true);
 				$validator.resetForm();
 				delete scope.confirmedLeave;
 				return true;
@@ -539,16 +559,20 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			after: function(scope){
 				toggleEditorTyping(scope, 'true');
-				scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-				var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
-				// create an event to be raised
-				var addEvent = jQuery.Event('entityEmbedAdded');
-				// add data to it so the handler knows what to do
-				addEvent.embedType = scope.currentEmbedType;
-				$embedHtml.find('.entity-embed-container').trigger(addEvent);
+				if (scope.$currentEditorLocation.length > 0)
+				{
+					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
+					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
+					// create an event to be raised
+					var addEvent = jQuery.Event('entityEmbedAdded');
+					// add data to it so the handler knows what to do
+					addEvent.embedType = scope.currentEmbedType;
+					$embedHtml.find('.entity-embed-container').trigger(addEvent);
+				}
 			}
 		}
 	};
 
 	EntityEmbed.embedModalDefaults = embedModalDefaults;
+
 }());

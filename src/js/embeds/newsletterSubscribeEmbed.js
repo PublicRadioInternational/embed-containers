@@ -1,16 +1,8 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base, EntityEmbedTypes){
+(function(base){
 
 	'use strict';
-
-	// check for EntityEmbedTypes namespace
-	if (!EntityEmbedTypes)
-	{
-		console.log('Could not find EntityEmbedTypes namespace. ' +
-			'Please ensure that the genericEmbed has loaded before this one.');
-		return;
-	}
 
 	// PRIVATE
 	var embedName = 'newsletterSubscribe',
@@ -35,8 +27,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-	newsletterSubscribeEmbed.inherits(EntityEmbedTypes.genericEmbed);
-	EntityEmbedTypes[embedName] = newsletterSubscribeEmbed;
+	newsletterSubscribeEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = newsletterSubscribeEmbed;
 
 	// PUBLIC
 	newsletterSubscribeEmbed.prototype.orderIndex = 12;
@@ -52,11 +44,9 @@ var EntityEmbed = EntityEmbed || {};
 	
 	newsletterSubscribeEmbed.prototype.initModal = function($el){
 		var self = this;
+		var defaultSubscriptionOption = '<option disabled selected>-- select a newsletter --</option>';
 		EntityEmbed.apiService.get({
 			path: self.options.httpPaths.getNewsletters,
-			data: {
-				auth_token: 'abc123'
-			},
 			success: function(list){
 				//load object into license list
 				if (!list.response.data)
@@ -64,12 +54,15 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 				var subscriptionList = [];
+				subscriptionList.push(defaultSubscriptionOption);
+
 				for(var i = 0; i < list.response.data.length; i++)
 				{
-					subscriptionList[i] =
+					subscriptionList.push(
 						'<option value="' + list.response.data[i].newsletter_id +'" >' + 
 							list.response.data[i].title +
-						'</option>';
+						'</option>'
+					);
 				}
 				$el.find('[name="newsletter"]').html(subscriptionList);
 			},
@@ -93,4 +86,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('', EntityEmbedTypes);
+})('');

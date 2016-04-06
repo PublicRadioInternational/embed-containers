@@ -157,15 +157,12 @@
 
 	$.fn.modal = function(options, scope){
 		return this.each(function(){
-			if(!$.data(this, 'ctrl'))
+			// avoid null reference errors
+			if (!options)
 			{
-				// avoid null reference errors
-				if (!options)
-				{
-					options = {};
-				}
-				$.data(this, 'ctrl', new modal(this, options, scope));
+				options = {};
 			}
+			$.data(this, 'ctrl', new modal(this, options, scope));
 		});
 	};
 
@@ -188,11 +185,11 @@
 
 				// position the modal within the viewport
 				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
-				var newTopVal = modalCtrl.$el.css('top');
-				newTopVal.replace('px', '');
-				newTopVal = parseInt(newTopVal);
+				// var newTopVal = modalCtrl.$el.css('top');
+				// newTopVal.replace('px', '');
+				// newTopVal = parseInt(newTopVal);
 
-				newTopVal = distanceFromTop + $(document).scrollTop();
+				var newTopVal = distanceFromTop + $(document).scrollTop();
 				modalCtrl.$el.css('top', newTopVal);
 			}
 		});

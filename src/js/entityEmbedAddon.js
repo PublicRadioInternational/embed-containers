@@ -1,6 +1,6 @@
 var EntityEmbed = EntityEmbed || {};
 
-;(function ($, window, document, EntityEmbedTypes, undefined) {
+;(function ($, window, document, undefined) {
 
 	'use strict';
 
@@ -14,12 +14,6 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
-			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
-			modalScope: { // default scope to pass to the modal
-				$embedTypeSelect: null,
-				$modalBody: null
-			},
-			$modalEl: null,
 			insertBtn: '.medium-insert-buttons', // selector for insert button
 			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
 				url: 'upload.php',
@@ -74,48 +68,9 @@ var EntityEmbed = EntityEmbed || {};
 						entityEmbed.addNewline($embed);
 					}
 				}
-			},
-			embedTypes: { // options for different embed types
-				image:{},
-				video:{},
-				audio:{},
-				twitter:{},
-				instagram:{},
-				facebook:{},
-				relatedLink:{},
-				externalLink:{},
-				globalBuzz:{},
-				newsletterSubscribe:{},
-				iframe:{},
-				customText:{}
-			}
-		},
-		defaultElementSelectors = function(){
-			// we cant specify certain elements as default options
-			// because they are not yet loaded into the DOM when this script runs
-			// so if they are null, select them her 
-
-			if (!defaults.$modalEl)
-			{
-				defaults.$modalEl = $('#embed-modal');
-			}
-
-			if (!defaults.modalScope.$embedTypeSelect)
-			{
-				defaults.modalScope.$embedTypeSelect = $('#select-embed-type'); 
-			}
-
-			if (!defaults.modalScope.$modalBody)
-			{
-				defaults.modalScope.$modalBody = $('.embed-modal-body');
-			}
-
-			if (!defaults.modalOptions.$abortEl)
-			{
-				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
 			}
 		};
-
+		
 	/**
 	 * Private method to generate unique placeholder string for serialization.
 	 *  This string should:
@@ -168,7 +123,6 @@ var EntityEmbed = EntityEmbed || {};
 		self.el = el;
 		self.$el = $(el);
 		self.templates = window.MediumInsert.Templates;
-		defaultElementSelectors();
 
 		self.core = self.$el.data('plugin_'+ pluginName);
 
@@ -189,9 +143,6 @@ var EntityEmbed = EntityEmbed || {};
 			self.core.getEditor().load_story = function(storyData){
 				self.loadStory(storyData);
 			};
-			self.core.getEditor().embed_modal_open = function(embedTypeStr, id){
-				self.embedModalOpen(embedTypeStr, id);
-			};
 		}
 
 		self.init();
@@ -210,42 +161,15 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		self.embedTypes = [];
-		for (var embedName in EntityEmbedTypes)
+		if (!EntityEmbed.$embedModal)
 		{
-			if (!!self.options.embedTypes[embedName])
-			{
-				var embedObject = new EntityEmbedTypes[embedName](self.options.embedTypes[embedName]);
-				self.embedTypes.push(embedObject);
-				self.toolbarManager.createStyleToolbar($('body'), embedObject);
-			}
+			$.embed_modal_create();
 		}
 
-		self.embedTypes.sort(function(l, r){
-			return l.orderIndex - r.orderIndex;
-		});
-
-		// TODO : only track these on global namespace, not on this addon
-		EntityEmbed.embedTypes = self.embedTypes;
-
-		self.finalModalOptions = {};
-		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
-		if (!!self.options.modalOptions)
+		for (var i in EntityEmbed.currentEmbedTypes)
 		{
-			self.finalModalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
+			self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
 		}
-		else
-		{
-			self.finalModalOptions = defaultModalOptions;
-		}
-
-		var modalScope = {
-			embedTypes: self.embedTypes
-		};
-
-		modalScope = $.extend(true, {}, self.options.modalScope, modalScope);
-
-		self.options.$modalEl.modal(self.finalModalOptions, modalScope);
 	};
 
 	/**
@@ -428,7 +352,7 @@ var EntityEmbed = EntityEmbed || {};
 			for (var i = 0; i < data.embeds.length; i++)
 			{
 				// Convert returned type name to a useful embedType object
-				data.embeds[i].embedType = $.grep(self.embedTypes, function(et){
+				data.embeds[i].embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
 					return et.options.object_type == data.embeds[i].type;
 				})[0];
 
@@ -458,7 +382,7 @@ var EntityEmbed = EntityEmbed || {};
 							embed.embedType.model = request.response;
 
 							// Generate the embed HTML
-							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false);
+							embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
 
 							// Construct placeholder string
 							placeholder = generatePlaceholderString(embed);
@@ -538,10 +462,9 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.add = function () {
 		var self = this;
 		var addToScope = {
-			$currentEditorLocation: $(mediumEditorActiveSelector),
-			modalType: EntityEmbed.embedModalTypes.add
+			$currentEditorLocation: $(mediumEditorActiveSelector)
 		};
-		self.options.$modalEl.openModal(addToScope);
+		$.embed_modal_open(addToScope);
 	};
 
 	/**
@@ -555,13 +478,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		var scope = {
 			$currentEditorLocation: $('.' + activeEmbedClass),
-			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed.find('figure').attr('id'),
-			embedType: $embed.find('[data-embed-type]').attr('data-embed-type')
+			id: $embed.find('figure').attr('id'),
+			embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
 		};
 
 		self.toolbarManager.hideToolbar();
-		self.options.$modalEl.openModal(scope);
+		$.embed_modal_open(scope);
 	};
 
 	/**
@@ -607,7 +529,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
-		var embedName = $.grep(self.embedTypes, function(et){
+		var embedName = $.grep(EntityEmbed.currentEmbedTypes, function(et){
 			return et.options.object_type === embedObjectType;
 		})[0].name;
 
@@ -647,35 +569,6 @@ var EntityEmbed = EntityEmbed || {};
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 	};	
 
-	// if embedTypeStr is specified then the modal will only show that embed type
-	//		and the select embed type dropdown will be hidden
-	// embedTypeStr should match the object_type field on some configured embed type object
-	EntityEmbeds.prototype.embedModalOpen = function(embedTypeStr, id){
-		var self = this;
-		var mType;
-		if (!!id)
-		{
-			mType = EntityEmbed.embedModalTypes.edit;
-		}
-		else if (!!embedTypeStr)
-		{
-			mType = EntityEmbed.embedModalTypes.addSingle;
-		}
-		else
-		{
-			mType = EntityEmbed.embedModalTypes.add;
-		}
-
-		var scope = {
-			$currentEditorLocation: $('.medium-insert-active'),
-			modalType: mType,
-			embedId: id,
-			embedType: embedTypeStr
-		};
-
-		self.options.$modalEl.openModal(scope);
-	};
-
 	/** Addon initialization */
 
 	$.fn[pluginName + addonName] = function (options) {
@@ -686,4 +579,4 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-})(jQuery, window, document, EntityEmbedTypes);
+})(jQuery, window, document);
