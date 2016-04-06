@@ -40,6 +40,11 @@ $(document).ready(function(){
 				"index": 5,
 				"id": "60954b32128440cea9ca66b14ede453f",
 				"type": "newsletter"
+			},
+			{
+				"index": 6,
+				"id": "f574837dac1549f9aa8749d6e5cfac85",
+				"type": "audio"
 			}
 		]
 	};
@@ -66,7 +71,7 @@ $(document).ready(function(){
 	});
 
 	$openAddSingleEmbedBtn.click(function(){
-		$('#embed-modal').embed_modal_open({
+		$.embed_modal_open({
 			embedTypeStr: 'custom',
 			successCallback: function(data){
 				console.log('Embed modal open (add single) successfully saved, server response to follow.');
@@ -82,7 +87,7 @@ $(document).ready(function(){
 	});
 
 	$openAddAnyEmbedBtn.click(function(){
-		$('#embed-modal').embed_modal_open({
+		$.embed_modal_open({
 			successCallback: function(data){
 				console.log('Embed modal open (add any) successfully saved, server response to follow.');
 				console.log(data);
@@ -97,7 +102,7 @@ $(document).ready(function(){
 	});
 
 	$openEditEmbedBtn.click(function(){
-		$('#embed-modal').embed_modal_open({
+		$.embed_modal_open({
 			embedTypeStr: 'newsletter',
 			id: '2607f8daf38342f28054b29a7c26b118',
 			successCallback: function(data){

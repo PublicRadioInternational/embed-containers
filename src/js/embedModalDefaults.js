@@ -11,7 +11,6 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// PRIVATE
-
 	var embedTypes_stale = undefined; // this is for the jquery plugin embedModalOpen_edit func (see bottom)
 	var isSaving = false; //this determines when a modal is being saved
 	var embedModalSelectors = {
@@ -100,7 +99,10 @@ var EntityEmbed = EntityEmbed || {};
 			scope.$embedTypeSelect.show();
 		},
 		saveEmbed = function(scope){
-			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
+			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
+							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
+
+			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
 			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
 			{
 				return;
@@ -108,8 +110,6 @@ var EntityEmbed = EntityEmbed || {};
 			isSaving = true;
 			$(embedModalSelectors.elements.saveSpinner).show();
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
-							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
 			if (isAddModal)
 			{
 				var successFunction = function(data){
@@ -447,8 +447,7 @@ var EntityEmbed = EntityEmbed || {};
 						EntityEmbed.apiService.get({
 							path: currentScope.currentEmbedType.options.httpPaths.get,
 							data: {
-								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id'),
-								auth_token: 'abc123'
+								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
 							},
 							success: function(respData){
 								if (typeof respData.response === 'string')
@@ -488,8 +487,7 @@ var EntityEmbed = EntityEmbed || {};
 					EntityEmbed.apiService.get({
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
-							object_id: scope.embedId,
-							auth_token: 'abc123'
+							object_id: scope.embedId
 						},
 						success: function(data){
 							if (typeof data.response === 'string')
@@ -545,7 +543,9 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
-				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view);
+				// TODO : track validator on scope, reset here, then delete from scope
+				// 			could also use validator on currentEmbedType object
+				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, true);
 				$validator.resetForm();
 				delete scope.confirmedLeave;
 				return true;
@@ -574,48 +574,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	// if embedTypeStr is specified then the modal will only show that embed type
-	//		and the select embed type dropdown will be hidden
-	// embedTypeStr should match the object_type field on some configured embed type object
-	$.fn.embed_modal_open = function(options){
-		var defaultOptions = {
-			$currEditorLocation: $(''),
-			embedTypeStr: null,
-			id: null,
-			successCallback: function(data){},
-			failCallback: function(){},
-			alwaysCallback: function(){}
-		};
-
-		options = $.extend(true, {}, defaultOptions, options);
-
-		var self = this;
-		var mType;
-		if (!!options.id)
-		{
-			mType = EntityEmbed.embedModalTypes.edit;
-		}
-		else if (!!options.embedTypeStr)
-		{
-			mType = EntityEmbed.embedModalTypes.addSingle;
-		}
-		else
-		{
-			mType = EntityEmbed.embedModalTypes.add;
-		}
-
-		var scope = {
-			$currentEditorLocation: options.$currEditorLocation,
-			modalType: mType,
-			embedId: options.id,
-			embedType: options.embedTypeStr,
-			successCallback: options.successCallback,
-			failCallback: options.failCallback,
-			alwaysCallback: options.alwaysCallback
-		};
-
-		this.openModal(scope);
-	};
-
 	EntityEmbed.embedModalDefaults = embedModalDefaults;
+
 }());

@@ -1,6 +1,6 @@
 var EntityEmbed = EntityEmbed || {};
 
-;(function ($, window, document, EntityEmbedTypes, undefined) {
+;(function ($, window, document, undefined) {
 
 	'use strict';
 
@@ -169,7 +169,6 @@ var EntityEmbed = EntityEmbed || {};
 		self.el = el;
 		self.$el = $(el);
 		self.templates = window.MediumInsert.Templates;
-		defaultElementSelectors();
 
 		self.core = self.$el.data('plugin_'+ pluginName);
 
@@ -208,42 +207,15 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		self.embedTypes = [];
-		for (var embedName in EntityEmbedTypes)
+		if (!EntityEmbed.$embedModal)
 		{
-			if (!!self.options.embedTypes[embedName])
-			{
-				var embedObject = new EntityEmbedTypes[embedName](self.options.embedTypes[embedName]);
-				self.embedTypes.push(embedObject);
-				self.toolbarManager.createStyleToolbar($('body'), embedObject);
-			}
+			$.embed_modal_create();
 		}
 
-		self.embedTypes.sort(function(l, r){
-			return l.orderIndex - r.orderIndex;
-		});
-
-		// TODO : only track these on global namespace, not on this addon
-		EntityEmbed.embedTypes = self.embedTypes;
-
-		self.finalModalOptions = {};
-		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
-		if (!!self.options.modalOptions)
+		for (var i in EntityEmbed.currentEmbedTypes)
 		{
-			self.finalModalOptions = $.extend(true, {}, defaultModalOptions, self.options.modalOptions);
+			self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
 		}
-		else
-		{
-			self.finalModalOptions = defaultModalOptions;
-		}
-
-		var modalScope = {
-			embedTypes: self.embedTypes
-		};
-
-		modalScope = $.extend(true, {}, self.options.modalScope, modalScope);
-
-		self.options.$modalEl.modal(self.finalModalOptions, modalScope);
 	};
 
 	/**
@@ -417,7 +389,7 @@ var EntityEmbed = EntityEmbed || {};
 			for (var i = 0; i < data.embeds.length; i++)
 			{
 				// Convert returned type name to a useful embedType object
-				data.embeds[i].embedType = $.grep(self.embedTypes, function(et){
+				data.embeds[i].embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
 					return et.options.object_type == data.embeds[i].type;
 				})[0];
 
@@ -447,7 +419,7 @@ var EntityEmbed = EntityEmbed || {};
 							embed.embedType.model = request.response;
 
 							// Generate the embed HTML
-							embedHtml = self.finalModalOptions.generateEmbedHtml(embed.embedType, false);
+							embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
 
 							// Construct placeholder string
 							placeholder = generatePlaceholderString(embed);
@@ -522,10 +494,9 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.add = function () {
 		var self = this;
 		var addToScope = {
-			$currentEditorLocation: $(mediumEditorActiveSelector),
-			modalType: EntityEmbed.embedModalTypes.add
+			$currentEditorLocation: $(mediumEditorActiveSelector)
 		};
-		self.options.$modalEl.openModal(addToScope);
+		$.embed_modal_open(addToScope);
 	};
 
 	/**
@@ -539,13 +510,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		var scope = {
 			$currentEditorLocation: $('.' + activeEmbedClass),
-			modalType: EntityEmbed.embedModalTypes.edit,
-			embedId: $embed.find('figure').attr('id'),
-			embedType: $embed.find('[data-embed-type]').attr('data-embed-type')
+			id: $embed.find('figure').attr('id'),
+			embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
 		};
 
 		self.toolbarManager.hideToolbar();
-		self.options.$modalEl.openModal(scope);
+		$.embed_modal_open(scope);
 	};
 
 	/**
@@ -592,7 +562,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
-		var embedName = $.grep(self.embedTypes, function(et){
+		var embedName = $.grep(EntityEmbed.currentEmbedTypes, function(et){
 			return et.options.object_type === embedObjectType;
 		})[0].name;
 
@@ -644,4 +614,4 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-})(jQuery, window, document, EntityEmbedTypes);
+})(jQuery, window, document);
