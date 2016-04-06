@@ -22,7 +22,8 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getLicenses: 'https://test-services.pri.org/admin/image-license/list'
+				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
+				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
 			}
 		};
 
@@ -101,41 +102,32 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		self.loadLicenses($el);
-
-		$el.find('input[name="upload"]').fileupload({
-			replaceFileInput: false,
-			dataType: 'json',
-			type: 'POST',
-			url: 'https://test-services.pri.org/admin/embed/file-upload',
-			beforeSend: function(xhr, data){
-				//xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-				//data.headers["Access-Control-Allow-Origin"] = "*";
-				if (!!self.model && !!self.model.object_id)
-				{
-					//data.headers['x-object-id'] = self.model.object_id;
-					xhr.setRequestHeader('x-object-id', self.model.object_id);
-				}
-				// data.headers['x-auth-token'] = 'abc123';
-				// data.headers['x-debug'] = 1;
-				xhr.setRequestHeader('x-debug', 1);
-				xhr.setRequestHeader('x-auth-token', 'abc123');
-			},
-			add: function(e, data){
-				self.imageUploadPromise = data;
-			}
-		});
+		self.$imageForm = $el.find('input[name="upload"]');
 	};
 
 	imagesEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
 	{
 		var self = this;
 		self.parent.saveEmbed(embedIsNew, function(data){
-				self.model.object_id = data.response.object_id;
-				self.imageUploadPromise.submit().complete(function (result, textStatus, jqXHR) {
-					successFunc(data);
-				});
-			},
-			failFunc, alwaysFunc, self);
+			var imageFormData = new FormData();
+			imageFormData.append('upload', self.$imageForm[0].files[0]);
+
+			$.ajax({
+				url: self.options.httpPaths.uploadFile,
+				type: 'POST',
+				data: imageFormData,
+				headers: {
+					'x-auth-token': 'abc123',
+					'x-object-id': data.response.object_id,
+					'x-debug': '1'
+				},
+				processData: false,
+				contentType: false
+			}).success(function(data){
+				self.model.file = 'https://test-services.pri.org' + data.response.url_path;
+				successFunc(data);
+			});
+		}, failFunc, alwaysFunc, self);
 	}
 
 	imagesEmbed.prototype.parseForEditor = function(){

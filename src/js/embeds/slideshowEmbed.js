@@ -204,7 +204,7 @@ var EntityEmbed = EntityEmbed || {};
 						fail: failFunc
 					});
 				}
-			});
+			});	
 		}
 	}
 

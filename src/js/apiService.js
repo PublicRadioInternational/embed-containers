@@ -17,8 +17,6 @@ var EntityEmbed = EntityEmbed || {};
 		config.data.debug = config.debug;
 		config.data.auth_token = config.auth_token;
 
-		$.support.cors = true;
-
 		return $.ajax({
 				timeout: 15000,
 				crossDomain: true,
