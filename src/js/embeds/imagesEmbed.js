@@ -10,19 +10,21 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: base + 'modal/modal_image.html',
 			displayName: 'Image(s)',
 			object_type: 'image',
+			imageLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
 					altText: 'required',
 					license: 'required',
-					imageFile: {
+					upload: {
 						required: true,
 						extension: "png|jpg|jpeg|gif"
 					}
 				}
 			},
 			httpPaths:{
-				getLicenses: 'https://test-services.pri.org/admin/image-license/list'
+				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
+				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
 			}
 		};
 
@@ -58,7 +60,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
-			file: null,
+			url_path: null, // for image file
 			title: null,
 			altText: null,
 			credit: null,
@@ -101,34 +103,63 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		self.loadLicenses($el);
+		self.$imageForm = $el.find('input[name="upload"]');
+	};
 
-		$el.find('input[name="imageFile"]').fileupload({
-			dataType: 'json',
-    		replaceFileInput: false,
-			add: function(e, data){
-				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (textStatus === 'success')
-					{
-						if (!!result && !!result.responseJSON && !!result.responseJSON.path)
-						{
-							self.model.file = result.responseJSON.path;
-						}
-					}
-					else
-					{
-						console.log('file upload completed with status "' + textStatus + '"');
-						console.log(result);
-					}
-				});
+	imagesEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	{
+		var self = this;
+		self.parent.saveEmbed(embedIsNew, function(data){
+			var imageFormData = new FormData();
+			var file = self.$imageForm[0].files[0];
+			if (!file)
+			{
+				if (!embedIsNew)
+				{
+					// file is not required if the embed is being editted
+					successFunc(data);
+				}
+				else
+				{
+					// TODO : show validation on image
+					failFunc(data);
+				}
+				return;
 			}
-		});
+
+			imageFormData.append('upload', file);
+
+			return $.ajax({
+				url: self.options.httpPaths.uploadFile,
+				type: 'POST',
+				data: imageFormData,
+				headers: {
+					'x-auth-token': EntityEmbed.apiService.getAuthToken(),
+					'x-object-id': data.response.object_id,
+					'x-debug': '1'
+				},
+				processData: false,
+				contentType: false
+			}).success(function(data){
+				self.model.url_path = data.response.url_path;
+				successFunc(data);
+			})
+			.fail(failFunc)
+			.always(alwaysFunc);
+		}, failFunc, alwaysFunc, self);
+	};
+
+	imagesEmbed.prototype.validate = function($el, isAddModal){
+		var self = this;
+
+		self.options.validationOptions.rules.upload.required = isAddModal;
+		return self.parent.validate($el, isAddModal, self);
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
-		// TODO : use handlebars for this
 		var self = this;
 
-		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.model.file +'" />' + 
+		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.options.imageLocation + self.model.url_path +'" />' + 
 			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
 			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
 	};

@@ -17,8 +17,6 @@ var EntityEmbed = EntityEmbed || {};
 		config.data.debug = config.debug;
 		config.data.auth_token = config.auth_token;
 
-		$.support.cors = true;
-
 		return $.ajax({
 				timeout: 15000,
 				crossDomain: true,
@@ -47,8 +45,13 @@ var EntityEmbed = EntityEmbed || {};
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
+
 	function setAuthToken(token){
 		defaultConfig.auth_token = token;
+	};
+
+	function getAuthToken(token){
+		return defaultConfig.auth_token;	
 	};
 
 	// determine debug level
@@ -64,6 +67,7 @@ var EntityEmbed = EntityEmbed || {};
 		put: put,
 		post: post,
 		get: get,
-		setAuthToken
+		setAuthToken: setAuthToken,
+		getAuthToken: getAuthToken
 	};	
 })();
