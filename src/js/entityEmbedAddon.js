@@ -358,8 +358,6 @@ var EntityEmbed = EntityEmbed || {};
 						index: index,
 						// API object_id used to look up complete data for the embed
 						id: $embed.attr('id'),
-						// Store styling of the embed at this position in content
-						style: $embed.attr('class'),
 						// Inlcude embed type name so embed can be rendered correctly during deserialization
 						type: $embed.attr('data-embed-type')
 					};
