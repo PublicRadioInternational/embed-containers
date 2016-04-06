@@ -185,11 +185,11 @@
 
 				// position the modal within the viewport
 				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
-				var newTopVal = modalCtrl.$el.css('top');
-				newTopVal.replace('px', '');
-				newTopVal = parseInt(newTopVal);
+				// var newTopVal = modalCtrl.$el.css('top');
+				// newTopVal.replace('px', '');
+				// newTopVal = parseInt(newTopVal);
 
-				newTopVal = distanceFromTop + $(document).scrollTop();
+				var newTopVal = distanceFromTop + $(document).scrollTop();
 				modalCtrl.$el.css('top', newTopVal);
 			}
 		});

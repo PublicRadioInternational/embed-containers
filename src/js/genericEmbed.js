@@ -50,8 +50,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 	};
 
-	genericEmbed.prototype.getModelFromForm = function($el){
-		var self = this;
+	genericEmbed.prototype.getModelFromForm = function($el, child){
+		var self = child || this;
 		var formFields = $el.find('.embed-modal-form-control');
 		for(var i = 0; i < formFields.length; i++)
 		{
@@ -64,11 +64,15 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	genericEmbed.prototype.populateFormWithModel = function($form){
-		var self = this;
+	genericEmbed.prototype.populateFormWithModel = function($form, child){
+		var self = child || this;
 		var formFields = $form.find('.embed-modal-form-control');
 		for (var i = 0; i < formFields.length; i++)
 		{
+			if (!!formFields[i].type && formFields[i].type.indexOf('file') !== -1)
+			{
+				continue;
+			}
 			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
 			{
 				var options = $(formFields[i]).find('option');
@@ -89,7 +93,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 	// TODO: Get rid of self paramater. See inherits function
-	genericEmbed.prototype.clearForm = function($el, self){
+	genericEmbed.prototype.clearForm = function($el, child){
 		function resetForm(){
  			if(!self.$validator)
  			{
@@ -98,12 +102,8 @@ var EntityEmbed = EntityEmbed || {};
  			self.$validator.resetForm();
  		};
 		
-		if (!self){
-			self = this;
-		}
-		else{
-			self = self;
-		}
+		var self = child || this;
+
 		resetForm(self);
 		var formList = $el.find('form');
 		for (var x = 0; x < formList.length; x++)
@@ -120,8 +120,8 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// returns validator object
-	genericEmbed.prototype.validate = function($el){
-		var self = this;
+	genericEmbed.prototype.validate = function($el, isAddModal, child){
+		var self = child || this;
 		var $form = $el.find('form');
 		self.$validator = $form.validate(self.options.validationOptions);
 		return self.$validator;
