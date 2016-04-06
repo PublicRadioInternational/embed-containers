@@ -562,7 +562,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.toolbarManager.hideToolbar();
 		$embed.remove();
-		slef.core.triggerInput();
+		self.core.triggerInput();
 	};
 
 	/**
