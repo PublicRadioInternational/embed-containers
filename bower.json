@@ -4,7 +4,7 @@
   "description": "custom addon for the medium editor insert plugin",
   "main": [
     "dist/js/embed-containers.min.js",
-    "dist/css/embed-containers.css"
+    "dist/css/embed-containers.min.css"
   ],
   "authors": [
     "Erik Thorne <erik.j.thorne@gmail.com>"

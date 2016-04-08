@@ -33,7 +33,7 @@ gulp.task('move', function()
 
 gulp.task('less', function(){
 	gulp.src([lessPath + 'embed-containers.less',
-			libPath + 'EasyAutocomplete/dist/easy-autocomplete.min.css'])	
+			libPath + 'EasyAutocomplete/dist/easy-autocomplete.min.css'])
 		.pipe(less())
 		.pipe(gConcat('embed-containers.min.css'))
 		.pipe(minifyCss())
@@ -51,8 +51,6 @@ gulp.task('concatJs', function()
 			jsPath + 'embeds/*.js',
 			jsPath + 'embedModal.js',
 			jsPath + 'entityEmbedAddon.js',
-			libPath + 'jquery-validation/dist/jquery.validate.js',
-			libPath + 'jquery-validation/dist/additional-methods.js',
 			libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())

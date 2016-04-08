@@ -101,7 +101,7 @@ var EntityEmbed = EntityEmbed || {};
 		saveEmbed = function(scope){
 			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
 							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
-			
+
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
 			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
 			{
@@ -176,7 +176,7 @@ var EntityEmbed = EntityEmbed || {};
 			var alwaysFunction = function(data){
 				isSaving = false;
 				$(embedModalSelectors.elements.saveSpinner).hide();
-				
+
 				if (!!scope.alwaysCallback)
 				{
 					scope.alwaysCallback();
@@ -196,19 +196,20 @@ var EntityEmbed = EntityEmbed || {};
 			EntityEmbed.apiService.post({
 				path: scope.currentEmbedType.options.httpPaths.getAll,
 				data: {
-					object_type: scope.currentEmbedType.options.object_type
-				},	
-				success: function(obj){
-					if (typeof data.response === 'string')
+					object_type: scope.currentEmbedType.options.object_type,
+					auth_token: 'abc123'
+				},
+				success: function(respData){
+					if (typeof respData.response === 'string')
 					{
-						console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
+						console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
 						return;
 					}
 
-					if (!obj.response.data){
+					if (!respData.response.data){
 						return;
 					}
-					scope.selectExistingItems = obj.response.data;
+					scope.selectExistingItems = respData.response.data;
 					for (var i = 0; i < scope.selectExistingItems.length; i++)
 					{
 						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].object_id));
@@ -234,7 +235,7 @@ var EntityEmbed = EntityEmbed || {};
 						});
 					}
 				},
-				fail: function(data){
+				fail: function(respData){
 					console.log('Failed to get list of current embed types for the Select Existing page.');
 				}
 			});
@@ -282,15 +283,15 @@ var EntityEmbed = EntityEmbed || {};
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var figureClass = 'entity-embed';
 			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id  + '" ' + 
+							'id="' + embedType.model.object_id  + '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
 							embedType.parseForEditor() +
 						'</figure>';
 
 			if (includeWrapper)
 			{
-				return	'<div class="entity-embed-container">' + 
-							ret + 
+				return	'<div class="entity-embed-container">' +
+							ret +
 						'</div>';
 			}
 			return ret;
@@ -448,17 +449,17 @@ var EntityEmbed = EntityEmbed || {};
 							data: {
 								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
 							},
-							success: function(data){
-								if (typeof data.response === 'string')
+							success: function(respData){
+								if (typeof respData.response === 'string')
 								{
-									console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
+									console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
 									return;
 								}
-								
-								currentScope.currentEmbedType.model = data.response;
+
+								currentScope.currentEmbedType.model = respData.response;
 								currentScope.modalCtrl.$el.completeModal();
 							},
-							fail: function(data){
+							fail: function(respData){
 								// TODO: show error UI
 								console.log('failed to get embed type!');
 							}
@@ -492,7 +493,7 @@ var EntityEmbed = EntityEmbed || {};
 							if (typeof data.response === 'string')
 							{
 								console.log('Failed to get embed type: ' + data.response);
-								// show UI error here								
+								// show UI error here
 								return;
 							}
 
@@ -562,7 +563,7 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
+					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));
 					// create an event to be raised
 					var addEvent = jQuery.Event('entityEmbedAdded');
 					// add data to it so the handler knows what to do
