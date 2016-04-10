@@ -14,17 +14,6 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
 			label: '<span class="fa fa-code"></span>',
-			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
-			modalScope: { // default scope to pass to the modal
-				$embedTypeSelect: null,
-				$modalBody: null
-			},
-			$modalEl: null,
-			insertBtn: '.medium-insert-buttons-show', // selector for insert button
-			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
-				url: 'upload.php',
-				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-			},
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -74,46 +63,6 @@ var EntityEmbed = EntityEmbed || {};
 						entityEmbed.addNewline($embed);
 					}
 				}
-			},
-			embedTypes: { // options for different embed types
-				image:{},
-				slideshow: {},
-				video:{},
-				audio:{},
-				twitter:{},
-				instagram:{},
-				facebook:{},
-				relatedLink:{},
-				externalLink:{},
-				globalBuzz:{},
-				newsletterSubscribe:{},
-				iframe:{},
-				customText:{}
-			}
-		},
-		defaultElementSelectors = function(){
-			// we cant specify certain elements as default options
-			// because they are not yet loaded into the DOM when this script runs
-			// so if they are null, select them her
-
-			if (!defaults.$modalEl)
-			{
-				defaults.$modalEl = $('#embed-modal');
-			}
-
-			if (!defaults.modalScope.$embedTypeSelect)
-			{
-				defaults.modalScope.$embedTypeSelect = $('#select-embed-type');
-			}
-
-			if (!defaults.modalScope.$modalBody)
-			{
-				defaults.modalScope.$modalBody = $('.embed-modal-body');
-			}
-
-			if (!defaults.modalOptions.$abortEl)
-			{
-				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
 			}
 		};
 
