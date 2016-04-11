@@ -222,7 +222,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			})
 			.on('entityEmbedAdded', '.' + entityEmbedContainerClass, function(e){
-				self.addEmbed($(this), e.embedType)
+				self.addEmbed($(this), e.embedType);
 			});
 	};
 
