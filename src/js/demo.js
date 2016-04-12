@@ -72,7 +72,7 @@ $(document).ready(function(){
 
 	$openAddSingleEmbedBtn.click(function(){
 		$.embed_modal_open({
-			embedTypeStr: 'custom',
+			embedTypeStr: 'slideshow',
 			successCallback: function(data){
 				console.log('Embed modal open (add single) successfully saved, server response to follow.');
 				console.log(data);

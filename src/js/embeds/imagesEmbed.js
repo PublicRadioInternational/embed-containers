@@ -26,25 +26,10 @@ var EntityEmbed = EntityEmbed || {};
 				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
 				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
 			}
-		};
-
-	var formatFileSize = function(bytes) {
-		if (typeof bytes !== 'number')
-		{
-			return '';
-		}
-
-		if (bytes >= 100000000)
-		{
-			return (bytes / 1000000000).toFixed(2) + ' GB';
-		}
-
-		if (bytes >= 1000000)
-		{
-			return (bytes / 1000000).toFixed(2) + ' MB';
-		}
-		return (bytes / 1000).toFixed(2) + ' KB';
-	};
+		},
+		uploadedImgDisplay = '.uploaded-image-file',
+		cancelUploadImageBtn = '.cancel-upload-image-btn',
+		editImageFileBtn = '.edit-chosen-file-btn';
 
 	// CONSTRUCTOR
 	function imagesEmbed(options){
@@ -58,9 +43,12 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	imagesEmbed.prototype.orderIndex = 1;
 
+	imagesEmbed.prototype.imagePreviewClass = 'image-preview';
+
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
-			url_path: null, // for image file
+			url_path: null, // URL to image file
+			upload: null,	// form data for image file
 			title: null,
 			altText: null,
 			credit: null,
@@ -104,14 +92,37 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.loadLicenses($el);
 		self.$imageForm = $el.find('input[name="upload"]');
+
+		$el.find(editImageFileBtn).on('click', function(){
+			$el.find(uploadedImgDisplay).hide();
+			self.$imageForm.css('display', 'inline-block');
+			$el.find(cancelUploadImageBtn).show();
+		});
+
+		$el.find(cancelUploadImageBtn).on('click', function(){
+			$el.find(uploadedImgDisplay).show();
+			self.$imageForm.hide();
+			$el.find(cancelUploadImageBtn).hide();
+		});
+	};
+
+	imagesEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el, self);
+
+		$el.find(uploadedImgDisplay).find('.image-preview').remove();
+		$el.find(uploadedImgDisplay).hide();
+		self.$imageForm.show();
+		$el.find(cancelUploadImageBtn).hide();
 	};
 
 	imagesEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
 	{
 		var self = this;
+		var file = self.model.upload;
+		delete self.model.upload;
+
 		self.parent.saveEmbed(embedIsNew, function(data){
-			var imageFormData = new FormData();
-			var file = self.$imageForm[0].files[0];
 			if (!file)
 			{
 				if (!embedIsNew)
@@ -127,6 +138,7 @@ var EntityEmbed = EntityEmbed || {};
 				return;
 			}
 
+			var imageFormData = new FormData();
 			imageFormData.append('upload', file);
 
 			return $.ajax({
@@ -147,6 +159,27 @@ var EntityEmbed = EntityEmbed || {};
 			.fail(failFunc)
 			.always(alwaysFunc);
 		}, failFunc, alwaysFunc, self);
+	};
+
+	imagesEmbed.prototype.generateUploadedImgPreview = function() {
+		var self = this; 
+		return '<img class="' + self.imagePreviewClass + '" src="' + self.options.imageLocation + self.model.url_path + '">';
+	};
+
+	imagesEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		self.parent.populateFormWithModel($form, self);
+
+		if (!self.model.upload && !self.model.url_path)
+		{	
+			return;
+		}
+
+		self.$imageForm.hide();
+
+		$form.find(uploadedImgDisplay).show();
+		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
+		
 	};
 
 	imagesEmbed.prototype.validate = function($el, isAddModal){

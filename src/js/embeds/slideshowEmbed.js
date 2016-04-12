@@ -27,35 +27,59 @@ var EntityEmbed = EntityEmbed || {};
 			return ret;
 		},
 		imageForm = '#embed-modal-slideshow-image',
-		imageSelect = '.embed-modal-slideshow-image-select',
+		imageSelect = '.embed-modal-slideshow-image-list',
 		imageEmbed,
 		imageObjects = {}, // key = image ID; value = image object
-		saveChangesToImageModel = function(){ // save changes on $(imageForm) to the respective model
-			var currentImageId = $(imageForm).find('legend').attr('data-image-id');
+		currentImageId = null,
+		labelTextClass = 'slideshow-radio-label-text',
+		newRadioOption = function(label){
+			if ($('#radio-option-placeholder').length > 0)
+			{
+				$('#radio-option-placeholder').remove();	
+			}
+
+			var id = generateId();
+			var newHtml = 
+				'<label class="slideshow-radio">' + 
+					'<input type="radio" id="' + id + '" name="radioOption">' + 
+					'<span class="' + labelTextClass + '">' +
+						label +
+					'</span>' +
+				'</label>';
+
+			$(imageSelect).append(newHtml);
+			return id;
+		},
+		saveChangesToImageModel = function(){ // save changes made to $(imageForm) to the respective model
 			imageEmbed.getModelFromForm($(imageForm));
 			imageObjects[currentImageId] = imageEmbed.model;
 		},
 		selectSlideshowImage = function(imageId){
 			var $newImageSelectOption = $('#' + imageId); 
-			var currentImageId = $(imageForm).find('legend').attr('data-image-id');
 
 			if (!currentImageId || currentImageId === '') // this is the first image - show hidden UI items
 			{
 				$(imageForm).show();
-				$(imageSelect).show();
+				imageEmbed.$imageForm.show();
+			}
+			else if (currentImageId === imageId)
+			{
+				return;
 			}
 			else // this is not the first image - save current changes to respective model
 			{
 				saveChangesToImageModel();
 
 				// set the form to show to the selected image's data
-				imageEmbed.clearForm($(imageForm));
+				imageEmbed.clearForm($(imageForm));				
+				// imageEmbed.$imageForm.wrap('<form>');
+				// imageEmbed.$imageForm.closest('form').get(0).reset();
+				// imageEmbed.$imageForm.unwrap('<form>');
 				imageEmbed.model = imageObjects[imageId];
-				imageEmbed.populateFormWithModel($(imageForm))
+				imageEmbed.populateFormWithModel($(imageForm));
 			}
 
-			$(imageForm).find('legend').attr('data-image-id', imageId);
-			$(imageSelect).val($newImageSelectOption.val());
+			currentImageId = imageId;
 		};
 
 	// CONSTRUCTOR
@@ -73,6 +97,7 @@ var EntityEmbed = EntityEmbed || {};
 	slideshowEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
+			displayTitle: null,
 			images: []
 		};
 	};
@@ -81,16 +106,16 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.model =  self.cleanModel();
 
-		imageEmbed = $.grep(EntityEmbed.embedTypes, function(et){
-			return et.name == 'imagesEmbed';
-		});
-
-		var imageEmbed = null;
 		for (var et in EntityEmbed.embedTypes)
 		{
 			if (EntityEmbed.embedTypes[et].name === 'imagesEmbed')
 			{
 				imageEmbed = new EntityEmbed.embedTypes[et]();
+				imageEmbed.initModal($(imageForm));
+				imageEmbed.generateUploadedImgPreview = function(){
+					return '<div class="' + this.imagePreviewClass + '">' + this.model.upload.name + '</div>';
+				};
+				$(imageForm).hide();
 				break;
 			}
 		}
@@ -102,60 +127,48 @@ var EntityEmbed = EntityEmbed || {};
 
 		imageEmbed.loadLicenses($el);
 
-		$el.find("input[name='imageFile']").fileupload({
-			dataType: 'json',
-    		replaceFileInput: false,
-			add: function(e, data){
-				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (textStatus !== 'success')
-					{
-						return;
-					}
-					if (!result || !result.responseJSON || !result.responseJSON.path)
-					{
-						console.log('file upload completed with status "' + textStatus + '"');
-						console.log(result);
-						return;
-					}
-
-					var id = generateId();
-					imageObjects[id] = imageEmbed.cleanModel();
-					
-					var imageNum = 0;
-					for (var image in imageObjects)
-					{
-						imageNum += 1;
-					}
-
-					// TODO : better id (this one potentially has spaces)
-					//			use ID from post to server?
-					var listItem= $('<option id="' + id + '">' +
-										'image ' + imageNum + 
-									'</option>');
-
-					data.context = listItem.appendTo($el.find(imageSelect));
-
-					selectSlideshowImage(id);
-				});
+		$(imageSelect).append('<i id="radio-option-placeholder">click the + to add an image</i>');
+		$('.slideshow-image-add').on('click', function(){
+			var imageNum = 1;
+			for (var image in imageObjects)
+			{
+				imageNum += 1;
 			}
+
+			var id = newRadioOption('image ' + imageNum);
+			imageObjects[id] = imageEmbed.cleanModel();
 		});
 
-		$el.on('change', imageSelect, function(e){
-			var $clickedOption = $(e.currentTarget.options[e.currentTarget.selectedIndex]);
+		$(imageSelect).on('click', function(e){
+			var $clickedOption = $(imageSelect + ' :checked');
+			if ($clickedOption.length == 0)
+			{
+				return;
+			}
 			selectSlideshowImage($clickedOption.attr('id'));
 		});
 
+		$(imageForm).find('input[name="title"]').on('blur', function(){
+			var titleVal = $(this).val();
+			if (titleVal === '')
+			{
+				return;
+			}
+
+			var $currentRadio = $('#' + currentImageId).parent();
+			$currentRadio.find('.' + labelTextClass).text(titleVal);
+		});
 	};
 
-	// TODO : this
-/*
+	
+	/*  // TODO : this
 	slideshowEmbed.prototype.parseForEditor = function(){
 		return  '<div class="slideshow-embed">' +
 					// content
 				'</div>';
 	};
+	*/
 
-*/
 	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc)
 	{
 		var self = this;
@@ -179,7 +192,7 @@ var EntityEmbed = EntityEmbed || {};
 					};	
 				},
 				function(){
-					console.log('failed to put/post a slideshow image');
+					console.log('failed to save a slideshow image');
 				}
 			));
 			$.when.apply($, deferreds).done(function(){
@@ -213,6 +226,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		saveChangesToImageModel();
 		self.model.title = $form.find('input[name=slideshowTitle]').val();
+		self.model.displayTitle = $form.find('input[name=displayTitle]').val();
 		self.model.images = [];
 
 		for (var image in imageObjects)
@@ -227,8 +241,8 @@ var EntityEmbed = EntityEmbed || {};
 
 		$el.find(imageSelect).children().remove();
 		$(imageForm).hide();
+		imageEmbed.$imageForm.hide();
 		$(imageSelect).hide();
-		$el.find('legend').attr('data-image-id', '');
 	};
 
 })('');

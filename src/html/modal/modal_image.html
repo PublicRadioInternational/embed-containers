@@ -1,7 +1,14 @@
 <form method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row" id="image-file-upload-row">
 		<div class="embed-modal-full-column">
-			<input class="embed-modal-input" type="file" name="upload" accept="image/*" />
+			<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
+			<span class="fa fa-times cancel-upload-image-btn"></span>
+			<div class="uploaded-image-file">
+				<div>
+					<label>Choosen Image</label>
+					<span class="fa fa-cog edit-chosen-file-btn"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="embed-modal-row">

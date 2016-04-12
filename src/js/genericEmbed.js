@@ -52,11 +52,20 @@ var EntityEmbed = EntityEmbed || {};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
-		var formFields = $el.find('.embed-modal-form-control');
+		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
-			var value = formFields[i].value;
+			var type = formFields[i].type;
+			var value = null;
+			if (type === 'file')
+			{
+				value = formFields[i].files[0];
+			}
+			else
+			{
+				value = formFields[i].value;
+			}
 			if (!!name && !!value)
 			{
 				self.model[name] = value;
@@ -94,21 +103,16 @@ var EntityEmbed = EntityEmbed || {};
 	};
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
-		function resetForm(){
- 			if(!self.$validator)
- 			{
- 				return;
- 			}
- 			self.$validator.resetForm();
- 		};
-		
 		var self = child || this;
 
-		resetForm(self);
+		if(!!self.$validator)
+		{	
+ 			self.$validator.resetForm();
+		}
 		var formList = $el.find('form');
-		for (var x = 0; x < formList.length; x++)
+		for (var i = 0; i < formList.length; i++)
 		{
-			formList[x].reset();
+			formList[i].reset();
 		}
 	 	self.model = self.cleanModel();
 	};
