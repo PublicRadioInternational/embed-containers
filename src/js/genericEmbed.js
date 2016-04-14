@@ -126,7 +126,11 @@ var EntityEmbed = EntityEmbed || {};
 	// returns validator object
 	genericEmbed.prototype.validate = function($el, isAddModal, child){
 		var self = child || this;
-		var $form = $el.find('form');
+		var $form = $el;
+		if (!$form.is('form'))
+		{
+			$form = $el.find('form');
+		}
 		self.$validator = $form.validate(self.options.validationOptions);
 		return self.$validator;
 	};

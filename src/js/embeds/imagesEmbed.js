@@ -122,7 +122,7 @@ var EntityEmbed = EntityEmbed || {};
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		self.parent.saveEmbed(embedIsNew, function(data){
+		return self.parent.saveEmbed(embedIsNew, function(data){
 			if (!file)
 			{
 				if (!embedIsNew)
@@ -179,14 +179,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		$form.find(uploadedImgDisplay).show();
 		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
-		
-	};
-
-	imagesEmbed.prototype.validate = function($el, isAddModal){
-		var self = this;
-
-		self.options.validationOptions.rules.upload.required = isAddModal;
-		return self.parent.validate($el, isAddModal, self);
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){

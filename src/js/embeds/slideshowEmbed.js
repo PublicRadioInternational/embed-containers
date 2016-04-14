@@ -15,7 +15,11 @@ var EntityEmbed = EntityEmbed || {};
 					slideshowTitle: 'required',
 					title: 'required',
 					altText: 'required',
-					license: 'required'
+					license: 'required'//,
+					// radioOption: {
+					// 	slideshowImage: true,
+					// 	errorLabelContainer: '.slideshow-image-error'
+					// }
 				}
 			}
 		},
@@ -45,6 +49,7 @@ var EntityEmbed = EntityEmbed || {};
 					'<span class="' + labelTextClass + '">' +
 						label +
 					'</span>' +
+					'<label class="slideshow-image-error"></label>' + 
 				'</label>';
 
 			$(imageSelect).append(newHtml);
@@ -72,9 +77,6 @@ var EntityEmbed = EntityEmbed || {};
 
 				// set the form to show to the selected image's data
 				imageEmbed.clearForm($(imageForm));				
-				// imageEmbed.$imageForm.wrap('<form>');
-				// imageEmbed.$imageForm.closest('form').get(0).reset();
-				// imageEmbed.$imageForm.unwrap('<form>');
 				imageEmbed.model = imageObjects[imageId];
 				imageEmbed.populateFormWithModel($(imageForm));
 			}
@@ -106,12 +108,17 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.model =  self.cleanModel();
 
+		// get image embed type
 		for (var et in EntityEmbed.embedTypes)
 		{
 			if (EntityEmbed.embedTypes[et].name === 'imagesEmbed')
 			{
 				imageEmbed = new EntityEmbed.embedTypes[et]();
+
+				// initialize it with the correct form (remember there are two on this page)
 				imageEmbed.initModal($(imageForm));
+
+				// modify function to suit slideshow
 				imageEmbed.generateUploadedImgPreview = function(){
 					return '<div class="' + this.imagePreviewClass + '">' + this.model.upload.name + '</div>';
 				};
@@ -125,9 +132,30 @@ var EntityEmbed = EntityEmbed || {};
 			return;
 		}
 
+		// configure validation for slideshow images
+		$.validator.addMethod('slideshowImage', function(value, element, params) {
+			var imgId = element.id;
+			var isValid = true;
+			if (!!imgId || !!imageObjects[imgId])
+			{
+				isValid = !!imageObjects[imgId].title &&
+							!!imageObjects[imgId].license &&
+							!!imageObjects[imgId].altText &&
+							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
+			}
+			return this.optional(element) || isValid;
+		}, 'missing required fields');
+
 		imageEmbed.loadLicenses($el);
 
+		/*
+		 * configure icons event handlers that enable a user to create a dynamic list of images
+		 */
+
+		// placeholder text - instructs user
 		$(imageSelect).append('<i id="radio-option-placeholder">click the + to add an image</i>');
+
+		// event handler for the add image icon
 		$('.slideshow-image-add').on('click', function(){
 			var imageNum = 1;
 			for (var image in imageObjects)
@@ -139,6 +167,7 @@ var EntityEmbed = EntityEmbed || {};
 			imageObjects[id] = imageEmbed.cleanModel();
 		});
 
+		// event handler for changing the image object which populates the form (select radio option)
 		$(imageSelect).on('click', function(e){
 			var $clickedOption = $(imageSelect + ' :checked');
 			if ($clickedOption.length == 0)
@@ -148,6 +177,7 @@ var EntityEmbed = EntityEmbed || {};
 			selectSlideshowImage($clickedOption.attr('id'));
 		});
 
+		// event handler to change the radio option text to match the title of the image
 		$(imageForm).find('input[name="title"]').on('blur', function(){
 			var titleVal = $(this).val();
 			if (titleVal === '')
@@ -159,7 +189,6 @@ var EntityEmbed = EntityEmbed || {};
 			$currentRadio.find('.' + labelTextClass).text(titleVal);
 		});
 	};
-
 	
 	/*  // TODO : this
 	slideshowEmbed.prototype.parseForEditor = function(){
@@ -169,7 +198,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 	*/
 
-	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc)
+	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
 	{
 		var self = this;
 		var deferreds = [];
@@ -177,49 +206,44 @@ var EntityEmbed = EntityEmbed || {};
 		for(var i = 0; i < self.model.images.length; i++)
 		{
 			imageEmbed.model = self.model.images[i];
-			imageEmbed.model.order = i;
 			var imageEmbedIsNew = !imageEmbed.model.object_id;
+
 			deferreds.push(imageEmbed.saveEmbed(
 				imageEmbedIsNew,
-				function(data){
-					if (data.status == 'ERROR')
-					{
-						console.log('failed to put/post a slideshow image');
-					}
+				(function(imageNum){
+					return function(data){
+						if (data.status == 'ERROR')
+						{
+							console.log('failed to put/post a slideshow image');
+							return;
+						}
 
-					self.model.images[data.response.order] = {
-						'object_id': data.response.object_id
-					};	
-				},
+						self.model.images[imageNum] = {
+							'object_id': data.response.object_id
+						};
+					}	
+				})(i),
 				function(){
 					console.log('failed to save a slideshow image');
 				}
 			));
-			$.when.apply($, deferreds).done(function(){
-				// TODO : this code is copied from generic embed - find a better way to do this (reduce duplicated code)
-				//			why did we copy it? because when we call self.parent.saveEmbed the options object is null (private member issue)
-				if (embedIsNew){
-					self.model.object_type = self.options.object_type;
-
-					return EntityEmbed.apiService.post({
-						path: self.options.httpPaths.post, 
-						data: self.model,
-						success: successFunc,
-						fail: failFunc
-					});
-				}
-				else
-				{
-					return EntityEmbed.apiService.put({
-						path: self.options.httpPaths.put, 
-						data: self.model,
-						success: successFunc,
-						fail: failFunc
-					});
-				}
-			});	
+			
 		}
-	}
+		$.when.apply($, deferreds).done(function(){
+			self.parent.saveEmbed(embedIsNew, successFunc, failFunc, alwaysFunc, self);
+		});	
+	};
+
+	slideshowEmbed.prototype.validate = function($el, isAddModal){
+		var self = this;
+
+		
+		// TODO : make this work
+		imageEmbed.validate($(imageForm), isAddModal);
+
+
+		return self.parent.validate($el.find('form').first(), isAddModal, self);
+	};
 
 	slideshowEmbed.prototype.getModelFromForm = function($form)
 	{
@@ -237,7 +261,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	slideshowEmbed.prototype.clearForm = function($el){
 		var self = this;
-		self.parent.clearForm($el);
+		self.parent.clearForm($el, self	);
 
 		$el.find(imageSelect).children().remove();
 		$(imageForm).hide();
