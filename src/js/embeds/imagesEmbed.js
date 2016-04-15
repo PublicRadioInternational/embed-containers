@@ -156,8 +156,17 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
-		var self = this; 
-		return '<img class="' + self.imagePreviewClass + '" src="' + self.options.imageLocation + self.model.url_path + '">';
+		var self = this;
+		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
+		{
+			return '<img class="' + self.imagePreviewClass + '" src="' + self.options.imageLocation + self.model.url_path + '">';
+		}
+		else // this is an add modal - the image has been uploaded bny the client but not pushed to the server
+		{
+			return	'<div class="' + self.imagePreviewClass + '">' +
+				(self.model.url_path || self.model.upload.name) +
+			'</div>';
+		}
 	};
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){

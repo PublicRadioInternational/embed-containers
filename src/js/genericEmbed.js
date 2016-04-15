@@ -66,7 +66,7 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				value = formFields[i].value;
 			}
-			if (!!name && !!value)
+			if (!!name)
 			{
 				self.model[name] = value;
 			}
@@ -136,6 +136,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// ASSUMPTION - model is already populated
+	// TODO : embedIsNew can be determined programatically (check if model has object_id)
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 

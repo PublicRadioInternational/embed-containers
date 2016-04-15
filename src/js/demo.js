@@ -49,6 +49,7 @@ $(document).ready(function(){
 		]
 	};
 
+	
 	$('.editable').mediumInsert({
 		editor: medEditor,
 		enabled: true,
