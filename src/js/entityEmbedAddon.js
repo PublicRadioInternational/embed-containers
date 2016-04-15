@@ -345,13 +345,16 @@ var EntityEmbed = EntityEmbed || {};
 				// Establish a clean model to work with
 				data.embeds[i].embedType.model = data.embeds[i].embedType.cleanModel();
 
-				// Send request for complete emebed data, adding the promise to our deferreds list.
-				deferreds.push(EntityEmbed.apiService.get({
+				// Send request for complete emebed data
+				var promise = EntityEmbed.apiService.get({
 					path: data.embeds[i].embedType.options.httpPaths.get,
 					data: {
 						object_id: data.embeds[i].id
-					},
-					success: (function(embed) {
+					}
+				});
+
+				// associate callback to promise
+				promise.done((function(embed) {
 						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
 						// The embed parameter should retain it's reference when the returned async function is fired.
 						// Changes made to embed should bind out of the async function, but that is not required
@@ -380,8 +383,10 @@ var EntityEmbed = EntityEmbed || {};
 							// 		- the position the embed is inserted (embed.index)
 							fullHtml = fullHtml.split(placeholder).join(embedHtml);
 						};
-					})(data.embeds[i]) // **EMBED**
-				}));
+					})(data.embeds[i])); // **EMBED**
+				
+				// add the promise to our deferreds list.
+				deferreds.push(promise);
 			}
 
 			// execute this function when all the AJAX calls to get embed types are done
@@ -407,11 +412,12 @@ var EntityEmbed = EntityEmbed || {};
 		if(isString && !isHtml)
 		{
 			EntityEmbed.apiService.get({
-				path: 'https://test-services.pri.org/admin/embed/edit',
-				data: {
-					object_id : contentData
-				},
-				sucess: function(data){
+					path: 'https://test-services.pri.org/admin/embed/edit',
+					data: {
+						object_id : contentData
+					}
+				})
+				.done(function(data){
 					if (data.status === 'ERROR')
 					{
 						console.log('Failed to get story with id ' + contentData);
@@ -419,11 +425,10 @@ var EntityEmbed = EntityEmbed || {};
 					}
 
 					updateHtml(data.repsonse);
-				},
-				fail: function(data){
+				})
+				.fail(function(data){
 					console.log('Failed to get story with id ' + contentData);
-				}
-			});
+				});
 		}
 		else
 		{

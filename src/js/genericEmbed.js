@@ -136,7 +136,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// ASSUMPTION - model is already populated
-	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc, child){
+	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 
 		if (embedIsNew){
@@ -146,23 +146,17 @@ var EntityEmbed = EntityEmbed || {};
 
 			return EntityEmbed.apiService.post({
 				path: self.options.httpPaths.post, 
-				data: self.model,
-				success: successFunc,
-				fail: failFunc,
-				always: alwaysFunc
+				data: self.model
 			});
 		}
 		else
 		{
 			return EntityEmbed.apiService.put({
 				path: self.options.httpPaths.put, 
-				data: self.model,
-				success: successFunc,
-				fail: failFunc,
-				always: alwaysFunc
+				data: self.model
 			});
 		}
-	}
+	};
 
 	EntityEmbed.embedTypes = {
 		genericEmbed: genericEmbed

@@ -198,7 +198,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 	*/
 
-	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	slideshowEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
 		var self = this;
 		var deferreds = [];
@@ -208,9 +208,9 @@ var EntityEmbed = EntityEmbed || {};
 			imageEmbed.model = self.model.images[i];
 			var imageEmbedIsNew = !imageEmbed.model.object_id;
 
-			deferreds.push(imageEmbed.saveEmbed(
-				imageEmbedIsNew,
-				(function(imageNum){
+			var promise = imageEmbed.saveEmbed(imageEmbedIsNew);
+			
+				promise.done((function(imageNum){
 					return function(data){
 						if (data.status == 'ERROR')
 						{
@@ -222,15 +222,16 @@ var EntityEmbed = EntityEmbed || {};
 							'object_id': data.response.object_id
 						};
 					}	
-				})(i),
-				function(){
-					console.log('failed to save a slideshow image');
-				}
-			));
-			
+				})(i))
+				.fail((function(imageNum){
+					return function(){
+						console.log('failed to save a slideshow image number ' + imageNum);
+					}
+				})(i));
+			deferreds.push(promise);
 		}
-		$.when.apply($, deferreds).done(function(){
-			self.parent.saveEmbed(embedIsNew, successFunc, failFunc, alwaysFunc, self);
+		return $.when.apply($, deferreds).done(function(){
+			return self.parent.saveEmbed(embedIsNew, self);
 		});	
 	};
 

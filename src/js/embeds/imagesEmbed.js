@@ -62,8 +62,9 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		EntityEmbed.apiService.get({
-			path: self.options.httpPaths.getLicenses,
-			success: function(list){
+				path: self.options.httpPaths.getLicenses
+			})
+			.done(function(list){
 				//load object into license list
 				if (!list.response.data)
 				{
@@ -80,11 +81,10 @@ var EntityEmbed = EntityEmbed || {};
 					);
 				}
 				$el.find('[name="license"]').html(licenseList);
-			},
-			fail: function(data){
+			})
+			.fail(function(data){
 				console.log('failed to find load image license options');
-			}
-		});
+			});
 	};
 
 	imagesEmbed.prototype.initModal = function($el){
@@ -116,49 +116,43 @@ var EntityEmbed = EntityEmbed || {};
 		$el.find(cancelUploadImageBtn).hide();
 	};
 
-	imagesEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	imagesEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
 		var self = this;
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		return self.parent.saveEmbed(embedIsNew, function(data){
-			if (!file)
-			{
-				if (!embedIsNew)
-				{
-					// file is not required if the embed is being editted
-					successFunc(data);
-				}
-				else
-				{
-					// TODO : show validation on image
-					failFunc(data);
-				}
-				return;
-			}
+		var promise;
 
-			var imageFormData = new FormData();
-			imageFormData.append('upload', file);
+		return self.parent.saveEmbed(embedIsNew, self)
+			.done(function(data){
+				if (!file)
+				{
+					// TODO : handle error?
+					//			there shuold be a file here if this is an add modal!
+					//			but how do we handle that here?
+					return;
+				}
 
-			return $.ajax({
-				url: self.options.httpPaths.uploadFile,
-				type: 'POST',
-				data: imageFormData,
-				headers: {
-					'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-					'x-object-id': data.response.object_id,
-					'x-debug': '1'
-				},
-				processData: false,
-				contentType: false
-			}).success(function(data){
-				self.model.url_path = data.response.url_path;
-				successFunc(data);
+				var imageFormData = new FormData();
+				imageFormData.append('upload', file);
+
+				return $.ajax({
+					url: self.options.httpPaths.uploadFile,
+					type: 'POST',
+					data: imageFormData,
+					headers: {
+						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
+						'x-object-id': data.response.object_id,
+						'x-debug': '1'
+					},
+					processData: false,
+					contentType: false
+				});
 			})
-			.fail(failFunc)
-			.always(alwaysFunc);
-		}, failFunc, alwaysFunc, self);
+			.done(function(data){
+				self.model.url_path = data.response.url_path;
+			});
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
