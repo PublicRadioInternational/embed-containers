@@ -75,58 +75,53 @@ var EntityEmbed = EntityEmbed || {};
 		self.$wavForm = $el.find('input[name="wavFile"]');
 	};
 
-	audioEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	audioEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
+		// TODO : extract this function into apiService
+		function sendFile(formData){
+			return $.ajax({
+				url: self.options.httpPaths.uploadFile,
+				type: 'POST',
+				data: formData,
+				headers: {
+					'x-auth-token': EntityEmbed.apiService.getAuthToken(),
+					'x-object-id': data.response.object_id,
+					'x-debug': '1'
+				},
+				processData: false,
+				contentType: false
+			});
+		};
+
 		var self = this;
-		self.parent.saveEmbed(embedIsNew, function(data){
-			function sendFile(formData)
-			{
-				return $.ajax({
-					url: self.options.httpPaths.uploadFile,
-					type: 'POST',
-					data: formData,
-					headers: {
-						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': data.response.object_id,
-						'x-debug': '1'
-					},
-					processData: false,
-					contentType: false
-				});
-			};
+		return self.parent.saveEmbed(embedIsNew, self)
+			.done(function(data){
 
-			var mp3File = self.$mp3Form[0].files[0],
-				wavFile = self.$wavForm[0].files[0];
-			
-			var sendMp3 = !!mp3File || isAddModal,  // always send if isAddModal, otherwise only send if user specified
-				sendWav = !!wavFile;				// only send wav file if user specified
+				var mp3File = self.$mp3Form[0].files[0],
+					wavFile = self.$wavForm[0].files[0];
+				
+				var sendMp3 = !!mp3File || isAddModal,  // always send if isAddModal, otherwise only send if user specified
+					sendWav = !!wavFile;				// only send wav file if user specified
 
-			if (sendWav)
-			{
-				var wavFormData = new FormData();
-				wavFormData.append('upload', wavFile);
-				sendFile(wavFormData)
-					.success(function(data){
+				if (sendWav)
+				{
+					var wavFormData = new FormData();
+					wavFormData.append('upload', wavFile);
+					sendFile(wavFormData)
+						.then(function(data){
 							self.model.wavFile = self.options.audioLocation + data.response.url_path;
 						});
-			}
-			if (sendMp3)
-			{
-				var mp3FormData = new FormData();
-				mp3FormData.append('upload', mp3File);
-				sendFile(mp3FormData)
-					.success(function(data){
-						self.model.url_path = data.response.url_path;
-						successFunc(data);
-					})
-					.fail(failFunc)
-					.always(alwaysFunc);
-			}
-			else
-			{
-				successFunc(data);
-			}
-		}, failFunc, alwaysFunc, self);
+				}
+				if (sendMp3)
+				{
+					var mp3FormData = new FormData();
+					mp3FormData.append('upload', mp3File);
+					return sendFile(mp3FormData);
+				}
+			})
+			.then(function(data){
+				self.model.url_path = self.options.audioLocation + data.response.url_path;
+			});
 	};
 
 	audioEmbed.prototype.validate = function($el, isAddModal){

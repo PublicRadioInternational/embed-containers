@@ -14,17 +14,6 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
 			label: '<span class="fa fa-code"></span>',
-			modalOptions: {}, //see modal.js to customize if embedModalDefaults.js is insufficient
-			modalScope: { // default scope to pass to the modal
-				$embedTypeSelect: null,
-				$modalBody: null
-			},
-			$modalEl: null,
-			insertBtn: '.medium-insert-buttons-show', // selector for insert button
-			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
-				url: 'upload.php',
-				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-			},
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -74,46 +63,6 @@ var EntityEmbed = EntityEmbed || {};
 						entityEmbed.addNewline($embed);
 					}
 				}
-			},
-			embedTypes: { // options for different embed types
-				image:{},
-				slideshow: {},
-				video:{},
-				audio:{},
-				twitter:{},
-				instagram:{},
-				facebook:{},
-				relatedLink:{},
-				externalLink:{},
-				globalBuzz:{},
-				newsletterSubscribe:{},
-				iframe:{},
-				customText:{}
-			}
-		},
-		defaultElementSelectors = function(){
-			// we cant specify certain elements as default options
-			// because they are not yet loaded into the DOM when this script runs
-			// so if they are null, select them her
-
-			if (!defaults.$modalEl)
-			{
-				defaults.$modalEl = $('#embed-modal');
-			}
-
-			if (!defaults.modalScope.$embedTypeSelect)
-			{
-				defaults.modalScope.$embedTypeSelect = $('#select-embed-type');
-			}
-
-			if (!defaults.modalScope.$modalBody)
-			{
-				defaults.modalScope.$modalBody = $('.embed-modal-body');
-			}
-
-			if (!defaults.modalOptions.$abortEl)
-			{
-				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
 			}
 		};
 
@@ -286,7 +235,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			})
 			.on('entityEmbedAdded', '.' + entityEmbedContainerClass, function(e){
-				self.addEmbed($(this), e.embedType)
+				self.addEmbed($(this), e.embedType);
 			});
 	};
 
@@ -407,13 +356,16 @@ var EntityEmbed = EntityEmbed || {};
 				// Establish a clean model to work with
 				data.embeds[i].embedType.model = data.embeds[i].embedType.cleanModel();
 
-				// Send request for complete emebed data, adding the promise to our deferreds list.
-				deferreds.push(EntityEmbed.apiService.get({
+				// Send request for complete emebed data
+				var promise = EntityEmbed.apiService.get({
 					path: data.embeds[i].embedType.options.httpPaths.get,
 					data: {
 						object_id: data.embeds[i].id
-					},
-					success: (function(embed) {
+					}
+				});
+
+				// associate callback to promise
+				promise.done((function(embed) {
 						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
 						// The embed parameter should retain it's reference when the returned async function is fired.
 						// Changes made to embed should bind out of the async function, but that is not required
@@ -442,8 +394,10 @@ var EntityEmbed = EntityEmbed || {};
 							// 		- the position the embed is inserted (embed.index)
 							fullHtml = fullHtml.split(placeholder).join(embedHtml);
 						};
-					})(data.embeds[i]) // **EMBED**
-				}));
+					})(data.embeds[i])); // **EMBED**
+				
+				// add the promise to our deferreds list.
+				deferreds.push(promise);
 			}
 
 			// execute this function when all the AJAX calls to get embed types are done
@@ -469,11 +423,12 @@ var EntityEmbed = EntityEmbed || {};
 		if(isString && !isHtml)
 		{
 			EntityEmbed.apiService.get({
-				path: 'https://test-services.pri.org/admin/embed/edit',
-				data: {
-					object_id : contentData
-				},
-				sucess: function(data){
+					path: 'https://test-services.pri.org/admin/embed/edit',
+					data: {
+						object_id : contentData
+					}
+				})
+				.done(function(data){
 					if (data.status === 'ERROR')
 					{
 						console.log('Failed to get story with id ' + contentData);
@@ -481,11 +436,10 @@ var EntityEmbed = EntityEmbed || {};
 					}
 
 					updateHtml(data.repsonse);
-				},
-				fail: function(data){
+				})
+				.fail(function(data){
 					console.log('Failed to get story with id ' + contentData);
-				}
-			});
+				});
 		}
 		else
 		{

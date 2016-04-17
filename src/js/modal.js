@@ -170,7 +170,7 @@
 		return this.each(function()
 		{
 			var modalCtrl = $.data(this, 'ctrl');
-			if (!!modalCtrl && !modalCtrl.isActive )
+			if (!!modalCtrl && !modalCtrl.isActive)
 			{
 				if (!!addToScope)
 				{
