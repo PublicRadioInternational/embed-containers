@@ -102,6 +102,19 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	/**
+	 * Private function to get a clopy of an embed type object by object_type value.
+	 * @param  {String} objectType API object_type name
+	 * @return {Object}            Initialized embed type object from EntityEmbed.currentEmbedTypes.
+	 */
+	function getEmbedTypeByObjectType(objectType) {
+		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+			return et.options.object_type == objectType;
+		})[0];
+
+		return $.extend(true, {}, embedType);
+	}
+
+	/**
 	 * Custom Addon object
 	 *
 	 * Sets options, variables and calls init() function
@@ -338,9 +351,7 @@ var EntityEmbed = EntityEmbed || {};
 			for (var i = 0; i < data.embeds.length; i++)
 			{
 				// Convert returned type name to a useful embedType object
-				data.embeds[i].embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
-					return et.options.object_type == data.embeds[i].type;
-				})[0];
+				data.embeds[i].embedType = getEmbedTypeByObjectType(data.embeds[i].type);
 
 				// Establish a clean model to work with
 				data.embeds[i].embedType.model = data.embeds[i].embedType.cleanModel();
@@ -516,9 +527,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
-		var embedName = $.grep(EntityEmbed.currentEmbedTypes, function(et){
-			return et.options.object_type === embedObjectType;
-		})[0].name;
+		var embedType = getEmbedTypeByObjectType(embedObjectType);
 
 		// hide current toolbars and deactive any active embed
 		self.toolbarManager.hideToolbar();
@@ -531,7 +540,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			if ($embed.hasClass(activeEmbedClass))
 			{
-				self.toolbarManager.showToolbars($embed, embedName);
+				self.toolbarManager.showToolbars($embed, embedType.name);
 			}
 			else
 			{
