@@ -125,8 +125,9 @@ var EntityEmbed = EntityEmbed || {};
 
 		$el.find(uploadedAudioDisplay).find('.' + self.audioPreviewClass).remove();
 		$el.find(uploadedAudioDisplay).hide();
-		self.$mp3Form.show();
 		$el.find(cancelUploadAudioBtn).hide();
+		$el.find(editAudioFileBtn).hide();
+		self.$mp3Form.show();
 	};
 
 	audioEmbed.prototype.saveEmbed = function(embedIsNew)
@@ -136,7 +137,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		return self.parent.saveEmbed(embedIsNew, self)
-			.done(function(responseData){
+			.then(function(responseData){
 				if (!file)
 				{
 					// TODO : handle error?

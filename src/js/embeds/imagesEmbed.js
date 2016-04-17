@@ -139,8 +139,9 @@ var EntityEmbed = EntityEmbed || {};
 
 		$el.find(uploadedImgDisplay).find('.' + self.imagePreviewClass).remove();
 		$el.find(uploadedImgDisplay).hide();
-		self.$imageForm.show();
 		$el.find(cancelUploadImageBtn).hide();
+		$el.find(editImageFileBtn).hide();
+		self.$imageForm.show();
 	};
 
 	imagesEmbed.prototype.saveEmbed = function(embedIsNew)
@@ -150,7 +151,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		return self.parent.saveEmbed(embedIsNew, self)
-			.done(function(responseData){
+			.then(function(responseData){
 				if (!file)
 				{
 					// TODO : handle error?
