@@ -101,7 +101,7 @@ var EntityEmbed = EntityEmbed || {};
 		saveEmbed = function(scope){
 			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
 							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
-			
+
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
 			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
 			{
@@ -128,6 +128,7 @@ var EntityEmbed = EntityEmbed || {};
 					scope.modalCtrl.$el.completeModal();
 					if (!!scope.successCallback)
 					{
+						// TODO : call this function on select existing (if appropriate)
 						scope.successCallback(data.response);
 					}
 				},
@@ -137,6 +138,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					if (!!scope.failCallback)
 					{
+						// TODO : call this function on select existing (if appropriate)
 						scope.failCallback();
 					}
 				};
@@ -159,6 +161,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					if (!!scope.successCallback)
 					{
+						// TODO : call this function on select existing (if appropriate)
 						scope.successCallback(data.response);
 					}
 				},
@@ -168,6 +171,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					if (!!scope.failCallback)
 					{
+						// TODO : call this function on select existing (if appropriate)
 						scope.failCallback();
 					}
 				};
@@ -176,14 +180,17 @@ var EntityEmbed = EntityEmbed || {};
 			var alwaysFunction = function(data){
 				isSaving = false;
 				$(embedModalSelectors.elements.saveSpinner).hide();
-				
+
 				if (!!scope.alwaysCallback)
 				{
 					scope.alwaysCallback();
 				}
 			};
 
-			scope.currentEmbedType.saveEmbed(isAddModal, successFunction, failFunction, alwaysFunction);
+			scope.currentEmbedType.saveEmbed(isAddModal)
+				.done(successFunction)
+				.fail(failFunction)
+				.always(alwaysFunction);
 
 			$validator.resetForm();
 
@@ -196,47 +203,49 @@ var EntityEmbed = EntityEmbed || {};
 			EntityEmbed.apiService.post({
 				path: scope.currentEmbedType.options.httpPaths.getAll,
 				data: {
-					object_type: scope.currentEmbedType.options.object_type
-				},	
-				success: function(obj){
-					if (typeof data.response === 'string')
-					{
-						console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
-						return;
-					}
-
-					if (!obj.response.data){
-						return;
-					}
-					scope.selectExistingItems = obj.response.data;
-					for (var i = 0; i < scope.selectExistingItems.length; i++)
-					{
-						var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].object_id));
-						$(embedModalSelectors.elements.selectExistingTableBody).append($row);
-
-						// add click event to highlight (select) a row
-						scope.modalCtrl.registerEvent($row, 'click', function(e, scope){
-							// we do not need to add the class back if it is already on the item being clicked
-							var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
-
-							$(embedModalSelectors.elements.selectExistingTableBody)
-								.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
-								.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
-
-							if (needToAddClass){
-								$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
-								$(embedModalSelectors.buttons.selectExisting).removeClass('disabled');
-							}
-							else // since we didnt add a class, that means nothing is selected, so disable the select button
-							{
-								$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
-							}
-						});
-					}
-				},
-				fail: function(data){
-					console.log('Failed to get list of current embed types for the Select Existing page.');
+					object_type: scope.currentEmbedType.options.object_type,
+					auth_token: 'abc123'
 				}
+			})
+			.done(function(respData){
+				if (typeof respData.response === 'string')
+				{
+					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
+					return;
+				}
+
+				if (!respData.response.data){
+					return;
+				}
+				scope.selectExistingItems = respData.response.data;
+				for (var i = 0; i < scope.selectExistingItems.length; i++)
+				{
+					var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].object_id));
+					$(embedModalSelectors.elements.selectExistingTableBody).append($row);
+
+					// add click event to highlight (select) a row
+					scope.modalCtrl.registerEvent($row, 'click', function(e, scope){
+						// we do not need to add the class back if it is already on the item being clicked
+						var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
+
+						$(embedModalSelectors.elements.selectExistingTableBody)
+							.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
+							.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
+
+						if (needToAddClass){
+							$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
+							$(embedModalSelectors.buttons.selectExisting).removeClass('disabled');
+						}
+						else // since we didnt add a class, that means nothing is selected, so disable the select button
+						{
+							$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
+						}
+					});
+				}
+			})
+			.fail(function(respData){
+				// TODO : UI failure message
+				console.log('Failed to get list of current embed types for the Select Existing page.');
 			});
 		},
 		showCreateNewEmbedView = function(scope){
@@ -282,15 +291,15 @@ var EntityEmbed = EntityEmbed || {};
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var figureClass = 'entity-embed';
 			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id  + '" ' + 
+							'id="' + embedType.model.object_id  + '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
 							embedType.parseForEditor() +
 						'</figure>';
 
 			if (includeWrapper)
 			{
-				return	'<div class="entity-embed-container">' + 
-							ret + 
+				return	'<div class="entity-embed-container">' +
+							ret +
 						'</div>';
 			}
 			return ret;
@@ -447,21 +456,21 @@ var EntityEmbed = EntityEmbed || {};
 							path: currentScope.currentEmbedType.options.httpPaths.get,
 							data: {
 								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
-							},
-							success: function(data){
-								if (typeof data.response === 'string')
-								{
-									console.log('Failed to get list of current embed types for the Select Existing page.: ' + data.response);
-									return;
-								}
-								
-								currentScope.currentEmbedType.model = data.response;
-								currentScope.modalCtrl.$el.completeModal();
-							},
-							fail: function(data){
-								// TODO: show error UI
-								console.log('failed to get embed type!');
 							}
+						})
+						.done(function(respData){
+							if (typeof respData.response === 'string')
+							{
+								console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
+								return;
+							}
+
+							currentScope.currentEmbedType.model = respData.response;
+							currentScope.modalCtrl.$el.completeModal();
+						})
+						.fail(function(respData){
+							// TODO: show error UI
+							console.log('failed to get embed type!');
 						});
 					}
 				);
@@ -487,23 +496,24 @@ var EntityEmbed = EntityEmbed || {};
 						path: scope.currentEmbedType.options.httpPaths.get,
 						data: {
 							object_id: scope.embedId
-						},
-						success: function(data){
-							if (typeof data.response === 'string')
-							{
-								console.log('Failed to get embed type: ' + data.response);
-								// show UI error here								
-								return;
-							}
-
-							setModalView(scope, data.response.object_type);
-							scope.currentEmbedType.model = data.response;
-							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
-							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
-						},
-						fail: function(data){
-							console.log('failed to get embed type!');
 						}
+					})
+					.done(function(data){
+						if (typeof data.response === 'string')
+						{
+							console.log('Failed to get embed type: ' + data.response);
+							// show UI error here
+							return;
+						}
+
+						setModalView(scope, data.response.object_type);
+						scope.currentEmbedType.model = data.response;
+						scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
+						scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+					})
+					.fail(function(data){
+						// TODO : UI failure message
+						console.log('failed to get embed type!');
 					});
 				}
 				else if (scope.modalType == EntityEmbed.embedModalTypes.add)
@@ -562,7 +572,7 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));				
+					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));
 					// create an event to be raised
 					var addEvent = jQuery.Event('entityEmbedAdded');
 					// add data to it so the handler knows what to do

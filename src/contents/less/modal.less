@@ -2,6 +2,7 @@
 
 @embed-modal-width: 70%;
 @embed-modal-top: 10%;
+@embed-modal-strata: 1999;
 
 .embed-modal
 {
@@ -10,18 +11,19 @@
 	display: none;
 
 	background-color: #fff;
-	
+
 	border-radius: @em-border-rad;
 	-webkit-border-radius: @em-border-rad;
 	-moz-border-radius: @em-border-rad;
-	
+
 	box-shadow: 0 0 20px 0 #222;
 	-webkit-box-shadow: 0 0 20px 0 #222;
 	-moz-box-shadow: 0 0 20px 0 #222;
-	
+
 	position: absolute;
 	top: @embed-modal-top;
 	left: (100-@embed-modal-width)/2;
+	z-index: @embed-modal-strata;
 	margin-bottom: @embed-modal-top;
 
 	width: @embed-modal-width;
@@ -42,10 +44,11 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+  z-index: @embed-modal-strata - 1;
 
 	width: 100%;
 	height: 100%;
-	
+
 	background-color: #000;
 	opacity: @background-opacity;
 	-webkit-opacity: @background-opacity;
@@ -60,6 +63,7 @@
 .em-close-btn
 {
 	@em-close-btn-size: 20px;
+	z-index: @embed-modal-strata + 1;
 
 	position: absolute;
 	display: none;
@@ -80,7 +84,6 @@
 .embed-modal-footer
 {
 	.modal-footer();
-	padding-right: 0px;
 }
 
 .embed-modal-content

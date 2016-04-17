@@ -1,44 +1,31 @@
 @bootstrap-columns-per-row: 12;
 
-.medium-insert-buttons
-{
-	color: #212121 !important;
+.medium-editor-insert-plugin {
+  .medium-insert-buttons
+  {
+  	color: #212121;
+  }
+
+  .medium-insert-buttons-addons
+  {
+    li {
+      background: none;
+
+      a {
+        background: #fff;
+      }
+    }
+  }
 }
 
-.medium-insert-buttons-addons
+.embed-modal-row
 {
-	display: none !important;
-}
-
-.medium-insert-buttons-show
-{
-	background: none !important;
-}
-
-.modal-content
-{
-	padding: 0 20px;
-
-	.modal-header
-	{
-		margin-bottom: 15px;
-		padding-left: 0px;
-
-		.header-text
-		{
-			display: inline;
-		}
-	}
-
-	.embed-modal-row
-	{
-		.make-row();
-		margin-bottom: 20px;
-		&:last-child
-		{
-			margin-bottom: 0px;
-		}
-	}
+  .make-row();
+  margin-bottom: 20px;
+  &:last-child
+  {
+    margin-bottom: 0;
+  }
 }
 
 .embed-modal-form
@@ -58,7 +45,7 @@
 
 .embed-modal-half-column
 {
-	.make-xs-column(@bootstrap-columns-per-row/2);	
+	.make-xs-column(@bootstrap-columns-per-row/2);
 }
 
 #embed-modal-select-existing
@@ -77,12 +64,12 @@
 	#btn-abort-modal
 	{
 		.btn();
-		.btn-default();	
+		.btn-default();
 	}
 
 	#btn-show-select-existing
 	{
-		float: left; 
+		float: left;
 		.btn();
 		.btn-primary();
 	}
@@ -101,7 +88,7 @@
 	#btn-cancel-select-existing
 	{
 		.btn();
-		.btn-default();	
+		.btn-default();
 	}
 }
 
@@ -116,7 +103,7 @@
 	color: #ff0000;
 }
 
-.error.embed-modal-form-control 
+.error.embed-modal-form-control
 {
 	border: 1px #e60000 solid;
 }
@@ -142,7 +129,9 @@
 
 #leave-confirmation-modal
 {
-	display:none;
+	position: absolute;
+	display: none;
+	
 	#btn-confirm-leave
 	{
 		.btn();

@@ -7,18 +7,13 @@ var EntityEmbed = EntityEmbed || {};
 	/** Default values */
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
-		workaroundHtmlId = 'workaround-element', // id of HTML element in place to avoid BUG060
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
-			insertBtn: '.medium-insert-buttons', // selector for insert button
-			fileUploadOptions: { // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
-				url: 'upload.php',
-				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-			},
+			label: '<span class="fa fa-code"></span>',
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -70,7 +65,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			}
 		};
-		
+
 	/**
 	 * Private method to generate unique placeholder string for serialization.
 	 *  This string should:
@@ -107,6 +102,19 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	/**
+	 * Private function to get a clopy of an embed type object by object_type value.
+	 * @param  {String} objectType API object_type name
+	 * @return {Object}            Initialized embed type object from EntityEmbed.currentEmbedTypes.
+	 */
+	function getEmbedTypeByObjectType(objectType) {
+		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+			return et.options.object_type == objectType;
+		})[0];
+
+		return $.extend(true, {}, embedType);
+	}
+
+	/**
 	 * Custom Addon object
 	 *
 	 * Sets options, variables and calls init() function
@@ -134,14 +142,14 @@ var EntityEmbed = EntityEmbed || {};
 		self.toolbarManager = new EntityEmbed.toolbarManager(self, self.options.styles, self.options.actions, activeEmbedClass);
 
 		// Extend editor's functions
-		if (self.core.getEditor()) {
-
+		if (self.core.getEditor())
+		{
 			// allow access the EntityEmbeds object by keeping the object on this prototype
-			self.core.getEditor().get_story = function(){
-				return self.getStory();
+			self.core.getEditor().get_content = function(){
+				return self.getContent();
 			};
-			self.core.getEditor().load_story = function(storyData){
-				self.loadStory(storyData);
+			self.core.getEditor().load_content = function(contentData){
+				self.loadContent(contentData);
 			};
 		}
 
@@ -181,14 +189,6 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
 
-		$(document).ready(function()
-		{
-			$(self.options.insertBtn).click(function(e){
-				e.stopPropagation();
-				self.add();
-			});
-		});
-
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
 			.on('click', function(e){
@@ -206,8 +206,8 @@ var EntityEmbed = EntityEmbed || {};
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})			
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown', '.editable.editor', function(e){ 
-				if(e.which == 8 || e.which == 46) // backspace or delete 
+			.on('keydown', '.editable.editor', function(e){
+				if(e.which == 8 || e.which == 46) // backspace or delete
 				{
 					var numChildren = $('.editable.editor p').length;
 					if(numChildren <= 1)
@@ -217,7 +217,10 @@ var EntityEmbed = EntityEmbed || {};
 						{
 							e.preventDefault();
 						}
+
 					}	
+
+				}
 			})
 			// conditionally remove embed
 			.on('keydown', function(e){
@@ -234,7 +237,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			})
 			.on('entityEmbedAdded', '.' + entityEmbedContainerClass, function(e){
-				self.addEmbed($(this), e.embedType)
+				self.addEmbed($(this), e.embedType);
 			});
 	};
 
@@ -255,11 +258,11 @@ var EntityEmbed = EntityEmbed || {};
      * @return {object} Serialized data
      */
 
-	EntityEmbeds.prototype.getStory = function() {
+	EntityEmbeds.prototype.getContent = function() {
 		var self = this;
 		var data = self.core.getEditor().serialize();
 		var cleanedData = {
-			storyHtml: '',
+			html: '',
 			embeds: []
 		};
 
@@ -291,8 +294,6 @@ var EntityEmbed = EntityEmbed || {};
 						index: index,
 						// API object_id used to look up complete data for the embed
 						id: $embed.attr('id'),
-						// Store styling of the embed at this position in content
-						style: $embed.attr('class'),
 						// Inlcude embed type name so embed can be rendered correctly during deserialization
 						type: $embed.attr('data-embed-type')
 					};
@@ -309,7 +310,7 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 			// Append resulting HTML to our returned model
-			cleanedData.storyHtml += $data.html();
+			cleanedData.html += $data.html();
 		});
 
 		return cleanedData;
@@ -323,10 +324,11 @@ var EntityEmbed = EntityEmbed || {};
      * @return {void}
      */
 
-	EntityEmbeds.prototype.loadStory = function(storyData) {
+	EntityEmbeds.prototype.loadContent = function(contentData) {
 		var self = this,
-			isString = (typeof storyData === 'string'),
-			fullStoryHtml;
+			isString = (typeof contentData === 'string'),
+			isHtml = isString && (/<[^>]>/g).test(contentData),
+			fullHtml;
 
 		function updateHtml(data) {
 			var deferreds;
@@ -337,7 +339,7 @@ var EntityEmbed = EntityEmbed || {};
 				return;
 			}
 
-			fullStoryHtml = data.storyHtml || '';
+			fullHtml = data.html || '';
 
 			if(!data.embeds)
 			{
@@ -351,20 +353,21 @@ var EntityEmbed = EntityEmbed || {};
 			for (var i = 0; i < data.embeds.length; i++)
 			{
 				// Convert returned type name to a useful embedType object
-				data.embeds[i].embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
-					return et.options.object_type == data.embeds[i].type;
-				})[0];
+				data.embeds[i].embedType = getEmbedTypeByObjectType(data.embeds[i].type);
 
 				// Establish a clean model to work with
 				data.embeds[i].embedType.model = data.embeds[i].embedType.cleanModel();
 
-				// Send request for complete emebed data, adding the promise to our deferreds list.
-				deferreds.push(EntityEmbed.apiService.get({
+				// Send request for complete emebed data
+				var promise = EntityEmbed.apiService.get({
 					path: data.embeds[i].embedType.options.httpPaths.get,
 					data: {
 						object_id: data.embeds[i].id
-					},
-					success: (function(embed) {
+					}
+				});
+
+				// associate callback to promise
+				promise.done((function(embed) {
 						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
 						// The embed parameter should retain it's reference when the returned async function is fired.
 						// Changes made to embed should bind out of the async function, but that is not required
@@ -391,10 +394,12 @@ var EntityEmbed = EntityEmbed || {};
 							// 		- our addon (eg. addonName)
 							// 		- the embed being inserted (eg. embed.id)
 							// 		- the position the embed is inserted (embed.index)
-							fullStoryHtml = fullStoryHtml.split(placeholder).join(embedHtml);
+							fullHtml = fullHtml.split(placeholder).join(embedHtml);
 						};
-					})(data.embeds[i]) // **EMBED**
-				}));
+					})(data.embeds[i])); // **EMBED**
+				
+				// add the promise to our deferreds list.
+				deferreds.push(promise);
 			}
 
 			// execute this function when all the AJAX calls to get embed types are done
@@ -406,46 +411,41 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		function setEditorHtml() {
-			self.$el.children().not('#' + workaroundHtmlId).not(self.options.insertBtn).remove();
-			$('#' + workaroundHtmlId).after(fullStoryHtml);
-			$('#' + workaroundHtmlId).remove();
+			self.core.getEditor().setContent(fullHtml);
 		}
 
-		if(!storyData)
+		if(!contentData)
 		{
 			console.log('Must provide either story id or serialived story data.');
 			return;
 		}
 
-		fullStoryHtml = !isString ? storyData.storyHtml : '';
+		fullHtml = !isString ? contentData.html : isHtml ? contentData : '';
 
-		// add one empty div to avoid BUG060
-		self.$el.append('<div id="' + workaroundHtmlId + '"></div>');
-
-		if(isString)
+		if(isString && !isHtml)
 		{
 			EntityEmbed.apiService.get({
-				path: 'https://test-services.pri.org/admin/embed/edit',
-				data: {
-					object_id : storyData
-				},
-				sucess: function(data){
+					path: 'https://test-services.pri.org/admin/embed/edit',
+					data: {
+						object_id : contentData
+					}
+				})
+				.done(function(data){
 					if (data.status === 'ERROR')
 					{
-						console.log('Failed to get story with id ' + storyData);
+						console.log('Failed to get story with id ' + contentData);
 						return;
 					}
 
 					updateHtml(data.repsonse);
-				},
-				fail: function(data){
-					console.log('Failed to get story with id ' + storyData);
-				}
-			});
+				})
+				.fail(function(data){
+					console.log('Failed to get story with id ' + contentData);
+				});
 		}
 		else
 		{
-			updateHtml(storyData);
+			updateHtml(contentData);
 		}
 	};
 
@@ -497,12 +497,13 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.toolbarManager.hideToolbar();
 		$embed.remove();
+		self.core.triggerInput();
 	};
 
 	/**
 	 * Add a new line before and after an embed
 	 *
-	 * Sometimes this cannot be done with the cursor, so this toolbar button is important 
+	 * Sometimes this cannot be done with the cursor, so this toolbar button is important
 	 *
 	 * @return {void}
 	 */
@@ -528,9 +529,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
-		var embedName = $.grep(EntityEmbed.currentEmbedTypes, function(et){
-			return et.options.object_type === embedObjectType;
-		})[0].name;
+		var embedType = getEmbedTypeByObjectType(embedObjectType);
 
 		// hide current toolbars and deactive any active embed
 		self.toolbarManager.hideToolbar();
@@ -543,7 +542,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			if ($embed.hasClass(activeEmbedClass))
 			{
-				self.toolbarManager.showToolbars($embed, embedName);
+				self.toolbarManager.showToolbars($embed, embedType.name);
 			}
 			else
 			{
@@ -566,7 +565,9 @@ var EntityEmbed = EntityEmbed || {};
 		// apply the default styling to the embed that was just added
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
-	};	
+
+		self.core.triggerInput();
+	};
 
 	/** Addon initialization */
 
