@@ -29,7 +29,26 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		uploadedImgDisplay = '.uploaded-image-file',
 		cancelUploadImageBtn = '.cancel-upload-image-btn',
-		editImageFileBtn = '.edit-chosen-file-btn';
+		editImageFileBtn = '.edit-chosen-file-btn',
+		getImageUrl = function(imageLocation, imageUrl)
+		{
+			if (imageUrl.indexOf(imageLocation) >= 0)
+			{
+				return imageUrl;
+			}
+
+			// ensure that there isn't an unintended '//' in final URL
+			if (imageLocation.endsWith('/'))
+			{
+				imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+			}
+			if (!imageUrl.startsWith('/'))
+			{
+				imageUrl = '/' + imageUrl;
+			}
+
+			return imageLocation + imageUrl;
+		};
 
 	// CONSTRUCTOR
 	function imagesEmbed(options){
@@ -95,14 +114,22 @@ var EntityEmbed = EntityEmbed || {};
 
 		$el.find(editImageFileBtn).on('click', function(){
 			$el.find(uploadedImgDisplay).hide();
+			$el.find(editImageFileBtn).hide();
+
 			self.$imageForm.css('display', 'inline-block');
 			$el.find(cancelUploadImageBtn).show();
 		});
 
 		$el.find(cancelUploadImageBtn).on('click', function(){
-			$el.find(uploadedImgDisplay).show();
 			self.$imageForm.hide();
 			$el.find(cancelUploadImageBtn).hide();
+			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
+			{
+				self.$imageForm.parent().find('#upload-error').hide();	
+			}
+
+			$el.find(uploadedImgDisplay).show();
+			$el.find(editImageFileBtn).show();
 		});
 	};
 
@@ -110,7 +137,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.clearForm($el, self);
 
-		$el.find(uploadedImgDisplay).find('.image-preview').remove();
+		$el.find(uploadedImgDisplay).find('.' + self.imagePreviewClass).remove();
 		$el.find(uploadedImgDisplay).hide();
 		self.$imageForm.show();
 		$el.find(cancelUploadImageBtn).hide();
@@ -122,10 +149,8 @@ var EntityEmbed = EntityEmbed || {};
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		var promise;
-
 		return self.parent.saveEmbed(embedIsNew, self)
-			.done(function(data){
+			.done(function(responseData){
 				if (!file)
 				{
 					// TODO : handle error?
@@ -143,15 +168,15 @@ var EntityEmbed = EntityEmbed || {};
 					data: imageFormData,
 					headers: {
 						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': data.response.object_id,
+						'x-object-id': responseData.response.object_id,
 						'x-debug': '1'
 					},
 					processData: false,
 					contentType: false
 				});
 			})
-			.done(function(data){
-				self.model.url_path = data.response.url_path;
+			.done(function(responseData){
+				self.model.url_path = responseData.response.url_path;
 			});
 	};
 
@@ -159,9 +184,10 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
 		{
-			return '<img class="' + self.imagePreviewClass + '" src="' + self.options.imageLocation + self.model.url_path + '">';
+			return '<img class="' + self.imagePreviewClass +
+					'" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">';
 		}
-		else // this is an add modal - the image has been uploaded bny the client but not pushed to the server
+		else // this is an add modal - the image has been uploaded by the client but not pushed to the server
 		{
 			return	'<div class="' + self.imagePreviewClass + '">' +
 				(self.model.url_path || self.model.upload.name) +
@@ -181,14 +207,22 @@ var EntityEmbed = EntityEmbed || {};
 		self.$imageForm.hide();
 
 		$form.find(uploadedImgDisplay).show();
+		$form.find(editImageFileBtn).show();
 		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.options.imageLocation + self.model.url_path +'" />' + 
-			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
-			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
+		return	'<div class="images-embed">' + 
+					'<img class="entity-embed-secondary-toolbar-locator"' + 
+						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
+					'<div class="images-embed-caption">' +
+						self.model.caption +
+					'</div>' + 
+					'<div class="images-embed-credit">' + 
+						'Credit: ' + self.model.credit +
+					'</div>' + 
+				'</div>';
 	};
 })('');
