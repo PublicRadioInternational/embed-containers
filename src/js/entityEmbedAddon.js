@@ -204,7 +204,7 @@ var EntityEmbed = EntityEmbed || {};
 			.on('click', '.' + entityEmbedContainerClass, function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
-			})
+			})			
 			// prevent user from destroying modal functionality when deleting first element
 			.on('keydown', '.editable.editor', function(e){
 				if(e.which == 8 || e.which == 46) // backspace or delete
@@ -217,8 +217,22 @@ var EntityEmbed = EntityEmbed || {};
 						{
 							e.preventDefault();
 						}
+					}	
+					//prevents user from deleting embed objects using backspace. user must use toolbar 
+					//to delete embed objects and any new lines created from toolbar
+					var embedLine = $('.entity-embed-new-line.medium-insert-active');
+					for(var i = 0; i< embedLine.length; i++)
+					{
+						var embedLineText = $('.entity-embed-new-line.medium-insert-active').text();
+						var prev = $(embedLine[i]).prev();
+						var prevClassIsEmbedNewLine = prev.hasClass('entity-embed-new-line');
+						if(!prevClassIsEmbedNewLine && !embedLineText || !prevClassIsEmbedNewLine&& embedLineText === '' || !prevClassIsEmbedNewLine && embedLineText === ' ')
+						{
+							e.preventDefault();
+							e.stopImmediatePropagation();
+						}					
 					}
-				}
+				}				
 			})
 			// conditionally remove embed
 			.on('keydown', function(e){
