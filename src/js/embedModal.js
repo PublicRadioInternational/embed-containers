@@ -94,9 +94,10 @@ var EntityEmbed = EntityEmbed || {};
 		return EntityEmbed.$embedModal;
 	};
 
+	// TODO : configure this to return a promise (passing callbacks suuuucks)
 	$.embed_modal_open = function(options){
 		var defaults = {
-			$currentEditorLocation: $(''),			// selector for the current editor location (can be null or empty)
+			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
 			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
 												//		null - add any
 												//		not null - add single or edit (if id is also specified)
