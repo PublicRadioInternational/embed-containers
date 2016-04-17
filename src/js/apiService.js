@@ -3,9 +3,6 @@ var EntityEmbed = EntityEmbed || {};
 (function(){
 
 	var defaultConfig = {
-		success: function(){},
-		fail: function(){},
-		always: function(){},
 		data: {},
 		debug: 0,
 		auth_token: '',
@@ -24,10 +21,7 @@ var EntityEmbed = EntityEmbed || {};
 				dataType: 'json',
 				url: config.path,
 				data: JSON.stringify(config.data)
-			})
-			.done(config.success)
-			.fail(config.fail)
-			.always(config.always);
+			});
 	};
 
 	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
