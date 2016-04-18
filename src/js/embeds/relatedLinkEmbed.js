@@ -202,9 +202,9 @@ var EntityEmbed = EntityEmbed || {};
 				// This function stores the users story selection
 				onChooseEvent: function(storyObject)
 				{
+					storySelectionState[linkLocation] = true;
 					var objectId = $(htmlElementID).getSelectedItemData().object_id;
 					var storyTitle = $(htmlElementID).getSelectedItemData().title;
-					storySelectionState[linkLocation] = true;
 					if(linkTitlesAndIds[linkLocation] === undefined)
 					{
 						linkTitlesAndIds.push({key: objectId, value: storyTitle});
@@ -215,22 +215,36 @@ var EntityEmbed = EntityEmbed || {};
 						linkTitlesAndIds[linkLocation].value = storyTitle;
 					}
 				},
-				// This function validates whether or not the user has selected a story
 				onHideListEvent: function()
 				{
-					if(storySelectionState[linkLocation] === false)
+					if(storySelectionState[linkLocation] === false && !$(htmlElementID).is(':focus'))
 					{
-						// Throw validation error on the form input element.
-						//$(htmlElementID).val('');
+						$(htmlElementID).val('');
 					}
+
+					$(htmlElementID).focusout(function()
+					{
+						if(linkTitlesAndIds[linkLocation] && linkTitlesAndIds[linkLocation].value != $(htmlElementID).val())
+						{
+							$(htmlElementID).val(linkTitlesAndIds[linkLocation].value);
+						}
+					});
 				}
 			},
 
 			requestDelay: 600
 		};
 
-	
+		var saveButton = '#btn-save-modal'
 		$(htmlElementID).easyAutocomplete(options);
+		$(htmlElementID).focus(function()
+		{
+			$(saveButton).prop('disabled', true);
+		});
+		$(htmlElementID).focusout(function()
+		{
+			$(saveButton).prop('disabled', false);
+		});
 	}
 
 	relatedLinkEmbed.prototype.initModal = function($el){
