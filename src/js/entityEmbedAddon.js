@@ -379,17 +379,19 @@ var EntityEmbed = EntityEmbed || {};
 					continue;
 				}
 
+				data.embeds[i].embedType = embedType;
+
 				// Send request for complete emebed data
 				var promise = EntityEmbed.apiService.get({
-					path: embedType.embedType.options.httpPaths.get,
+					path: data.embeds[i].embedType.options.httpPaths.get,
 					data: {
-						object_id: embedType.id
+						object_id: data.embeds[i].id
 					}
 				});
 
 				// associate callback to promise
 				promise.done((function(embed) {
-						// Encapsulate embed data by passing embedType into self invoking function (See **EMBED** below).
+						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
 						// The embed parameter should retain it's reference when the returned async function is fired.
 						// Changes made to embed should bind out of the async function, but that is not required
 						// since we append the modified embed objetc to our list of usable embeds to render once the
@@ -429,7 +431,7 @@ var EntityEmbed = EntityEmbed || {};
 							// 		- the position the embed is inserted (embed.index)
 							fullHtml = fullHtml.split(placeholderString).join(placeholderHtml);
 						};
-					})(embedType)); // **EMBED**
+					})(data.embeds[i])); // **EMBED**
 
 				// add the promise to our deferreds list.
 				deferreds.push(promise);
