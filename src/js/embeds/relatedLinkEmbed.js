@@ -4,6 +4,14 @@ var EntityEmbed = EntityEmbed || {};
 
 	'use strict';
 
+	// check for EntityEmbedTypes namespace
+	if (!EntityEmbed.embedTypes)
+	{
+		console.log('Could not find EntityEmbedTypes namespace. ' +
+			'Please ensure that the genericEmbed has loaded before this one.');
+		return;
+	}
+
 	// PRIVATE
 	var embedName = 'relatedLink',
 		defaults = {
@@ -58,51 +66,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-<<<<<<< 9544eebb5f68756d060bb5aa4e6e67835546a933
-<<<<<<< 95b47008097324730d8fd6689d14e44ac903121f
-<<<<<<< aeae75c3b8355114f55043dc4faefbf6915acf1d
-	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
-	//  begin typing the title of a story and have a dropdown list of stories displayed to them
-	//  based on their input.
-	var initAutoComplete = function(htmlElementId, self){
-		// TODO: Make function take in user input to pass to API
-
-		EntityEmbed.apiService.get({
-			path: self.options.httpPaths.get,
-			// TODO: Object id is currently hard-coded, this needs to be changed.
-			data: {
-				object_id: 'dbbc5fc38d2e4d359572743d2c00d581'
-			},
-			success: function(fetchedData){
-				var autocompleteSettingsAndData = {
-					data: fetchedData.response.stories,
-					getValue: 'Title',
-					list: {
-						maxNumberOfElements: 10,
-						match: {
-							enabled: true
-						},
-						sort: {
-							enabled: true
-						},		
-					}
-				};
-
-				$( htmlElementId ).easyAutocomplete(autocompleteSettingsAndData);
-				$( htmlElementId ).focus();
-			},
-			fail: function(data){
-				console.log('failed to retrieve any stories!');
-			}
-		});
-	};
-
-=======
->>>>>>> Got typeahead working
-=======
-=======
 /*
->>>>>>> ignore this commit
 	relatedLinkEmbed.prototype.clearForm = function($el, self){
 		var self = this;
 		self.parent.clearForm($el, self);
@@ -123,14 +87,13 @@ var EntityEmbed = EntityEmbed || {};
 	}
 	*/
 
-	relatedLinkEmbed.prototype.clearForm = function($el, self){
- 		//var self = this;
- 		self.parent.clearForm($el);
+	relatedLinkEmbed.prototype.clearForm = function($el){
+ 		var self = this;
+ 		self.parent.clearForm($el, self);
  		var $linkList = $el.find('#related-link-list');
- 		linkList.children().remove();
+ 		$linkList.children().remove();
  	};
 
->>>>>>> initial work on validation and editing rl
 	relatedLinkEmbed.prototype.getModelFromForm = function($el)
 	{
 		var self = this;
@@ -198,6 +161,7 @@ var EntityEmbed = EntityEmbed || {};
 		var isDevEnv = rgxDevEnv.test(window.location.host);
 		var debug = 0;
 		var linkLocation = linkNumber - 1;
+
 		if(storySelectionState[linkLocation] === undefined)
 		{
 			storySelectionState.push(false);
@@ -211,6 +175,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			debug = 1;
 		}
+
 		var options = {
 			url: function(phrase) {
 			   return self.options.httpPaths.getRelatedStories;
@@ -255,7 +220,7 @@ var EntityEmbed = EntityEmbed || {};
 					enabled: true
 				},		
 				// This function stores the users story selection
-				onClickEvent: function(storyObject)
+				onChooseEvent: function(storyObject)
 				{
 					var objectId = $(htmlElementID).getSelectedItemData().object_id;
 					var storyTitle = $(htmlElementID).getSelectedItemData().title;
@@ -269,14 +234,23 @@ var EntityEmbed = EntityEmbed || {};
 						linkTitlesAndIds[linkLocation].key = objectId;
 						linkTitlesAndIds[linkLocation].value = storyTitle;
 					}
+				},
+				// This function validates whether or not the user has selected a story
+				onHideListEvent: function()
+				{
+					if(storySelectionState[linkLocation] === false)
+					{
+						// Throw validation error on the form input element.
+
+					}
 				}
 			},
 
 			requestDelay: 600
 		};
 
+	
 		$(htmlElementID).easyAutocomplete(options);
-		// If the selectionState of the element is false, show a validation error
 	}
 
 	relatedLinkEmbed.prototype.initModal = function($el){
