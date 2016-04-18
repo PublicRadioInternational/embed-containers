@@ -379,6 +379,8 @@ var EntityEmbed = EntityEmbed || {};
 					continue;
 				}
 
+				embedType.model = embedType.cleanModel();
+
 				data.embeds[i].embedType = embedType;
 
 				// Send request for complete emebed data
@@ -424,6 +426,8 @@ var EntityEmbed = EntityEmbed || {};
 								'"></div>'
 							].join('')
 
+							console.log(placeholderString, placeholderHtml, embed);
+
 							// Replace placeholder string in full story HTML with the placeholder HTML
 							// A quick split and join should work since our placeholder string is unique to:
 							// 		- our addon (eg. addonName)
@@ -454,6 +458,8 @@ var EntityEmbed = EntityEmbed || {};
 
 					// Generate the embed HTML
 					embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
+
+					console.log('Insert Embed', embed.placeholderId, embedHtml, embed);
 
 					// Find embeds placeholder element and replcae it with embed HTML
 					self.$el.find('#' + embed.placeholderId).replaceWith(embedHtml);
