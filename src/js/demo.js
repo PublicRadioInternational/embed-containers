@@ -82,49 +82,39 @@ $(document).ready(function(){
 
 	$openAddSingleEmbedBtn.click(function(){
 		$.embed_modal_open({
-			embedTypeStr: 'slideshow',
-			successCallback: function(data){
+				embedTypeStr: 'custom',
+			})
+			.done(function(scope){
 				console.log('Embed modal open (add single) successfully saved, server response to follow.');
-				console.log(data);
-			},
-			failCallback: function(){
-				console.log('Embed modal open (add single) failed to save.');
-			},
-			alwaysCallback: function(){
-				console.log('Embed modal open (add single) completed.');
-			}
-		});
+				console.log(scope);
+			})
+			.fail(function(scope){
+				console.log('Embed modal open (add single) aborted.');
+			});
 	});
 
 	$openAddAnyEmbedBtn.click(function(){
-		$.embed_modal_open({
-			successCallback: function(data){
+		$.embed_modal_open()
+			.done(function(scope){
 				console.log('Embed modal open (add any) successfully saved, server response to follow.');
-				console.log(data);
-			},
-			failCallback: function(){
-				console.log('Embed modal open (add any) failed to save.');
-			},
-			alwaysCallback: function(){
-				console.log('Embed modal open (add any) completed.');
-			}
-		});
+				console.log(scope);
+			})
+			.fail(function(scope){
+				console.log('Embed modal open (add any) aborted.');
+			});
 	});
 
 	$openEditEmbedBtn.click(function(){
 		$.embed_modal_open({
-			embedTypeStr: 'newsletter',
-			id: '2607f8daf38342f28054b29a7c26b118',
-			successCallback: function(data){
+				embedTypeStr: 'newsletter',
+				id: '2607f8daf38342f28054b29a7c26b118',
+			})
+			.done(function(scope){
 				console.log('Embed modal open (edit) successfully saved, server response to follow.');
-				console.log(data);
-			},
-			failCallback: function(){
-				console.log('Embed modal open (edit) failed to save.');
-			},
-			alwaysCallback: function(){
-				console.log('Embed modal open (edit) completed.');
-			}
-		});
+				console.log(scope);
+			})
+			.fail(function(scope){
+				console.log('Embed modal open (edit) aborted.');
+			});
 	});
 });
