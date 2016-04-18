@@ -317,6 +317,7 @@ var EntityEmbed = EntityEmbed || {};
 				 *
 				 * assume that these are already defined:
 				 *		scope.modalCtrl			(default for all modals from modal.js)
+				 *			modalCtrl.promise	(default for all modals from modal.js)
 				 *		scope.$embedTypeSelect
 				 *		scope.$currentEditorLocation
 				 *		scope.$modalBody
@@ -579,6 +580,12 @@ var EntityEmbed = EntityEmbed || {};
 					addEvent.embedType = scope.currentEmbedType;
 					$embedHtml.find('.entity-embed-container').trigger(addEvent);
 				}
+
+				// return only necessary information to anyone interested in promise resolution
+				scope.modalCtrl.promise.resolve({
+					data: 		scope.currentEmbedType.model,
+					options: 	scope.currentEmbedType.options 
+				});
 			}
 		}
 	};
