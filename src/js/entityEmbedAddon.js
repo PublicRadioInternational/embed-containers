@@ -66,18 +66,6 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-	function generatePlaceholderId(embed) {
-		var placeholderId;
-
-		placeholderId = [
-			addonName,
-			embed.index,
-			embed.id
-		].join('_');
-
-		return placeholderId;
-	}
-
 	/**
 	 * Private method to generate unique placeholder string for serialization.
 	 *  This string should:
@@ -396,10 +384,10 @@ var EntityEmbed = EntityEmbed || {};
 						// Encapsulate embed data by passing data.embeds[i] into self invoking function (See **EMBED** below).
 						// The embed parameter should retain it's reference when the returned async function is fired.
 						// Changes made to embed should bind out of the async function, but that is not required
-						// since we append the modified embed objetc to our list of usable embeds to render once the
+						// since we append the modified embed object to our list of usable embeds to render once the
 						// editors inner DOM has been created later on.
 						return function(request){
-							var embedHtml, placeholderString, placeholderHtml;
+							var embedHtml, placeholder;
 
 							if (request.status === 'ERROR')
 							{
@@ -410,30 +398,21 @@ var EntityEmbed = EntityEmbed || {};
 							// Update embed model with API data
 							embed.embedType.model = request.response;
 
-							// Store embeds placeholder id
-							embed.placeholderId = generatePlaceholderId(embed);
-
 							// Add embed to our list of usable embeds
 							usableEmbeds.push(embed);
 
 							// Construct placeholder string
-							placeholderString = generatePlaceholderString(embed);
+							placeholder = generatePlaceholderString(embed);
 
-							// Construct placeholder HTML with id attribute unique to embed at this position
-							placeholderHtml = [
-								'<div id="',
-								embed.placeholderId,
-								'"></div>'
-							].join('')
+							// Generate the embed HTML
+							embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
 
-							console.log(placeholderString, placeholderHtml, embed);
-
-							// Replace placeholder string in full story HTML with the placeholder HTML
+							// Replace placeholder string in full story HTML with the embed HTML
 							// A quick split and join should work since our placeholder string is unique to:
 							// 		- our addon (eg. addonName)
 							// 		- the embed being inserted (eg. embed.id)
 							// 		- the position the embed is inserted (embed.index)
-							fullHtml = fullHtml.split(placeholderString).join(placeholderHtml);
+							fullHtml = fullHtml.split(placeholder).join(embedHtml);
 						};
 					})(data.embeds[i])); // **EMBED**
 
@@ -443,26 +422,37 @@ var EntityEmbed = EntityEmbed || {};
 
 			// execute this function when all the AJAX calls to get embed types are done
 			$.when.apply($, deferreds).done(function(){
-				var embed, embedHtml;
+				var embed, $embed, innerHtml;
+				var done = {};
 
-				// Each of our deferreds should have updated the full story HTML with embed placeholder elements.
+				// Each of our deferreds should have updated the full story HTML with embed HTML.
 				// Set editor content to establish a DOM tree to work with.
 				setEditorHtml();
 
-				// Fix for Issue #164: Add embed HTML to an existing DOM, similar to adding/editing an embed while editing.
+				// Fix for Issue #164: Reattach embed HTML to an existing DOM, similar to adding/editing an embed while editing.
 				// Iterate over usable embeds
 				for (var i = 0; i < usableEmbeds.length; i++)
 				{
 					// Get reference to embed at this index
 					embed = usableEmbeds[i];
 
-					// Generate the embed HTML
-					embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
+					// We only need to do reattach HTML once for embed id. Make sure an embed with this id
+					// hasn't laready been reattached.
+					if(!done[embed.id])
+					{
+						// Set a flag to skip id's that have already been reattached.
+						done[embed.id] = true;
 
-					console.log('Insert Embed', embed.placeholderId, embedHtml, embed);
+						// Find all embed wrapper elements with this ID.
+						$embed = self.$el.find('[id="' + embed.id + '"]');
 
-					// Find embeds placeholder element and replcae it with embed HTML
-					self.$el.find('#' + embed.placeholderId).replaceWith(embedHtml);
+						innerHtml = $embed.html();
+
+						console.log('Reattached Embed', embed.id, innerHtml, embed);
+
+						// Find embeds placeholder element and replcae it with embed HTML
+						$embed.html(innerHtml);
+					}
 				}
 			});
 		}
