@@ -66,27 +66,6 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-/*
-	relatedLinkEmbed.prototype.clearForm = function($el, self){
-		var self = this;
-		self.parent.clearForm($el, self);
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
-			{
-				formFields[i].selectedIndex = 0;
-			}
-			else
-			{
-				formFields[i].value = null;
-				formFields[i].innerHTML ="";
-			}
-		}
-		self.model = self.cleanModel();
-	}
-	*/
-
 	relatedLinkEmbed.prototype.clearForm = function($el){
  		var self = this;
  		self.parent.clearForm($el, self);
@@ -142,7 +121,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 
-		var linkClass = 'related-link-url';
+		var linkClass = 'embed-modal-form-control';
 		var $linkList = $form.find('#related-link-list');
 		var $addLinkBtn = $form.find('#add-link-btn');
 
@@ -150,6 +129,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			$addLinkBtn.click();
 			$form.find('.' + linkClass).last().val(self.model.links[i].value);
+			storySelectionState[i] = true;
 		}
 	};
 
@@ -241,7 +221,7 @@ var EntityEmbed = EntityEmbed || {};
 					if(storySelectionState[linkLocation] === false)
 					{
 						// Throw validation error on the form input element.
-
+						//$(htmlElementID).val('');
 					}
 				}
 			},
