@@ -573,12 +573,14 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, !scope.$currentEditorLocation.is('.entity-embed-container')));
+          var isContainer = scope.$currentEditorLocation.is('.entity-embed-container');
+					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, !isContainer));
+          var $embedContainer = isContainer ? $embedHtml : $embedHtml.find('.entity-embed-container');
 					// create an event to be raised
 					var addEvent = jQuery.Event('entityEmbedAdded');
 					// add data to it so the handler knows what to do
 					addEvent.embedType = scope.currentEmbedType;
-					$embedHtml.find('.entity-embed-container').trigger(addEvent);
+					$embedContainer.trigger(addEvent);
 				}
 
 				// return only necessary information to anyone interested in promise resolution
