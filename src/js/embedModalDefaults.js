@@ -294,13 +294,13 @@ var EntityEmbed = EntityEmbed || {};
 							'id="' + embedType.model.object_id	+ '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
 							embedType.parseForEditor() +
+							'<div class="entity-embed-blocker"></div>' +
 						'</figure>';
 
 			if (includeWrapper)
 			{
 				return	'<div class="entity-embed-container">' +
 							ret +
-							'<div class="entity-embed-blocker"></div>' +
 						'</div>';
 			}
 			return ret;
