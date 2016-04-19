@@ -291,7 +291,7 @@ var EntityEmbed = EntityEmbed || {};
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var figureClass = 'entity-embed';
 			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id  + '" ' +
+							'id="' + embedType.model.object_id	+ '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
 							embedType.parseForEditor() +
 						'</figure>';
@@ -300,6 +300,7 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				return	'<div class="entity-embed-container">' +
 							ret +
+							'<div class="entity-embed-blocker"></div>' +
 						'</div>';
 			}
 			return ret;
@@ -573,9 +574,9 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-          var isContainer = scope.$currentEditorLocation.is('.entity-embed-container');
+					var isContainer = scope.$currentEditorLocation.is('.entity-embed-container');
 					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, !isContainer));
-          var $embedContainer = isContainer ? $embedHtml : $embedHtml.find('.entity-embed-container');
+					var $embedContainer = isContainer ? $embedHtml : $embedHtml.find('.entity-embed-container');
 					// create an event to be raised
 					var addEvent = jQuery.Event('entityEmbedAdded');
 					// add data to it so the handler knows what to do
