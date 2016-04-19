@@ -121,7 +121,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$el.find(uploadMp3FileBtn).on('change', function(){
 			var fileName =  $el.find(uploadMp3FileBtn)[0].files[0].name;
-			$el.find("[name=title]")[0].value = fileName;
+			$el.find("[name=title]").val(fileName);
 		});
 	};
 
