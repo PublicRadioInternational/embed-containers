@@ -118,7 +118,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	customTextEmbed.prototype.initModal = function($el){
 		var self = this;
-		var customTextEditor = new MediumEditor('#' + customTextEditorId);
+		var customTextEditor = new MediumEditor('#' + customTextEditorId, {
+			placeholder:{
+				text: "Type your text. Highlight words to trigger the styles editor"
+			}
+		});
 	};
 
 	customTextEmbed.prototype.parseForEditor = function(){
