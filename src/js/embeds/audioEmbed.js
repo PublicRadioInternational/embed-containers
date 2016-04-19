@@ -31,6 +31,7 @@ var EntityEmbed = EntityEmbed || {};
 		uploadedAudioDisplay = '.uploaded-audio-file',
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
+		uploadMp3FileBtn = ".embed-modal-file-input",
 		getAudioUrl = function(audioLocation, audioUrl)
 		{
 			if (audioUrl.indexOf(audioLocation) >= 0)
@@ -116,6 +117,11 @@ var EntityEmbed = EntityEmbed || {};
 
 			$el.find(editAudioFileBtn).show();
 			$el.find(uploadedAudioDisplay).show();
+		});
+
+		$el.find(uploadMp3FileBtn).on('change', function(){
+			var fileName =  $el.find(uploadMp3FileBtn)[0].files[0].name;
+			$el.find("[name=title]").val(fileName);
 		});
 	};
 
