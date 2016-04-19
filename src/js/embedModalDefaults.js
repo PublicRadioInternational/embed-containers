@@ -291,9 +291,10 @@ var EntityEmbed = EntityEmbed || {};
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var figureClass = 'entity-embed';
 			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id  + '" ' +
+							'id="' + embedType.model.object_id	+ '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
 							embedType.parseForEditor() +
+							'<div class="entity-embed-blocker"></div>' +
 						'</figure>';
 
 			if (includeWrapper)
@@ -573,18 +574,20 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, true));
+					var isContainer = scope.$currentEditorLocation.is('.entity-embed-container');
+					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, !isContainer));
+					var $embedContainer = isContainer ? $embedHtml : $embedHtml.find('.entity-embed-container');
 					// create an event to be raised
 					var addEvent = jQuery.Event('entityEmbedAdded');
 					// add data to it so the handler knows what to do
 					addEvent.embedType = scope.currentEmbedType;
-					$embedHtml.find('.entity-embed-container').trigger(addEvent);
+					$embedContainer.trigger(addEvent);
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: 		scope.currentEmbedType.model,
-					options: 	scope.currentEmbedType.options 
+					options: 	scope.currentEmbedType.options
 				});
 			}
 		}
