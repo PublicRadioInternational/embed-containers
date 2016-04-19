@@ -89,7 +89,7 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-	facebookEmbed.prototype.activateEditorEmbed = function(){
+	facebookEmbed.prototype.activateEmbed = function(){
 		// Check to see if FB scripts have already been loaded
 		if(window.FB)
 		{

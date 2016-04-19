@@ -453,11 +453,8 @@ var EntityEmbed = EntityEmbed || {};
 						// Find embeds placeholder element and replcae it with embed HTML
 						$embed.html(innerHtml);
 
-						// Fire embedType's activateEditorEmbed method
-						if(typeof embed.embedType.activateEditorEmbed === 'function')
-						{
-							embed.embedType.activateEditorEmbed();
-						}
+						// Fire embedType's activateEmbed method
+						self.activateEmbed(embed);
 					}
 				}
 			});
@@ -619,8 +616,26 @@ var EntityEmbed = EntityEmbed || {};
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 
+		self.activateEmbed(embed);
+
 		self.core.triggerInput();
 	};
+
+	/**
+	 * Run an embed's acticateEMbed method if it has one.
+	 *
+	 * This function should be called after embed HTML has been inserted into the editor content.
+	 *
+	 * @return {void}
+	 */
+
+	EntityEmbeds.prototype.activateEmbed = function(embed) {
+		// Make sure activeEmbed is a function
+		if(typeof embed.embedType.activateEmbed === 'function')
+		{
+			embed.embedType.activateEmbed();
+		}
+	}
 
 	/** Addon initialization */
 

@@ -81,7 +81,7 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-  instagramEmbed.prototype.activateEditorEmbed = function(){
+  instagramEmbed.prototype.activateEmbed = function(){
     // Check to see if Instagram scripts have already been loaded
     if(window.instgrm)
     {
