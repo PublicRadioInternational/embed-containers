@@ -452,6 +452,12 @@ var EntityEmbed = EntityEmbed || {};
 
 						// Find embeds placeholder element and replcae it with embed HTML
 						$embed.html(innerHtml);
+
+						// Fire embedType's activateEditorEmbed method
+						if(typeof embed.embedType.activateEditorEmbed === 'function')
+						{
+							embed.embedType.activateEditorEmbed();
+						}
 					}
 				}
 			});
@@ -463,7 +469,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		if(!contentData)
 		{
-			console.log('Must provide either story id or serialived story data.');
+			console.log('Must provide either story id or serialized story data.');
 			return;
 		}
 
