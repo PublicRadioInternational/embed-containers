@@ -4,7 +4,7 @@
 @embed-modal-top: 10%;
 @embed-modal-strata: 1999;
 
-#embed-modal
+.embed-modal
 {
 	@em-border-rad: 5px;
 
@@ -23,7 +23,7 @@
 	position: absolute;
 	top: @embed-modal-top;
 	left: (100-@embed-modal-width)/2;
-  z-index: @embed-modal-strata;
+	z-index: @embed-modal-strata;
 	margin-bottom: @embed-modal-top;
 
 	width: @embed-modal-width;
@@ -63,6 +63,7 @@
 .em-close-btn
 {
 	@em-close-btn-size: 20px;
+	z-index: @embed-modal-strata + 1;
 
 	position: absolute;
 	display: none;
