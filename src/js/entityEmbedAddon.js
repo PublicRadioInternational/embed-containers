@@ -630,10 +630,12 @@ var EntityEmbed = EntityEmbed || {};
 	 */
 
 	EntityEmbeds.prototype.activateEmbed = function(embed) {
+		var embedType = embed.embedType || embed;
+
 		// Make sure activeEmbed is a function
-		if(typeof embed.embedType.activateEmbed === 'function')
+		if(typeof embedType.activateEmbed === 'function')
 		{
-			embed.embedType.activateEmbed();
+			embedType.activateEmbed();
 		}
 	}
 
