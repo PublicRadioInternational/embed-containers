@@ -30,6 +30,7 @@ var EntityEmbed = EntityEmbed || {};
 		uploadedImgDisplay = '.uploaded-image-file',
 		cancelUploadImageBtn = '.cancel-upload-image-btn',
 		editImageFileBtn = '.edit-chosen-file-btn',
+		uploadImageFileBtn = ".embed-modal-file-input",
 		getImageUrl = function(imageLocation, imageUrl)
 		{
 			if (imageUrl.indexOf(imageLocation) >= 0)
@@ -130,6 +131,11 @@ var EntityEmbed = EntityEmbed || {};
 
 			$el.find(uploadedImgDisplay).show();
 			$el.find(editImageFileBtn).show();
+		});
+
+		$el.find(uploadImageFileBtn).on('change', function(){
+			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
+			$el.find("[name=title]")[0].value = fileName;
 		});
 	};
 
