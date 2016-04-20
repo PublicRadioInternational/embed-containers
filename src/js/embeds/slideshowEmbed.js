@@ -236,8 +236,44 @@ var EntityEmbed = EntityEmbed || {};
 			});
 		});
 
+		// event handler for the select button within the select existing view
 		$(selectExistingImageBtn).on('click', function(){
-			hideSelectExistingImage();
+			if ($(selectExistingImageBtn).hasClass('disabled'))
+			{
+				return;
+			}
+
+			EntityEmbed.apiService.get({
+				path: imageEmbed.options.httpPaths.get,
+				data: {
+					object_id: $('.' + selectExistingActiveItem).attr('id')
+				}
+			})
+			.done(function(respData){
+				if (typeof respData.response === 'string')
+				{
+					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
+					return;
+				}
+
+				var imageNum = 1;
+				for (var image in imageObjects)
+				{
+					imageNum += 1;
+				}
+
+				newRadioOption(respData.response.title, respData.response.object_id);
+				imageObjects[respData.response.object_id] = respData.response;
+				$('#' + respData.response.object_id).attr('checked', '');
+
+				imageEmbed.model = respData.response;
+				imageEmbed.populateFormWithModel($(imageForm));
+				hideSelectExistingImage();
+			})
+			.fail(function(respData){
+				// TODO: show error UI
+				console.log('failed to get embed type!');
+			});
 		});
 
 		$(cancelSelectExistingImageBtn).on('click', function(){
@@ -382,29 +418,29 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 			promise.done((function(imageOrder){
-					return function(data){
-						if (data.status === 'ERROR' || typeof data.response === 'string')
-						{
-							console.log('could not load slideshow image number ' + imageOrder);
-							return;
-						}
+				return function(data){
+					if (data.status === 'ERROR' || typeof data.response === 'string')
+					{
+						console.log('could not load slideshow image number ' + imageOrder);
+						return;
+					}
 
-						imageObjects[data.response.object_id] = data.response;
+					imageObjects[data.response.object_id] = data.response;
 
-						var $radioOp = $('#' + data.response.object_id).parent();
-						$radioOp.find('.' + labelTextClass).text(data.response.title);
+					var $radioOp = $('#' + data.response.object_id).parent();
+					$radioOp.find('.' + labelTextClass).text(data.response.title);
 
-						if (imageOrder == 0)
-						{
-							imageEmbed.model = data.response;
-						}
-					};
-				})(self.model.images[i].order))
-				.fail((function(imageOrder){
-					return function(){
-						console.log('could not load slideshow image number ' + imageOrder)
-					};
-				})(self.model.images[i].order));;
+					if (imageOrder == 0)
+					{
+						imageEmbed.model = data.response;
+					}
+				};
+			})(self.model.images[i].order))
+			.fail((function(imageOrder){
+				return function(){
+					console.log('could not load slideshow image number ' + imageOrder)
+				};
+			})(self.model.images[i].order));
 
 			deferreds.push(promise);
 		}
