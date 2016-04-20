@@ -562,14 +562,14 @@ var EntityEmbed = EntityEmbed || {};
 						{
 							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
 							{
-								$(embedModalSelectors.elements.confirmModal).openModal();
+								$(embedModalSelectors.elements.confirmModal).openModal({keepPosition: true});
 								return false;
 							}
 						}
 					}
 					else if (isFormDirty(scope.currentEmbedType.$view)) // this is an add modal
 					{
-						$(embedModalSelectors.elements.confirmModal).openModal();
+						$(embedModalSelectors.elements.confirmModal).openModal({keepPosition: true});
 						return false;
 					}
 				}
