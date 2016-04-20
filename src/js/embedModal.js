@@ -100,7 +100,8 @@ var EntityEmbed = EntityEmbed || {};
 			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
 												//		null - add any
 												//		not null - add single or edit (if id is also specified)
-			id: null
+			id: null,
+			selectExisting: false
 		};
 		
 
@@ -121,11 +122,25 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		else if (!!options.embedTypeStr)
 		{
-			mType = EntityEmbed.embedModalTypes.addSingle;
+			if (options.selectExisting)
+			{
+				mType = EntityEmbed.embedModalTypes.selectExistingSingle;
+			}
+			else
+			{
+				mType = EntityEmbed.embedModalTypes.addSingle;
+			}
 		}
 		else
 		{
-			mType = EntityEmbed.embedModalTypes.add;
+			if (options.selectExisting)
+			{
+				mType = EntityEmbed.embedModalTypes.selectExisting;
+			}
+			else
+			{
+				mType = EntityEmbed.embedModalTypes.add;
+			}
 		}
 
 		var scope = {

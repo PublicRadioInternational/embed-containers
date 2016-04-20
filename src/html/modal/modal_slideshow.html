@@ -19,12 +19,34 @@
 				<div class="slideshow-image-add">
 					<i class="fa fa-plus"></i>
 				</div>
+				<div class="slideshow-image-select-existing">
+					<i class="fa fa-search-plus"></i>
+				</div>
 				<div class="embed-modal-slideshow-image-list">
-					<span id="radio-option-placeholder">click the + to add an image</span>
+					<p class="radio-option-placeholder">click <i class="fa fa-plus"></i> to add an image</p>
+					<p class="radio-option-placeholder">click <i class="fa fa-search-plus"></i> to select an existing image</p>
 				</div>
 		</div>
 	</div>
 </form>
+<fieldset id="embed-modal-slideshow-image-select-existing">
+	<legend></legend>
+	<div class="embed-modal-select-existing-simg">
+		<table>
+			<thead>
+				<tr>
+					<th>Title</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div id="slideshow-image-select-btns">
+		<button id="btn-select-existing-simg">Select</button>
+		<button id="btn-cancel-select-existing-simg">Cancel</button>
+	</div>
+</fieldset>
 <fieldset id="embed-modal-slideshow-image">
 	<legend></legend>
 	<form method="post" enctype="multipart/form-data">

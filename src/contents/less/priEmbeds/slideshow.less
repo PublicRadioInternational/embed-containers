@@ -13,6 +13,12 @@
 	float: right;
 }
 
+.slideshow-image-select-existing
+{
+	float: right;
+	margin-right: 10px;
+}
+
 .slideshow-radio
 {
 	.radio();
@@ -26,4 +32,42 @@
 #radio-option-placeholder
 {
 	font-style: italic;
+}
+
+#embed-modal-slideshow-image-select-existing
+{
+	display: none;
+	
+	#slideshow-image-select-btns
+	{
+		float: right;
+		button
+		{
+			.btn();
+		}
+
+		#btn-select-existing-simg
+		{
+			.btn-primary();
+		}
+
+		#btn-cancel-select-existing-simg
+		{
+			.btn-default(); 
+		}
+	}
+}
+
+.embed-modal-select-existing-simg
+{
+	table
+	{
+		.table();
+
+		.embed-modal-active-row
+		{
+			background-color: #bfbfbf !important;
+		}
+	}
+
 }

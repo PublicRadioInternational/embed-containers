@@ -30,13 +30,22 @@ var EntityEmbed = EntityEmbed || {};
 			}
 			return ret;
 		},
+		// TODO : organize these into object (see embedModalDefaults.js)
 		imageForm = '#embed-modal-slideshow-image',
+		selectExistingImageContainer = '#embed-modal-slideshow-image-select-existing',
+		selectExistingBtnContainer = '#slideshow-image-select-btns',
+		selectExistingImageBtn = '#btn-select-existing-simg',
+		cancelSelectExistingImageBtn = '#btn-cancel-select-existing-simg',
 		imageSelect = '.embed-modal-slideshow-image-list',
+		labelTextClass = 'slideshow-radio-label-text',
+		instructionalText = '.radio-option-placeholder',
+		selectExistingTableBody = '.embed-modal-select-existing-simg tbody',
+		selectExistingTableRow = '.embed-modal-select-existing-item',
+		selectExistingActiveItem = 'embed-modal-active-row',
 		imageEmbed,
 		imageObjects = {}, // key = image ID; value = image object
 		currentImageId = null,
-		labelTextClass = 'slideshow-radio-label-text',
-		instructionalText = '#radio-option-placeholder',
+		selectExistingItems = null,
 		newRadioOption = function(label, guid){
 			if ($(instructionalText).is(':visible'))
 			{
@@ -55,6 +64,11 @@ var EntityEmbed = EntityEmbed || {};
 
 			$(imageSelect).append(newHtml);
 			return id;
+		},
+		tableRowHtml = function(title, id){
+			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' +
+						'<td>' + title + '</tr>'+
+					'</td>';
 		},
 		saveChangesToImageModel = function(){ // save changes made to $(imageForm) to the respective model
 			imageEmbed.getModelFromForm($(imageForm));
@@ -82,6 +96,14 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			currentImageId = imageId;
+		},
+		showSelectExistingImage = function(){
+			$(imageForm).hide();
+			$(selectExistingImageContainer).show();
+		},
+		hideSelectExistingImage = function(){
+			$(imageForm).show();
+			$(selectExistingImageContainer).hide();
 		};
 
 	// CONSTRUCTOR
@@ -160,6 +182,68 @@ var EntityEmbed = EntityEmbed || {};
 			imageObjects[id] = imageEmbed.cleanModel();
 		});
 
+		// event handler for the select existing image icon
+		$('.slideshow-image-select-existing').on('click', function(){
+			showSelectExistingImage();
+			$(selectExistingTableRow).remove();
+
+			EntityEmbed.apiService.post({
+				path: self.options.httpPaths.getAll,
+				data: {
+					object_type: imageEmbed.options.object_type,
+					auth_token: EntityEmbed.apiService.getAuthToken()
+				}
+			})
+			.done(function(respData){
+				if (typeof respData.response === 'string')
+				{
+					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
+					return;
+				}
+
+				if (!respData.response.data){
+					return;
+				}
+				selectExistingItems = respData.response.data;
+				for (var i = 0; i < selectExistingItems.length; i++)
+				{
+					var $row = $(tableRowHtml(selectExistingItems[i].title, selectExistingItems[i].object_id));
+					$(selectExistingTableBody).append($row);
+
+					// add click event to highlight (select) a row
+					$row.on('click', function(e, scope){
+						// we do not need to add the class back if it is already on the item being clicked
+						var needToAddClass = !$(e.currentTarget).hasClass(selectExistingActiveItem);
+
+						$(selectExistingTableBody)
+							.find('.' + selectExistingActiveItem)
+							.removeClass(selectExistingActiveItem);
+
+						if (needToAddClass){
+							$(e.currentTarget).addClass(selectExistingActiveItem);
+							$(selectExistingImageBtn).removeClass('disabled');
+						}
+						else // since we didnt add a class, that means nothing is selected, so disable the select button
+						{
+							$(selectExistingImageBtn).addClass('disabled');
+						}
+					});
+				}
+			})
+			.fail(function(respData){
+				// TODO : UI failure message
+				console.log('Failed to get list of current embed types for the Select Existing page.');
+			});
+		});
+
+		$(selectExistingImageBtn).on('click', function(){
+			hideSelectExistingImage();
+		});
+
+		$(cancelSelectExistingImageBtn).on('click', function(){
+			hideSelectExistingImage();
+			selectExistingItems = null;
+		});
 		// event handler for changing the image object which populates the form (select radio option)
 		$(imageSelect).on('click', function(e){
 			var $clickedOption = $(imageSelect + ' :checked');
@@ -328,7 +412,9 @@ var EntityEmbed = EntityEmbed || {};
 		$.when.apply($, deferreds).done(function(){
 			$(imageSelect).show();
 			$(imageForm).show();
+
 			imageEmbed.populateFormWithModel($(imageForm));
+
 		});
 	};
 
