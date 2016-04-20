@@ -262,13 +262,18 @@ var EntityEmbed = EntityEmbed || {};
 					imageNum += 1;
 				}
 
-				newRadioOption(respData.response.title, respData.response.object_id);
+				// track image object
 				imageObjects[respData.response.object_id] = respData.response;
+
+				// make radio option for image and select it
+				newRadioOption(respData.response.title, respData.response.object_id);
 				$('#' + respData.response.object_id).attr('checked', '');
 
+				// populate image form
 				imageEmbed.model = respData.response;
 				imageEmbed.populateFormWithModel($(imageForm));
 				hideSelectExistingImage();
+				selectExistingItems = null;
 			})
 			.fail(function(respData){
 				// TODO: show error UI
