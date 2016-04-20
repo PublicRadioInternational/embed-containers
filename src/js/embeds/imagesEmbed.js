@@ -156,16 +156,11 @@ var EntityEmbed = EntityEmbed || {};
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		return self.parent.saveEmbed(embedIsNew, self)
-			.then(function(responseData){
-				if (!file)
-				{
-					// TODO : handle error?
-					//			there shuold be a file here if this is an add modal!
-					//			but how do we handle that here?
-					return;
-				}
-
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+		
+		if (!!file)
+		{
+			promise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -181,10 +176,12 @@ var EntityEmbed = EntityEmbed || {};
 					processData: false,
 					contentType: false
 				});
-			})
-			.done(function(responseData){
+			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
 			});
+		}
+
+		return promise;
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
