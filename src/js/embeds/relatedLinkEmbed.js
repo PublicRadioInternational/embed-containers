@@ -26,8 +26,7 @@ var EntityEmbed = EntityEmbed || {};
 			httpPaths:{
 				getRelatedStories: 'https://test-services.pri.org/admin/content/list'
 			}
-		},
-		chosenLinks = [],
+		},	
 		linkListId = '#related-link-list',
 		addLinkBtnId = '#add-link-btn',
 		removeLinkClass = 'remove-link-btn',
@@ -50,7 +49,7 @@ var EntityEmbed = EntityEmbed || {};
 							'<input id="' + id + '" type="text" data-link-num="' + numLinks +
 							'" placeholder="Begin typing story title" class="embed-modal-form-control" required/>' +
 						'</div>' + 
-						'<button class="' + removeLinkClass + '">' + 
+						'<button type="button" class="' + removeLinkClass + '">' + 
 							'<i class="fa fa-minus"></i>' + 
 						'</button>' + 
 					'</div>';
@@ -111,7 +110,7 @@ var EntityEmbed = EntityEmbed || {};
 						var linkNum = $(inputId).attr('data-link-num');
 						if (!!objectId || !!linkNum)
 						{
-							chosenLinks[linkNum] = {
+							self.model.links[linkNum] = {
 								title: storyTitle,
 								storyId: objectId
 							};
@@ -132,7 +131,7 @@ var EntityEmbed = EntityEmbed || {};
 					{
 						return;
 					}
-					chosenLinks[linkNum] = null;
+					self.model.links[linkNum] = null;
 				}
 			});
 		};
@@ -162,20 +161,6 @@ var EntityEmbed = EntityEmbed || {};
 		var $linkList = $el.find(linkListId);
 		var $addLinkBtn = $el.find(addLinkBtnId);
 
-		window.onbeforeunload = function(e) {
-			var title = $el.find('input[name="title"]').val();
-			if (!title || title === '')
-			{
-				return;
-			}
-			if (e.currentTarget.location.search.indexOf(title) !== -1)
-			{
-				return 'HOLD UP, WAIT A MINUTE!\r\n' + 
-					'\teasyAutoComplete is trying to reload the page for some reason\r\n' + 
-					'\twe don\'t know why, but we are trying to fix this issue';
-			}
-		};
-
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
 
@@ -185,7 +170,11 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		$el.on('click', '.' + removeLinkClass, function(){
-			$(this).closest('.' + linkClass).remove();
+			var $link = $(this).closest('.' + linkClass);
+			var linkNum = $link.find('[data-link-num]').attr('data-link-num');
+			
+			$link.remove();
+			delete self.model.links[linkNum];
 		});
 	};
 
@@ -194,14 +183,22 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.clearForm($el, self);
 
 		$el.find(linkListId).children().remove();
-
-		chosenLinks = [];
 	};
 
 	relatedLinkEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 		self.parent.getModelFromForm($el, self);
-		self.model.links = chosenLinks;
+		var tmp = [];
+		for (var i = 0; i < self.model.links.length; i++)
+		{
+			if (!self.model.links[i])
+			{
+				continue;
+			}
+
+			tmp.push(self.model.links[i]);
+		}
+		self.model.links = tmp;
 	};
 
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form){
