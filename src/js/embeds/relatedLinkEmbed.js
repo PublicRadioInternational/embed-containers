@@ -4,6 +4,14 @@ var EntityEmbed = EntityEmbed || {};
 
 	'use strict';
 
+	// check for EntityEmbedTypes namespace
+	if (!EntityEmbed.embedTypes)
+	{
+		console.log('Could not find EntityEmbedTypes namespace. ' +
+			'Please ensure that the genericEmbed has loaded before this one.');
+		return;
+	}
+
 	// PRIVATE
 	var embedName = 'relatedLink',
 		defaults = {
@@ -12,24 +20,121 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'related-link',
 			validationOptions: {
 				rules: {
-					title: "required",
+					title: 'required',
 				}
+			},
+			httpPaths:{
+				getRelatedStories: 'https://test-services.pri.org/admin/content/list'
 			}
-		};
-		
-	var psuedoGuids = [];
+		},	
+		linkListId = '#related-link-list',
+		addLinkBtnId = '#add-link-btn',
+		removeLinkClass = 'remove-link-btn',
+		linkClass = 'related-link-url',
+		generateId = function () {	// generates a pseudo guid (not guatanteed global uniqueness)
+			var seg = function()
+			{
+				return Math.floor((1 + Math.random()) * 0x10000)
+					.toString(16)
+					.substring(1);
+			}
+			return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
+					seg() + '-' + seg() + seg() + seg();
+		},
+		generateLinkInputHtml = function(id, linkClass, removeLinkClass){
+			var numLinks = $('.' + linkClass).length;
 
-	// generates a pseudo guid (not guatanteed global uniqueness)
-	var generateId = function () {
-		var seg = function()
-		{
-			return Math.floor((1 + Math.random()) * 0x10000)
-				.toString(16)
-				.substring(1);
-		}
-		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
-				seg() + '-' + seg() + seg() + seg();
-	}
+			return	'<div class="' + linkClass + '">' + 
+						'<div class="embed-modal-form">' +
+							'<input id="' + id + '" type="text" data-link-num="' + numLinks +
+							'" placeholder="Begin typing story title" class="embed-modal-form-control" required/>' +
+						'</div>' + 
+						'<button type="button" class="' + removeLinkClass + '">' + 
+							'<i class="fa fa-minus"></i>' + 
+						'</button>' + 
+					'</div>';
+		},
+		//  This provides the functionality/styling for the type-ahead feature, allowing the user to only
+		//  begin typing the title of a story and have a dropdown list of stories displayed to them
+		//  based on their input. This function also takes into account validation of the modal form.
+		initAutoComplete = function (inputId, self){
+			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+			var isDevEnv = rgxDevEnv.test(window.location.host);
+			var debug = 0;
+			if(isDevEnv)
+			{
+				debug = 1;
+			}
+
+			var options = {
+				ajaxSettings: {
+					dataType: 'json',
+					method: 'POST',
+					data: {
+						auth_token: EntityEmbed.apiService.getAuthToken(),
+						debug: debug
+					}		
+				},
+				requestDelay: 600,
+				url: function(phrase) {
+					return self.options.httpPaths.getRelatedStories;
+				},
+				listLocation: function(listOfData){
+					return listOfData.response.data;
+				},
+				getValue: function(data) {
+					if(data.pub_state == 1)
+					{
+						return data.title;
+					}
+					else 
+					{
+						return '';
+					}
+				},
+				preparePostData: function(data) {
+					data.title = $(inputId).val();
+					return JSON.stringify(data);
+				},
+				list: {
+					maxNumberOfElements: 10,
+					match: {
+						enabled: true
+					},
+					sort: {
+						enabled: true
+					},		
+					onChooseEvent: function(){ // store the users story selection
+						var objectId = $(inputId).getSelectedItemData().object_id;
+						var storyTitle = $(inputId).getSelectedItemData().title;
+						var linkNum = $(inputId).attr('data-link-num');
+						if (!!objectId || !!linkNum)
+						{
+							self.model.links[linkNum] = {
+								title: storyTitle,
+								storyId: objectId
+							};
+						}
+					}
+				}
+			};
+
+			$(inputId).easyAutocomplete(options);
+
+			// dont allow user to enter text that is not a story
+			$(inputId).on('blur', function(){
+				if ($(inputId).getSelectedItemData() == -1)
+				{
+					$(inputId).val('');	
+					var linkNum = $(inputId).attr('data-link-num');
+					if (!linkNum)
+					{
+						return;
+					}
+					self.model.links[linkNum] = null;
+				}
+			});
+		};
 
 	// CONSTRUCTOR
 	function relatedLinkEmbed(options){
@@ -51,123 +156,64 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	// This provides the functionality/styling for the type-ahead feature, allowing the user to only
-	//  begin typing the title of a story and have a dropdown list of stories displayed to them
-	//  based on their input.
-	var initAutoComplete = function(htmlElementId, self){
-		// TODO: Make function take in user input to pass to API
-
-		EntityEmbed.apiService.get({
-			path: self.options.httpPaths.get,
-			// TODO: Object id is currently hard-coded, this needs to be changed.
-			data: {
-				object_id: 'dbbc5fc38d2e4d359572743d2c00d581'
-			},
-			success: function(fetchedData){
-				var autocompleteSettingsAndData = {
-					data: fetchedData.response.stories,
-					getValue: 'Title',
-					list: {
-						maxNumberOfElements: 10,
-						match: {
-							enabled: true
-						},
-						sort: {
-							enabled: true
-						},		
-					}
-				};
-
-				$( htmlElementId ).easyAutocomplete(autocompleteSettingsAndData);
-				$( htmlElementId ).focus();
-			},
-			fail: function(data){
-				console.log('failed to retrieve any stories!');
-			}
-		});
-	};
-
-	relatedLinkEmbed.prototype.getModelFromForm = function($el)
-	{
-		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
-
-		// TODO: Need to extract this block of code, and instead call parent function
-		for(var i = 0; i < 2; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
-
-		// Retrieve all urls from the form
-		for(var i = 0; i < psuedoGuids.length; i++)
-		{
-			var urlForms = $el.find('#'+psuedoGuids[i]);
-			self.model.links.push(urlForms[0].value);
-		}
-	};
-
-	relatedLinkEmbed.prototype.populateFormWithModel = function($form)
-	{
-		var self = this;
-		self.parent.populateFormWithModel($form);
-
-		var linkClass = 'related-link-url';
-		var $linkList = $form.find('#related-link-list');
-		var $addLinkBtn = $form.find('#add-link-btn');
-
-		for(var i = 0; i < self.model.links.length; i++)
-		{
-			$addLinkBtn.click();
-			$form.find('.' + linkClass).last().val(self.model.links[i]);
-		}
-	};
-
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
-		var linkClass = 'related-link-url';
-		var removeLinkClass = 'remove-link-btn';
-		var $linkList = $el.find('#related-link-list');
-		var $addLinkBtn = $el.find('#add-link-btn');
+		var $linkList = $el.find(linkListId);
+		var $addLinkBtn = $el.find(addLinkBtnId);
 
 		$addLinkBtn.click(function(){
 			var pseudoGuid = generateId();
-			psuedoGuids.push(pseudoGuid);
 
-			$linkList.append(
-				'<div class="' + linkClass + '">' + 
-					'<div class="embed-modal-form">' +
-						'<input id="' + pseudoGuid + '" type="url" placeholder="link url" class="embed-modal-form-control" required>' +
-					'</div>' + 
-					'<button class="' + removeLinkClass + '">' + 
-						'<i class="fa fa-minus"></i>' + 
-					'</button>' + 
-				'</div>'
-			);
+			$linkList.append(generateLinkInputHtml(pseudoGuid, linkClass, removeLinkClass));
 
-			// TODO: Call initAutoComplete only after the user has stopped typing for a period of time
-			// This is smelly code
-			$('#' + pseudoGuid).keydown(function(){
-				$('#' + pseudoGuid).keydown(initAutoComplete('#' + pseudoGuid, self));
-			});
+			initAutoComplete('#' + pseudoGuid, self);
 		});
 
 		$el.on('click', '.' + removeLinkClass, function(){
-			$(document.activeElement).closest('.' + linkClass).remove();
+			var $link = $(this).closest('.' + linkClass);
+			var linkNum = $link.find('[data-link-num]').attr('data-link-num');
+			
+			$link.remove();
+			delete self.model.links[linkNum];
 		});
 	};
 
-	relatedLinkEmbed.prototype.parseForEditor = function(){
+	relatedLinkEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.parent.clearForm($el, self);
 
-		return '<div class="relatedLink-embed">' +
-					'<p class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </p>' +
-					'<p  class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</p>' +
-				'</div>';
+		$el.find(linkListId).children().remove();
 	};
 
+	relatedLinkEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		self.parent.getModelFromForm($el, self);
+		var tmp = [];
+		for (var i = 0; i < self.model.links.length; i++)
+		{
+			if (!self.model.links[i])
+			{
+				continue;
+			}
+
+			tmp.push(self.model.links[i]);
+		}
+		self.model.links = tmp;
+	};
+
+	relatedLinkEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		self.parent.populateFormWithModel($form, self);
+
+		var $linkList = $form.find(linkListId);
+		var $addLinkBtn = $form.find(addLinkBtnId);
+
+		for(var i = 0; i < self.model.links.length; i++)
+		{
+			$linkList.append(generateLinkInputHtml(self.model.links[i].storyId, linkClass, removeLinkClass));
+			$form.find('#' + self.model.links[i].storyId).val(self.model.links[i].title);
+
+			initAutoComplete('#' + self.model.links[i].storyId, self);
+		}
+	};
 })('');

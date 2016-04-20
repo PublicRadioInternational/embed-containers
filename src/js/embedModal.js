@@ -94,17 +94,14 @@ var EntityEmbed = EntityEmbed || {};
 		return EntityEmbed.$embedModal;
 	};
 
-	// TODO : configure this to return a promise (passing callbacks suuuucks)
 	$.embed_modal_open = function(options){
 		var defaults = {
 			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
 			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
 												//		null - add any
 												//		not null - add single or edit (if id is also specified)
-			id: null,							// id for current embed type (specify this field for an edit modal)
-			successCallback: function(data){},	// success callback on modal save
-			failCallback: function(){},			// fail callback on modal save
-			alwaysCallback: function(){}		// always callback on modal save
+			id: null,
+			selectExisting: false
 		};
 		
 
@@ -125,23 +122,34 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		else if (!!options.embedTypeStr)
 		{
-			mType = EntityEmbed.embedModalTypes.addSingle;
+			if (options.selectExisting)
+			{
+				mType = EntityEmbed.embedModalTypes.selectExistingSingle;
+			}
+			else
+			{
+				mType = EntityEmbed.embedModalTypes.addSingle;
+			}
 		}
 		else
 		{
-			mType = EntityEmbed.embedModalTypes.add;
+			if (options.selectExisting)
+			{
+				mType = EntityEmbed.embedModalTypes.selectExisting;
+			}
+			else
+			{
+				mType = EntityEmbed.embedModalTypes.add;
+			}
 		}
 
 		var scope = {
 			$currentEditorLocation: options.$currentEditorLocation,
 			modalType: mType,
 			embedId: options.id,
-			embedType: options.embedTypeStr,
-			successCallback: options.successCallback,
-			failCallback: options.failCallback,
-			alwaysCallback: options.alwaysCallback
+			embedType: options.embedTypeStr
 		};
 
-		EntityEmbed.$embedModal.openModal(scope);
+		return EntityEmbed.$embedModal.openModal(scope);
 	};
 })();
