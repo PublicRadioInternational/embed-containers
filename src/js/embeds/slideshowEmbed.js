@@ -54,15 +54,29 @@ var EntityEmbed = EntityEmbed || {};
 
 			var id = guid || generateId();
 			var newHtml = 
-				'<label class="slideshow-radio">' + 
-					'<input type="radio" id="' + id + '" name="radioOption">' + 
-					'<span class="' + labelTextClass + '">' +
-						label +
-					'</span>' +
-					'<label class="slideshow-image-error"></label>' + 
-				'</label>';
+				'<div class="slideshow-radio-container">' + 
+					'<label class="slideshow-radio">' + 
+						'<input type="radio" id="' + id + '" name="radioOption">' + 
+						'<span class="' + labelTextClass + '">' +
+							label +
+						'</span>' +
+						'<label class="slideshow-image-error"></label>' + 
+					'</label>' + 
+					'<div class="remove-slideshow-image">' + 
+						'<i class="fa fa-times"></i>' + 
+					'</div>' + 
+				'</div>';
 
 			$(imageSelect).append(newHtml);
+			var $op = $(imageSelect).children().last();
+
+			$op.find('.remove-slideshow-image').on('click', (function(){
+				return function(embedId, $radioOp){
+					delete imageObjects[id];
+					$op.remove();
+				}
+			})(id, $op));
+
 			return id;
 		},
 		tableRowHtml = function(title, id){
@@ -90,7 +104,7 @@ var EntityEmbed = EntityEmbed || {};
 				saveChangesToImageModel();
 
 				// set the form to show to the selected image's data
-				imageEmbed.clearForm($(imageForm));				
+				imageEmbed.clearForm($(imageForm));
 				imageEmbed.model = imageObjects[imageId];
 				imageEmbed.populateFormWithModel($(imageForm));
 			}
@@ -268,6 +282,14 @@ var EntityEmbed = EntityEmbed || {};
 				// make radio option for image and select it
 				newRadioOption(respData.response.title, respData.response.object_id);
 				$('#' + respData.response.object_id).attr('checked', '');
+
+				// clear image form and save data
+				if (!!currentImageId && currentImageId !== '')
+				{
+					saveChangesToImageModel();
+					imageEmbed.clearForm($(imageForm));
+					currentImageId = respData.response.object_id;
+				}
 
 				// populate image form
 				imageEmbed.model = respData.response;

@@ -142,16 +142,11 @@ var EntityEmbed = EntityEmbed || {};
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		return self.parent.saveEmbed(embedIsNew, self)
-			.then(function(responseData){
-				if (!file)
-				{
-					// TODO : handle error?
-					//			there shuold be a file here if this is an add modal!
-					//			but how do we handle that here?
-					return;
-				}
-
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+		
+		if (!!file)
+		{
+			promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -182,6 +177,9 @@ var EntityEmbed = EntityEmbed || {};
 			.done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
 			});
+		}
+		
+		return promise;
 	};
 
 	audioEmbed.prototype.generateUploadedPreview = function() {
