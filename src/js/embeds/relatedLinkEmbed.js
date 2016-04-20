@@ -219,15 +219,4 @@ var EntityEmbed = EntityEmbed || {};
 			initAutoComplete('#' + self.model.links[i].storyId, self);
 		}
 	};
-
-	// TODO : make this the default styling for genericEmbed
-	relatedLinkEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		return '<div class="relatedLink-embed">' +
-					'<div class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</div>' +
-				'</div>';
-	};
-
 })('');
