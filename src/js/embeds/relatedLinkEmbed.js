@@ -279,14 +279,4 @@ var EntityEmbed = EntityEmbed || {};
 			$(document.activeElement).closest('.' + linkClass).remove();
 		});
 	};
-
-	relatedLinkEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		return '<div class="relatedLink-embed">' +
-					'<p class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </p>' +
-					'<p  class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</p>' +
-				'</div>';
-	};
-
 })('');

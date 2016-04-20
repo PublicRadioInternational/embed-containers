@@ -328,15 +328,7 @@ var EntityEmbed = EntityEmbed || {};
 			var $currentRadio = $('#' + currentImageId).parent();
 			$currentRadio.find('.' + labelTextClass).text(titleVal);
 		});
-	};
-	
-	/*  // TODO : this
-	slideshowEmbed.prototype.parseForEditor = function(){
-		return  '<div class="slideshow-embed">' +
-					// content
-				'</div>';
-	};
-	*/
+	};	
 
 	slideshowEmbed.prototype.saveEmbed = function(embedIsNew){
 		var self = this;
@@ -431,6 +423,7 @@ var EntityEmbed = EntityEmbed || {};
 			if (i === 0)
 			{
 				$('#' + self.model.images[i].object_id).attr('checked', '');
+				currentImageId = self.model.images[i].object_id;
 			}
 		}
 
@@ -492,7 +485,7 @@ var EntityEmbed = EntityEmbed || {};
 		imageObjects = {};
 		currentImageId = '';
 
-		$el.find('.slideshow-radio').remove();
+		$el.find('.slideshow-radio-container').remove();
 		$(imageForm).hide();
 
 		$(instructionalText).show();
