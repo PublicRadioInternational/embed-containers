@@ -1,4 +1,4 @@
-<form action="uploadImage.php" method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row">
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
@@ -14,17 +14,32 @@
 		</div>
 	</div>
 	<div class="embed-modal-row">
-		<div class="embed-modal-half-column">
-			<input class="embed-modal-input" type="file" name="imageFile" />
-		</div>
-		<div class="embed-modal-half-column">
-			<select class="embed-modal-slideshow-image-select embed-modal-form-control">
-			</select>
+		<div class="embed-modal-full-column image-list-container">	
+				<label>Image List</label>
+				<div class="slideshow-image-add">
+					<i class="fa fa-plus"></i>
+				</div>
+				<div class="embed-modal-slideshow-image-list">
+					<span id="radio-option-placeholder">click the + to add an image</span>
+				</div>
 		</div>
 	</div>
-
-	<fieldset id="embed-modal-slideshow-image">
-		<legend></legend>
+</form>
+<fieldset id="embed-modal-slideshow-image">
+	<legend></legend>
+	<form method="post" enctype="multipart/form-data">
+		<div class="embed-modal-row">
+			<div class="embed-modal-full-column">
+				<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
+				<span class="fa fa-times cancel-upload-image-btn"></span>
+				<div class="uploaded-image-file">
+					<div>
+						<label>Choosen Image</label>
+						<span class="fa fa-cog edit-chosen-file-btn"></span>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="embed-modal-row">
 			<div class="embed-modal-half-column">
 				<div class="embed-modal-form">
@@ -66,5 +81,5 @@
 				</div>
 			</div>
 		</div>
-	</fieldset>
-</form>	
+	</form>	
+</fieldset>

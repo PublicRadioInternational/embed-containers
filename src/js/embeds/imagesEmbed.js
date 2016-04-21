@@ -26,25 +26,30 @@ var EntityEmbed = EntityEmbed || {};
 				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
 				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
 			}
+		},
+		uploadedImgDisplay = '.uploaded-image-file',
+		cancelUploadImageBtn = '.cancel-upload-image-btn',
+		editImageFileBtn = '.edit-chosen-file-btn',
+		uploadImageFileBtn = ".embed-modal-file-input",
+		getImageUrl = function(imageLocation, imageUrl)
+		{
+			if (imageUrl.indexOf(imageLocation) >= 0)
+			{
+				return imageUrl;
+			}
+
+			// ensure that there isn't an unintended '//' in final URL
+			if (imageLocation.endsWith('/'))
+			{
+				imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+			}
+			if (!imageUrl.startsWith('/'))
+			{
+				imageUrl = '/' + imageUrl;
+			}
+
+			return imageLocation + imageUrl;
 		};
-
-	var formatFileSize = function(bytes) {
-		if (typeof bytes !== 'number')
-		{
-			return '';
-		}
-
-		if (bytes >= 100000000)
-		{
-			return (bytes / 1000000000).toFixed(2) + ' GB';
-		}
-
-		if (bytes >= 1000000)
-		{
-			return (bytes / 1000000).toFixed(2) + ' MB';
-		}
-		return (bytes / 1000).toFixed(2) + ' KB';
-	};
 
 	// CONSTRUCTOR
 	function imagesEmbed(options){
@@ -58,9 +63,12 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	imagesEmbed.prototype.orderIndex = 1;
 
+	imagesEmbed.prototype.imagePreviewClass = 'image-preview';
+
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
-			url_path: null, // for image file
+			url_path: null, // URL to image file
+			upload: null,	// form data for image file
 			title: null,
 			altText: null,
 			credit: null,
@@ -74,8 +82,9 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		EntityEmbed.apiService.get({
-			path: self.options.httpPaths.getLicenses,
-			success: function(list){
+				path: self.options.httpPaths.getLicenses
+			})
+			.done(function(list){
 				//load object into license list
 				if (!list.response.data)
 				{
@@ -92,11 +101,10 @@ var EntityEmbed = EntityEmbed || {};
 					);
 				}
 				$el.find('[name="license"]').html(licenseList);
-			},
-			fail: function(data){
+			})
+			.fail(function(data){
 				console.log('failed to find load image license options');
-			}
-		});
+			});
 	};
 
 	imagesEmbed.prototype.initModal = function($el){
@@ -104,63 +112,121 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.loadLicenses($el);
 		self.$imageForm = $el.find('input[name="upload"]');
-	};
 
-	imagesEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
-	{
-		var self = this;
-		self.parent.saveEmbed(embedIsNew, function(data){
-			var imageFormData = new FormData();
-			var file = self.$imageForm[0].files[0];
-			if (!file)
+		$el.find(editImageFileBtn).on('click', function(){
+			$el.find(uploadedImgDisplay).hide();
+			$el.find(editImageFileBtn).hide();
+
+			self.$imageForm.css('display', 'inline-block');
+			$el.find(cancelUploadImageBtn).show();
+		});
+
+		$el.find(cancelUploadImageBtn).on('click', function(){
+			self.$imageForm.hide();
+			$el.find(cancelUploadImageBtn).hide();
+			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
 			{
-				if (!embedIsNew)
-				{
-					// file is not required if the embed is being editted
-					successFunc(data);
-				}
-				else
-				{
-					// TODO : show validation on image
-					failFunc(data);
-				}
-				return;
+				self.$imageForm.parent().find('#upload-error').hide();	
 			}
 
-			imageFormData.append('upload', file);
+			$el.find(uploadedImgDisplay).show();
+			$el.find(editImageFileBtn).show();
+		});
 
-			return $.ajax({
-				url: self.options.httpPaths.uploadFile,
-				type: 'POST',
-				data: imageFormData,
-				headers: {
-					'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-					'x-object-id': data.response.object_id,
-					'x-debug': '1'
-				},
-				processData: false,
-				contentType: false
-			}).success(function(data){
-				self.model.url_path = data.response.url_path;
-				successFunc(data);
-			})
-			.fail(failFunc)
-			.always(alwaysFunc);
-		}, failFunc, alwaysFunc, self);
+		$el.find(uploadImageFileBtn).on('change', function(){
+			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
+			$el.find("[name=title]").val(fileName);
+		});
 	};
 
-	imagesEmbed.prototype.validate = function($el, isAddModal){
+	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
+		self.parent.clearForm($el, self);
 
-		self.options.validationOptions.rules.upload.required = isAddModal;
-		return self.parent.validate($el, isAddModal, self);
+		$el.find(uploadedImgDisplay).find('.' + self.imagePreviewClass).remove();
+		$el.find(uploadedImgDisplay).hide();
+		$el.find(cancelUploadImageBtn).hide();
+		$el.find(editImageFileBtn).hide();
+		self.$imageForm.show();
+	};
+
+	imagesEmbed.prototype.saveEmbed = function(embedIsNew)
+	{
+		var self = this;
+		var file = self.model.upload;
+		delete self.model.upload;
+
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+		
+		if (!!file)
+		{
+			promise.then(function(responseData){
+				var imageFormData = new FormData();
+				imageFormData.append('upload', file);
+
+				return $.ajax({
+					url: self.options.httpPaths.uploadFile,
+					type: 'POST',
+					data: imageFormData,
+					headers: {
+						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
+						'x-object-id': responseData.response.object_id,
+						'x-debug': '1'
+					},
+					processData: false,
+					contentType: false
+				});
+			}).done(function(responseData){
+				self.model.url_path = responseData.response.url_path;
+			});
+		}
+
+		return promise;
+	};
+
+	imagesEmbed.prototype.generateUploadedImgPreview = function() {
+		var self = this;
+		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
+		{
+			return '<img class="' + self.imagePreviewClass +
+					'" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">';
+		}
+		else // this is an add modal - the image has been uploaded by the client but not pushed to the server
+		{
+			return	'<div class="' + self.imagePreviewClass + '">' +
+				(self.model.url_path || self.model.upload.name) +
+			'</div>';
+		}
+	};
+
+	imagesEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		self.parent.populateFormWithModel($form, self);
+
+		if (!self.model.upload && !self.model.url_path)
+		{	
+			return;
+		}
+
+		self.$imageForm.hide();
+
+		$form.find(uploadedImgDisplay).show();
+		$form.find(editImageFileBtn).show();
+		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		return '<div class="images-embed"><img class="entity-embed-secondary-toolbar-locator" src="' + self.options.imageLocation + self.model.url_path +'" />' + 
-			'<div class="images-embed-caption">' + self.model.caption + '</div>' + 
-			'<div class="images-embed-credit">Credit: ' + self.model.credit + '</div></div>';
+		return	'<div class="images-embed">' + 
+					'<img class="entity-embed-secondary-toolbar-locator"' + 
+						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
+					'<div class="images-embed-caption">' +
+						self.model.caption +
+					'</div>' + 
+					'<div class="images-embed-credit">' + 
+						'Credit: ' + self.model.credit +
+					'</div>' + 
+				'</div>';
 	};
 })('');

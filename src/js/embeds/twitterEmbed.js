@@ -44,7 +44,7 @@ var EntityEmbed = EntityEmbed || {};
 				self.model[name] = value;
 			}
 		}
-		
+
 		var embedCodeName = 'embedCode';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
 						'<a href="' + self.model.url + '">' +
@@ -64,18 +64,18 @@ var EntityEmbed = EntityEmbed || {};
 
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
+
 		// TODO: Need to make user unable to interact with embed
 		return '<div class="twitter-embed">' +
 					'<div class="twitter-info">' +
 						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
+					'</div>' +
 					'<div class="overlay">' +
-						self.model.embedCode + 
+						self.model.embedCode +
 					'</div>' +
 					'<div class="twitter-info">' +
 						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 
