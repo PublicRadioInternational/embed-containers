@@ -52,8 +52,7 @@ gulp.task('concatJs', function()
 			jsPath + 'embedModal.js',
 			jsPath + 'entityEmbedAddon.js',
 			libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
-		.pipe(gConcat('embed-containers.min.js'))
-		.pipe(uglify())
+		.pipe(gConcat('embed-containers.js'))
 		.pipe(gulp.dest(buildPath + 'js/'));
 });
 
