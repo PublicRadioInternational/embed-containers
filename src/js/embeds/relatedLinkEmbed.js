@@ -24,61 +24,83 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getRelatedStories: 'https://test-services.pri.org/admin/content/list'
+				getContentList: 'https://test-services.pri.org/admin/content/list',
+				getContentItem: {
+					story: 'https://test-services.pri.org/admin/story/fetch',
+					episode: 'https://test-services.pri.org/admin/episode/fetch'
+				}
 			}
 		},
 		chosenLinks = [],
 		linkListId = '#related-link-list',
-		addLinkBtnId = '#add-link-btn',
+		addLinkInputId = '#add-link-eac',
+		dragLinkClass = 'drag-link-btn',
+		dragPlaceholderClass = 'related-link-placeholder',
+		progressBarId = '#related-links-progress',
 		removeLinkClass = 'remove-link-btn',
 		linkClass = 'related-link-url',
-		generateId = function () {	// generates a pseudo guid (not guatanteed global uniqueness)
-			var seg = function()
-			{
-				return Math.floor((1 + Math.random()) * 0x10000)
-					.toString(16)
-					.substring(1);
-			}
-			return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
-					seg() + '-' + seg() + seg() + seg();
-		},
-		generateLinkInputHtml = function(id, linkClass, removeLinkClass){
-			var numLinks = $('.' + linkClass).length;
+		generateLinkItem = function(linkData, index) {
+			var linkHtml = generateLinkInputHtml(linkData);
+			var $linkItem = $(linkHtml);
 
-			return	'<div class="' + linkClass + '">' + 
-						'<div class="embed-modal-form">' +
-							'<input id="' + id + '" type="text" data-link-num="' + numLinks +
-							'" placeholder="Begin typing story title" class="embed-modal-form-control" required/>' +
-						'</div>' + 
-						'<button class="' + removeLinkClass + '">' + 
-							'<i class="fa fa-minus"></i>' + 
-						'</button>' + 
+			$linkItem.data('link-data', linkData);
+
+			$linkItem.find('.' + removeLinkClass).on('click', function() {
+				var $this = $(this);
+				var $li = $this.closest('.' + linkClass);
+
+				$li.remove();
+			});
+
+			return $linkItem;
+		},
+		generateLinkInputHtml = function(linkData){
+			var linkIndex = typeof index === 'undefined' ? $('.' + linkClass).length : index;
+
+			return	'<div class="' + linkClass + '">' +
+						'<div class="related-link-control">' +
+							'<span class="' + dragLinkClass + '">' +
+								'<i class="fa fa-bars"></i>' +
+							'</span>' +
+						'</div>' +
+						'<div class="related-link-title">' +
+							linkData.title +
+						'</div>' +
+						'<div class="related-link-control">' +
+							'<button class="' + removeLinkClass + '">' +
+								'<i class="fa fa-minus"></i>' +
+							'</button>' +
+						'</div>' +
 					'</div>';
 		},
-		//  This provides the functionality/styling for the type-ahead feature, allowing the user to only
-		//  begin typing the title of a story and have a dropdown list of stories displayed to them
-		//  based on their input. This function also takes into account validation of the modal form.
-		initAutoComplete = function (inputId, self){
+		//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
+		//	begin typing the title of a story and have a dropdown list of stories displayed to them
+		//	based on their input. This function also takes into account validation of the modal form.
+		initAutoComplete = function (inputId, self, $el){
 			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
 			var isDevEnv = rgxDevEnv.test(window.location.host);
 			var debug = 0;
+			var ajaxData = {
+				auth_token: EntityEmbed.apiService.getAuthToken(),
+			};
+			var $input = $el.find(inputId);
+
+
 			if(isDevEnv)
 			{
-				debug = 1;
+				ajaxData.debug = 1;
 			}
 
 			var options = {
 				ajaxSettings: {
 					dataType: 'json',
 					method: 'POST',
-					data: {
-						auth_token: EntityEmbed.apiService.getAuthToken(),
-						debug: debug
-					}		
+					data: ajaxData
 				},
 				requestDelay: 600,
 				url: function(phrase) {
-					return self.options.httpPaths.getRelatedStories;
+					ajaxData.title = phrase;
+					return self.options.httpPaths.getContentList;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;
@@ -88,13 +110,13 @@ var EntityEmbed = EntityEmbed || {};
 					{
 						return data.title;
 					}
-					else 
+					else
 					{
 						return '';
 					}
 				},
 				preparePostData: function(data) {
-					data.title = $(inputId).val();
+					data.title = $input.val();
 					return JSON.stringify(data);
 				},
 				list: {
@@ -104,45 +126,60 @@ var EntityEmbed = EntityEmbed || {};
 					},
 					sort: {
 						enabled: true
-					},		
+					},
 					onChooseEvent: function(){ // store the users story selection
-						var objectId = $(inputId).getSelectedItemData().object_id;
-						var storyTitle = $(inputId).getSelectedItemData().title;
-						var linkNum = $(inputId).attr('data-link-num');
-						if (!!objectId || !!linkNum)
+						var itemData = $input.getSelectedItemData();
+						var objectId = itemData.object_id;
+						var $linkList = $el.find(linkListId);
+						var $linkItem;
+
+						if (!!itemData.object_id)
 						{
-							chosenLinks[linkNum] = {
-								title: storyTitle,
-								storyId: objectId
-							};
+							console.log('Adding link...');
+							$linkItem = generateLinkItem(itemData);
+							$linkList.append($linkItem);
 						}
+
+						$input.val('');
 					}
 				}
 			};
 
-			$(inputId).easyAutocomplete(options);
+			$input.easyAutocomplete(options);
 
-			// dont allow user to enter text that is not a story
-			$(inputId).on('blur', function(){
-				if ($(inputId).getSelectedItemData() == -1)
-				{
-					$(inputId).val('');	
-					var linkNum = $(inputId).attr('data-link-num');
-					if (!linkNum)
-					{
-						return;
-					}
-					chosenLinks[linkNum] = null;
-				}
-			});
+			$input.closest('.easy-autocomplete').removeAttr('style');
+		},
+		renderChosenLinks = function() {
+			for(var i = 0, m = chosenLinks.length; i < m; i++)
+			{
+				console.log('Create link:', chosenLinks[i]);
+
+				// $linkItem = generateLinkInputHtml(self.model.links[i], linkClass, removeLinkClass)
+				// $linkList.append();
+
+				// initAutoComplete('#' + self.model.links[i].storyId, self);
+			}
 		};
+
+	/**
+	 * Private function to get a clopy of an embed type object by object_type value.
+	 * @param	{String} objectType API object_type name
+	 * @return {Object}						Initialized embed type object from EntityEmbed.currentEmbedTypes.
+	 */
+	function getEmbedTypeByObjectType(objectType) {
+		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+			return et.options.object_type == objectType;
+		})[0];
+
+		return embedType && $.extend(true, {}, embedType);
+	}
 
 	// CONSTRUCTOR
 	function relatedLinkEmbed(options){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	};
- 
+
 	relatedLinkEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
 	EntityEmbed.embedTypes[embedName] = relatedLinkEmbed;
 
@@ -160,32 +197,39 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
 		var $linkList = $el.find(linkListId);
-		var $addLinkBtn = $el.find(addLinkBtnId);
+		var adjustment, placeholderHeight;
 
-		window.onbeforeunload = function(e) {
-			var title = $el.find('input[name="title"]').val();
-			if (!title || title === '')
-			{
-				return;
+		initAutoComplete(addLinkInputId, self, $el);
+
+		$linkList.sortable({
+			group: 'links',
+			itemSelector: '.' + linkClass,
+			draggedClass: 'related-link-dragged',
+			placeholderClass: dragPlaceholderClass,
+			placeholder: '<div class="' + dragPlaceholderClass + '"></div>',
+			nested: false,
+			onDragStart: function ($item, container, _super) {
+				var offset = $item.offset(),
+						pointer = container.rootGroup.pointer;
+
+				adjustment = {
+					left: pointer.left - offset.left,
+					top: pointer.top - offset.top
+				};
+
+				placeholderHeight = $item.outerHeight();
+
+				_super($item, container);
+			},
+			onDrag: function ($item, position) {
+				$item.css({
+					left: position.left - adjustment.left,
+					top: position.top - adjustment.top
+				});
+			},
+			afterMove: function($placeholder) {
+				$placeholder.height(placeholderHeight);
 			}
-			if (e.currentTarget.location.search.indexOf(title) !== -1)
-			{
-				return 'HOLD UP, WAIT A MINUTE!\r\n' + 
-					'\teasyAutoComplete is trying to reload the page for some reason\r\n' + 
-					'\twe don\'t know why, but we are trying to fix this issue';
-			}
-		};
-
-		$addLinkBtn.click(function(){
-			var pseudoGuid = generateId();
-
-			$linkList.append(generateLinkInputHtml(pseudoGuid, linkClass, removeLinkClass));
-
-			initAutoComplete('#' + pseudoGuid, self);
-		});
-
-		$el.on('click', '.' + removeLinkClass, function(){
-			$(this).closest('.' + linkClass).remove();
 		});
 	};
 
@@ -193,31 +237,94 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.clearForm($el, self);
 
-		$el.find(linkListId).children().remove();
-
-		chosenLinks = [];
+		$el.find(linkListId).empty();
 	};
 
 	relatedLinkEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 		self.parent.getModelFromForm($el, self);
-		self.model.links = chosenLinks;
+		self.model.links = [];
+
+		$el.find('.' + linkClass).each(function() {
+			var $this = $(this);
+			var linkData = $this.data('link-data');
+
+			self.model.links.push({
+				object_id: linkData.object_id,
+				object_type: linkData.object_type
+			});
+		});
 	};
 
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
+		var $linkList = $form.find(linkListId);
+		var $progress = $form.find(progressBarId);
+		var $linkItem, i, m, promise, fetchPath;
+		var deferreds = [];
+		var linksData = [];
+		var totalLinks = 0;
+		var totalLoaded = 0;
+		var percentLoaded = 0;
+
 		self.parent.populateFormWithModel($form, self);
 
-		var $linkList = $form.find(linkListId);
-		var $addLinkBtn = $form.find(addLinkBtnId);
+		$progress.width(0);
+		$progress.parent().slideDown(0);
 
-		for(var i = 0; i < self.model.links.length; i++)
+		console.log('populateFormWithModel::self', self);
+
+		for(i = 0, m = self.model.links.length; i < m; i++)
 		{
-			$linkList.append(generateLinkInputHtml(self.model.links[i].storyId, linkClass, removeLinkClass));
-			$form.find('#' + self.model.links[i].storyId).val(self.model.links[i].title);
 
-			initAutoComplete('#' + self.model.links[i].storyId, self);
+			console.log('populateFormWithModel::link', self.model.links[i]);
+
+			if(self.model.links[i])
+			{
+				totalLinks++;
+
+				promise = EntityEmbed.apiService.get({
+					path: self.options.httpPaths.getContentItem[self.model.links[i].object_type],
+					data: {
+						object_id: self.model.links[i].object_id
+					}
+				});
+
+				promise.done((function(index) {
+					return function(respData) {
+						totalLoaded++;
+
+						percentLoaded = totalLoaded / totalLinks * 100;
+
+						console.log('percentLoaded', percentLoaded);
+
+						$progress.css({
+							width: percentLoaded + '%'
+						});
+
+						if(respData.status === 'OK')
+						{
+							linksData[index] = respData.response;
+						}
+					};
+				})(i));
+
+				deferreds.push(promise);
+			}
 		}
+
+		$.when.apply($, deferreds).done(function(){
+			var $linkItem;
+
+			$progress.parent().delay(400).slideUp(500);
+
+			for(var i = 0, m = linksData.length; i < m; i++)
+			{
+				$linkItem = generateLinkItem(linksData[i]);
+				$linkList.append($linkItem);
+				$linkItem.hide().delay(1000).slideDown(150);
+			}
+		});
 	};
 
 	// TODO : make this the default styling for genericEmbed
@@ -227,6 +334,7 @@ var EntityEmbed = EntityEmbed || {};
 		return '<div class="relatedLink-embed">' +
 					'<div class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </div>' +
 					'<div class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</div>' +
+					'<div class="relatedLink-embed-uiText"> <strong>Links:</strong> ' + self.model.links.length + '</div>' +
 				'</div>';
 	};
 
