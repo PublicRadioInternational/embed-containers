@@ -27,7 +27,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			var htmlString =
-				'<div class="' + toolbarClasses + '">' + 
+				'<div class="' + toolbarClasses + '">' +
 					'<ul class="medium-editor-toolbar-actions clearfix">';
 
 			for(var configName in configs)
@@ -38,16 +38,16 @@ var EntityEmbed = EntityEmbed || {};
 					continue;
 				}
 				htmlString +=
-						'<li>' + 
-							'<button class="medium-editor-action" data-action="' + configName + '">' + 
+						'<li>' +
+							'<button class="medium-editor-action" data-action="' + configName + '">' +
 								config.label +
-							'</button>' + 
+							'</button>' +
 						'</li>';
 			}
 
 
 			htmlString +=
-					'</ul>' + 
+					'</ul>' +
 				'</div>';
 
 			return htmlString;
@@ -128,7 +128,7 @@ var EntityEmbed = EntityEmbed || {};
 		if (!!$toolbars[self.currentToolbarEmbedType])
 		{
 			$toolbars[self.currentToolbarEmbedType].find('button').each(function () {
-				if($activeLine.hasClass('entity-embed-' + $(this).data('action')))	
+				if($activeLine.hasClass('entity-embed-' + $(this).data('action')))
 				{
 					$activeButton = $(this);
 					$activeButton.addClass(activeToolbarBtnClass);
@@ -168,13 +168,15 @@ var EntityEmbed = EntityEmbed || {};
 			}
 			else
 			{
-				$activeLine.removeClass(className);	
+				$activeLine.removeClass(className);
 				if (!!self.styles[$curButton.data('action')].removed)
 				{
 					self.styles[$curButton.data('action')].removed($activeLine)
 				}
 			}
 		});
+
+		self.mediumEditorAddon.core.triggerInput();
 	};
 
 	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
@@ -204,7 +206,7 @@ var EntityEmbed = EntityEmbed || {};
 	toolbarManager.prototype.hideToolbar = function(){
 		var self = this;
 
-		self.$actionToolbar.hide();	
+		self.$actionToolbar.hide();
 		self.$actionToolbar.find('button').removeClass(activeToolbarBtnClass);
 
 		if (!self.currentToolbarEmbedType || !$toolbars[self.currentToolbarEmbedType])
