@@ -42,8 +42,10 @@ var EntityEmbed = EntityEmbed || {};
 			var linkHtml = generateLinkInputHtml(linkData);
 			var $linkItem = $(linkHtml);
 
+			// Attach data to element
 			$linkItem.data('link-data', linkData);
 
+			// Add click hanlder to remove btn
 			$linkItem.find('.' + removeLinkClass).on('click', function() {
 				var $this = $(this);
 				var $li = $this.closest('.' + linkClass);
@@ -54,8 +56,6 @@ var EntityEmbed = EntityEmbed || {};
 			return $linkItem;
 		},
 		generateLinkInputHtml = function(linkData){
-			var linkIndex = typeof index === 'undefined' ? $('.' + linkClass).length : index;
-
 			return	'<div class="' + linkClass + '">' +
 						'<div class="related-link-control">' +
 							'<span class="' + dragLinkClass + '">' +
@@ -134,7 +134,6 @@ var EntityEmbed = EntityEmbed || {};
 
 						if (!!itemData.object_id)
 						{
-							console.log('Adding link...');
 							$linkItem = generateLinkItem(itemData);
 							$linkList.append($linkItem);
 						}
@@ -147,17 +146,6 @@ var EntityEmbed = EntityEmbed || {};
 			$input.easyAutocomplete(options);
 
 			$input.closest('.easy-autocomplete').removeAttr('style');
-		},
-		renderChosenLinks = function() {
-			for(var i = 0, m = chosenLinks.length; i < m; i++)
-			{
-				console.log('Create link:', chosenLinks[i]);
-
-				// $linkItem = generateLinkInputHtml(self.model.links[i], linkClass, removeLinkClass)
-				// $linkList.append();
-
-				// initAutoComplete('#' + self.model.links[i].storyId, self);
-			}
 		};
 
 	/**
@@ -198,8 +186,10 @@ var EntityEmbed = EntityEmbed || {};
 		var $linkList = $el.find(linkListId);
 		var adjustment, placeholderHeight;
 
+		// Initialize Add Link field's Auto Complete functionality
 		initAutoComplete(addLinkInputId, self, $el);
 
+		// Make link list sortabel
 		$linkList.sortable({
 			group: 'links',
 			itemSelector: '.' + linkClass,
@@ -236,6 +226,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.clearForm($el, self);
 
+		// Remove children from link list
 		$el.find(linkListId).empty();
 	};
 
@@ -244,6 +235,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.getModelFromForm($el, self);
 		self.model.links = [];
 
+		// Pull data from all link elements and add to model just the properties need to look it up again
 		$el.find('.' + linkClass).each(function() {
 			var $this = $(this);
 			var linkData = $this.data('link-data');
@@ -268,20 +260,19 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.populateFormWithModel($form, self);
 
+		// Reset progress elements size and visiblity
 		$progress.width(0);
 		$progress.parent().slideDown(0);
 
-		console.log('populateFormWithModel::self', self);
-
 		for(i = 0, m = self.model.links.length; i < m; i++)
 		{
-
-			console.log('populateFormWithModel::link', self.model.links[i]);
-
+			// Make sure link data at this index exists
 			if(self.model.links[i])
 			{
+				// Increment our counter for links we are loading data for
 				totalLinks++;
 
+				// Get links data from API
 				promise = EntityEmbed.apiService.get({
 					path: self.options.httpPaths.getContentItem[self.model.links[i].object_type],
 					data: {
@@ -289,20 +280,21 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				});
 
+				// Handle API resonse
 				promise.done((function(index) {
 					return function(respData) {
+						// Increment count of finished link loads, no matter the status of the request
 						totalLoaded++;
 
+						// Update progress bar
 						percentLoaded = totalLoaded / totalLinks * 100;
-
-						console.log('percentLoaded', percentLoaded);
-
 						$progress.css({
 							width: percentLoaded + '%'
 						});
 
 						if(respData.status === 'OK')
 						{
+							// Request returned data. Add to model at the correct index
 							linksData[index] = respData.response;
 						}
 					};
@@ -313,11 +305,21 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		$.when.apply($, deferreds).done(function(){
-			var $linkItem;
+			var $linkItem, i, m;
 
 			$progress.parent().delay(400).slideUp(500);
 
-			for(var i = 0, m = linksData.length; i < m; i++)
+			// Compact linksData array
+			for (i = 0, m = linksData.length; i < m; i++)
+			{
+				if(!linksData[i])
+				{
+					linksData.splice(i,1);
+				}
+			}
+
+			// Create link elements in link list
+			for(i = 0, m = linksData.length; i < m; i++)
 			{
 				$linkItem = generateLinkItem(linksData[i]);
 				$linkList.append($linkItem);
