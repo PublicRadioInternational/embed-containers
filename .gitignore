@@ -6,4 +6,7 @@ node_modules
 
 *.sublime-project
 
+.idea
+*.iml
+
 config.json
