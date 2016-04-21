@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "custom addon for the medium editor insert plugin",
   "main": [
-    "dist/js/embed-containers.min.js",
+    "dist/js/embed-containers.js",
     "dist/css/embed-containers.min.css"
   ],
   "authors": [

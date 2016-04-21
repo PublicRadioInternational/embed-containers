@@ -193,7 +193,7 @@ var EntityEmbed = EntityEmbed || {};
 			$.embed_modal_create();
 		}
 
-		for (var i in EntityEmbed.currentEmbedTypes)
+		for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
 		{
 			self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
 		}

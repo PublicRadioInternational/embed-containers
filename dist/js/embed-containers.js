@@ -17,7 +17,7 @@ var EntityEmbed = EntityEmbed || {};
 		return $.ajax({
 				timeout: 15000,
 				crossDomain: true,
-				type: config.methodType, 
+				type: config.methodType,
 				dataType: 'json',
 				url: config.path,
 				data: JSON.stringify(config.data)
@@ -45,7 +45,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	function getAuthToken(token){
-		return defaultConfig.auth_token;	
+		return defaultConfig.auth_token;
 	};
 
 	// determine debug level
@@ -63,7 +63,7 @@ var EntityEmbed = EntityEmbed || {};
 		get: get,
 		setAuthToken: setAuthToken,
 		getAuthToken: getAuthToken
-	};	
+	};
 })();
 var EntityEmbed = EntityEmbed || {};
 
@@ -376,7 +376,7 @@ var EntityEmbed = EntityEmbed || {};
 		return {};
 	};
 
-	genericEmbed.prototype.defaultStyle = 'entity-embed-center'; 
+	genericEmbed.prototype.defaultStyle = 'entity-embed-center';
 
 	genericEmbed.prototype.init = function(){
 		var self = this;
@@ -446,7 +446,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = child || this;
 
 		if(!!self.$validator)
-		{	
+		{
  			self.$validator.resetForm();
 		}
 		var formList = $el.find('form');
@@ -490,14 +490,14 @@ var EntityEmbed = EntityEmbed || {};
 			self.model.object_type = self.options.object_type;
 
 			return EntityEmbed.apiService.post({
-				path: self.options.httpPaths.post, 
+				path: self.options.httpPaths.post,
 				data: self.model
 			});
 		}
 		else
 		{
 			return EntityEmbed.apiService.put({
-				path: self.options.httpPaths.put, 
+				path: self.options.httpPaths.put,
 				data: self.model
 			});
 		}
@@ -521,7 +521,7 @@ var EntityEmbed = EntityEmbed || {};
 })();
 
 ;(function () {
-	
+
 	'use strict';
 
 	var defaultOptions = {
@@ -558,7 +558,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	function modal(el, options, scope) {	
+	function modal(el, options, scope) {
 		var self = this;
 
 		// TODO : only store modal element on scope (no need to have it in two places)
@@ -573,7 +573,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.scope.modalCtrl = self;
 		self.$el.data('scope', self.scope);
-		
+
 		self.options.functions.init.before(self.scope);
 		self.init();
 		self.options.functions.init.after(self.scope);
@@ -594,11 +594,11 @@ var EntityEmbed = EntityEmbed || {};
 		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
 				seg() + '-' + seg() + seg() + seg();
 	};
-	
+
 	modal.prototype.backdropHtml = function(id)
 	{
 		var self = this;
-		return '<div id="' + id + '" class="' 
+		return '<div id="' + id + '" class="'
 			+ self.options.backdropClass + '"></div>';
 	};
 
@@ -611,7 +611,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	modal.prototype.toggle = function(ctrl)
 	{
-		ctrl.$el.toggleClass(ctrl.activeClass);	
+		ctrl.$el.toggleClass(ctrl.activeClass);
 		ctrl.$backdrop.toggleClass(ctrl.activeClass);
 		ctrl.$closeBtn.toggleClass(ctrl.activeClass);
 		ctrl.isActive = !ctrl.isActive;
@@ -632,7 +632,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$backdrop.click(function(){
 			self.$el.abortModal();
 		});
-	
+
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
 			var closeBtnId = self.generateId();
@@ -659,7 +659,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	/* 
+	/*
 	 * -- registers an event for the modal --
 	 *
 	 * element : the string selector or JQuery object for the element
@@ -762,12 +762,12 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 				var modalScope = modalCtrl.$el.data('scope');
-				
+
 				if (modalCtrl.options.functions.complete.before(modalScope))
 				{
 					modalCtrl.toggle(modalCtrl);
 					modalCtrl.options.functions.complete.after(modalScope);
-					
+
 					// reject promise if app dev has not already done so
 					if(modalCtrl.promise.state() === 'pending')
 					{
@@ -1558,7 +1558,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	audioEmbed.prototype.initModal = function($el){
-		var self = this;	
+		var self = this;
 
 		self.$mp3Form = $el.find('input[name="upload"]');
 		//self.$wavForm = $el.find('input[name="wavFile"]');
@@ -1576,7 +1576,7 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(cancelUploadAudioBtn).hide();
 			if (self.$mp3Form.parent().find('#upload-error').is(':visible'))
 			{
-				self.$mp3Form.parent().find('#upload-error').hide();	
+				self.$mp3Form.parent().find('#upload-error').hide();
 			}
 
 			$el.find(editAudioFileBtn).show();
@@ -1607,7 +1607,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			promise.then(function(responseData){
@@ -1642,7 +1642,7 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		
+
 		return promise;
 	};
 
@@ -1653,7 +1653,7 @@ var EntityEmbed = EntityEmbed || {};
 			var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
 
 			return '<audio controls class="' + self.audioPreviewClass + '">' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
+						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' +
 					'</audio>';
 		}
 		else // this is an add modal - the audio has been uploaded by the client but not pushed to the server
@@ -1669,7 +1669,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.populateFormWithModel($form, self);
 
 		if (!self.model.upload && !self.model.url_path)
-		{	
+		{
 			return;
 		}
 
@@ -1682,15 +1682,15 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
+
 		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
 
-		return  '<div class="audio-embed">' + 
+		return  '<div class="audio-embed">' +
 					'<audio controls>' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
+						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' +
 					'</audio>' +
 					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
-					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
+					'<div class="link">Link: ' + self.model.creditLink + '</div>' +
 				'</div>';
 	};
 
@@ -1751,7 +1751,7 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				self.model[name] = value;
 			}
-			
+
 		}
 	};
 
@@ -1802,7 +1802,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 			else
 			{
-				
+
 				formFields[i].value = self.model[formFields[i].name];
 
 				if(formFields[i].id == customTextEditorId)
@@ -1824,7 +1824,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	customTextEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		return  '<div class="custom-text-embed">' + 
+		return  '<div class="custom-text-embed">' +
 					'<div class="display-title">' + self.model.displayTitle + '</div>' +
 					'<div class="custom-text">' + self.model.customText + '</div>' +
 				'</div>';
@@ -1924,7 +1924,7 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(cancelUploadImageBtn).hide();
 			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
 			{
-				self.$imageForm.parent().find('#upload-error').hide();	
+				self.$imageForm.parent().find('#upload-error').hide();
 			}
 
 			$el.find(uploadedImgDisplay).show();
@@ -1944,7 +1944,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			promise.then(function(responseData){
@@ -1976,7 +1976,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.populateFormWithModel($form, self);
 
 		if (!self.model.upload && !self.model.url_path)
-		{	
+		{
 			return;
 		}
 
@@ -1986,7 +1986,7 @@ var EntityEmbed = EntityEmbed || {};
 		$form.find(editImageFileBtn).show();
 		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
 	};
-	
+
 	externalLinkEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el, self);
@@ -2017,12 +2017,12 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		return 	'<div class="external-link-embed entity-embed-secondary-toolbar-locator">' +
-					'<img src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">' + 
-					'<div class="text-container">' + 
+					'<img src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">' +
+					'<div class="text-container">' +
 						'<div class="display-title">' + self.model.displayTitle + '</div>' +
 						'<div class="teaser">' + self.model.teaser + '</div>' +
-					'</div>' + 
-					'<a href="' + self.model.url + '">'  + self.model.linkText + '</a>' + 
+					'</div>' +
+					'<a href="' + self.model.url + '">'  + self.model.linkText + '</a>' +
 				'</div>';
 	};
 
@@ -2238,13 +2238,13 @@ var EntityEmbed = EntityEmbed || {};
 		return  '<div class="iframe-embed">' +
 					'<div class="iframe-info">' +
 						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
-					'<iframe src="' + this.model.url + '" ' + 
-						'frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
-					'</iframe>' + 
+					'</div>' +
+					'<iframe src="' + this.model.url + '" ' +
+						'frameborder="0" scrolling="' + this.model.allowsScroll + '">' +
+					'</iframe>' +
 					'<div class="iframe-info">' +
 						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 
@@ -2377,7 +2377,7 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(cancelUploadImageBtn).hide();
 			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
 			{
-				self.$imageForm.parent().find('#upload-error').hide();	
+				self.$imageForm.parent().find('#upload-error').hide();
 			}
 
 			$el.find(uploadedImgDisplay).show();
@@ -2408,7 +2408,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			promise.then(function(responseData){
@@ -2455,7 +2455,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.populateFormWithModel($form, self);
 
 		if (!self.model.upload && !self.model.url_path)
-		{	
+		{
 			return;
 		}
 
@@ -2469,15 +2469,15 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		return	'<div class="images-embed">' + 
-					'<img class="entity-embed-secondary-toolbar-locator"' + 
-						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
+		return	'<div class="images-embed">' +
+					'<img class="entity-embed-secondary-toolbar-locator"' +
+						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' +
 					'<div class="images-embed-caption">' +
 						self.model.caption +
-					'</div>' + 
-					'<div class="images-embed-credit">' + 
+					'</div>' +
+					'<div class="images-embed-credit">' +
 						'Credit: ' + self.model.credit +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 })('');
@@ -2589,7 +2589,7 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
-					newsletter: 'required',					
+					newsletter: 'required',
 				}
 			},
 			httpPaths:{
@@ -2617,7 +2617,7 @@ var EntityEmbed = EntityEmbed || {};
 			teaser: null
 		};
 	};
-	
+
 	newsletterSubscribeEmbed.prototype.initModal = function($el){
 		var self = this;
 		var defaultSubscriptionOption = '<option disabled selected>-- select a newsletter --</option>';
@@ -2636,7 +2636,7 @@ var EntityEmbed = EntityEmbed || {};
 				for(var i = 0; i < list.response.data.length; i++)
 				{
 					subscriptionList.push(
-						'<option value="' + list.response.data[i].newsletter_id +'" >' + 
+						'<option value="' + list.response.data[i].newsletter_id +'" >' +
 							list.response.data[i].title +
 						'</option>'
 					);
@@ -2652,13 +2652,13 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		return '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +
 					'<div class="display-title">' + self.model.displayTitle + '</div>' +
-					'<div class="subscribe-form">' +			
+					'<div class="subscribe-form">' +
 						'<div class="teaser">' + self.model.teaser + '</div>' +
 						'<div class="embed-modal-form">' +
-							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' + 
-						'</div>' + 
+							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' +
+						'</div>' +
 						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 
@@ -2849,8 +2849,11 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
 		var $linkList = $el.find(linkListId);
+		var $progress = $el.find(progressBarId);
 		var adjustment, placeholderHeight;
 
+		// Don't need to show progress on new or cleared forms
+		$progress.parent().hide();
 		// Initialize Add Link field's Auto Complete functionality
 		initAutoComplete(addLinkInputId, self, $el);
 
@@ -2925,6 +2928,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.populateFormWithModel($form, self);
 
+		// Check to see if model has links
+		if (!self.model.links.length)
+		{
+			// exit now. don't need to load anything
+			return;
+		}
 		// Reset progress elements size and visiblity
 		$progress.width(0);
 		$progress.parent().slideDown(0);
@@ -3060,18 +3069,18 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			var id = guid || generateId();
-			var newHtml = 
-				'<div class="slideshow-radio-container">' + 
-					'<label class="slideshow-radio">' + 
-						'<input type="radio" id="' + id + '" name="radioOption">' + 
+			var newHtml =
+				'<div class="slideshow-radio-container">' +
+					'<label class="slideshow-radio">' +
+						'<input type="radio" id="' + id + '" name="radioOption">' +
 						'<span class="' + labelTextClass + '">' +
 							label +
 						'</span>' +
-						'<label class="slideshow-image-error"></label>' + 
-					'</label>' + 
-					'<div class="remove-slideshow-image">' + 
-						'<i class="fa fa-times"></i>' + 
-					'</div>' + 
+						'<label class="slideshow-image-error"></label>' +
+					'</label>' +
+					'<div class="remove-slideshow-image">' +
+						'<i class="fa fa-times"></i>' +
+					'</div>' +
 				'</div>';
 
 			$(imageSelect).append(newHtml);
@@ -3096,7 +3105,7 @@ var EntityEmbed = EntityEmbed || {};
 			imageObjects[currentImageId] = imageEmbed.model;
 		},
 		selectSlideshowImage = function(imageId){
-			var $newImageSelectOption = $('#' + imageId); 
+			var $newImageSelectOption = $('#' + imageId);
 
 			if (!currentImageId || currentImageId === '') // this is the first image - show hidden UI items
 			{
@@ -3335,7 +3344,7 @@ var EntityEmbed = EntityEmbed || {};
 			var $currentRadio = $('#' + currentImageId).parent();
 			$currentRadio.find('.' + labelTextClass).text(titleVal);
 		});
-	};	
+	};
 
 	slideshowEmbed.prototype.saveEmbed = function(embedIsNew){
 		var self = this;
@@ -3353,7 +3362,7 @@ var EntityEmbed = EntityEmbed || {};
 			var imageEmbedIsNew = !imageEmbed.model.object_id;
 
 			var promise = imageEmbed.saveEmbed(imageEmbedIsNew);
-			
+
 			promise.done( (function(imageNum){
 					return function(data){
 						if (data.status == 'ERROR')
@@ -3378,13 +3387,13 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		return $.when.apply($, deferreds).then(function(){
 			return self.parent.saveEmbed(embedIsNew, self);
-		});	
+		});
 	};
 
 	slideshowEmbed.prototype.validate = function($el, isAddModal){
 		var self = this;
 
-		
+
 		// TODO : make this work
 		imageEmbed.validate($(imageForm), isAddModal);
 
@@ -3762,7 +3771,7 @@ var EntityEmbed = EntityEmbed || {};
 			id: null,
 			selectExisting: false
 		};
-		
+
 
 		if (!EntityEmbed.$embedModal)
 		{
@@ -4007,7 +4016,7 @@ var EntityEmbed = EntityEmbed || {};
 			$.embed_modal_create();
 		}
 
-		for (var i in EntityEmbed.currentEmbedTypes)
+		for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
 		{
 			self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
 		}
@@ -4534,7 +4543,7 @@ var EntityEmbed = EntityEmbed || {};
 /*
  * easy-autocomplete
  * jQuery plugin for autocompletion
- * 
+ *
  * @author Łukasz Pawełczak (http://github.com/pawelczak)
  * @version 1.3.3
  * Copyright MIT License: https://github.com/pawelczak/easy-autocomplete/blob/master/LICENSE.txt
