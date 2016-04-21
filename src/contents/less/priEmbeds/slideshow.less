@@ -1,9 +1,92 @@
-#embed-modal-slideshow-image, .embed-modal-slideshow-image-select
-{
-	display: none;
-}
-
 .slideshow-embed
 {
 	
+}
+
+.image-list-container
+{
+	.clearfix();
+}
+
+.slideshow-image-add
+{
+	float: right;
+}
+
+.slideshow-image-select-existing
+{
+	float: right;
+	margin-right: 10px;
+}
+
+.slideshow-radio-container
+{
+	.clearfix();
+	.make-row();
+
+	&:hover
+	{
+		background-color: #bfbfbf;
+	}
+
+	.slideshow-radio
+	{
+		.make-xs-column(11);
+		.radio();
+
+		input
+		{
+			margin: 0px 10px;
+		}
+	}
+
+	.remove-slideshow-image 
+	{
+		.make-xs-column(1);
+		margin: 0 auto;
+		margin-top: 14px;
+	}
+}
+
+#radio-option-placeholder
+{
+	font-style: italic;
+}
+
+#embed-modal-slideshow-image-select-existing
+{
+	display: none;
+	
+	#slideshow-image-select-btns
+	{
+		float: right;
+		button
+		{
+			.btn();
+		}
+
+		#btn-select-existing-simg
+		{
+			.btn-primary();
+		}
+
+		#btn-cancel-select-existing-simg
+		{
+			.btn-default(); 
+		}
+	}
+}
+
+.embed-modal-select-existing-simg
+{
+	table
+	{
+		.table();
+
+		.embed-modal-active-row
+		{
+			background-color: #bfbfbf !important;
+		}
+	}
+
 }

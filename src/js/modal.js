@@ -167,32 +167,35 @@
 	};
 
 	$.fn.openModal = function(addToScope){
-		return this.each(function()
+		var modalCtrl = $.data(this[0], 'ctrl');
+		// TODO : decrease cyclomatic complexity
+		if (!!modalCtrl)
 		{
-			var modalCtrl = $.data(this, 'ctrl');
-			if (!!modalCtrl && !modalCtrl.isActive )
+			if (!!addToScope)
 			{
-				if (!!addToScope)
-				{
-					var currentScope = modalCtrl.$el.data('scope');
-					var newScope = $.extend(true, {}, currentScope, addToScope);
-					modalCtrl.$el.data('scope', newScope);
-				}
+				var currentScope = modalCtrl.$el.data('scope');
+				var newScope = $.extend(true, {}, currentScope, addToScope);
+				modalCtrl.$el.data('scope', newScope);
+			}
 
-				modalCtrl.options.functions.open.before(modalCtrl.$el.data('scope'));
-				modalCtrl.toggle(modalCtrl);
-				modalCtrl.options.functions.open.after(modalCtrl.$el.data('scope'));
+			var modalScope = modalCtrl.$el.data('scope');
+			modalCtrl.promise = $.Deferred();
 
+			modalCtrl.options.functions.open.before(modalScope);
+			modalCtrl.toggle(modalCtrl);
+			modalCtrl.options.functions.open.after(modalScope);
+
+			if (!modalScope.keepPosition)
+			{
 				// position the modal within the viewport
 				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
-				// var newTopVal = modalCtrl.$el.css('top');
-				// newTopVal.replace('px', '');
-				// newTopVal = parseInt(newTopVal);
-
 				var newTopVal = distanceFromTop + $(document).scrollTop();
 				modalCtrl.$el.css('top', newTopVal);
 			}
-		});
+			return modalCtrl.promise;
+		}
+		// TODO : return promise even if there is no modalCtrl
+		//			promise would need to be immediately rejected
 	};
 
 	$.fn.abortModal = function(addToScope){
@@ -207,10 +210,18 @@
 					modalCtrl.$el.data('scope', newScope);
 				}
 
-				if (modalCtrl.options.functions.abort.before(modalCtrl.$el.data('scope')))
+				var modalScope = modalCtrl.$el.data('scope');
+
+				if (modalCtrl.options.functions.abort.before(modalScope))
 				{
 					modalCtrl.toggle(modalCtrl);
-					modalCtrl.options.functions.abort.after(modalCtrl.$el.data('scope'));
+					modalCtrl.options.functions.abort.after(modalScope);
+
+					// reject promise if app dev has not already done so
+					if(modalCtrl.promise.state() === 'pending')
+					{
+						modalCtrl.promise.reject();
+					}
 				}
 			}
 		});
@@ -227,11 +238,19 @@
 					var newScope = $.extend(true, {}, currentScope, addToScope);
 					modalCtrl.$el.data('scope', newScope);
 				}
+
+				var modalScope = modalCtrl.$el.data('scope');
 				
-				if (modalCtrl.options.functions.complete.before(modalCtrl.$el.data('scope')))
+				if (modalCtrl.options.functions.complete.before(modalScope))
 				{
 					modalCtrl.toggle(modalCtrl);
-					modalCtrl.options.functions.complete.after(modalCtrl.$el.data('scope'));
+					modalCtrl.options.functions.complete.after(modalScope);
+					
+					// reject promise if app dev has not already done so
+					if(modalCtrl.promise.state() === 'pending')
+					{
+						modalCtrl.promise.resolve();
+					}
 				}
 			}
 		});

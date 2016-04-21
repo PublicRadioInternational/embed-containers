@@ -52,12 +52,21 @@ var EntityEmbed = EntityEmbed || {};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
-		var formFields = $el.find('.embed-modal-form-control');
+		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
+			var type = formFields[i].type;
+			var value = null;
+			if (type === 'file')
+			{
+				value = formFields[i].files[0];
+			}
+			else
+			{
+				value = formFields[i].value;
+			}
+			if (!!name)
 			{
 				self.model[name] = value;
 			}
@@ -94,21 +103,16 @@ var EntityEmbed = EntityEmbed || {};
 	};
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
-		function resetForm(){
- 			if(!self.$validator)
- 			{
- 				return;
- 			}
- 			self.$validator.resetForm();
- 		};
-		
 		var self = child || this;
 
-		resetForm(self);
+		if(!!self.$validator)
+		{	
+ 			self.$validator.resetForm();
+		}
 		var formList = $el.find('form');
-		for (var x = 0; x < formList.length; x++)
+		for (var i = 0; i < formList.length; i++)
 		{
-			formList[x].reset();
+			formList[i].reset();
 		}
 	 	self.model = self.cleanModel();
 	};
@@ -116,19 +120,28 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.editorEvents = function(){};
 
 	genericEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		var self = this;
+		return	'<div class="embedded-content">' +
+					'<div class="ui-text"> <strong>Embed Type: </strong>' 	+ self.options.object_type + '</div>' +
+					'<div class="ui-text"> <strong>Title: </strong> ' 		+ self.model.title + '</div>' +
+				'</div>';
 	};
 
 	// returns validator object
 	genericEmbed.prototype.validate = function($el, isAddModal, child){
 		var self = child || this;
-		var $form = $el.find('form');
+		var $form = $el;
+		if (!$form.is('form'))
+		{
+			$form = $el.find('form');
+		}
 		self.$validator = $form.validate(self.options.validationOptions);
 		return self.$validator;
 	};
 
 	// ASSUMPTION - model is already populated
-	genericEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc, child){
+	// TODO : embedIsNew can be determined programatically (check if model has object_id)
+	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 
 		if (embedIsNew){
@@ -138,23 +151,17 @@ var EntityEmbed = EntityEmbed || {};
 
 			return EntityEmbed.apiService.post({
 				path: self.options.httpPaths.post, 
-				data: self.model,
-				success: successFunc,
-				fail: failFunc,
-				always: alwaysFunc
+				data: self.model
 			});
 		}
 		else
 		{
 			return EntityEmbed.apiService.put({
 				path: self.options.httpPaths.put, 
-				data: self.model,
-				success: successFunc,
-				fail: failFunc,
-				always: alwaysFunc
+				data: self.model
 			});
 		}
-	}
+	};
 
 	EntityEmbed.embedTypes = {
 		genericEmbed: genericEmbed

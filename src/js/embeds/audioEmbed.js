@@ -15,7 +15,7 @@ var EntityEmbed = EntityEmbed || {};
 				rules: {
 					title: 'required',
 					url: 'required',
-					mp3File: {
+					upload: {
 						required: true,
 						extension: "mp3"
 					},
@@ -27,6 +27,29 @@ var EntityEmbed = EntityEmbed || {};
 			httpPaths:{
 				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
 			}
+		},
+		uploadedAudioDisplay = '.uploaded-audio-file',
+		cancelUploadAudioBtn = '.cancel-upload-file-btn',
+		editAudioFileBtn = '.edit-chosen-file-btn',
+		uploadMp3FileBtn = ".embed-modal-file-input",
+		getAudioUrl = function(audioLocation, audioUrl)
+		{
+			if (audioUrl.indexOf(audioLocation) >= 0)
+			{
+				return audioUrl;
+			}
+
+			// ensure that there isn't an unintended '//' in final URL
+			if (audioLocation.endsWith('/'))
+			{
+				audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			}
+			if (!audioUrl.startsWith('/'))
+			{
+				audioLocation = '/' + audioUrl;
+			}
+
+			return audioLocation + audioUrl;
 		};
 
 	function formatFileSize(bytes) {
@@ -59,6 +82,8 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	audioEmbed.prototype.orderIndex = 3;
 
+	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
+
 	audioEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
@@ -71,69 +96,124 @@ var EntityEmbed = EntityEmbed || {};
 	audioEmbed.prototype.initModal = function($el){
 		var self = this;	
 
-		self.$mp3Form = $el.find('input[name="mp3File"]');
-		self.$wavForm = $el.find('input[name="wavFile"]');
+		self.$mp3Form = $el.find('input[name="upload"]');
+		//self.$wavForm = $el.find('input[name="wavFile"]');
+
+		$el.find(editAudioFileBtn).on('click', function(){
+			$el.find(uploadedAudioDisplay).hide();
+			$el.find(editAudioFileBtn).hide();
+
+			self.$mp3Form.css('display', 'inline-block');
+			$el.find(cancelUploadAudioBtn).show();
+		});
+
+		$el.find(cancelUploadAudioBtn).on('click', function(){
+			self.$mp3Form.hide();
+			$el.find(cancelUploadAudioBtn).hide();
+			if (self.$mp3Form.parent().find('#upload-error').is(':visible'))
+			{
+				self.$mp3Form.parent().find('#upload-error').hide();	
+			}
+
+			$el.find(editAudioFileBtn).show();
+			$el.find(uploadedAudioDisplay).show();
+		});
+
+		$el.find(uploadMp3FileBtn).on('change', function(){
+			var fileName =  $el.find(uploadMp3FileBtn)[0].files[0].name;
+			$el.find("[name=title]").val(fileName);
+		});
 	};
 
-	audioEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc, alwaysFunc)
+	audioEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el, self);
+
+		$el.find(uploadedAudioDisplay).find('.' + self.audioPreviewClass).remove();
+		$el.find(uploadedAudioDisplay).hide();
+		$el.find(cancelUploadAudioBtn).hide();
+		$el.find(editAudioFileBtn).hide();
+		self.$mp3Form.show();
+	};
+
+	audioEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
 		var self = this;
-		self.parent.saveEmbed(embedIsNew, function(data){
-			function sendFile(formData)
-			{
+		var file = self.model.upload;
+		delete self.model.upload;
+
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+		
+		if (!!file)
+		{
+			promise.then(function(responseData){
+				//var wavFile = self.$wavForm[0].files[0];
+				// if (!!wavFile)				// only send wav file if user specified
+				// {
+				// 	var wavFormData = new FormData();
+				// 	wavFormData.append('upload', wavFile);
+				// 	sendFile(wavFormData)
+				// 		.then(function(responseData){
+				// 			self.model.wavFile = self.options.audioLocation + responseData.response.url_path;
+				// 		});
+				// }
+
+				var mp3FormData = new FormData();
+				mp3FormData.append('upload', file);
+
 				return $.ajax({
 					url: self.options.httpPaths.uploadFile,
 					type: 'POST',
-					data: formData,
+					data: mp3FormData,
 					headers: {
 						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': data.response.object_id,
+						'x-object-id': responseData.response.object_id,
 						'x-debug': '1'
 					},
 					processData: false,
 					contentType: false
 				});
-			};
-
-			var mp3File = self.$mp3Form[0].files[0],
-				wavFile = self.$wavForm[0].files[0];
-			
-			var sendMp3 = !!mp3File || isAddModal,  // always send if isAddModal, otherwise only send if user specified
-				sendWav = !!wavFile;				// only send wav file if user specified
-
-			if (sendWav)
-			{
-				var wavFormData = new FormData();
-				wavFormData.append('upload', wavFile);
-				sendFile(wavFormData)
-					.success(function(data){
-							self.model.wavFile = self.options.audioLocation + data.response.url_path;
-						});
-			}
-			if (sendMp3)
-			{
-				var mp3FormData = new FormData();
-				mp3FormData.append('upload', mp3File);
-				sendFile(mp3FormData)
-					.success(function(data){
-						self.model.url_path = data.response.url_path;
-						successFunc(data);
-					})
-					.fail(failFunc)
-					.always(alwaysFunc);
-			}
-			else
-			{
-				successFunc(data);
-			}
-		}, failFunc, alwaysFunc, self);
+			})
+			.done(function(responseData){
+				self.model.url_path = responseData.response.url_path;
+			});
+		}
+		
+		return promise;
 	};
 
-	audioEmbed.prototype.validate = function($el, isAddModal){
+	audioEmbed.prototype.generateUploadedPreview = function() {
 		var self = this;
+		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the audio file
+		{
+			var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
 
-		self.options.validationOptions.rules.mp3File.required = isAddModal;
-		return self.parent.validate($el, isAddModal, self);
+			return '<audio controls class="' + self.audioPreviewClass + '">' +
+						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
+					'</audio>';
+		}
+		else // this is an add modal - the audio has been uploaded by the client but not pushed to the server
+		{
+			return	'<div class="' + self.audioPreviewClass + '">' +
+				(self.model.url_path || self.model.upload.name) +
+			'</div>';
+		}
+	};
+
+	audioEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		self.parent.populateFormWithModel($form, self);
+
+		if (!self.model.upload && !self.model.url_path)
+		{	
+			return;
+		}
+
+		self.$mp3Form.hide();
+
+		$form.find(uploadedAudioDisplay).show();
+		$form.find(editAudioFileBtn).show();
+		$form.find(uploadedAudioDisplay).append(self.generateUploadedPreview());
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){
@@ -143,7 +223,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		return  '<div class="audio-embed">' + 
 					'<audio controls>' +
-						'<source src="' + self.options.audioLocation + self.model.url_path +'" type="audio/' + fileType + '">' + 
+						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
 					'</audio>' +
 					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
 					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
