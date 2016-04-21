@@ -184,7 +184,11 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.initModal = function($el){
 		var self = this;
 		var $linkList = $el.find(linkListId);
+		var $progress = $el.find(progressBarId);
 		var adjustment, placeholderHeight;
+
+		// Don't need to show progress on new or cleared forms
+		$progress.parent().hide();
 
 		// Initialize Add Link field's Auto Complete functionality
 		initAutoComplete(addLinkInputId, self, $el);
@@ -259,6 +263,13 @@ var EntityEmbed = EntityEmbed || {};
 		var percentLoaded = 0;
 
 		self.parent.populateFormWithModel($form, self);
+
+		// Check to see if model has links
+		if (!self.model.links.length)
+		{
+			// exit now. don't need to load anything
+			return;
+		}
 
 		// Reset progress elements size and visiblity
 		$progress.width(0);
