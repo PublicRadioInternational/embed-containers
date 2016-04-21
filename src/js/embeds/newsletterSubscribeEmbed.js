@@ -46,8 +46,9 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var defaultSubscriptionOption = '<option disabled selected>-- select a newsletter --</option>';
 		EntityEmbed.apiService.get({
-			path: self.options.httpPaths.getNewsletters,
-			success: function(list){
+				path: self.options.httpPaths.getNewsletters,
+			})
+			.done(function(list){
 				//load object into license list
 				if (!list.response.data)
 				{
@@ -65,12 +66,11 @@ var EntityEmbed = EntityEmbed || {};
 					);
 				}
 				$el.find('[name="newsletter"]').html(subscriptionList);
-			},
-			fail: function(){
+			})
+			.fail(function(){
 				console.log('failed to load newsletter subscription options');
-			}
-		});
-	}
+			});
+	};
 
 	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
 		var self = this;

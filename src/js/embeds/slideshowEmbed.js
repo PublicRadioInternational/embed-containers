@@ -15,7 +15,11 @@ var EntityEmbed = EntityEmbed || {};
 					slideshowTitle: 'required',
 					title: 'required',
 					altText: 'required',
-					license: 'required'
+					license: 'required'//,
+					// radioOption: {
+					// 	slideshowImage: true,
+					// 	errorLabelContainer: '.slideshow-image-error'
+					// }
 				}
 			}
 		},
@@ -27,35 +31,57 @@ var EntityEmbed = EntityEmbed || {};
 			return ret;
 		},
 		imageForm = '#embed-modal-slideshow-image',
-		imageSelect = '.embed-modal-slideshow-image-select',
+		imageSelect = '.embed-modal-slideshow-image-list',
 		imageEmbed,
 		imageObjects = {}, // key = image ID; value = image object
-		saveChangesToImageModel = function(){ // save changes on $(imageForm) to the respective model
-			var currentImageId = $(imageForm).find('legend').attr('data-image-id');
+		currentImageId = null,
+		labelTextClass = 'slideshow-radio-label-text',
+		instructionalText = '#radio-option-placeholder',
+		newRadioOption = function(label, guid){
+			if ($(instructionalText).is(':visible'))
+			{
+				$(instructionalText).hide();
+			}
+
+			var id = guid || generateId();
+			var newHtml = 
+				'<label class="slideshow-radio">' + 
+					'<input type="radio" id="' + id + '" name="radioOption">' + 
+					'<span class="' + labelTextClass + '">' +
+						label +
+					'</span>' +
+					'<label class="slideshow-image-error"></label>' + 
+				'</label>';
+
+			$(imageSelect).append(newHtml);
+			return id;
+		},
+		saveChangesToImageModel = function(){ // save changes made to $(imageForm) to the respective model
 			imageEmbed.getModelFromForm($(imageForm));
 			imageObjects[currentImageId] = imageEmbed.model;
 		},
 		selectSlideshowImage = function(imageId){
 			var $newImageSelectOption = $('#' + imageId); 
-			var currentImageId = $(imageForm).find('legend').attr('data-image-id');
 
 			if (!currentImageId || currentImageId === '') // this is the first image - show hidden UI items
 			{
 				$(imageForm).show();
-				$(imageSelect).show();
+			}
+			else if (currentImageId === imageId)
+			{
+				return;
 			}
 			else // this is not the first image - save current changes to respective model
 			{
 				saveChangesToImageModel();
 
 				// set the form to show to the selected image's data
-				imageEmbed.clearForm($(imageForm));
+				imageEmbed.clearForm($(imageForm));				
 				imageEmbed.model = imageObjects[imageId];
-				imageEmbed.populateFormWithModel($(imageForm))
+				imageEmbed.populateFormWithModel($(imageForm));
 			}
 
-			$(imageForm).find('legend').attr('data-image-id', imageId);
-			$(imageSelect).val($newImageSelectOption.val());
+			currentImageId = imageId;
 		};
 
 	// CONSTRUCTOR
@@ -73,6 +99,7 @@ var EntityEmbed = EntityEmbed || {};
 	slideshowEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
+			displayTitle: null,
 			images: []
 		};
 	};
@@ -81,16 +108,17 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.model =  self.cleanModel();
 
-		imageEmbed = $.grep(EntityEmbed.embedTypes, function(et){
-			return et.name == 'imagesEmbed';
-		});
-
-		var imageEmbed = null;
+		// get image embed type
 		for (var et in EntityEmbed.embedTypes)
 		{
 			if (EntityEmbed.embedTypes[et].name === 'imagesEmbed')
 			{
 				imageEmbed = new EntityEmbed.embedTypes[et]();
+
+				// initialize it with the correct form (remember there are two on this page)
+				imageEmbed.initModal($(imageForm));
+
+				$(imageForm).hide();
 				break;
 			}
 		}
@@ -100,119 +128,130 @@ var EntityEmbed = EntityEmbed || {};
 			return;
 		}
 
+		// configure validation for slideshow images
+		$.validator.addMethod('slideshowImage', function(value, element, params) {
+			var imgId = element.id;
+			var isValid = true;
+			if (!!imgId || !!imageObjects[imgId])
+			{
+				isValid = !!imageObjects[imgId].title &&
+							!!imageObjects[imgId].license &&
+							!!imageObjects[imgId].altText &&
+							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
+			}
+			return this.optional(element) || isValid;
+		}, 'missing required fields');
+
 		imageEmbed.loadLicenses($el);
 
-		$el.find("input[name='imageFile']").fileupload({
-			dataType: 'json',
-    		replaceFileInput: false,
-			add: function(e, data){
-				data.submit().complete(function (result, textStatus, jqXHR) {
-					if (textStatus !== 'success')
-					{
-						return;
-					}
-					if (!result || !result.responseJSON || !result.responseJSON.path)
-					{
-						console.log('file upload completed with status "' + textStatus + '"');
-						console.log(result);
-						return;
-					}
+		/*
+		 * configure icons event handlers that enable a user to create a dynamic list of images
+		 */
 
-					var id = generateId();
-					imageObjects[id] = imageEmbed.cleanModel();
-					
-					var imageNum = 0;
-					for (var image in imageObjects)
-					{
-						imageNum += 1;
-					}
-
-					// TODO : better id (this one potentially has spaces)
-					//			use ID from post to server?
-					var listItem= $('<option id="' + id + '">' +
-										'image ' + imageNum + 
-									'</option>');
-
-					data.context = listItem.appendTo($el.find(imageSelect));
-
-					selectSlideshowImage(id);
-				});
+		// event handler for the add image icon
+		$('.slideshow-image-add').on('click', function(){
+			var imageNum = 1;
+			for (var image in imageObjects)
+			{
+				imageNum += 1;
 			}
+
+			var id = newRadioOption('image ' + imageNum);
+			imageObjects[id] = imageEmbed.cleanModel();
 		});
 
-		$el.on('change', imageSelect, function(e){
-			var $clickedOption = $(e.currentTarget.options[e.currentTarget.selectedIndex]);
+		// event handler for changing the image object which populates the form (select radio option)
+		$(imageSelect).on('click', function(e){
+			var $clickedOption = $(imageSelect + ' :checked');
+			if ($clickedOption.length == 0)
+			{
+				return;
+			}
 			selectSlideshowImage($clickedOption.attr('id'));
 		});
 
-	};
+		// event handler to change the radio option text to match the title of the image
+		$(imageForm).find('input[name="title"]').on('blur', function(){
+			var titleVal = $(this).val();
+			if (titleVal === '')
+			{
+				return;
+			}
 
-	// TODO : this
-/*
+			var $currentRadio = $('#' + currentImageId).parent();
+			$currentRadio.find('.' + labelTextClass).text(titleVal);
+		});
+	};
+	
+	/*  // TODO : this
 	slideshowEmbed.prototype.parseForEditor = function(){
 		return  '<div class="slideshow-embed">' +
 					// content
 				'</div>';
 	};
+	*/
 
-*/
-	slideshowEmbed.prototype.saveEmbed = function(embedIsNew, successFunc, failFunc)
-	{
+	slideshowEmbed.prototype.saveEmbed = function(embedIsNew){
 		var self = this;
 		var deferreds = [];
+
+		// if this is an edit modal, slideshowTitle will be on model and thats just no good!
+		if (!!self.model.slideshowTitle)
+		{
+			delete self.model.slideshowTitle;
+		}
 
 		for(var i = 0; i < self.model.images.length; i++)
 		{
 			imageEmbed.model = self.model.images[i];
-			imageEmbed.model.order = i;
 			var imageEmbedIsNew = !imageEmbed.model.object_id;
-			deferreds.push(imageEmbed.saveEmbed(
-				imageEmbedIsNew,
-				function(data){
-					if (data.status == 'ERROR')
-					{
-						console.log('failed to put/post a slideshow image');
-					}
 
-					self.model.images[data.response.order] = {
-						'object_id': data.response.object_id
-					};	
-				},
-				function(){
-					console.log('failed to put/post a slideshow image');
-				}
-			));
-			$.when.apply($, deferreds).done(function(){
-				// TODO : this code is copied from generic embed - find a better way to do this (reduce duplicated code)
-				//			why did we copy it? because when we call self.parent.saveEmbed the options object is null (private member issue)
-				if (embedIsNew){
-					self.model.object_type = self.options.object_type;
+			var promise = imageEmbed.saveEmbed(imageEmbedIsNew);
+			
+			promise.done( (function(imageNum){
+					return function(data){
+						if (data.status == 'ERROR')
+						{
+							console.log('failed to put/post a slideshow image');
+							return;
+						}
 
-					return EntityEmbed.apiService.post({
-						path: self.options.httpPaths.post, 
-						data: self.model,
-						success: successFunc,
-						fail: failFunc
-					});
-				}
-				else
-				{
-					return EntityEmbed.apiService.put({
-						path: self.options.httpPaths.put, 
-						data: self.model,
-						success: successFunc,
-						fail: failFunc
-					});
-				}
-			});	
+						self.model.images[imageNum] = {
+							'object_id' : data.response.object_id,
+							'order'		: imageNum
+						};
+					};
+				})(i))
+				.fail((function(imageNum){
+					return function(){
+						console.log('failed to save a slideshow image number ' + imageNum);
+					};
+				})(i));
+
+			deferreds.push(promise);
 		}
-	}
+		return $.when.apply($, deferreds).then(function(){
+			return self.parent.saveEmbed(embedIsNew, self);
+		});	
+	};
+
+	slideshowEmbed.prototype.validate = function($el, isAddModal){
+		var self = this;
+
+		
+		// TODO : make this work
+		imageEmbed.validate($(imageForm), isAddModal);
+
+
+		return self.parent.validate($el.find('form').first(), isAddModal, self);
+	};
 
 	slideshowEmbed.prototype.getModelFromForm = function($form)
 	{
 		var self = this;
 		saveChangesToImageModel();
 		self.model.title = $form.find('input[name=slideshowTitle]').val();
+		self.model.displayTitle = $form.find('input[name=displayTitle]').val();
 		self.model.images = [];
 
 		for (var image in imageObjects)
@@ -221,14 +260,93 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
+	slideshowEmbed.prototype.populateFormWithModel = function($form){
+		var self = this,
+			deferreds = [];
+
+		self.model.slideshowTitle = self.model.title;
+		self.parent.populateFormWithModel($form.find('form').first(), self);
+
+		// hide this while we are loading the image embeds
+		$(imageSelect).hide();
+
+		$(instructionalText).hide();
+
+		// make sure images array is sorted on order
+		self.model.images.sort(function(l, r){
+			return l.order - r.order;
+		});
+
+		for(var i = 0; i < self.model.images.length; i++)
+		{
+			newRadioOption('image ' + (i+1), self.model.images[i].object_id);
+
+			if (i === 0)
+			{
+				$('#' + self.model.images[i].object_id).attr('checked', '');
+			}
+		}
+
+		for(var i = 0; i < self.model.images.length; i++)
+		{
+			var promise = EntityEmbed.apiService.get({
+				path: imageEmbed.options.httpPaths.get,
+				data: {
+					object_id: self.model.images[i].object_id,
+					auth_token: EntityEmbed.apiService.getAuthToken
+				}
+			});
+
+			promise.done((function(imageOrder){
+					return function(data){
+						if (data.status === 'ERROR' || typeof data.response === 'string')
+						{
+							console.log('could not load slideshow image number ' + imageOrder);
+							return;
+						}
+
+						imageObjects[data.response.object_id] = data.response;
+
+						var $radioOp = $('#' + data.response.object_id).parent();
+						$radioOp.find('.' + labelTextClass).text(data.response.title);
+
+						if (imageOrder == 0)
+						{
+							imageEmbed.model = data.response;
+						}
+					};
+				})(self.model.images[i].order))
+				.fail((function(imageOrder){
+					return function(){
+						console.log('could not load slideshow image number ' + imageOrder)
+					};
+				})(self.model.images[i].order));;
+
+			deferreds.push(promise);
+		}
+
+		$.when.apply($, deferreds).done(function(){
+			$(imageSelect).show();
+			$(imageForm).show();
+			imageEmbed.populateFormWithModel($(imageForm));
+		});
+	};
+
 	slideshowEmbed.prototype.clearForm = function($el){
 		var self = this;
-		self.parent.clearForm($el);
+		self.parent.clearForm($el, self);
+		if (!!imageEmbed)
+		{
+			imageEmbed.clearForm($(imageForm));
+		}
 
-		$el.find(imageSelect).children().remove();
+		imageObjects = {};
+		currentImageId = '';
+
+		$el.find('.slideshow-radio').remove();
 		$(imageForm).hide();
-		$(imageSelect).hide();
-		$el.find('legend').attr('data-image-id', '');
+
+		$(instructionalText).show();
 	};
 
 })('');

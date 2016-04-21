@@ -5,7 +5,7 @@
 				<label class="embed-modal-label" for="title">Title</label>
 				<input name="title" type="text" placeholder="Enter a title for internal use" class="embed-modal-form-control" />
 			</div>
-		</div>	
+		</div>
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="displayTitle">Display Title</label>
@@ -13,16 +13,22 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
-			<label class="embed-modal-label" for="displayTitle" required>Links</label>
+			<label class="embed-modal-label">Links</label>
+			<div class="progress">
+				<div id="related-links-progress" class="progress-bar progress-bar-info"></div>
+			</div>
+			<ul id="related-link-list"></ul>
 		</div>
-	</div>	
-
-	<div id="related-link-list">
 	</div>
 
-	<button id="add-link-btn">
-		<span>Add Link</span>
-	</button>
+	<hr>
+
+	<div class="embed-modal-row">
+		<div class="related-link-add">
+			<input type="text" id="add-link-eac" placeholder="Begin typing a title. Select one to add link." class="embed-modal-form-control">
+		</div>
+	</div>
 </form>
