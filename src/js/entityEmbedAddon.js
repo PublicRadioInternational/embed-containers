@@ -114,6 +114,25 @@ var EntityEmbed = EntityEmbed || {};
 		return embedType && $.extend(true, {}, embedType);
 	}
 
+	function getSelection() {
+		var selection;
+
+		if (window.getSelection)
+		{
+			selection = window.getSelection();
+		}
+		else if (document.getSelection)
+		{
+			selection = document.getSelection();
+		}
+		else if (document.selection)
+		{
+			selection = document.selection.createRange();
+		}
+
+		return selection;
+	}
+
 	/**
 	 * Custom Addon object
 	 *
@@ -204,24 +223,70 @@ var EntityEmbed = EntityEmbed || {};
 			.on('click', '.' + entityEmbedContainerClass, function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
-			})			
+			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown', '.editable.editor', function(e){
-				if(e.which == 8 || e.which == 46) // backspace or delete
-				{
-					var numChildren = $('.editable.editor p').length;
+			.on('keydown keypress', '.editable.editor', function(e){
+				var selection, range, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling;
 
-					if(numChildren <= 1)
-					{
-						var editorText = $('.editable.editor p').text();
-						if (!editorText || editorText === '')
-						{
-							e.preventDefault();
-						}
-					}
-					
-                }
-				
+				// Don't do anything if key is not backspace (8) or delete (46)
+				if(e.which !== 8 && e.which !== 46)
+				{
+					return;
+				}
+
+				selection = getSelection(); // Get current selection
+				range = selection.getRangeAt(0); // Get current selected range
+				selectionLength = range.endOffset - range.startOffset; // Get length of current selection
+				$anchor = $(selection.anchorNode); // Get the element the selection is currently originating from
+				numChildren = self.$el.children().not('.medium-insert-buttons').length; // Get number of editors children that are not UI fof MEIP
+				isEmptyP = false;
+				siblingIsEmbed = false;
+				$sibling;
+
+				if (selectionLength > 0)
+				{
+					// When removing a range of charcters, the caret doesn't move positions.
+					// We don't have to worry about removing a sibling embed now.
+					return;
+				}
+
+				// Make sure we are looking at the parent of text nodes
+				if($anchor[0].nodeType === 3)
+				{
+					$anchor = $anchor.parent();
+				}
+
+				// Check to see if our anchor element is a p tag with no text
+				isEmptyP = $anchor.is('p') && !$anchor.text().length;
+
+				// Get the previous sibling when
+				// 	- Backspace is pressed
+				// 	- Caret is at the begining of text
+				// Get the next sibling when
+				// 	- Delete is pressed
+				// 	- Caret is at the end of text
+				if (e.which === 8 && selection.anchorOffset === 0)
+				{
+					$sibling = $anchor.prev();
+				}
+				else if (e.which === 46 && selection.anchorOffset === $anchor.text().length)
+				{
+					$sibling = $anchor.next();
+				}
+
+				// If we found a sibling, check to see if it is an embed wrapper
+				if(!!$sibling)
+				{
+					siblingIsEmbed = $sibling.is('.' + entityEmbedContainerClass);
+				}
+
+				// Prevent default when:
+				// 	- Anchor is the last empty p tag
+				// 	- A sipling element was fond and is and embed
+				if ( (isEmptyP && numChildren <= 1) || siblingIsEmbed)
+				{
+					e.preventDefault();
+				}
 
 			})
 			// conditionally remove embed
@@ -451,8 +516,6 @@ var EntityEmbed = EntityEmbed || {};
 						$embed = self.$el.find('[id="' + embed.id + '"]');
 
 						innerHtml = $embed.html();
-
-						console.log('Reattached Embed', embed.id, innerHtml, embed);
 
 						// Find embeds placeholder element and replcae it with embed HTML
 						$embed.html(innerHtml);
