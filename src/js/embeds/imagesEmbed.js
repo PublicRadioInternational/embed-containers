@@ -30,6 +30,7 @@ var EntityEmbed = EntityEmbed || {};
 		uploadedImgDisplay = '.uploaded-image-file',
 		cancelUploadImageBtn = '.cancel-upload-image-btn',
 		editImageFileBtn = '.edit-chosen-file-btn',
+		uploadImageFileBtn = ".embed-modal-file-input",
 		getImageUrl = function(imageLocation, imageUrl)
 		{
 			if (imageUrl.indexOf(imageLocation) >= 0)
@@ -131,6 +132,11 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(uploadedImgDisplay).show();
 			$el.find(editImageFileBtn).show();
 		});
+
+		$el.find(uploadImageFileBtn).on('change', function(){
+			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
+			$el.find("[name=title]").val(fileName);
+		});
 	};
 
 	imagesEmbed.prototype.clearForm = function($el){
@@ -150,16 +156,11 @@ var EntityEmbed = EntityEmbed || {};
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		return self.parent.saveEmbed(embedIsNew, self)
-			.then(function(responseData){
-				if (!file)
-				{
-					// TODO : handle error?
-					//			there shuold be a file here if this is an add modal!
-					//			but how do we handle that here?
-					return;
-				}
-
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+		
+		if (!!file)
+		{
+			promise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -175,10 +176,12 @@ var EntityEmbed = EntityEmbed || {};
 					processData: false,
 					contentType: false
 				});
-			})
-			.done(function(responseData){
+			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
 			});
+		}
+
+		return promise;
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {

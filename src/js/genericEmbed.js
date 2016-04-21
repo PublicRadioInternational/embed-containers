@@ -120,7 +120,11 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.editorEvents = function(){};
 
 	genericEmbed.prototype.parseForEditor = function(){
-		return '<pre class="embedded-content">' + JSON.stringify(this.model, null, 4) +'</pre>';
+		var self = this;
+		return	'<div class="embedded-content">' +
+					'<div class="ui-text"> <strong>Embed Type: </strong>' 	+ self.options.object_type + '</div>' +
+					'<div class="ui-text"> <strong>Title: </strong> ' 		+ self.model.title + '</div>' +
+				'</div>';
 	};
 
 	// returns validator object

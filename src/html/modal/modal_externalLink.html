@@ -2,8 +2,11 @@
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
 			<div class="embed-modal-form">
-				<label class="embed-modal-label" for="thumbnail">Thumbnail Image</label>
-				<input class="embed-modal-input" type="file" name="thumbnailFile" />
+				<label class="embed-modal-label" for="upload">Image Thumbnail File</label>
+				<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
+				<span class="fa fa-times cancel-upload-image-btn"></span>
+				<span class="fa fa-cog edit-chosen-file-btn"></span>
+				<div class="uploaded-image-file"></div>
 			</div>
 		</div>
 	</div>

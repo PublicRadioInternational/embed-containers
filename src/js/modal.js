@@ -169,7 +169,7 @@
 	$.fn.openModal = function(addToScope){
 		var modalCtrl = $.data(this[0], 'ctrl');
 		// TODO : decrease cyclomatic complexity
-		if (!!modalCtrl && !modalCtrl.isActive)
+		if (!!modalCtrl)
 		{
 			if (!!addToScope)
 			{

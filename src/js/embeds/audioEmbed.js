@@ -31,6 +31,7 @@ var EntityEmbed = EntityEmbed || {};
 		uploadedAudioDisplay = '.uploaded-audio-file',
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
+		uploadMp3FileBtn = ".embed-modal-file-input",
 		getAudioUrl = function(audioLocation, audioUrl)
 		{
 			if (audioUrl.indexOf(audioLocation) >= 0)
@@ -117,6 +118,11 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(editAudioFileBtn).show();
 			$el.find(uploadedAudioDisplay).show();
 		});
+
+		$el.find(uploadMp3FileBtn).on('change', function(){
+			var fileName =  $el.find(uploadMp3FileBtn)[0].files[0].name;
+			$el.find("[name=title]").val(fileName);
+		});
 	};
 
 	audioEmbed.prototype.clearForm = function($el){
@@ -136,16 +142,11 @@ var EntityEmbed = EntityEmbed || {};
 		var file = self.model.upload;
 		delete self.model.upload;
 
-		return self.parent.saveEmbed(embedIsNew, self)
-			.then(function(responseData){
-				if (!file)
-				{
-					// TODO : handle error?
-					//			there shuold be a file here if this is an add modal!
-					//			but how do we handle that here?
-					return;
-				}
-
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+		
+		if (!!file)
+		{
+			promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -176,6 +177,9 @@ var EntityEmbed = EntityEmbed || {};
 			.done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
 			});
+		}
+		
+		return promise;
 	};
 
 	audioEmbed.prototype.generateUploadedPreview = function() {

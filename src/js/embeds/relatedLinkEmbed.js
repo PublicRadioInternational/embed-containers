@@ -31,7 +31,6 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			}
 		},
-		chosenLinks = [],
 		linkListId = '#related-link-list',
 		addLinkInputId = '#add-link-eac',
 		dragLinkClass = 'drag-link-btn',
