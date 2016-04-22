@@ -4,16 +4,17 @@ var EntityEmbed = EntityEmbed || {};
 	// Creates an embed modal using the embedModalDefaults.js and any options that a user specifies
 	$.embed_modal_create = function(options){
 		var	defaults = {
-			modalOptions: {},											//see modal.js to customize if embedModalDefaults.js is insufficient
-			modalScope: {												// default scope to pass to the modal
-				$embedTypeSelect: null,									// selector for the embed typoe dropdown (<select> element)
-				$modalBody: null										// selector for the modal body container element
+			modalOptions: {},							//see modal.js to customize if embedModalDefaults.js is insufficient
+			modalScope: {								// default scope to pass to the modal
+				$embedTypeSelect: null,					// selector for the embed typoe dropdown (<select> element)
+				$modalBody: null						// selector for the modal body container element
 			},
-			$modalEl: null,												// select for the entire modal (element that modal.js establishes a ctrl on)
-			modalContainer: 'body'										// selector string for the element which will contain the modal
-			modalHtmlLocation: '../html/modal/modal_main.html'			// file path to the modal HTML folder
-			embedTypes:{												// specify all embed types and their options here
-				image:{},												// TODO : allow global specification of embed types without hardcoding defaults
+			$modalEl: null,								// select for the entire modal (element that modal.js establishes a ctrl on)
+			modalContainer: 'body'						// selector string for the element which will contain the modal
+			modalHtmlLocation: '../html/modal/'			// file path to the modal HTML folder
+			modalFileName: 'modal_main.html'
+			embedTypes:{								// specify all embed types and their options here
+				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
 				video:{},
 				audio:{},
@@ -58,7 +59,9 @@ var EntityEmbed = EntityEmbed || {};
 		defaultModalSelectors();
 		options = $.extend(true, {}, defaults, options);
 
-		$(options.modalContainer).load(options.modalHtmlLocation);
+		$(options.modalContainer).load(options.modalHtmlLocation + modalFileName, function(){
+			
+		});
 
 		var embedTypes = [];
 		for (var embedName in EntityEmbed.embedTypes)
