@@ -34,6 +34,10 @@ var EntityEmbed = EntityEmbed || {};
 		uploadMp3FileBtn = ".embed-modal-file-input",
 		getAudioUrl = function(audioLocation, audioUrl)
 		{
+			if (!audioUrl || audioUrl === '')
+			{
+				return '';
+			}
 			if (audioUrl.indexOf(audioLocation) >= 0)
 			{
 				return audioUrl;
@@ -220,9 +224,13 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
-		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		var fileType = 'mp3';
 
+		if (!!self.model.url_path && self.model.url_path !== '')
+		{
+			fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		}
+		
 		return  '<div class="audio-embed">' + 
 					'<audio controls>' +
 						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
