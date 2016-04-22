@@ -864,7 +864,6 @@ var EntityEmbed = EntityEmbed || {};
 				saveEmbed: '#btn-save-modal', // saves the modal
 				abortModal: '#btn-abort-modal', // aborts (cancels) the modal
 				showSelectExisting: '#btn-show-select-existing', // shows the select-existing-embed view
-				selectExisting: '#btn-select-existing-embed', // confirms selection of existing embed
 				cancelSelectExisting: '#btn-cancel-select-existing' // cancels selection of existing embed
 			},
 			containers: {
@@ -874,16 +873,8 @@ var EntityEmbed = EntityEmbed || {};
 				selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
 			},
 			elements: {
-				selectExistingTableBody: '.embed-modal-select-existing tbody',
-				selectExistingTableRow: '.embed-modal-select-existing-item',
-				selectExistingActiveItem: 'embed-modal-active-row',
 				saveSpinner: '#embed-modal-spinner'
 			}
-		},
-		tableRowHtml = function(title, id){
-			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' +
-						'<td>' + title + '</tr>'+
-					'</td>';
 		},
 		toggleEditorTyping = function(scope, toggleCmd){
 			// enable/disable typing in the editor by finding the first class
@@ -1039,58 +1030,6 @@ var EntityEmbed = EntityEmbed || {};
 				.always(alwaysFunction);
 
 			$validator.resetForm();
-
-		},
-		populateSelectExistingView = function(scope){
-			$(embedModalSelectors.elements.selectExistingTableRow).remove();
-
-			EntityEmbed.apiService.post({
-				path: scope.currentEmbedType.options.httpPaths.getAll,
-				data: {
-					object_type: scope.currentEmbedType.options.object_type,
-					auth_token: EntityEmbed.apiService.getAuthToken()
-				}
-			})
-			.done(function(respData){
-				if (typeof respData.response === 'string')
-				{
-					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
-					return;
-				}
-
-				if (!respData.response.data){
-					return;
-				}
-				scope.selectExistingItems = respData.response.data;
-				for (var i = 0; i < scope.selectExistingItems.length; i++)
-				{
-					var $row = $(tableRowHtml(scope.selectExistingItems[i].title, scope.selectExistingItems[i].object_id));
-					$(embedModalSelectors.elements.selectExistingTableBody).append($row);
-
-					// add click event to highlight (select) a row
-					scope.modalCtrl.registerEvent($row, 'click', function(e, scope){
-						// we do not need to add the class back if it is already on the item being clicked
-						var needToAddClass = !$(e.currentTarget).hasClass(embedModalSelectors.elements.selectExistingActiveItem);
-
-						$(embedModalSelectors.elements.selectExistingTableBody)
-							.find('.' + embedModalSelectors.elements.selectExistingActiveItem)
-							.removeClass(embedModalSelectors.elements.selectExistingActiveItem);
-
-						if (needToAddClass){
-							$(e.currentTarget).addClass(embedModalSelectors.elements.selectExistingActiveItem);
-							$(embedModalSelectors.buttons.selectExisting).removeClass('disabled');
-						}
-						else // since we didnt add a class, that means nothing is selected, so disable the select button
-						{
-							$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
-						}
-					});
-				}
-			})
-			.fail(function(respData){
-				// TODO : UI failure message
-				console.log('Failed to get list of current embed types for the Select Existing page.');
-			});
 		},
 		showCreateNewEmbedView = function(scope){
 			$(embedModalSelectors.buttons.showSelectExisting).show();
@@ -1101,6 +1040,8 @@ var EntityEmbed = EntityEmbed || {};
 
 			$(embedModalSelectors.containers.selectButtons).hide();
 			$(embedModalSelectors.containers.createButtons).show();
+
+			$(embedModalSelectors.containers.selectExistingEmbed).find('.query-container').hide();
 		},
 		showEditEmbedView = function(scope){
 			$(embedModalSelectors.buttons.showSelectExisting).hide();
@@ -1119,13 +1060,15 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		showSelectExistingView = function(scope, isSingle){
 			scope.modalType = EntityEmbed.embedModalTypes.selectExisting;
-			populateSelectExistingView(scope);
 
 			$(embedModalSelectors.containers.createNewEmbed).slideUp();
 			$(embedModalSelectors.containers.selectExistingEmbed).slideDown();
 
 			$(embedModalSelectors.containers.createButtons).hide();
 			$(embedModalSelectors.containers.selectButtons).show();
+
+			$(embedModalSelectors.containers.selectExistingEmbed)
+				.find('.' + scope.currentEmbedType.options.object_type + '-query-container').show();
 
 			if (isSingle)
 			{
@@ -1169,6 +1112,110 @@ var EntityEmbed = EntityEmbed || {};
 						'</div>';
 			}
 			return ret;
+		},
+		//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
+		//	begin typing the title of an embed and have a dropdown list of embeds displayed to them
+		initAutoComplete = function (embedType, modalCtrl){
+			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+			var isDevEnv = rgxDevEnv.test(window.location.host);
+			var debug = 0;
+			var ajaxData = {
+				auth_token: EntityEmbed.apiService.getAuthToken(),
+				object_type: embedType.options.object_type
+			};
+
+
+			if(isDevEnv)
+			{
+				ajaxData.debug = 1;
+			}
+
+			var options = {
+				ajaxSettings: {
+					dataType: 'json',
+					method: 'POST',
+					data: ajaxData
+				},
+				requestDelay: 600,
+				url: function(phrase) {
+					ajaxData.title = phrase;
+					return embedType.options.httpPaths.getAll;
+				},
+				listLocation: function(listOfData){
+					return listOfData.response.data;
+				},
+				getValue: function(data) {
+					return data.title;
+				},
+				preparePostData: function(data) {
+					data.title = $(embedModalSelectors.containers.selectExistingEmbed)
+									.find('input[name="' + embedType.options.object_type + '-query"]').val();
+					return JSON.stringify(data);
+				},
+				list: {
+					maxNumberOfElements: 20,
+					match: {
+						enabled: true
+					},
+					sort: {
+						enabled: true
+					},
+					onChooseEvent: function(){
+						var itemData = $(embedModalSelectors.containers.selectExistingEmbed)
+											.find('input[name="' + embedType.options.object_type + '-query"]')
+											.getSelectedItemData();
+						var objectId = itemData.object_id;
+						$(embedModalSelectors.containers.selectExistingEmbed)
+									.find('input[name="' + embedType.options.object_type + '-query"]').val('')
+
+						EntityEmbed.apiService.get({
+							path: embedType.options.httpPaths.get,
+							data: {
+								object_id: objectId
+							}
+						})
+						.done(function(respData){
+							if (typeof respData.response === 'string')
+							{
+								console.log('Failed to get list of current embed types for the Select Existing page: ' + respData.response);
+								return;
+							}
+
+							// create an event to be raised
+							var addEvent = jQuery.Event('existingItemSelected');
+							// add data to it so the handler knows what to do
+							addEvent.embedModel = respData.response;
+							$(embedModalSelectors.containers.selectExistingEmbed)
+								.find('input[name="' + embedType.options.object_type + '-query"]')
+								.trigger(addEvent);
+							
+						})
+						.fail(function(respData){
+							// TODO: show error UI
+							console.log('failed to get embed type!');
+						});
+					}
+				}
+			};
+
+			$(embedModalSelectors.containers.selectExistingEmbed)
+				.find('input[name="' + embedType.options.object_type + '-query"]')
+				.easyAutocomplete(options);
+
+			$(embedModalSelectors.containers.selectExistingEmbed)
+				.find('input[name="' + embedType.options.object_type + '-query"]')
+				.closest('.easy-autocomplete')
+				.removeAttr('style');
+		},
+		generateSelExInputHtml = function(embedType) { // SelEx -> SelectExisting
+			return	'<div class="embed-modal-row ' + embedType.options.object_type + '-query-container query-container">' +
+						'<div class="embed-modal-full-column">' + 
+							'<label class="embed-modal-label" for="query">Search for ' + embedType.options.displayName + '</label>' +
+							'<input type="text" class="embed-modal-form-control"' +
+								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' + 
+						'</div>' +
+					'</div>';
+
 		};
 
 	function embedModalDefaults(){};
@@ -1196,17 +1243,24 @@ var EntityEmbed = EntityEmbed || {};
 			after: function(scope){
 				// first load all dynamic content
 
-				// load the select existing view
-				scope.$modalBody.find(embedModalSelectors.containers.selectExistingEmbed)
-					.load('modal/modal_selectedExisting.html', function(responseText, textStatus, xhr){
-						console.log('modal_selectedExisting.html load completed with status: ' + textStatus);
-						if (textStatus === 'error')
-						{
-								// TODO : error view (so that user knows something went wrong)
-						}
+				// load a query input in the select existing container for each embed type
+				for(var i = 0; i < scope.embedTypes.length; i++)
+				{
+					$(embedModalSelectors.containers.selectExistingEmbed).append(generateSelExInputHtml(scope.embedTypes[i]));
 
-						$(embedModalSelectors.buttons.selectExisting).addClass('disabled');
-					});
+					var $selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
+											.find('input[name="' + scope.embedTypes[i].options.object_type + '-query"]');
+
+					initAutoComplete(scope.embedTypes[i], scope.modalCtrl);
+					$(embedModalSelectors.containers.selectExistingEmbed)
+						.find('.' + scope.embedTypes[i].options.object_type + '-query-container').hide();
+
+					scope.modalCtrl.registerEvent($selExInput, 'existingItemSelected',
+						function(e, currentScope){
+							currentScope.currentEmbedType.model = e.embedModel;
+							currentScope.modalCtrl.$el.completeModal();
+						});
+				}
 
 				// load the views for creating new embeds (one view for each embed type)
 				var optionIndex = 0;
@@ -1278,7 +1332,10 @@ var EntityEmbed = EntityEmbed || {};
 
 						if (currentScope.modalType === EntityEmbed.embedModalTypes.selectExisting)
 						{
-							populateSelectExistingView(currentScope);
+							$(embedModalSelectors.containers.selectExistingEmbed)
+								.find('.query-container').hide();
+							$(embedModalSelectors.containers.selectExistingEmbed)
+								.find('.' + currentScope.currentEmbedType.options.object_type + '-query-container').show();
 						}
 					}
 				);
@@ -1293,7 +1350,8 @@ var EntityEmbed = EntityEmbed || {};
 				// configure show-select-existing button to show the select-existing view
 				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.showSelectExisting, 'click',
 					function(e, currentScope){
-						showSelectExistingView(currentScope);
+						showSelectExistingView(currentScope, currentScope.modalType === EntityEmbed.embedModalTypes.addSingle || 
+															 currentScope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle);
 					}
 				);
 
@@ -1302,36 +1360,6 @@ var EntityEmbed = EntityEmbed || {};
 					function(e, currentScope){
 						currentScope.modalType = EntityEmbed.embedModalTypes.add;
 						showCreateNewEmbedView(currentScope);
-					}
-				);
-
-				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.selectExisting, 'click',
-					function(e, currentScope){
-						if ($(embedModalSelectors.buttons.selectExisting).hasClass('disabled'))
-						{
-							return;
-						}
-
-						EntityEmbed.apiService.get({
-							path: currentScope.currentEmbedType.options.httpPaths.get,
-							data: {
-								object_id: $('.' + embedModalSelectors.elements.selectExistingActiveItem).attr('id')
-							}
-						})
-						.done(function(respData){
-							if (typeof respData.response === 'string')
-							{
-								console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
-								return;
-							}
-
-							currentScope.currentEmbedType.model = respData.response;
-							currentScope.modalCtrl.$el.completeModal();
-						})
-						.fail(function(respData){
-							// TODO: show error UI
-							console.log('failed to get embed type!');
-						});
 					}
 				);
 			}
@@ -3050,18 +3078,14 @@ var EntityEmbed = EntityEmbed || {};
 		imageForm = '#embed-modal-slideshow-image',
 		selectExistingImageContainer = '#embed-modal-slideshow-image-select-existing',
 		selectExistingBtnContainer = '#slideshow-image-select-btns',
-		selectExistingImageBtn = '#btn-select-existing-simg',
 		cancelSelectExistingImageBtn = '#btn-cancel-select-existing-simg',
 		imageSelect = '.embed-modal-slideshow-image-list',
 		labelTextClass = 'slideshow-radio-label-text',
 		instructionalText = '.radio-option-placeholder',
-		selectExistingTableBody = '.embed-modal-select-existing-simg tbody',
-		selectExistingTableRow = '.embed-modal-select-existing-item',
-		selectExistingActiveItem = 'embed-modal-active-row',
+		slideshowImageQueryContainer = '.simg-query-container',
 		imageEmbed,
 		imageObjects = {}, // key = image ID; value = image object
 		currentImageId = null,
-		selectExistingItems = null,
 		newRadioOption = function(label, guid){
 			if ($(instructionalText).is(':visible'))
 			{
@@ -3094,11 +3118,6 @@ var EntityEmbed = EntityEmbed || {};
 			})(id, $op));
 
 			return id;
-		},
-		tableRowHtml = function(title, id){
-			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' +
-						'<td>' + title + '</tr>'+
-					'</td>';
 		},
 		saveChangesToImageModel = function(){ // save changes made to $(imageForm) to the respective model
 			imageEmbed.getModelFromForm($(imageForm));
@@ -3134,6 +3153,86 @@ var EntityEmbed = EntityEmbed || {};
 		hideSelectExistingImage = function(){
 			$(imageForm).show();
 			$(selectExistingImageContainer).hide();
+		},
+		initAutoComplete = function (){
+			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+			var isDevEnv = rgxDevEnv.test(window.location.host);
+			var debug = 0;
+			var ajaxData = {
+				auth_token: EntityEmbed.apiService.getAuthToken(),
+				object_type: imageEmbed.options.object_type
+			};
+
+
+			if(isDevEnv)
+			{
+				ajaxData.debug = 1;
+			}
+
+			var options = {
+				ajaxSettings: {
+					dataType: 'json',
+					method: 'POST',
+					data: ajaxData
+				},
+				requestDelay: 600,
+				url: function(phrase) {
+					ajaxData.title = phrase;
+					return imageEmbed.options.httpPaths.getAll;
+				},
+				listLocation: function(listOfData){
+					return listOfData.response.data;
+				},
+				getValue: function(data) {
+					return data.title;
+				},
+				preparePostData: function(data) {
+					data.title = $('input[name="simg-query"]').val();
+					return JSON.stringify(data);
+				},
+				list: {
+					maxNumberOfElements: 20,
+					match: {
+						enabled: true
+					},
+					sort: {
+						enabled: true
+					},
+					onChooseEvent: function(){
+						var itemData = $('input[name="simg-query"]').getSelectedItemData();
+						var objectId = itemData.object_id;
+						$('input[name="simg-query"]').val('');
+
+						EntityEmbed.apiService.get({
+							path: imageEmbed.options.httpPaths.get,
+							data: {
+								object_id: objectId
+							}
+						})
+						.done(function(respData){
+							if (typeof respData.response === 'string')
+							{
+								console.log('Failed to get list of current embed types for the Select Existing page: ' + respData.response);
+								return;
+							}
+
+							// create an event to be raised
+							var addEvent = jQuery.Event('existingImageSelected');
+							// add data to it so the handler knows what to do
+							addEvent.imageModel = respData.response;
+							$('input[name="simg-query"]').trigger(addEvent);
+							
+						})
+						.fail(function(respData){
+							// TODO: show error UI
+							console.log('failed to get embed type!');
+						});
+					}
+				}
+			};
+
+			$('input[name="simg-query"]').easyAutocomplete(options);
+			$('input[name="simg-query"]').closest('.easy-autocomplete').removeAttr('style');
 		};
 
 	// CONSTRUCTOR
@@ -3186,7 +3285,7 @@ var EntityEmbed = EntityEmbed || {};
 			var isValid = true;
 			if (!!imgId || !!imageObjects[imgId])
 			{
-				isValid = !!imageObjects[imgId].title &&
+				isValid = 	!!imageObjects[imgId].title &&
 							!!imageObjects[imgId].license &&
 							!!imageObjects[imgId].altText &&
 							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
@@ -3200,6 +3299,11 @@ var EntityEmbed = EntityEmbed || {};
 		 * configure icons event handlers that enable a user to create a dynamic list of images
 		 */
 
+		 // event handler for the select existing image icon
+		$('.slideshow-image-select-existing').on('click', function(){
+			showSelectExistingImage();
+		});
+
 		// event handler for the add image icon
 		$('.slideshow-image-add').on('click', function(){
 			var imageNum = 1;
@@ -3212,80 +3316,12 @@ var EntityEmbed = EntityEmbed || {};
 			imageObjects[id] = imageEmbed.cleanModel();
 		});
 
-		// event handler for the select existing image icon
-		$('.slideshow-image-select-existing').on('click', function(){
-			showSelectExistingImage();
-			$(selectExistingTableRow).remove();
-
-			EntityEmbed.apiService.post({
-				path: self.options.httpPaths.getAll,
-				data: {
-					object_type: imageEmbed.options.object_type,
-					auth_token: EntityEmbed.apiService.getAuthToken()
-				}
-			})
-			.done(function(respData){
-				if (typeof respData.response === 'string')
-				{
-					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
-					return;
-				}
-
-				if (!respData.response.data){
-					return;
-				}
-				selectExistingItems = respData.response.data;
-				for (var i = 0; i < selectExistingItems.length; i++)
-				{
-					var $row = $(tableRowHtml(selectExistingItems[i].title, selectExistingItems[i].object_id));
-					$(selectExistingTableBody).append($row);
-
-					// add click event to highlight (select) a row
-					$row.on('click', function(e, scope){
-						// we do not need to add the class back if it is already on the item being clicked
-						var needToAddClass = !$(e.currentTarget).hasClass(selectExistingActiveItem);
-
-						$(selectExistingTableBody)
-							.find('.' + selectExistingActiveItem)
-							.removeClass(selectExistingActiveItem);
-
-						if (needToAddClass){
-							$(e.currentTarget).addClass(selectExistingActiveItem);
-							$(selectExistingImageBtn).removeClass('disabled');
-						}
-						else // since we didnt add a class, that means nothing is selected, so disable the select button
-						{
-							$(selectExistingImageBtn).addClass('disabled');
-						}
-					});
-				}
-			})
-			.fail(function(respData){
-				// TODO : UI failure message
-				console.log('Failed to get list of current embed types for the Select Existing page.');
-			});
-		});
+		// initialize auto complete for the simg (slideshow image) query input
+		initAutoComplete();
 
 		// event handler for the select button within the select existing view
-		$(selectExistingImageBtn).on('click', function(){
-			if ($(selectExistingImageBtn).hasClass('disabled'))
-			{
-				return;
-			}
-
-			EntityEmbed.apiService.get({
-				path: imageEmbed.options.httpPaths.get,
-				data: {
-					object_id: $('.' + selectExistingActiveItem).attr('id')
-				}
-			})
-			.done(function(respData){
-				if (typeof respData.response === 'string')
-				{
-					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
-					return;
-				}
-
+		$el.find('input[name="simg-query"]').on('existingImageSelected', function(e){
+			
 				var imageNum = 1;
 				for (var image in imageObjects)
 				{
@@ -3293,35 +3329,29 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 				// track image object
-				imageObjects[respData.response.object_id] = respData.response;
+				imageObjects[e.imageModel.object_id] = e.imageModel;
 
 				// make radio option for image and select it
-				newRadioOption(respData.response.title, respData.response.object_id);
-				$('#' + respData.response.object_id).attr('checked', '');
+				newRadioOption(e.imageModel.title, e.imageModel.object_id);
+				$('#' + e.imageModel.object_id).attr('checked', '');
 
 				// clear image form and save data
 				if (!!currentImageId && currentImageId !== '')
 				{
 					saveChangesToImageModel();
 					imageEmbed.clearForm($(imageForm));
-					currentImageId = respData.response.object_id;
+					currentImageId = e.imageModel.object_id;
 				}
 
 				// populate image form
-				imageEmbed.model = respData.response;
+				imageEmbed.model = e.imageModel;
 				imageEmbed.populateFormWithModel($(imageForm));
 				hideSelectExistingImage();
-				selectExistingItems = null;
-			})
-			.fail(function(respData){
-				// TODO: show error UI
-				console.log('failed to get embed type!');
-			});
 		});
 
 		$(cancelSelectExistingImageBtn).on('click', function(){
 			hideSelectExistingImage();
-			selectExistingItems = null;
+			$('input[name="simg-query"]').val('')
 		});
 		// event handler for changing the image object which populates the form (select radio option)
 		$(imageSelect).on('click', function(e){
@@ -3401,8 +3431,7 @@ var EntityEmbed = EntityEmbed || {};
 		return self.parent.validate($el.find('form').first(), isAddModal, self);
 	};
 
-	slideshowEmbed.prototype.getModelFromForm = function($form)
-	{
+	slideshowEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		saveChangesToImageModel();
 		self.model.title = $form.find('input[name=slideshowTitle]').val();
@@ -3486,7 +3515,6 @@ var EntityEmbed = EntityEmbed || {};
 			$(imageForm).show();
 
 			imageEmbed.populateFormWithModel($(imageForm));
-
 		});
 	};
 
@@ -4064,14 +4092,16 @@ var EntityEmbed = EntityEmbed || {};
 					$('.' + activeEmbedClass).removeClass(activeEmbedClass);
 					self.toolbarManager.hideToolbar();
 				}
-			})
+			});
+
+		self.$el
 			// toggle select embed when embed is clicked
 			.on('click', '.' + entityEmbedContainerClass, function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown keypress', '.editable.editor', function(e){
+			.on('keydown keypress', function(e){
 				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
 
 				// Don't do anything if key is not backspace (8) or delete (46)
@@ -4137,8 +4167,6 @@ var EntityEmbed = EntityEmbed || {};
 						$sibling.append('<br>');
 					}
 				}
-
-				console.log('keydown', e.which, selection, range, textLength, $anchor, $sibling);
 
 				// Prevent default when:
 				// 	- Anchor is the last empty p tag

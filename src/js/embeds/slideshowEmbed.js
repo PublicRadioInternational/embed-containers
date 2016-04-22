@@ -34,18 +34,14 @@ var EntityEmbed = EntityEmbed || {};
 		imageForm = '#embed-modal-slideshow-image',
 		selectExistingImageContainer = '#embed-modal-slideshow-image-select-existing',
 		selectExistingBtnContainer = '#slideshow-image-select-btns',
-		selectExistingImageBtn = '#btn-select-existing-simg',
 		cancelSelectExistingImageBtn = '#btn-cancel-select-existing-simg',
 		imageSelect = '.embed-modal-slideshow-image-list',
 		labelTextClass = 'slideshow-radio-label-text',
 		instructionalText = '.radio-option-placeholder',
-		selectExistingTableBody = '.embed-modal-select-existing-simg tbody',
-		selectExistingTableRow = '.embed-modal-select-existing-item',
-		selectExistingActiveItem = 'embed-modal-active-row',
+		slideshowImageQueryContainer = '.simg-query-container',
 		imageEmbed,
 		imageObjects = {}, // key = image ID; value = image object
 		currentImageId = null,
-		selectExistingItems = null,
 		newRadioOption = function(label, guid){
 			if ($(instructionalText).is(':visible'))
 			{
@@ -78,11 +74,6 @@ var EntityEmbed = EntityEmbed || {};
 			})(id, $op));
 
 			return id;
-		},
-		tableRowHtml = function(title, id){
-			return	'<tr class="embed-modal-select-existing-item" id="' + id + '">' +
-						'<td>' + title + '</tr>'+
-					'</td>';
 		},
 		saveChangesToImageModel = function(){ // save changes made to $(imageForm) to the respective model
 			imageEmbed.getModelFromForm($(imageForm));
@@ -118,6 +109,86 @@ var EntityEmbed = EntityEmbed || {};
 		hideSelectExistingImage = function(){
 			$(imageForm).show();
 			$(selectExistingImageContainer).hide();
+		},
+		initAutoComplete = function (){
+			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+			var isDevEnv = rgxDevEnv.test(window.location.host);
+			var debug = 0;
+			var ajaxData = {
+				auth_token: EntityEmbed.apiService.getAuthToken(),
+				object_type: imageEmbed.options.object_type
+			};
+
+
+			if(isDevEnv)
+			{
+				ajaxData.debug = 1;
+			}
+
+			var options = {
+				ajaxSettings: {
+					dataType: 'json',
+					method: 'POST',
+					data: ajaxData
+				},
+				requestDelay: 600,
+				url: function(phrase) {
+					ajaxData.title = phrase;
+					return imageEmbed.options.httpPaths.getAll;
+				},
+				listLocation: function(listOfData){
+					return listOfData.response.data;
+				},
+				getValue: function(data) {
+					return data.title;
+				},
+				preparePostData: function(data) {
+					data.title = $('input[name="simg-query"]').val();
+					return JSON.stringify(data);
+				},
+				list: {
+					maxNumberOfElements: 20,
+					match: {
+						enabled: true
+					},
+					sort: {
+						enabled: true
+					},
+					onChooseEvent: function(){
+						var itemData = $('input[name="simg-query"]').getSelectedItemData();
+						var objectId = itemData.object_id;
+						$('input[name="simg-query"]').val('');
+
+						EntityEmbed.apiService.get({
+							path: imageEmbed.options.httpPaths.get,
+							data: {
+								object_id: objectId
+							}
+						})
+						.done(function(respData){
+							if (typeof respData.response === 'string')
+							{
+								console.log('Failed to get list of current embed types for the Select Existing page: ' + respData.response);
+								return;
+							}
+
+							// create an event to be raised
+							var addEvent = jQuery.Event('existingImageSelected');
+							// add data to it so the handler knows what to do
+							addEvent.imageModel = respData.response;
+							$('input[name="simg-query"]').trigger(addEvent);
+							
+						})
+						.fail(function(respData){
+							// TODO: show error UI
+							console.log('failed to get embed type!');
+						});
+					}
+				}
+			};
+
+			$('input[name="simg-query"]').easyAutocomplete(options);
+			$('input[name="simg-query"]').closest('.easy-autocomplete').removeAttr('style');
 		};
 
 	// CONSTRUCTOR
@@ -170,7 +241,7 @@ var EntityEmbed = EntityEmbed || {};
 			var isValid = true;
 			if (!!imgId || !!imageObjects[imgId])
 			{
-				isValid = !!imageObjects[imgId].title &&
+				isValid = 	!!imageObjects[imgId].title &&
 							!!imageObjects[imgId].license &&
 							!!imageObjects[imgId].altText &&
 							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
@@ -184,6 +255,11 @@ var EntityEmbed = EntityEmbed || {};
 		 * configure icons event handlers that enable a user to create a dynamic list of images
 		 */
 
+		 // event handler for the select existing image icon
+		$('.slideshow-image-select-existing').on('click', function(){
+			showSelectExistingImage();
+		});
+
 		// event handler for the add image icon
 		$('.slideshow-image-add').on('click', function(){
 			var imageNum = 1;
@@ -196,80 +272,12 @@ var EntityEmbed = EntityEmbed || {};
 			imageObjects[id] = imageEmbed.cleanModel();
 		});
 
-		// event handler for the select existing image icon
-		$('.slideshow-image-select-existing').on('click', function(){
-			showSelectExistingImage();
-			$(selectExistingTableRow).remove();
-
-			EntityEmbed.apiService.post({
-				path: self.options.httpPaths.getAll,
-				data: {
-					object_type: imageEmbed.options.object_type,
-					auth_token: EntityEmbed.apiService.getAuthToken()
-				}
-			})
-			.done(function(respData){
-				if (typeof respData.response === 'string')
-				{
-					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
-					return;
-				}
-
-				if (!respData.response.data){
-					return;
-				}
-				selectExistingItems = respData.response.data;
-				for (var i = 0; i < selectExistingItems.length; i++)
-				{
-					var $row = $(tableRowHtml(selectExistingItems[i].title, selectExistingItems[i].object_id));
-					$(selectExistingTableBody).append($row);
-
-					// add click event to highlight (select) a row
-					$row.on('click', function(e, scope){
-						// we do not need to add the class back if it is already on the item being clicked
-						var needToAddClass = !$(e.currentTarget).hasClass(selectExistingActiveItem);
-
-						$(selectExistingTableBody)
-							.find('.' + selectExistingActiveItem)
-							.removeClass(selectExistingActiveItem);
-
-						if (needToAddClass){
-							$(e.currentTarget).addClass(selectExistingActiveItem);
-							$(selectExistingImageBtn).removeClass('disabled');
-						}
-						else // since we didnt add a class, that means nothing is selected, so disable the select button
-						{
-							$(selectExistingImageBtn).addClass('disabled');
-						}
-					});
-				}
-			})
-			.fail(function(respData){
-				// TODO : UI failure message
-				console.log('Failed to get list of current embed types for the Select Existing page.');
-			});
-		});
+		// initialize auto complete for the simg (slideshow image) query input
+		initAutoComplete();
 
 		// event handler for the select button within the select existing view
-		$(selectExistingImageBtn).on('click', function(){
-			if ($(selectExistingImageBtn).hasClass('disabled'))
-			{
-				return;
-			}
-
-			EntityEmbed.apiService.get({
-				path: imageEmbed.options.httpPaths.get,
-				data: {
-					object_id: $('.' + selectExistingActiveItem).attr('id')
-				}
-			})
-			.done(function(respData){
-				if (typeof respData.response === 'string')
-				{
-					console.log('Failed to get list of current embed types for the Select Existing page.: ' + respData.response);
-					return;
-				}
-
+		$el.find('input[name="simg-query"]').on('existingImageSelected', function(e){
+			
 				var imageNum = 1;
 				for (var image in imageObjects)
 				{
@@ -277,35 +285,29 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 				// track image object
-				imageObjects[respData.response.object_id] = respData.response;
+				imageObjects[e.imageModel.object_id] = e.imageModel;
 
 				// make radio option for image and select it
-				newRadioOption(respData.response.title, respData.response.object_id);
-				$('#' + respData.response.object_id).attr('checked', '');
+				newRadioOption(e.imageModel.title, e.imageModel.object_id);
+				$('#' + e.imageModel.object_id).attr('checked', '');
 
 				// clear image form and save data
 				if (!!currentImageId && currentImageId !== '')
 				{
 					saveChangesToImageModel();
 					imageEmbed.clearForm($(imageForm));
-					currentImageId = respData.response.object_id;
+					currentImageId = e.imageModel.object_id;
 				}
 
 				// populate image form
-				imageEmbed.model = respData.response;
+				imageEmbed.model = e.imageModel;
 				imageEmbed.populateFormWithModel($(imageForm));
 				hideSelectExistingImage();
-				selectExistingItems = null;
-			})
-			.fail(function(respData){
-				// TODO: show error UI
-				console.log('failed to get embed type!');
-			});
 		});
 
 		$(cancelSelectExistingImageBtn).on('click', function(){
 			hideSelectExistingImage();
-			selectExistingItems = null;
+			$('input[name="simg-query"]').val('')
 		});
 		// event handler for changing the image object which populates the form (select radio option)
 		$(imageSelect).on('click', function(e){
@@ -385,8 +387,7 @@ var EntityEmbed = EntityEmbed || {};
 		return self.parent.validate($el.find('form').first(), isAddModal, self);
 	};
 
-	slideshowEmbed.prototype.getModelFromForm = function($form)
-	{
+	slideshowEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		saveChangesToImageModel();
 		self.model.title = $form.find('input[name=slideshowTitle]').val();
@@ -470,7 +471,6 @@ var EntityEmbed = EntityEmbed || {};
 			$(imageForm).show();
 
 			imageEmbed.populateFormWithModel($(imageForm));
-
 		});
 	};
 
