@@ -10,7 +10,7 @@ var EntityEmbed = EntityEmbed || {};
 				$modalBody: null						// selector for the modal body container element
 			},
 			$modalEl: null,								// select for the entire modal (element that modal.js establishes a ctrl on)
-			modalContainer: '#modal-container',			// selector string for the element which will contain the modal
+			modalContainer: 'body',						// selector string for the element which will contain the modal
 			modalHtmlLocation: 'modal/',				// file path to the modal HTML folder
 			modalFileName: 'modal_main.html',			// file name of the modal HTML file
 			embedTypes:{								// specify all embed types and their options here
@@ -30,38 +30,45 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-		defaultModalSelectors = function(){
+		defaultModalSelectors = function(ops){
 			// we cant specify certain elements as default options
 			// because they are not yet loaded into the DOM when this script runs
 			// so if they are null, select them here
 
-			if (!defaults.$modalEl)
+			if (!ops.modalScope.$embedTypeSelect || ops.$embedTypeSelect.length() == 0)
 			{
-				defaults.$modalEl = $('#embed-modal');
+				ops.modalScope.$embedTypeSelect = $('#select-embed-type');
 			}
 
-			if (!defaults.modalScope.$embedTypeSelect)
+			if (!ops.modalScope.$modalBody || ops.$modalBody.length() == 0)
 			{
-				defaults.modalScope.$embedTypeSelect = $('#select-embed-type');
+				ops.modalScope.$modalBody = $('.embed-modal-body');
 			}
 
-			if (!defaults.modalScope.$modalBody)
+			if (!ops.modalOptions.$abortEl || ops.$abortEl.length() == 0)
 			{
-				defaults.modalScope.$modalBody = $('.embed-modal-body');
-			}
-
-			if (!defaults.modalOptions.$abortEl)
-			{
-				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
+				ops.modalOptions.$abortEl = $('#btn-abort-modal');
 			}
 		};
 
-		defaultModalSelectors();
 		options = $.extend(true, {}, defaults, options);
+		if (!options.$modalEl || options.$modalEl.length() == 0)
+		{
+			options.$modalEl = $('#embed-modal');
+		}
+		$(options.modalContainer).append('<div id="embed-modal"></div>');
 
 		var promise = $.Deferred();
 
-		$(options.modalContainer).get(options.modalHtmlLocation + options.modalFileName, function(){
+		options.$modalEl.load(options.modalHtmlLocation + options.modalFileName, function(responseText, textStatus, xhr){
+			defaultModalSelectors(options);
+			
+			console.log('embed modal load completed with status: ' + textStatus);
+			if (textStatus === 'error')
+			{
+				return;
+			}
+
 			var embedTypes = [];
 			for (var embedName in EntityEmbed.embedTypes)
 			{
