@@ -10,9 +10,9 @@ var EntityEmbed = EntityEmbed || {};
 				$modalBody: null						// selector for the modal body container element
 			},
 			$modalEl: null,								// select for the entire modal (element that modal.js establishes a ctrl on)
-			modalContainer: 'body'						// selector string for the element which will contain the modal
-			modalHtmlLocation: '../html/modal/'			// file path to the modal HTML folder
-			modalFileName: 'modal_main.html'
+			modalContainer: '#modal-container',			// selector string for the element which will contain the modal
+			modalHtmlLocation: 'modal/',				// file path to the modal HTML folder
+			modalFileName: 'modal_main.html',			// file name of the modal HTML file
 			embedTypes:{								// specify all embed types and their options here
 				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
@@ -59,69 +59,50 @@ var EntityEmbed = EntityEmbed || {};
 		defaultModalSelectors();
 		options = $.extend(true, {}, defaults, options);
 
-		$(options.modalContainer).load(options.modalHtmlLocation + modalFileName, function(){
-			
-		});
+		var promise = $.Deferred();
 
-		var embedTypes = [];
-		for (var embedName in EntityEmbed.embedTypes)
-		{
-			if (!!options.embedTypes[embedName])
+		$(options.modalContainer).get(options.modalHtmlLocation + options.modalFileName, function(){
+			var embedTypes = [];
+			for (var embedName in EntityEmbed.embedTypes)
 			{
-				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
-				embedTypes.push(embedObject);
+				if (!!options.embedTypes[embedName])
+				{
+					var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
+					embedTypes.push(embedObject);
+				}
 			}
-		}
 
-		embedTypes.sort(function(l, r){
-			return l.orderIndex - r.orderIndex;
+			embedTypes.sort(function(l, r){
+				return l.orderIndex - r.orderIndex;
+			});
+
+			var finalModalOptions = {};
+			var defaultModalOptions = new EntityEmbed.embedModalDefaults();
+			if (!!options.modalOptions)
+			{
+				finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
+			}
+			else
+			{
+				finalModalOptions = defaultModalOptions;
+			}
+
+			var modalScope = {
+				embedTypes: embedTypes
+			};
+
+			modalScope = $.extend(true, {}, options.modalScope, modalScope);
+
+			options.$modalEl.modal(finalModalOptions, modalScope);
+
+			EntityEmbed.$embedModal = options.$modalEl;
+			EntityEmbed.currentEmbedTypes = embedTypes;
+			promise.resolve();
 		});
-
-		var finalModalOptions = {};
-		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
-		if (!!options.modalOptions)
-		{
-			finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
-		}
-		else
-		{
-			finalModalOptions = defaultModalOptions;
-		}
-
-		var modalScope = {
-			embedTypes: embedTypes
-		};
-
-		modalScope = $.extend(true, {}, options.modalScope, modalScope);
-
-		options.$modalEl.modal(finalModalOptions, modalScope);
-
-		EntityEmbed.$embedModal = options.$modalEl;
-		EntityEmbed.currentEmbedTypes = embedTypes;
-		return EntityEmbed.$embedModal;
+		return promise;
 	};
 
-	$.embed_modal_open = function(options){
-		var defaults = {
-			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
-			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
-												//		null - add any
-												//		not null - add single or edit (if id is also specified)
-			id: null,
-			selectExisting: false
-		};
-		
-
-		if (!EntityEmbed.$embedModal)
-		{
-			$.embed_modal_create({
-				modalOptions: options
-			});
-		}
-
-		options = $.extend(true, {}, defaults, options);
-
-		var self = this;
+	function embedModalOpen(options){
 		var mType;
 		if (!!options.id)
 		{
@@ -158,5 +139,25 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		return EntityEmbed.$embedModal.openModal(scope);
+	};
+
+	$.embed_modal_open = function(options){
+		var defaults = {
+			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
+			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
+												//		null - add any
+												//		not null - add single or edit (if id is also specified)
+			id: null,
+			selectExisting: false
+		};
+		
+		if (!EntityEmbed.$embedModal)
+		{
+			$.embed_modal_create({
+				modalOptions: options
+			}).then(function(){
+				return embedModalOpen($.extend(true, {}, defaults, options));
+			});
+		}
 	};
 })();

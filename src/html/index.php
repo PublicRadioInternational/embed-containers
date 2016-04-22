@@ -82,6 +82,9 @@
 				</div>	
 			</div>
 		</div>
+
+		<div id="modal-container"></div>
+
 	</body>
 
 </html>
