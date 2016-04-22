@@ -84,6 +84,22 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
 
+	audioEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		self.parent.getModelFromForm($el, self);
+
+		var html_rendered_name = 'html_rendered';
+		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		var code = '<div class="audio-embed">' + 
+						'<audio controls>' +
+							'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
+						'</audio>' +
+						'<div class="credit">Credit: ' + self.model.credit + '</div>' +
+						'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
+					'</div>';
+		self.model[html_rendered_name] = code;
+	};
+
 	audioEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
@@ -215,19 +231,4 @@ var EntityEmbed = EntityEmbed || {};
 		$form.find(editAudioFileBtn).show();
 		$form.find(uploadedAudioDisplay).append(self.generateUploadedPreview());
 	};
-
-	audioEmbed.prototype.parseForEditor = function(){
-		var self = this;
-		
-		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
-
-		return  '<div class="audio-embed">' + 
-					'<audio controls>' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
-					'</audio>' +
-					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
-					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
-				'</div>';
-	};
-
 })('');

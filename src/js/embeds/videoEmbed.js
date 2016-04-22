@@ -30,15 +30,9 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	videoEmbed.prototype.orderIndex = 4;
 
-	videoEmbed.prototype.cleanModel = function(){
-		return {
-			title: null,
-			url: null
-		};
-	};
-
-	videoEmbed.prototype.parseForEditor = function(){
+	videoEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
+		self.parent.getModelFromForm($el, self);
 
 		$.support.cors = true;
 
@@ -60,17 +54,30 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
+		var html_rendered_name = 'html_rendered';
+		self.model[html_rendered_name] = self.model.videoHtmlString;
+	};
+
+	videoEmbed.prototype.cleanModel = function(){
+		return {
+			title: null,
+			url: null
+		};
+	};
+
+	videoEmbed.prototype.parseForEditor = function(){
+		var self = this;
+
 		return '<div class="video-embed">' +
 					'<div class="video-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' +
 					'<div class="overlay">' +
-						self.model.videoHtmlString  +
+						self.model.html_rendered  +
 					'</div>' +
 					'<div class="video-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' +
 				'</div>';
 	};
-
 })('');

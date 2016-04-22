@@ -249,6 +249,14 @@ var EntityEmbed = EntityEmbed || {};
 				object_type: linkData.object_type
 			});
 		});
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="relatedLink-embed">' +
+						'<div class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </div>' +
+						'<div class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</div>' +
+						'<div class="relatedLink-embed-uiText"> <strong>Links:</strong> ' + self.model.links.length + '</div>' +
+					'</div>';
+		self.model[html_rendered_name] = code;
 	};
 
 	relatedLinkEmbed.prototype.populateFormWithModel = function($form){
@@ -338,16 +346,4 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 	};
-
-	// TODO : make this the default styling for genericEmbed
-	relatedLinkEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		return '<div class="relatedLink-embed">' +
-					'<div class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Links:</strong> ' + self.model.links.length + '</div>' +
-				'</div>';
-	};
-
 })('');

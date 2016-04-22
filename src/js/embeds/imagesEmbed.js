@@ -65,6 +65,24 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.imagePreviewClass = 'image-preview';
 
+	imagesEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		self.parent.getModelFromForm($el, self);
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="images-embed">' + 
+						'<img class="entity-embed-secondary-toolbar-locator"' + 
+							' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
+						'<div class="images-embed-caption">' +
+							self.model.caption +
+						'</div>' + 
+						'<div class="images-embed-credit">' + 
+							'Credit: ' + self.model.credit +
+						'</div>' + 
+					'</div>';
+		self.model[html_rendered_name] = code;
+	};
+
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
 			url_path: null, // URL to image file
@@ -213,20 +231,5 @@ var EntityEmbed = EntityEmbed || {};
 		$form.find(uploadedImgDisplay).show();
 		$form.find(editImageFileBtn).show();
 		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
-	};
-
-	imagesEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		return	'<div class="images-embed">' + 
-					'<img class="entity-embed-secondary-toolbar-locator"' + 
-						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
-					'<div class="images-embed-caption">' +
-						self.model.caption +
-					'</div>' + 
-					'<div class="images-embed-credit">' + 
-						'Credit: ' + self.model.credit +
-					'</div>' + 
-				'</div>';
 	};
 })('');

@@ -33,6 +33,24 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	newsletterSubscribeEmbed.prototype.orderIndex = 12;
 
+	newsletterSubscribeEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		self.parent.getModelFromForm($el, self);
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +
+						'<div class="display-title">' + self.model.displayTitle + '</div>' +
+						'<div class="subscribe-form">' +			
+							'<div class="teaser">' + self.model.teaser + '</div>' +
+							'<div class="embed-modal-form">' +
+								'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' + 
+							'</div>' + 
+							'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
+						'</div>' + 
+					'</div>';
+		self.model[html_rendered_name] = code;
+	};
+
 	newsletterSubscribeEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
@@ -71,19 +89,4 @@ var EntityEmbed = EntityEmbed || {};
 				console.log('failed to load newsletter subscription options');
 			});
 	};
-
-	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
-		var self = this;
-		return '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +
-					'<div class="display-title">' + self.model.displayTitle + '</div>' +
-					'<div class="subscribe-form">' +			
-						'<div class="teaser">' + self.model.teaser + '</div>' +
-						'<div class="embed-modal-form">' +
-							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' + 
-						'</div>' + 
-						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
-					'</div>' + 
-				'</div>';
-	};
-
 })('');

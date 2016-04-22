@@ -397,6 +397,13 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			self.model.images.push(imageObjects[image]);
 		}
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="embedded-content">' +
+						'<div class="ui-text"> <strong>Embed Type: </strong>' 	+ self.options.object_type + '</div>' +
+						'<div class="ui-text"> <strong>Title: </strong> ' 		+ self.model.title + '</div>' +
+					'</div>';
+		self.model[html_rendered_name] = code;
 	};
 
 	slideshowEmbed.prototype.populateFormWithModel = function($form){
@@ -490,5 +497,4 @@ var EntityEmbed = EntityEmbed || {};
 
 		$(instructionalText).show();
 	};
-
 })('');
