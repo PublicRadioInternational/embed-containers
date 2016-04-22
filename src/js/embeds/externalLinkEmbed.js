@@ -29,6 +29,11 @@ var EntityEmbed = EntityEmbed || {};
 		uploadImageFileBtn = ".embed-modal-file-input",
 		getImageUrl = function(imageLocation, imageUrl)
 		{
+			if (!imageUrl || imageUrl === '')
+			{
+				return '';
+			}
+
 			if (imageUrl.indexOf(imageLocation) >= 0)
 			{
 				return imageUrl;
@@ -52,7 +57,6 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	};
-
 
 	// TODO : inherit from imagesEmbed
 	externalLinkEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
