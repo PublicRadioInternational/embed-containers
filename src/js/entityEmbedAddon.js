@@ -317,8 +317,6 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 
-				console.log('keydown', e.which, selection, range, textLength, $anchor, $sibling);
-
 				// Prevent default when:
 				// 	- Anchor is the last empty p tag
 				// 	- A sipling element was fond and is and embed
