@@ -82,11 +82,6 @@
 				</div>	
 			</div>
 		</div>
-
-		<div id="embed-modal">
-			<?php include "modal/modal_main.html"; ?>
-		</div>
-
 	</body>
 
 </html>
