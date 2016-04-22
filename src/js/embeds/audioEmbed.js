@@ -146,7 +146,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -178,8 +178,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	audioEmbed.prototype.generateUploadedPreview = function() {

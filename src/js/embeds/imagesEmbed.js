@@ -160,7 +160,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -180,8 +180,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
