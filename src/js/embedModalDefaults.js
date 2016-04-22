@@ -28,9 +28,6 @@ var EntityEmbed = EntityEmbed || {};
 				selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
 			},
 			elements: {
-				selectExistingTableBody: '#embed-modal-select-existing tbody',
-				selectExistingTableRow: '.embed-modal-select-existing-item',
-				selectExistingActiveItem: 'embed-modal-active-row',
 				saveSpinner: '#embed-modal-spinner'
 			}
 		},
@@ -408,7 +405,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					var $selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
 											.find('input[name="' + scope.embedTypes[i].options.object_type + '-query"]');
-											
+
 					initAutoComplete(scope.embedTypes[i], scope.modalCtrl);
 					$(embedModalSelectors.containers.selectExistingEmbed)
 						.find('.' + scope.embedTypes[i].options.object_type + '-query-container').hide();
