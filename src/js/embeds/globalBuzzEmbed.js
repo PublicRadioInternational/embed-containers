@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'globalBuzz',
 		defaults = {
-			viewPath: base + 'modal/modal_globalBuzz.html',
+			viewPath: 'modal_globalBuzz.html',
 			displayName: 'Global Buzz',
 			object_type: 'global-buzz',
 			validationOptions: {
@@ -63,4 +63,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

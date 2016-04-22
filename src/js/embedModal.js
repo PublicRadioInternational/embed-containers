@@ -52,11 +52,12 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		options = $.extend(true, {}, defaults, options);
+		$(options.modalContainer).append('<div id="embed-modal"></div>');
+		
 		if (!options.$modalEl || options.$modalEl.length() == 0)
 		{
 			options.$modalEl = $('#embed-modal');
 		}
-		$(options.modalContainer).append('<div id="embed-modal"></div>');
 
 		var promise = $.Deferred();
 
@@ -99,17 +100,19 @@ var EntityEmbed = EntityEmbed || {};
 			};
 
 			modalScope = $.extend(true, {}, options.modalScope, modalScope);
-
+			modalScope.modalHtmlLocation = options.modalHtmlLocation;
+			
 			options.$modalEl.modal(finalModalOptions, modalScope);
 
 			EntityEmbed.$embedModal = options.$modalEl;
 			EntityEmbed.currentEmbedTypes = embedTypes;
+			EntityEmbed.modalExists = true;
 			promise.resolve();
 		});
 		return promise;
 	};
 
-	function embedModalOpen(options){
+	function embedModalOpenInternal(options){
 		var mType;
 		if (!!options.id)
 		{
@@ -158,13 +161,14 @@ var EntityEmbed = EntityEmbed || {};
 			selectExisting: false
 		};
 		
-		if (!EntityEmbed.$embedModal)
+		if (!EntityEmbed.modalExists)
 		{
 			$.embed_modal_create({
 				modalOptions: options
 			}).then(function(){
-				return embedModalOpen($.extend(true, {}, defaults, options));
+				return embedModalOpenInternal($.extend(true, {}, defaults, options));
 			});
 		}
+		return embedModalOpenInternal($.extend(true, {}, defaults, options));
 	};
 })();

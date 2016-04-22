@@ -211,7 +211,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		if (!EntityEmbed.$embedModal)
+		if (EntityEmbed.modalExists)
 		{
 			return;
 		}

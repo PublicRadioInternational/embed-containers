@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(window, base){
+(function(window){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'facebook',
 		defaults = {
-			viewPath: base + 'modal/modal_facebook.html',
+			viewPath: 'modal_facebook.html',
 			displayName: 'Facebook',
 			object_type: 'facebook',
 			validationOptions: {
@@ -98,4 +98,4 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
-})(window, '');
+})(window);

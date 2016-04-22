@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'audio',
 		defaults = {
-			viewPath: base + 'modal/modal_audio.html',
+			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
 			audioLocation: 'https://test-services.pri.org',
@@ -232,4 +232,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

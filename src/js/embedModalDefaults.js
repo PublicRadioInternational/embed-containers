@@ -370,7 +370,6 @@ var EntityEmbed = EntityEmbed || {};
 								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' + 
 						'</div>' +
 					'</div>';
-
 		};
 
 	function embedModalDefaults(){};
@@ -433,7 +432,7 @@ var EntityEmbed = EntityEmbed || {};
 						.append('<div id="' + embedObject.name + '"></div>');
 
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
+					$embedView.load(scope.modalHtmlLocation + embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
 
 						if (textStatus === 'error')
