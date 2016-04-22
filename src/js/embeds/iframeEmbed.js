@@ -30,6 +30,25 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	iframeEmbed.prototype.orderIndex = 11;
 
+	iframeEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		self.parent.getModelFromForm($el, self);
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="iframe-embed">' +
+						'<div class="iframe-info">' +
+							'<span>click here to show the toolbars</span>' +
+						'</div>' + 
+						'<iframe src="' + this.model.url + '" ' + 
+							'frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
+						'</iframe>' + 
+						'<div class="iframe-info">' +
+							'<span>click here to show the toolbars</span>' +
+						'</div>' + 
+					'</div>';
+		self.model[html_rendered_name] = code;
+	};
+
 	iframeEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
@@ -37,19 +56,4 @@ var EntityEmbed = EntityEmbed || {};
 			allowsScroll: false
 		};
 	};
-
-	iframeEmbed.prototype.parseForEditor = function(){
-		return  '<div class="iframe-embed">' +
-					'<div class="iframe-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
-					'<iframe src="' + this.model.url + '" ' + 
-						'frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
-					'</iframe>' + 
-					'<div class="iframe-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
-				'</div>';
-	};
-
 })('');

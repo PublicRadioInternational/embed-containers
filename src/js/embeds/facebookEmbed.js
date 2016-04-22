@@ -32,21 +32,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	facebookEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
+		self.parent.getModelFromForm($el, self);
 
-		// TODO: Need to extract this block of code, and instead call parent function
-		var formFields = $el.find('.embed-modal-form-control');
-
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
-
-		var embedCodeName = 'embedCode';
+		var html_rendered_name = 'html_rendered';
 		var code = 	'<script>' +
 						'(function(d, s, id) {' +
 							'var js, fjs = d.getElementsByTagName(s)[0];' +
@@ -60,9 +48,9 @@ var EntityEmbed = EntityEmbed || {};
 						'</script>' +
 					'<div class="fb-post" data-href="'+ this.model.url + '" data-width="500">' +
 					'</div>';
-		self.model[embedCodeName] = code;
-
+		self.model[html_rendered_name] = code;
 	};
+	
 	// PUBLIC
 	facebookEmbed.prototype.cleanModel = function(){
 		return {
@@ -80,7 +68,7 @@ var EntityEmbed = EntityEmbed || {};
 					'</div>' +
 					'<div class="overlay">' +
 
-					self.model.embedCode +
+					self.model.html_rendered +
 
 					'</div>' +
 					'<div class="facebook-info">' +
@@ -97,5 +85,4 @@ var EntityEmbed = EntityEmbed || {};
 			window.FB.XFBML.parse();
 		}
 	}
-
 })(window, '');

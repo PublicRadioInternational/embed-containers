@@ -56,6 +56,13 @@ var EntityEmbed = EntityEmbed || {};
 			}
 			
 		}
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="custom-text-embed">' + 
+						'<div class="display-title">' + self.model.displayTitle + '</div>' +
+						'<div class="custom-text">' + self.model.customText + '</div>' +
+					'</div>';
+		self.model[html_rendered_name] = code;
 	};
 
 	customTextEmbed.prototype.cleanModel = function(){
@@ -124,13 +131,4 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 	};
-
-	customTextEmbed.prototype.parseForEditor = function(){
-		var self = this;
-		return  '<div class="custom-text-embed">' + 
-					'<div class="display-title">' + self.model.displayTitle + '</div>' +
-					'<div class="custom-text">' + self.model.customText + '</div>' +
-				'</div>';
-	};
-
 })('');

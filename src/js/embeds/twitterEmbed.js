@@ -32,26 +32,15 @@ var EntityEmbed = EntityEmbed || {};
 
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
+		self.parent.getModelFromForm($el, self);
 
-		// TODO: Need to extract this block of code, and instead call parent function
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
-
-		var embedCodeName = 'embedCode';
+		var html_rendered_name = 'html_rendered';
 		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
 						'<a href="' + self.model.url + '">' +
 						'</a>' +
 					'</blockquote>' +
 					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
-		self.model[embedCodeName] = code;
+		self.model[html_rendered_name] = code;
 	};
 
 	// PUBLIC
@@ -71,12 +60,11 @@ var EntityEmbed = EntityEmbed || {};
 						'<span>click here to show the toolbars</span>' +
 					'</div>' +
 					'<div class="overlay">' +
-						self.model.embedCode +
+						self.model.html_rendered +
 					'</div>' +
 					'<div class="twitter-info">' +
 						'<span>click here to show the toolbars</span>' +
 					'</div>' +
 				'</div>';
 	};
-
 })('');

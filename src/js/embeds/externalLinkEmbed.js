@@ -53,13 +53,28 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-
 	// TODO : inherit from imagesEmbed
 	externalLinkEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
 	EntityEmbed.embedTypes[embedName] = externalLinkEmbed;
 
 	// PUBLIC
 	externalLinkEmbed.prototype.orderIndex = 9;
+
+	externalLinkEmbed.prototype.getModelFromForm = function($el){
+		var self = this;
+		self.parent.getModelFromForm($el, self);
+
+		var html_rendered_name = 'html_rendered';
+		var code = '<div class="external-link-embed entity-embed-secondary-toolbar-locator">' +
+						'<img src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">' + 
+						'<div class="text-container">' + 
+							'<div class="display-title">' + self.model.displayTitle + '</div>' +
+							'<div class="teaser">' + self.model.teaser + '</div>' +
+						'</div>' + 
+						'<a href="' + self.model.url + '">'  + self.model.linkText + '</a>' + 
+					'</div>';
+		self.model[html_rendered_name] = code;
+	};
 
 	externalLinkEmbed.prototype.cleanModel = function(){
 		return {
@@ -179,18 +194,4 @@ var EntityEmbed = EntityEmbed || {};
 			'</div>';
 		}
 	};
-
-	externalLinkEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		return 	'<div class="external-link-embed entity-embed-secondary-toolbar-locator">' +
-					'<img src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">' + 
-					'<div class="text-container">' + 
-						'<div class="display-title">' + self.model.displayTitle + '</div>' +
-						'<div class="teaser">' + self.model.teaser + '</div>' +
-					'</div>' + 
-					'<a href="' + self.model.url + '">'  + self.model.linkText + '</a>' + 
-				'</div>';
-	};
-
 })('');
