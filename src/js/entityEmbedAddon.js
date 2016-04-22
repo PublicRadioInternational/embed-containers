@@ -133,6 +133,29 @@ var EntityEmbed = EntityEmbed || {};
 		return selection;
 	}
 
+	function moveCaretToEdge(el, atStart) {
+		var range, sel;
+
+		el.focus();
+
+		if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
+			range = document.createRange();
+			sel = window.getSelection();
+
+			range.selectNodeContents(el);
+			range.collapse(atStart);
+
+			sel.removeAllRanges();
+			sel.addRange(range);
+		} else if (typeof document.body.createTextRange != "undefined") {
+			range = document.body.createTextRange();
+
+			range.moveToElementText(el);
+			range.collapse(atStart);
+			range.select();
+		}
+	}
+
 	/**
 	 * Custom Addon object
 	 *
@@ -226,22 +249,30 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			// prevent user from destroying modal functionality when deleting first element
 			.on('keydown keypress', '.editable.editor', function(e){
-				var selection, range, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling;
+				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
 
 				// Don't do anything if key is not backspace (8) or delete (46)
+				// or if caret is in a ext node of editor.
 				if(e.which !== 8 && e.which !== 46)
 				{
 					return;
 				}
 
 				selection = getSelection(); // Get current selection
+
+				if(!selection.rangeCount)
+				{
+					return;
+				}
+
+				editor = self.core.getEditor();
 				range = selection.getRangeAt(0); // Get current selected range
 				selectionLength = range.endOffset - range.startOffset; // Get length of current selection
 				$anchor = $(selection.anchorNode); // Get the element the selection is currently originating from
+				textLength = $anchor.text().length;
 				numChildren = self.$el.children().not('.medium-insert-buttons').length; // Get number of editors children that are not UI fof MEIP
 				isEmptyP = false;
 				siblingIsEmbed = false;
-				$sibling;
 
 				if (selectionLength > 0)
 				{
@@ -250,10 +281,9 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 
-				// Make sure we are looking at the parent of text nodes
 				if($anchor[0].nodeType === 3)
 				{
-					$anchor = $anchor.parent();
+					$anchor = $anchor.closest('p');
 				}
 
 				// Check to see if our anchor element is a p tag with no text
@@ -269,7 +299,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					$sibling = $anchor.prev();
 				}
-				else if (e.which === 46 && selection.anchorOffset === $anchor.text().length)
+				else if (e.which === 46 && selection.anchorOffset === textLength)
 				{
 					$sibling = $anchor.next();
 				}
@@ -278,7 +308,14 @@ var EntityEmbed = EntityEmbed || {};
 				if(!!$sibling)
 				{
 					siblingIsEmbed = $sibling.is('.' + entityEmbedContainerClass);
+					// Make sure sibling has content. MeduimEditor will remove any empty elements up to and including
+					if(!$sibling.children().length && !$sibling.text().length)
+					{
+						$sibling.append('<br>');
+					}
 				}
+
+				console.log('keydown', e.which, selection, range, textLength, $anchor, $sibling);
 
 				// Prevent default when:
 				// 	- Anchor is the last empty p tag
@@ -286,6 +323,36 @@ var EntityEmbed = EntityEmbed || {};
 				if ( (isEmptyP && numChildren <= 1) || siblingIsEmbed)
 				{
 					e.preventDefault();
+				}
+
+				if(isEmptyP && numChildren > 1)
+				{
+					e.preventDefault();
+
+					if(e.which === 8)
+					{
+						$base = $anchor.prevAll('p').first();
+					}
+					else if(e.which === 46)
+					{
+						$base = $anchor.nextAll('p').first();
+					}
+
+					// Make sure base element has content so selection process works.
+					if(!$base.children().length && !$base.text().length)
+					{
+						$base.append('<br>');
+					}
+
+					// Select the prev/next p's content
+					editor.selectElement($base[0]);
+					// Move caret to selection edge opision of caret movement from keypress
+					moveCaretToEdge($base[0], e.which === 46);
+					// Updated editors toolbar state
+					editor.checkSelection();
+
+					// Remove empty anchor element
+					$anchor.remove();
 				}
 
 			})

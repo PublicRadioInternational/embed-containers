@@ -593,10 +593,8 @@ var EntityEmbed = EntityEmbed || {};
 				toggleEditorTyping(scope, 'true');
 				if (scope.$currentEditorLocation.length > 0)
 				{
-					scope.$currentEditorLocation.addClass('entity-embed-editor-line');
-					var isContainer = scope.$currentEditorLocation.is('.entity-embed-container');
-					var $embedHtml = scope.$currentEditorLocation.html(generateEmbedHtmlInternal(scope.currentEmbedType, !isContainer));
-					var $embedContainer = isContainer ? $embedHtml : $embedHtml.find('.entity-embed-container');
+					var $embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
+
 					// create an event to be raised
 					var addEvent = jQuery.Event('entityEmbedAdded');
 					// add data to it so the handler knows what to do
