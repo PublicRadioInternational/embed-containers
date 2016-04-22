@@ -241,14 +241,16 @@ var EntityEmbed = EntityEmbed || {};
 					$('.' + activeEmbedClass).removeClass(activeEmbedClass);
 					self.toolbarManager.hideToolbar();
 				}
-			})
+			});
+
+		self.$el
 			// toggle select embed when embed is clicked
 			.on('click', '.' + entityEmbedContainerClass, function(e){
 				self.toggleSelectEmbed($(this));
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown keypress', '.editable.editor', function(e){
+			.on('keydown keypress', function(e){
 				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
 
 				// Don't do anything if key is not backspace (8) or delete (46)
