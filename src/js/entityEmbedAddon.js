@@ -371,9 +371,6 @@ var EntityEmbed = EntityEmbed || {};
 						self.toolbarManager.hideToolbar();
 					}
 				}
-			})
-			.on('entityEmbedAdded', '.' + entityEmbedContainerClass, function(e){
-				self.addEmbed($(this), e.embedType);
 			});
 	};
 
@@ -590,7 +587,7 @@ var EntityEmbed = EntityEmbed || {};
 						$embed.html(innerHtml);
 
 						// Fire embedType's activateEmbed method
-						self.activateEmbed(embed);
+						self.addEmbed($embed, embed.embedType);
 					}
 				}
 			});
@@ -649,7 +646,10 @@ var EntityEmbed = EntityEmbed || {};
 		var addToScope = {
 			$currentEditorLocation: $(mediumEditorActiveSelector)
 		};
-		$.embed_modal_open(addToScope);
+		$.embed_modal_open(addToScope)
+			.done(function(respData) {
+				self.addEmbed(respData.$embed, respData.embedType);
+			});
 	};
 
 	/**
@@ -668,7 +668,10 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		self.toolbarManager.hideToolbar();
-		$.embed_modal_open(scope);
+		$.embed_modal_open(scope)
+			.done(function(respData) {
+				self.addEmbed(respData.$embed, respData.embedType);
+			});
 	};
 
 	/**
@@ -696,7 +699,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.addNewline = function ($embed) {
 		var self = this;
-		var newline = '<p class="entity-embed-new-line">&nbsp</p>';
+		var newline = '<p class="entity-embed-new-line"><br></p>';
 		// TODO : check if there is already a newline before / after
 		$embed.before(newline);
 		$embed.after(newline);
@@ -755,6 +758,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.activateEmbed(embed);
 
 		self.core.triggerInput();
+
+		self.core.hideButtons();
 	};
 
 	/**
@@ -767,6 +772,8 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.activateEmbed = function(embed) {
 		var embedType = embed.embedType || embed;
+
+		console.log('activateEmbed::embedType', embedType);
 
 		// Make sure activeEmbed is a function
 		if(typeof embedType.activateEmbed === 'function')
