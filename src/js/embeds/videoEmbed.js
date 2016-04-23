@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'video',
 		defaults = {
-			viewPath: base + 'modal/modal_video.html',
+			viewPath: 'modal_video.html',
 			displayName: 'Video',
 			object_type: 'video',
 			validationOptions: {
@@ -73,4 +73,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

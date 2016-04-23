@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'slideshow',
 		defaults = {
-			viewPath: base + 'modal/modal_slideshow.html',
+			viewPath: 'modal_slideshow.html',
 			displayName: 'Slideshow',
 			object_type: 'slideshow',
 			validationOptions: {
@@ -491,4 +491,4 @@ var EntityEmbed = EntityEmbed || {};
 		$(instructionalText).show();
 	};
 
-})('');
+})();

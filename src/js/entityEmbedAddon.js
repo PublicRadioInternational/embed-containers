@@ -211,15 +211,17 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		if (!EntityEmbed.$embedModal)
+		if (EntityEmbed.modalExists)
 		{
-			$.embed_modal_create();
+			return;
 		}
-
-		for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
-		{
-			self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
-		}
+		
+		$.embed_modal_create().done(function(){
+			for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
+			{
+				self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
+			}
+		});
 	};
 
 	/**

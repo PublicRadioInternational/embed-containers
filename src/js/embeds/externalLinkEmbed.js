@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'externalLink',
 		defaults = {
-			viewPath: base + 'modal/modal_externalLink.html',
+			viewPath: 'modal_externalLink.html',
 			displayName: 'External Link',
 			object_type: 'external-link',
 			imageLocation: 'https://test-services.pri.org',
@@ -199,4 +199,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

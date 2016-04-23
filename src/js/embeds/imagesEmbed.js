@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'image',
 		defaults = {
-			viewPath: base + 'modal/modal_image.html',
+			viewPath: 'modal_image.html',
 			displayName: 'Image(s)',
 			object_type: 'image',
 			imageLocation: 'https://test-services.pri.org',
@@ -236,4 +236,4 @@ var EntityEmbed = EntityEmbed || {};
 					'</div>' + 
 				'</div>';
 	};
-})('');
+})();

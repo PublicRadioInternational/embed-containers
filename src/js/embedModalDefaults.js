@@ -28,7 +28,8 @@ var EntityEmbed = EntityEmbed || {};
 				selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
 			},
 			elements: {
-				saveSpinner: '#embed-modal-spinner'
+				saveSpinner: '#embed-modal-spinner',
+				headerText: '.header-text'
 			}
 		},
 		toggleEditorTyping = function(scope, toggleCmd){
@@ -84,6 +85,16 @@ var EntityEmbed = EntityEmbed || {};
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
+
+			// set the header text
+			var headerText = 'Add ';
+			if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+			{
+				headerText = 'Edit ';
+			}
+			headerText += scope.currentEmbedType.options.displayName;
+
+			$(embedModalSelectors.elements.headerText).text(headerText)
 		},
 		resetModalView = function(scope){
 			var embedName = scope.embedTypes[0].options.object_type;
@@ -370,7 +381,6 @@ var EntityEmbed = EntityEmbed || {};
 								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' + 
 						'</div>' +
 					'</div>';
-
 		};
 
 	function embedModalDefaults(){};
@@ -433,7 +443,7 @@ var EntityEmbed = EntityEmbed || {};
 						.append('<div id="' + embedObject.name + '"></div>');
 
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
+					$embedView.load(scope.modalHtmlLocation + embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
 
 						if (textStatus === 'error')
