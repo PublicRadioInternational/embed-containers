@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(window, base){
+(function(window){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'instagram',
 		defaults = {
-			viewPath: base + 'modal/modal_instagram.html',
+			viewPath: 'modal_instagram.html',
 			displayName: 'Instagram',
 			object_type: 'instagram',
 			validationOptions: {
@@ -90,4 +90,4 @@ var EntityEmbed = EntityEmbed || {};
     }
   }
 
-})(window, '');
+})(window);

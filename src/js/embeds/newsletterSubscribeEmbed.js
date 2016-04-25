@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'newsletterSubscribe',
 		defaults = {
-			viewPath: base + 'modal/modal_newsletterSubscribe.html',
+			viewPath: 'modal_newsletterSubscribe.html',
 			displayName: 'Newsletter Subscribe',
 			object_type: 'newsletter',
 			validationOptions: {
@@ -86,4 +86,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

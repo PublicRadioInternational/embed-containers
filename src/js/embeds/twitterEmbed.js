@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'twitter',
 		defaults = {
-			viewPath: base + 'modal/modal_twitter.html',
+			viewPath: 'modal_twitter.html',
 			displayName: 'Twitter',
 			object_type: 'twitter',
 			validationOptions: {
@@ -79,4 +79,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

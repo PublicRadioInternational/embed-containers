@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'iframe',
 		defaults = {
-			viewPath: base + 'modal/modal_iframe.html',
+			viewPath: 'modal_iframe.html',
 			displayName: 'iFrame',
 			object_type: 'iframe',
 			validationOptions: {
@@ -52,4 +52,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

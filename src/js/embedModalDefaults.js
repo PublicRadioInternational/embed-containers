@@ -28,7 +28,8 @@ var EntityEmbed = EntityEmbed || {};
 				selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
 			},
 			elements: {
-				saveSpinner: '#embed-modal-spinner'
+				saveSpinner: '#embed-modal-spinner',
+				headerText: '.header-text'
 			}
 		},
 		toggleEditorTyping = function(scope, toggleCmd){
@@ -84,6 +85,16 @@ var EntityEmbed = EntityEmbed || {};
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
+
+			// set the header text
+			var headerText = 'Add ';
+			if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+			{
+				headerText = 'Edit ';
+			}
+			headerText += scope.currentEmbedType.options.displayName;
+
+			$(embedModalSelectors.elements.headerText).text(headerText)
 		},
 		resetModalView = function(scope){
 			var embedName = scope.embedTypes[0].options.object_type;
@@ -343,7 +354,7 @@ var EntityEmbed = EntityEmbed || {};
 							$(embedModalSelectors.containers.selectExistingEmbed)
 								.find('input[name="' + embedType.options.object_type + '-query"]')
 								.trigger(addEvent);
-							
+
 						})
 						.fail(function(respData){
 							// TODO: show error UI
@@ -364,13 +375,12 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		generateSelExInputHtml = function(embedType) { // SelEx -> SelectExisting
 			return	'<div class="embed-modal-row ' + embedType.options.object_type + '-query-container query-container">' +
-						'<div class="embed-modal-full-column">' + 
+						'<div class="embed-modal-full-column">' +
 							'<label class="embed-modal-label" for="query">Search for ' + embedType.options.displayName + '</label>' +
 							'<input type="text" class="embed-modal-form-control"' +
-								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' + 
+								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' +
 						'</div>' +
 					'</div>';
-
 		};
 
 	function embedModalDefaults(){};
@@ -433,7 +443,7 @@ var EntityEmbed = EntityEmbed || {};
 						.append('<div id="' + embedObject.name + '"></div>');
 
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
+					$embedView.load(scope.modalHtmlLocation + embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
 
 						if (textStatus === 'error')
@@ -505,7 +515,7 @@ var EntityEmbed = EntityEmbed || {};
 				// configure show-select-existing button to show the select-existing view
 				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.showSelectExisting, 'click',
 					function(e, currentScope){
-						showSelectExistingView(currentScope, currentScope.modalType === EntityEmbed.embedModalTypes.addSingle || 
+						showSelectExistingView(currentScope, currentScope.modalType === EntityEmbed.embedModalTypes.addSingle ||
 															 currentScope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle);
 					}
 				);
@@ -618,22 +628,20 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
+				var $embedContainer;
+
 				toggleEditorTyping(scope, 'true');
+
 				if (scope.$currentEditorLocation.length > 0)
 				{
-					var $embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
-
-					// create an event to be raised
-					var addEvent = jQuery.Event('entityEmbedAdded');
-					// add data to it so the handler knows what to do
-					addEvent.embedType = scope.currentEmbedType;
-					$embedContainer.trigger(addEvent);
+					$embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: 		scope.currentEmbedType.model,
-					options: 	scope.currentEmbedType.options
+					embedType: 	scope.currentEmbedType,
+					$embed: $embedContainer
 				});
 			}
 		}
