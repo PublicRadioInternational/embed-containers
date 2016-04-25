@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'image',
 		defaults = {
-			viewPath: base + 'modal/modal_image.html',
+			viewPath: 'modal_image.html',
 			displayName: 'Image(s)',
 			object_type: 'image',
 			imageLocation: 'https://test-services.pri.org',
@@ -33,6 +33,11 @@ var EntityEmbed = EntityEmbed || {};
 		uploadImageFileBtn = ".embed-modal-file-input",
 		getImageUrl = function(imageLocation, imageUrl)
 		{
+			if (!imageUrl || imageUrl === '')
+			{
+				return '';
+			}
+
 			if (imageUrl.indexOf(imageLocation) >= 0)
 			{
 				return imageUrl;
@@ -160,7 +165,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -180,8 +185,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
@@ -229,4 +236,4 @@ var EntityEmbed = EntityEmbed || {};
 					'</div>' + 
 				'</div>';
 	};
-})('');
+})();

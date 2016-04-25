@@ -1,13 +1,13 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'audio',
 		defaults = {
-			viewPath: base + 'modal/modal_audio.html',
+			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
 			audioLocation: 'https://test-services.pri.org',
@@ -34,6 +34,10 @@ var EntityEmbed = EntityEmbed || {};
 		uploadMp3FileBtn = ".embed-modal-file-input",
 		getAudioUrl = function(audioLocation, audioUrl)
 		{
+			if (!audioUrl || audioUrl === '')
+			{
+				return '';
+			}
 			if (audioUrl.indexOf(audioLocation) >= 0)
 			{
 				return audioUrl;
@@ -146,7 +150,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -178,8 +182,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	audioEmbed.prototype.generateUploadedPreview = function() {
@@ -218,9 +224,13 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
-		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		var fileType = 'mp3';
 
+		if (!!self.model.url_path && self.model.url_path !== '')
+		{
+			fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		}
+		
 		return  '<div class="audio-embed">' + 
 					'<audio controls>' +
 						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
@@ -230,4 +240,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
