@@ -19,12 +19,28 @@
 				<div class="slideshow-image-add">
 					<i class="fa fa-plus"></i>
 				</div>
+				<div class="slideshow-image-select-existing">
+					<i class="fa fa-search-plus"></i>
+				</div>
 				<div class="embed-modal-slideshow-image-list">
-					<span id="radio-option-placeholder">click the + to add an image</span>
+					<p class="radio-option-placeholder">click <i class="fa fa-plus"></i> to add an image</p>
+					<p class="radio-option-placeholder">click <i class="fa fa-search-plus"></i> to select an existing image</p>
 				</div>
 		</div>
 	</div>
 </form>
+<fieldset id="embed-modal-slideshow-image-select-existing">
+	<legend></legend>
+	<div class="embed-modal-row simg-query-container">
+		<div class="embed-modal-full-column">
+			<label class="embed-modal-label" for="simg-query">Search for Image(s)</label>
+			<input type="text" class="embed-modal-form-control" name="simg-query" placeholder="begin typing image title ">
+		</div>
+	</div>
+	<div id="slideshow-image-select-btns">
+		<button id="btn-cancel-select-existing-simg">Cancel</button>
+	</div>
+</fieldset>
 <fieldset id="embed-modal-slideshow-image">
 	<legend></legend>
 	<form method="post" enctype="multipart/form-data">

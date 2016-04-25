@@ -42,16 +42,20 @@ gulp.task('less', function(){
 
 gulp.task('concatJs', function()
 {
-	gulp.src([jsPath + 'apiService.js',
-			jsPath + 'entityEmbedToolbar.js',
-			jsPath + 'genericEmbed.js',
-			jsPath + 'modal.js',
-			jsPath + 'confirmModalDefaults.js',
-			jsPath + 'embedModalDefaults.js',
-			jsPath + 'embeds/*.js',
-			jsPath + 'embedModal.js',
-			jsPath + 'entityEmbedAddon.js',
-			libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
+  gulp.src([jsPath + 'apiService.js',
+      jsPath + 'entityEmbedToolbar.js',
+      jsPath + 'genericEmbed.js',
+      jsPath + 'modal.js',
+      jsPath + 'confirmModalDefaults.js',
+      jsPath + 'embedModalDefaults.js',
+      jsPath + 'embeds/*.js',
+      jsPath + 'embedModal.js',
+      jsPath + 'entityEmbedAddon.js',
+      libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
+    .pipe(gConcat('embed-containers.js'))
+    .pipe(gulp.dest(buildPath + 'js/'));
+
+	gulp.src([buildPath + 'js/embed-containers.js'])
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(buildPath + 'js/'));
