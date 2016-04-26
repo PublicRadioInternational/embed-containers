@@ -4,14 +4,17 @@ var EntityEmbed = EntityEmbed || {};
 	// Creates an embed modal using the embedModalDefaults.js and any options that a user specifies
 	$.embed_modal_create = function(options){
 		var	defaults = {
-			modalOptions: {},			//see modal.js to customize if embedModalDefaults.js is insufficient
-			modalScope: {				// default scope to pass to the modal
-				$embedTypeSelect: null,	// selector for the embed typoe dropdown (<select> element)
-				$modalBody: null		// selector for the modal body container element
+			modalOptions: {},							//see modal.js to customize if embedModalDefaults.js is insufficient
+			modalScope: {								// default scope to pass to the modal
+				$embedTypeSelect: null,					// selector for the embed typoe dropdown (<select> element)
+				$modalBody: null						// selector for the modal body container element
 			},
-			$modalEl: null,				// select for the entire modal (element that modal.js establishes a ctrl on)
-			embedTypes:{				// specify all embed types and their options here
-				image:{},				//		TODO : allow global specification without hardcoding defaults
+			$modalEl: null,								// select for the entire modal (element that modal.js establishes a ctrl on)
+			modalContainer: 'body',						// selector string for the element which will contain the modal
+			modalHtmlLocation: 'modal/',				// file path to the modal HTML folder
+			modalFileName: 'modal_main.html',			// file name of the modal HTML file
+			embedTypes:{								// specify all embed types and their options here
+				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
 				video:{},
 				audio:{},
@@ -27,94 +30,89 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-		defaultModalSelectors = function(){
+		defaultModalSelectors = function(ops){
 			// we cant specify certain elements as default options
 			// because they are not yet loaded into the DOM when this script runs
 			// so if they are null, select them here
 
-			if (!defaults.$modalEl)
+			if (!ops.modalScope.$embedTypeSelect || ops.$embedTypeSelect.length() == 0)
 			{
-				defaults.$modalEl = $('#embed-modal');
+				ops.modalScope.$embedTypeSelect = $('#select-embed-type');
 			}
 
-			if (!defaults.modalScope.$embedTypeSelect)
+			if (!ops.modalScope.$modalBody || ops.$modalBody.length() == 0)
 			{
-				defaults.modalScope.$embedTypeSelect = $('#select-embed-type');
+				ops.modalScope.$modalBody = $('.embed-modal-body');
 			}
 
-			if (!defaults.modalScope.$modalBody)
+			if (!ops.modalOptions.$abortEl || ops.$abortEl.length() == 0)
 			{
-				defaults.modalScope.$modalBody = $('.embed-modal-body');
-			}
-
-			if (!defaults.modalOptions.$abortEl)
-			{
-				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
+				ops.modalOptions.$abortEl = $('#btn-abort-modal');
 			}
 		};
 
-		defaultModalSelectors();
 		options = $.extend(true, {}, defaults, options);
-
-		var embedTypes = [];
-		for (var embedName in EntityEmbed.embedTypes)
+		$(options.modalContainer).append('<div id="embed-modal"></div>');
+		
+		if (!options.$modalEl || options.$modalEl.length() == 0)
 		{
-			if (!!options.embedTypes[embedName])
+			options.$modalEl = $('#embed-modal');
+		}
+
+		var promise = $.Deferred();
+
+		options.$modalEl.load(options.modalHtmlLocation + options.modalFileName, function(responseText, textStatus, xhr){
+			defaultModalSelectors(options);
+			
+			console.log('embed modal load completed with status: ' + textStatus);
+			if (textStatus === 'error')
 			{
-				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
-				embedTypes.push(embedObject);
+				return;
 			}
-		}
 
-		embedTypes.sort(function(l, r){
-			return l.orderIndex - r.orderIndex;
+			var embedTypes = [];
+			for (var embedName in EntityEmbed.embedTypes)
+			{
+				if (!!options.embedTypes[embedName])
+				{
+					var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
+					embedTypes.push(embedObject);
+				}
+			}
+
+			embedTypes.sort(function(l, r){
+				return l.orderIndex - r.orderIndex;
+			});
+
+			var finalModalOptions = {};
+			var defaultModalOptions = new EntityEmbed.embedModalDefaults();
+			if (!!options.modalOptions)
+			{
+				finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
+			}
+			else
+			{
+				finalModalOptions = defaultModalOptions;
+			}
+
+			var modalScope = {
+				embedTypes: embedTypes
+			};
+
+			modalScope = $.extend(true, {}, options.modalScope, modalScope);
+			modalScope.modalHtmlLocation = options.modalHtmlLocation;
+			
+			options.$modalEl.modal(finalModalOptions, modalScope);
+
+			EntityEmbed.$embedModal = options.$modalEl;
+			EntityEmbed.currentEmbedTypes = embedTypes;
+			EntityEmbed.modalExists = true;
+			promise.resolve();
 		});
-
-		var finalModalOptions = {};
-		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
-		if (!!options.modalOptions)
-		{
-			finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
-		}
-		else
-		{
-			finalModalOptions = defaultModalOptions;
-		}
-
-		var modalScope = {
-			embedTypes: embedTypes
-		};
-
-		modalScope = $.extend(true, {}, options.modalScope, modalScope);
-
-		options.$modalEl.modal(finalModalOptions, modalScope);
-
-		EntityEmbed.$embedModal = options.$modalEl;
-		EntityEmbed.currentEmbedTypes = embedTypes;
-		return EntityEmbed.$embedModal;
+		return promise;
 	};
 
-	$.embed_modal_open = function(options){
-		var defaults = {
-			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
-			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
-												//		null - add any
-												//		not null - add single or edit (if id is also specified)
-			id: null,
-			selectExisting: false
-		};
-		
-
-		if (!EntityEmbed.$embedModal)
-		{
-			$.embed_modal_create({
-				modalOptions: options
-			});
-		}
-
-		options = $.extend(true, {}, defaults, options);
-
-		var self = this;
+	function embedModalOpenInternal(options){
 		var mType;
 		if (!!options.id)
 		{
@@ -151,5 +149,26 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		return EntityEmbed.$embedModal.openModal(scope);
+	};
+
+	$.embed_modal_open = function(options){
+		var defaults = {
+			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
+			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
+												//		null - add any
+												//		not null - add single or edit (if id is also specified)
+			id: null,
+			selectExisting: false
+		};
+		
+		if (!EntityEmbed.modalExists)
+		{
+			$.embed_modal_create({
+				modalOptions: options
+			}).then(function(){
+				return embedModalOpenInternal($.extend(true, {}, defaults, options));
+			});
+		}
+		return embedModalOpenInternal($.extend(true, {}, defaults, options));
 	};
 })();

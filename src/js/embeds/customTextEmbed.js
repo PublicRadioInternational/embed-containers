@@ -1,14 +1,14 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'customText',
-		customTextEditorId ='custom-text-editor',
+		customTextEditorId = 'custom-text-editor',
 		defaults = {
-			viewPath: base + 'modal/modal_customText.html',
+			viewPath: 'modal_customText.html',
 			displayName: 'Custom Text',
 			object_type: 'custom',
 			validationOptions: {
@@ -133,4 +133,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();

@@ -71,6 +71,8 @@ var EntityEmbed = EntityEmbed || {};
 				self.model[name] = value;
 			}
 		}
+
+		self.model.html_rendered = self.parseForEditor();
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){

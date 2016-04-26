@@ -27,7 +27,7 @@ var fontDest = libDest + fontPathSegment;
 gulp.task('move', function()
 {
 	gulp.src([htmlPath + '**/*',
-			'!' + htmlPath + 'index.php'])
+			'!' + htmlPath + 'index.html'])
 		.pipe(gulp.dest(buildPath + 'contents/'));
 });
 

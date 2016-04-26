@@ -1,6 +1,6 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
@@ -15,7 +15,7 @@ var EntityEmbed = EntityEmbed || {};
 	// PRIVATE
 	var embedName = 'relatedLink',
 		defaults = {
-			viewPath: base + 'modal/modal_relatedLink.html',
+			viewPath: 'modal_relatedLink.html',
 			displayName: 'Related Link',
 			object_type: 'related-link',
 			validationOptions: {
@@ -350,4 +350,4 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
