@@ -9,7 +9,7 @@ var EntityEmbed = EntityEmbed || {};
 				$embedTypeSelect: null,					// selector for the embed typoe dropdown (<select> element)
 				$modalBody: null						// selector for the modal body container element
 			},
-			$modalEl: null,								// select for the entire modal (element that modal.js establishes a ctrl on)
+			$modalEl: null,								// element that modal.js establishes a ctrl on
 			modalContainer: 'body',						// selector string for the element which will contain the modal
 			modalHtmlLocation: 'modal/',				// file path to the modal HTML folder
 			modalFileName: 'modal_main.html',			// file name of the modal HTML file
@@ -163,7 +163,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!EntityEmbed.modalExists)
 		{
-			$.embed_modal_create({
+			return $.embed_modal_create({
 				modalOptions: options
 			}).then(function(){
 				return embedModalOpenInternal($.extend(true, {}, defaults, options));
