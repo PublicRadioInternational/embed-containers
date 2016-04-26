@@ -411,6 +411,8 @@ var EntityEmbed = EntityEmbed || {};
 				self.model[name] = value;
 			}
 		}
+
+		self.model.html_rendered = self.parseForEditor();
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
@@ -873,7 +875,8 @@ var EntityEmbed = EntityEmbed || {};
 				selectButtons: '#embed-modal-buttons-select' // contains buttons shown in the select existing embed view
 			},
 			elements: {
-				saveSpinner: '#embed-modal-spinner'
+				saveSpinner: '#embed-modal-spinner',
+				headerText: '.header-text'
 			}
 		},
 		toggleEditorTyping = function(scope, toggleCmd){
@@ -929,6 +932,16 @@ var EntityEmbed = EntityEmbed || {};
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
+
+			// set the header text
+			var headerText = 'Add ';
+			if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+			{
+				headerText = 'Edit ';
+			}
+			headerText += scope.currentEmbedType.options.displayName;
+
+			$(embedModalSelectors.elements.headerText).text(headerText)
 		},
 		resetModalView = function(scope){
 			var embedName = scope.embedTypes[0].options.object_type;
@@ -1188,7 +1201,7 @@ var EntityEmbed = EntityEmbed || {};
 							$(embedModalSelectors.containers.selectExistingEmbed)
 								.find('input[name="' + embedType.options.object_type + '-query"]')
 								.trigger(addEvent);
-							
+
 						})
 						.fail(function(respData){
 							// TODO: show error UI
@@ -1209,13 +1222,12 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		generateSelExInputHtml = function(embedType) { // SelEx -> SelectExisting
 			return	'<div class="embed-modal-row ' + embedType.options.object_type + '-query-container query-container">' +
-						'<div class="embed-modal-full-column">' + 
+						'<div class="embed-modal-full-column">' +
 							'<label class="embed-modal-label" for="query">Search for ' + embedType.options.displayName + '</label>' +
 							'<input type="text" class="embed-modal-form-control"' +
-								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' + 
+								' name="' + embedType.options.object_type + '-query" placeholder="begin typing ' + embedType.options.displayName + ' title ">' +
 						'</div>' +
 					'</div>';
-
 		};
 
 	function embedModalDefaults(){};
@@ -1278,7 +1290,7 @@ var EntityEmbed = EntityEmbed || {};
 						.append('<div id="' + embedObject.name + '"></div>');
 
 					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					$embedView.load(embedObject.options.viewPath, function(responseText, textStatus, xhr){
+					$embedView.load(scope.modalHtmlLocation + embedObject.options.viewPath, function(responseText, textStatus, xhr){
 						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
 
 						if (textStatus === 'error')
@@ -1350,7 +1362,7 @@ var EntityEmbed = EntityEmbed || {};
 				// configure show-select-existing button to show the select-existing view
 				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.showSelectExisting, 'click',
 					function(e, currentScope){
-						showSelectExistingView(currentScope, currentScope.modalType === EntityEmbed.embedModalTypes.addSingle || 
+						showSelectExistingView(currentScope, currentScope.modalType === EntityEmbed.embedModalTypes.addSingle ||
 															 currentScope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle);
 					}
 				);
@@ -1463,22 +1475,20 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
+				var $embedContainer;
+
 				toggleEditorTyping(scope, 'true');
+
 				if (scope.$currentEditorLocation.length > 0)
 				{
-					var $embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
-
-					// create an event to be raised
-					var addEvent = jQuery.Event('entityEmbedAdded');
-					// add data to it so the handler knows what to do
-					addEvent.embedType = scope.currentEmbedType;
-					$embedContainer.trigger(addEvent);
+					$embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: 		scope.currentEmbedType.model,
-					options: 	scope.currentEmbedType.options
+					embedType: 	scope.currentEmbedType,
+					$embed: $embedContainer
 				});
 			}
 		}
@@ -1490,14 +1500,14 @@ var EntityEmbed = EntityEmbed || {};
 
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'audio',
 		defaults = {
-			viewPath: base + 'modal/modal_audio.html',
+			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
 			audioLocation: 'https://test-services.pri.org',
@@ -1524,6 +1534,10 @@ var EntityEmbed = EntityEmbed || {};
 		uploadMp3FileBtn = ".embed-modal-file-input",
 		getAudioUrl = function(audioLocation, audioUrl)
 		{
+			if (!audioUrl || audioUrl === '')
+			{
+				return '';
+			}
 			if (audioUrl.indexOf(audioLocation) >= 0)
 			{
 				return audioUrl;
@@ -1636,7 +1650,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -1668,8 +1682,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	audioEmbed.prototype.generateUploadedPreview = function() {
@@ -1708,9 +1724,13 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		
-		var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		var fileType = 'mp3';
 
+		if (!!self.model.url_path && self.model.url_path !== '')
+		{
+			fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		}
+		
 		return  '<div class="audio-embed">' + 
 					'<audio controls>' +
 						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
@@ -1720,18 +1740,18 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'customText',
-		customTextEditorId ='custom-text-editor',
+		customTextEditorId = 'custom-text-editor',
 		defaults = {
-			viewPath: base + 'modal/modal_customText.html',
+			viewPath: 'modal_customText.html',
 			displayName: 'Custom Text',
 			object_type: 'custom',
 			validationOptions: {
@@ -1856,17 +1876,17 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'externalLink',
 		defaults = {
-			viewPath: base + 'modal/modal_externalLink.html',
+			viewPath: 'modal_externalLink.html',
 			displayName: 'External Link',
 			object_type: 'external-link',
 			imageLocation: 'https://test-services.pri.org',
@@ -1888,6 +1908,11 @@ var EntityEmbed = EntityEmbed || {};
 		uploadImageFileBtn = ".embed-modal-file-input",
 		getImageUrl = function(imageLocation, imageUrl)
 		{
+			if (!imageUrl || imageUrl === '')
+			{
+				return '';
+			}
+
 			if (imageUrl.indexOf(imageLocation) >= 0)
 			{
 				return imageUrl;
@@ -1911,7 +1936,6 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	};
-
 
 	// TODO : inherit from imagesEmbed
 	externalLinkEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
@@ -1973,7 +1997,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -1993,8 +2017,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	externalLinkEmbed.prototype.populateFormWithModel = function($form){
@@ -2052,17 +2078,17 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(window, base){
+(function(window){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'facebook',
 		defaults = {
-			viewPath: base + 'modal/modal_facebook.html',
+			viewPath: 'modal_facebook.html',
 			displayName: 'Facebook',
 			object_type: 'facebook',
 			validationOptions: {
@@ -2153,17 +2179,17 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
-})(window, '');
+})(window);
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'globalBuzz',
 		defaults = {
-			viewPath: base + 'modal/modal_globalBuzz.html',
+			viewPath: 'modal_globalBuzz.html',
 			displayName: 'Global Buzz',
 			object_type: 'global-buzz',
 			validationOptions: {
@@ -2219,17 +2245,17 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'iframe',
 		defaults = {
-			viewPath: base + 'modal/modal_iframe.html',
+			viewPath: 'modal_iframe.html',
 			displayName: 'iFrame',
 			object_type: 'iframe',
 			validationOptions: {
@@ -2274,17 +2300,17 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'image',
 		defaults = {
-			viewPath: base + 'modal/modal_image.html',
+			viewPath: 'modal_image.html',
 			displayName: 'Image(s)',
 			object_type: 'image',
 			imageLocation: 'https://test-services.pri.org',
@@ -2310,6 +2336,11 @@ var EntityEmbed = EntityEmbed || {};
 		uploadImageFileBtn = ".embed-modal-file-input",
 		getImageUrl = function(imageLocation, imageUrl)
 		{
+			if (!imageUrl || imageUrl === '')
+			{
+				return '';
+			}
+
 			if (imageUrl.indexOf(imageLocation) >= 0)
 			{
 				return imageUrl;
@@ -2437,7 +2468,7 @@ var EntityEmbed = EntityEmbed || {};
 		
 		if (!!file)
 		{
-			promise.then(function(responseData){
+			return promise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -2457,8 +2488,10 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-
-		return promise;
+		else
+		{
+			return promise;
+		}
 	};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
@@ -2506,17 +2539,17 @@ var EntityEmbed = EntityEmbed || {};
 					'</div>' + 
 				'</div>';
 	};
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(window, base){
+(function(window){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'instagram',
 		defaults = {
-			viewPath: base + 'modal/modal_instagram.html',
+			viewPath: 'modal_instagram.html',
 			displayName: 'Instagram',
 			object_type: 'instagram',
 			validationOptions: {
@@ -2599,17 +2632,17 @@ var EntityEmbed = EntityEmbed || {};
     }
   }
 
-})(window, '');
+})(window);
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'newsletterSubscribe',
 		defaults = {
-			viewPath: base + 'modal/modal_newsletterSubscribe.html',
+			viewPath: 'modal_newsletterSubscribe.html',
 			displayName: 'Newsletter Subscribe',
 			object_type: 'newsletter',
 			validationOptions: {
@@ -2688,10 +2721,10 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
@@ -2706,7 +2739,7 @@ var EntityEmbed = EntityEmbed || {};
 	// PRIVATE
 	var embedName = 'relatedLink',
 		defaults = {
-			viewPath: base + 'modal/modal_relatedLink.html',
+			viewPath: 'modal_relatedLink.html',
 			displayName: 'Related Link',
 			object_type: 'related-link',
 			validationOptions: {
@@ -3041,17 +3074,17 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'slideshow',
 		defaults = {
-			viewPath: base + 'modal/modal_slideshow.html',
+			viewPath: 'modal_slideshow.html',
 			displayName: 'Slideshow',
 			object_type: 'slideshow',
 			validationOptions: {
@@ -3535,17 +3568,17 @@ var EntityEmbed = EntityEmbed || {};
 		$(instructionalText).show();
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'twitter',
 		defaults = {
-			viewPath: base + 'modal/modal_twitter.html',
+			viewPath: 'modal_twitter.html',
 			displayName: 'Twitter',
 			object_type: 'twitter',
 			validationOptions: {
@@ -3617,17 +3650,17 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
-(function(base){
+(function(){
 
 	'use strict';
 
 	// PRIVATE
 	var embedName = 'video',
 		defaults = {
-			viewPath: base + 'modal/modal_video.html',
+			viewPath: 'modal_video.html',
 			displayName: 'Video',
 			object_type: 'video',
 			validationOptions: {
@@ -3693,21 +3726,24 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-})('');
+})();
 var EntityEmbed = EntityEmbed || {};
 
 ;(function(){
 	// Creates an embed modal using the embedModalDefaults.js and any options that a user specifies
 	$.embed_modal_create = function(options){
 		var	defaults = {
-			modalOptions: {},			//see modal.js to customize if embedModalDefaults.js is insufficient
-			modalScope: {				// default scope to pass to the modal
-				$embedTypeSelect: null,	// selector for the embed typoe dropdown (<select> element)
-				$modalBody: null		// selector for the modal body container element
+			modalOptions: {},							//see modal.js to customize if embedModalDefaults.js is insufficient
+			modalScope: {								// default scope to pass to the modal
+				$embedTypeSelect: null,					// selector for the embed typoe dropdown (<select> element)
+				$modalBody: null						// selector for the modal body container element
 			},
-			$modalEl: null,				// select for the entire modal (element that modal.js establishes a ctrl on)
-			embedTypes:{				// specify all embed types and their options here
-				image:{},				//		TODO : allow global specification without hardcoding defaults
+			$modalEl: null,								// select for the entire modal (element that modal.js establishes a ctrl on)
+			modalContainer: 'body',						// selector string for the element which will contain the modal
+			modalHtmlLocation: 'modal/',				// file path to the modal HTML folder
+			modalFileName: 'modal_main.html',			// file name of the modal HTML file
+			embedTypes:{								// specify all embed types and their options here
+				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
 				video:{},
 				audio:{},
@@ -3723,94 +3759,89 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-		defaultModalSelectors = function(){
+		defaultModalSelectors = function(ops){
 			// we cant specify certain elements as default options
 			// because they are not yet loaded into the DOM when this script runs
 			// so if they are null, select them here
 
-			if (!defaults.$modalEl)
+			if (!ops.modalScope.$embedTypeSelect || ops.$embedTypeSelect.length() == 0)
 			{
-				defaults.$modalEl = $('#embed-modal');
+				ops.modalScope.$embedTypeSelect = $('#select-embed-type');
 			}
 
-			if (!defaults.modalScope.$embedTypeSelect)
+			if (!ops.modalScope.$modalBody || ops.$modalBody.length() == 0)
 			{
-				defaults.modalScope.$embedTypeSelect = $('#select-embed-type');
+				ops.modalScope.$modalBody = $('.embed-modal-body');
 			}
 
-			if (!defaults.modalScope.$modalBody)
+			if (!ops.modalOptions.$abortEl || ops.$abortEl.length() == 0)
 			{
-				defaults.modalScope.$modalBody = $('.embed-modal-body');
-			}
-
-			if (!defaults.modalOptions.$abortEl)
-			{
-				defaults.modalOptions.$abortEl = $('#btn-abort-modal');
+				ops.modalOptions.$abortEl = $('#btn-abort-modal');
 			}
 		};
 
-		defaultModalSelectors();
 		options = $.extend(true, {}, defaults, options);
-
-		var embedTypes = [];
-		for (var embedName in EntityEmbed.embedTypes)
+		$(options.modalContainer).append('<div id="embed-modal"></div>');
+		
+		if (!options.$modalEl || options.$modalEl.length() == 0)
 		{
-			if (!!options.embedTypes[embedName])
+			options.$modalEl = $('#embed-modal');
+		}
+
+		var promise = $.Deferred();
+
+		options.$modalEl.load(options.modalHtmlLocation + options.modalFileName, function(responseText, textStatus, xhr){
+			defaultModalSelectors(options);
+			
+			console.log('embed modal load completed with status: ' + textStatus);
+			if (textStatus === 'error')
 			{
-				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
-				embedTypes.push(embedObject);
+				return;
 			}
-		}
 
-		embedTypes.sort(function(l, r){
-			return l.orderIndex - r.orderIndex;
+			var embedTypes = [];
+			for (var embedName in EntityEmbed.embedTypes)
+			{
+				if (!!options.embedTypes[embedName])
+				{
+					var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
+					embedTypes.push(embedObject);
+				}
+			}
+
+			embedTypes.sort(function(l, r){
+				return l.orderIndex - r.orderIndex;
+			});
+
+			var finalModalOptions = {};
+			var defaultModalOptions = new EntityEmbed.embedModalDefaults();
+			if (!!options.modalOptions)
+			{
+				finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
+			}
+			else
+			{
+				finalModalOptions = defaultModalOptions;
+			}
+
+			var modalScope = {
+				embedTypes: embedTypes
+			};
+
+			modalScope = $.extend(true, {}, options.modalScope, modalScope);
+			modalScope.modalHtmlLocation = options.modalHtmlLocation;
+			
+			options.$modalEl.modal(finalModalOptions, modalScope);
+
+			EntityEmbed.$embedModal = options.$modalEl;
+			EntityEmbed.currentEmbedTypes = embedTypes;
+			EntityEmbed.modalExists = true;
+			promise.resolve();
 		});
-
-		var finalModalOptions = {};
-		var defaultModalOptions = new EntityEmbed.embedModalDefaults();
-		if (!!options.modalOptions)
-		{
-			finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
-		}
-		else
-		{
-			finalModalOptions = defaultModalOptions;
-		}
-
-		var modalScope = {
-			embedTypes: embedTypes
-		};
-
-		modalScope = $.extend(true, {}, options.modalScope, modalScope);
-
-		options.$modalEl.modal(finalModalOptions, modalScope);
-
-		EntityEmbed.$embedModal = options.$modalEl;
-		EntityEmbed.currentEmbedTypes = embedTypes;
-		return EntityEmbed.$embedModal;
+		return promise;
 	};
 
-	$.embed_modal_open = function(options){
-		var defaults = {
-			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
-			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
-												//		null - add any
-												//		not null - add single or edit (if id is also specified)
-			id: null,
-			selectExisting: false
-		};
-		
-
-		if (!EntityEmbed.$embedModal)
-		{
-			$.embed_modal_create({
-				modalOptions: options
-			});
-		}
-
-		options = $.extend(true, {}, defaults, options);
-
-		var self = this;
+	function embedModalOpenInternal(options){
 		var mType;
 		if (!!options.id)
 		{
@@ -3847,6 +3878,27 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		return EntityEmbed.$embedModal.openModal(scope);
+	};
+
+	$.embed_modal_open = function(options){
+		var defaults = {
+			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
+			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
+												//		null - add any
+												//		not null - add single or edit (if id is also specified)
+			id: null,
+			selectExisting: false
+		};
+		
+		if (!EntityEmbed.modalExists)
+		{
+			$.embed_modal_create({
+				modalOptions: options
+			}).then(function(){
+				return embedModalOpenInternal($.extend(true, {}, defaults, options));
+			});
+		}
+		return embedModalOpenInternal($.extend(true, {}, defaults, options));
 	};
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -4062,15 +4114,17 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		if (!EntityEmbed.$embedModal)
+		if (EntityEmbed.modalExists)
 		{
-			$.embed_modal_create();
+			return;
 		}
-
-		for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
-		{
-			self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
-		}
+		
+		$.embed_modal_create().done(function(){
+			for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
+			{
+				self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
+			}
+		});
 	};
 
 	/**
@@ -4220,9 +4274,6 @@ var EntityEmbed = EntityEmbed || {};
 						self.toolbarManager.hideToolbar();
 					}
 				}
-			})
-			.on('entityEmbedAdded', '.' + entityEmbedContainerClass, function(e){
-				self.addEmbed($(this), e.embedType);
 			});
 	};
 
@@ -4439,7 +4490,7 @@ var EntityEmbed = EntityEmbed || {};
 						$embed.html(innerHtml);
 
 						// Fire embedType's activateEmbed method
-						self.activateEmbed(embed);
+						self.addEmbed($embed, embed.embedType);
 					}
 				}
 			});
@@ -4498,7 +4549,10 @@ var EntityEmbed = EntityEmbed || {};
 		var addToScope = {
 			$currentEditorLocation: $(mediumEditorActiveSelector)
 		};
-		$.embed_modal_open(addToScope);
+		$.embed_modal_open(addToScope)
+			.done(function(respData) {
+				self.addEmbed(respData.$embed, respData.embedType);
+			});
 	};
 
 	/**
@@ -4517,7 +4571,10 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		self.toolbarManager.hideToolbar();
-		$.embed_modal_open(scope);
+		$.embed_modal_open(scope)
+			.done(function(respData) {
+				self.addEmbed(respData.$embed, respData.embedType);
+			});
 	};
 
 	/**
@@ -4545,7 +4602,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.addNewline = function ($embed) {
 		var self = this;
-		var newline = '<p class="entity-embed-new-line">&nbsp</p>';
+		var newline = '<p class="entity-embed-new-line"><br></p>';
 		// TODO : check if there is already a newline before / after
 		$embed.before(newline);
 		$embed.after(newline);
@@ -4604,6 +4661,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.activateEmbed(embed);
 
 		self.core.triggerInput();
+
+		self.core.hideButtons();
 	};
 
 	/**
@@ -4616,6 +4675,8 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.activateEmbed = function(embed) {
 		var embedType = embed.embedType || embed;
+
+		console.log('activateEmbed::embedType', embedType);
 
 		// Make sure activeEmbed is a function
 		if(typeof embedType.activateEmbed === 'function')
