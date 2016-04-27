@@ -1,3 +1,19 @@
+(function(){EntityEmbed = EntityEmbed || {}; var templateCache = {};templateCache["modal"] = "null";
+templateCache["modal/modal_audio.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\"> <span class=\"fa fa-times cancel-upload-file-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span> <span class=\"uploaded-audio-file\"></span></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
+templateCache["modal/modal_confirmation.html"] = "<div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><h3>Are you sure you want to leave?</h3></div><div class=\"embed-modal-body\"><h4>All your changes will be lost if you leave this window!</h4></div><div class=\"embed-modal-footer\"><button id=\"btn-confirm-leave\">Yes - Leave</button> <button id=\"btn-cancel-leave\">No - Stay</button></div></div>";
+templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"customText\">Text</label><div name=\"customText\" type=\"text\" placeholder=\"Type your text. Highlight words to trigger the styles editor\" class=\"embed-modal-form-control\" id=\"custom-text-editor\"></div></div></div></div></form>";
+templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image Thumbnail File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span><div class=\"uploaded-image-file\"></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
+templateCache["modal/modal_facebook.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form has-error\"><label class=\"embed-modal-label\" for=\"url\">Facebook Status</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to status\" class=\"embed-modal-form-control\"></div></div></div></form>";
+templateCache["modal/modal_globalBuzz.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"quote\">Quote</label><textarea name=\"quote\" type=\"text\" placeholder=\"Enter quote\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteText\">Quote Url Text</label><input name=\"quoteUrlText\" type=\"text\" placeholder=\"Enter URL label\" class=\"embed-modal-form-control\"></div><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteUrl\">Quote Url</label><input name=\"quoteUrl\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"credit\">Credit</label><input name=\"credit\" type=\"text\" placeholder=\"Attribute the source\" class=\"embed-modal-form-control\"></div></div></div></form>";
+templateCache["modal/modal_iframe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Source</label><input name=\"url\" type=\"text\" placeholder=\"Enter URL or iframe source code\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"allowsScroll\">Scroll</label><select name=\"allowsScroll\" class=\"embed-modal-form-control\"><option>No</option><option>Yes</option></select></div></div></div></form>";
+templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span><div class=\"uploaded-image-file\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"></select></div></div></div></form>";
+templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Insert Instagram URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to instagram post\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
+templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><div class=\"embed-modal-half-column\"><h2 class=\"header-text\"></h2></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div id=\"leave-confirmation-modal\"><div></div></div></div>";
+templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
+templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
+templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div></form><fieldset id=\"embed-modal-slideshow-image-select-existing\"><legend></legend><div class=\"embed-modal-row simg-query-container\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></fieldset><fieldset id=\"embed-modal-slideshow-image\"><legend></legend><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Choosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></fieldset>";
+templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
+templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
 var EntityEmbed = EntityEmbed || {};
 
 (function(){
@@ -788,7 +804,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	var defaultOptions = {
 			modalId: 'leave-confirmation-modal', // the HTML id of the element which contains the modal
-			viewPath: 'modal/modal_confirmation.html', // path to modal HTML file
+			viewPath: 'modal_confirmation.html', // path to modal HTML file
 			abortElId: 'btn-cancel-leave',
 			completeElId: 'btn-confirm-leave'
 		};
@@ -1253,14 +1269,20 @@ var EntityEmbed = EntityEmbed || {};
 				$(embedModalSelectors.elements.saveSpinner).hide();
 			},
 			after: function(scope){
+				var $selExInput, $embedView, $confirmModal, confirmModalScope, confirmModalDefaults, embedObject, templatePath, i;
+
+				function initEmbedTypeModal(embedType, $view) {
+					embedType.initModal($view);
+				}
+
 				// first load all dynamic content
 
 				// load a query input in the select existing container for each embed type
-				for(var i = 0; i < scope.embedTypes.length; i++)
+				for(i = 0; i < scope.embedTypes.length; i++)
 				{
 					$(embedModalSelectors.containers.selectExistingEmbed).append(generateSelExInputHtml(scope.embedTypes[i]));
 
-					var $selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
+					$selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
 											.find('input[name="' + scope.embedTypes[i].options.object_type + '-query"]');
 
 					initAutoComplete(scope.embedTypes[i], scope.modalCtrl);
@@ -1275,71 +1297,98 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 				// load the views for creating new embeds (one view for each embed type)
-				var optionIndex = 0;
-				for(var i = 0; i < scope.embedTypes.length; i++)
+				for(i = 0; i < scope.embedTypes.length; i++)
 				{
-					var embedObject = scope.embedTypes[i];
+					embedObject = scope.embedTypes[i];
 					// create option in dropdown for this embed
 					scope.$embedTypeSelect.append('<option value="' +
 						embedObject.options.object_type + '">' + embedObject.options.displayName +
 						'</option>');
 
 					// create the embed view container and load the view into it
+					$embedView = $('<div id="' + embedObject.name + '"></div>');
+
 					scope.$modalBody
 						.find(embedModalSelectors.containers.createNewEmbed)
-						.append('<div id="' + embedObject.name + '"></div>');
+						.append($embedView);
 
-					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					$embedView.load(scope.modalHtmlLocation + embedObject.options.viewPath, function(responseText, textStatus, xhr){
-						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
+					templatePath = scope.modalHtmlLocation + embedObject.options.viewPath;
 
-						if (textStatus === 'error')
-						{
-							// TODO : error view (so that user knows something went wrong)
-						}
-					});
+					// Check to if there is a cached template for this template path
+					if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
+					{
+						$embedView.html( EntityEmbed.templateCache[templatePath] );
+						initEmbedTypeModal(embedObject, $embedView);
+					}
+					else
+					{
+						$embedView.load(templatePath, (function(_embedObject, _templatePath) {
+							return function(responseText, textStatus, xhr){
+								console.log(_embedObject.options.viewPath + ' load completed with status: ' + textStatus);
+
+								if (textStatus === 'error')
+								{
+									// TODO : error view (so that user knows something went wrong)
+								}
+
+								// Add template to template cache
+								EntityEmbed.templateCache = EntityEmbed.templateCache || {};
+								EntityEmbed.templateCache[_templatePath] = $(this).html();
+
+								initEmbedTypeModal(_embedObject, $(this));
+							}
+						})(embedObject, templatePath));
+					}
 
 					// augment the embedObject for use with this modal
 					embedObject.$view = $embedView;
-					embedObject.optionIndex = optionIndex;
+					embedObject.optionIndex = i;
+					// Hide embed view container until needed
 					$embedView.hide();
-
-					// increment optionIndex to keep it valid
-					optionIndex++;
 				}
 
-				// TODO : find a better way to handle async load
-				setTimeout(function(){
-					for(var i = 0; i < scope.embedTypes.length; i++)
-					{
-						scope.embedTypes[i].initModal(scope.embedTypes[i].$view);
-					}
-				}, 200);
-
 				// load the confirm navigation modal
-				var confirmModalDefaults = new EntityEmbed.confirmModalDefaults();
+				confirmModalScope = {
+					parentModalCtrl: scope.modalCtrl
+				};
+				confirmModalDefaults = new EntityEmbed.confirmModalDefaults();
 				embedModalSelectors.elements.confirmModal = '#' + confirmModalDefaults.options.modalId;
-				$('#' + confirmModalDefaults.options.modalId).load(confirmModalDefaults.options.viewPath, function(responseText, textStatus, xhr){
-						console.log('leave confirmation modal load completed with status: ' + textStatus);
-						if (textStatus === 'error')
-						{
-							// TODO : error view (so that user knows something went wrong)
-							return;
-						}
-						var confirmModalScope = {
-							parentModalCtrl: scope.modalCtrl
-						};
-						confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
-						$('#' + confirmModalDefaults.options.modalId).modal(confirmModalDefaults, confirmModalScope);
-					});
+				$confirmModal = $('#' + confirmModalDefaults.options.modalId);
+				templatePath = scope.modalHtmlLocation + confirmModalDefaults.options.viewPath
+
+				// Check to if there is a cached template for this template path
+				if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
+				{
+					$confirmModal.html( EntityEmbed.templateCache[templatePath] );
+					confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+					$confirmModal.modal(confirmModalDefaults, confirmModalScope);
+				}
+				else
+				{
+					$confirmModal.load(templatePath, function(responseText, textStatus, xhr){
+							console.log('leave confirmation modal load completed with status: ' + textStatus);
+							if (textStatus === 'error')
+							{
+								// TODO : error view (so that user knows something went wrong)
+								return;
+							}
+
+							// Add template to template cache
+							EntityEmbed.templateCache = EntityEmbed.templateCache || {};
+							EntityEmbed.templateCache[templatePath] = $confirmModal.html();
+							confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+							$confirmModal.modal(confirmModalDefaults, confirmModalScope);
+						});
+				}
 
 				// now set up events for buttons etc.
 
 				// configure the select-embed-type dropdown to change the modal view
 				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
 					function(e, currentScope){
-						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+
+						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						setModalView(currentScope, embedType);
 
 						if (currentScope.modalType === EntityEmbed.embedModalTypes.selectExisting)
@@ -1475,20 +1524,29 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				var $embedContainer;
+				var $embedContainer, $embedTemp;
+				var classes, i, m;
 
 				toggleEditorTyping(scope, 'true');
 
 				if (scope.$currentEditorLocation.length > 0)
 				{
-					$embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
+					classes = scope.$currentEditorLocation.attr('class').split(' ');
+					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
+
+					for(i = 0, m = classes.length; i < m; i++)
+					{
+						$embedTemp.addClass(classes[i]);
+					}
+
+					scope.$currentEditorLocation.replaceWith( $embedTemp );
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: 		scope.currentEmbedType.model,
 					embedType: 	scope.currentEmbedType,
-					$embed: $embedContainer
+					$embed: scope.$currentEditorLocation
 				});
 			}
 		}
@@ -3733,15 +3791,21 @@ var EntityEmbed = EntityEmbed || {};
 	// Creates an embed modal using the embedModalDefaults.js and any options that a user specifies
 	$.embed_modal_create = function(options){
 		var	defaults = {
-			modalOptions: {},							//see modal.js to customize if embedModalDefaults.js is insufficient
+			modalOptions: {
+			},							//see modal.js to customize if embedModalDefaults.js is insufficient
 			modalScope: {								// default scope to pass to the modal
-				$embedTypeSelect: null,					// selector for the embed typoe dropdown (<select> element)
-				$modalBody: null						// selector for the modal body container element
+				$embedTypeSelect: null,					// jQuery element for the embed type dropdown (<select> element)
+				$modalBody: null,						// jQuery element for the modal body container element
+				$abortEl: null							// jQuery element for the modal abort button
 			},
 			$modalEl: null,								// element that modal.js establishes a ctrl on
-			modalContainer: 'body',						// selector string for the element which will contain the modal
 			modalHtmlLocation: 'modal/',				// file path to the modal HTML folder
+			modalContainer: 'body',						// selector string for the element which will contain the modal
 			modalFileName: 'modal_main.html',			// file name of the modal HTML file
+			modalElId: 'embed-modal',
+			modalBody: '.embed-modal-body',
+			abortEl: '#btn-abort-modal',
+			embedTypeSelect: '#select-embed-type',
 			embedTypes:{								// specify all embed types and their options here
 				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
@@ -3758,86 +3822,146 @@ var EntityEmbed = EntityEmbed || {};
 				customText:{}
 			}
 		};
+		var embedTypes = [];
+		var modalScope = {};
+		var promise = $.Deferred();
+		var $modalContainer, $modalEl, $modalElTemp, templatePath;
 
-		defaultModalSelectors = function(ops){
+		function setUpModal(){
+			var embedModalDefaults;
+
 			// we cant specify certain elements as default options
-			// because they are not yet loaded into the DOM when this script runs
+			// because they may not be loaded until after the configured main tmeplate files is loaded
 			// so if they are null, select them here
 
-			if (!ops.modalScope.$embedTypeSelect || ops.$embedTypeSelect.length() == 0)
+			// Embed Type Select Input
+			if (!modalScope.$embedTypeSelect || !modalScope.$embedTypeSelect.length)
 			{
-				ops.modalScope.$embedTypeSelect = $('#select-embed-type');
+				modalScope.$embedTypeSelect = $modalEl.find(options.embedTypeSelect);
 			}
 
-			if (!ops.modalScope.$modalBody || ops.$modalBody.length() == 0)
+			// Modal Body Container
+			if (!modalScope.$modalBody || !modalScope.$modalBody.length)
 			{
-				ops.modalScope.$modalBody = $('.embed-modal-body');
+				modalScope.$modalBody = $modalEl.find(options.modalBody);
 			}
 
-			if (!ops.modalOptions.$abortEl || ops.$abortEl.length() == 0)
+			// Modal Abort Button
+			if (!options.modalOptions.$abortEl || !options.modalOptions.$abortEl.length)
 			{
-				ops.modalOptions.$abortEl = $('#btn-abort-modal');
+				options.modalOptions.$abortEl = $modalEl.find(options.abortEl);
 			}
+
+			embedModalDefaults = new EntityEmbed.embedModalDefaults();
+
+			options.modalOptions = $.extend(true, {}, embedModalDefaults, options.modalOptions);
+
+			// Setup modal on $modalEl with updated modalOptions and modalScope
+			$modalEl.modal(options.modalOptions, modalScope);
+
+			$modalEl.hide();
+
+			// Modal elements is ready
+			promise.resolve();
 		};
 
-		options = $.extend(true, {}, defaults, options);
-		$(options.modalContainer).append('<div id="embed-modal"></div>');
-		
-		if (!options.$modalEl || options.$modalEl.length() == 0)
+		// Check our modalExists flag
+		if(EntityEmbed.modalExists)
 		{
-			options.$modalEl = $('#embed-modal');
+			// Already created modal.
+			// Reject and return promise.
+			promise.reject();
+			return promise;
 		}
 
-		var promise = $.Deferred();
+		// Extend default options with passed options
+		options = $.extend(true, {}, defaults, options);
 
-		options.$modalEl.load(options.modalHtmlLocation + options.modalFileName, function(responseText, textStatus, xhr){
-			defaultModalSelectors(options);
-			
-			console.log('embed modal load completed with status: ' + textStatus);
-			if (textStatus === 'error')
+		//// [1] Init embed types
+		// Init each embed type and add to local embedTypes array
+		for (var embedName in EntityEmbed.embedTypes)
+		{
+			if (!!options.embedTypes[embedName])
 			{
-				return;
+				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
+				embedTypes.push(embedObject);
 			}
+		}
 
-			var embedTypes = [];
-			for (var embedName in EntityEmbed.embedTypes)
+		// Sort mebed types by their orderIndex
+		embedTypes.sort(function(l, r){
+			return l.orderIndex - r.orderIndex;
+		});
+
+		// Attach embedTypes array to our various configs for use later on
+		modalScope.embedTypes = embedTypes;
+		EntityEmbed.currentEmbedTypes = embedTypes;
+		//// END [1]
+
+		//// [2] Establish modal containers
+		// Extend options modalScope with local modalScope
+		modalScope = $.extend(true, {}, options.modalScope, modalScope);
+		modalScope.modalHtmlLocation = options.modalHtmlLocation;
+
+		// Establish modal container element
+		$modalContainer = $(options.modalContainer);
+
+		// Get modal element from:
+		// 	1. options object
+		// 	2. Query modal container for element with configured id
+		$modalEl = options.$modalEl && options.$modalEl.length ? options.$modalEl : $modalContainer.find('#' + options.modalElId);
+
+		if(!$modalEl.length)
+		{
+			// Generate a modal element when one was not found
+			$modalEl = $('<div id="' + options.modalElId +'"></div>');
+			// Append modal element to modal container
+			$modalContainer.append($modalEl);
+		}
+
+		// Add reference to $modalEl to global EntityEmbed
+		EntityEmbed.$embedModal = $modalEl;
+		EntityEmbed.modalExists = true;
+
+		// Check to see if we need to load anything into $modalEl
+		if(options.modalFileName)
+		{
+			templatePath = options.modalHtmlLocation + options.modalFileName;
+
+			// Check to if there is a cached template for this template path
+			if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
 			{
-				if (!!options.embedTypes[embedName])
-				{
-					var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
-					embedTypes.push(embedObject);
-				}
-			}
+				// Set $modalEl html to the value of the template cache
+				$modalEl.html( EntityEmbed.templateCache[templatePath] );
 
-			embedTypes.sort(function(l, r){
-				return l.orderIndex - r.orderIndex;
-			});
-
-			var finalModalOptions = {};
-			var defaultModalOptions = new EntityEmbed.embedModalDefaults();
-			if (!!options.modalOptions)
-			{
-				finalModalOptions = $.extend(true, {}, defaultModalOptions, options.modalOptions);
+				setUpModal();
 			}
 			else
 			{
-				finalModalOptions = defaultModalOptions;
+				$modalEl.load(templatePath, function(responseText, textStatus, xhr){
+
+					console.log('embed modal load completed with status: ' + textStatus);
+
+					if (textStatus === 'error')
+					{
+						promise.reject();
+						return;
+					}
+
+					// Add template to template cache
+					EntityEmbed.templateCache = EntityEmbed.templateCache || {};
+					EntityEmbed.templateCache[templatePath] = $(this).html();
+
+					setUpModal();
+				});
 			}
+		}
+		else
+		{
+			setUpModal();
+		}
+		// END [2]
 
-			var modalScope = {
-				embedTypes: embedTypes
-			};
-
-			modalScope = $.extend(true, {}, options.modalScope, modalScope);
-			modalScope.modalHtmlLocation = options.modalHtmlLocation;
-			
-			options.$modalEl.modal(finalModalOptions, modalScope);
-
-			EntityEmbed.$embedModal = options.$modalEl;
-			EntityEmbed.currentEmbedTypes = embedTypes;
-			EntityEmbed.modalExists = true;
-			promise.resolve();
-		});
 		return promise;
 	};
 
@@ -3889,16 +4013,11 @@ var EntityEmbed = EntityEmbed || {};
 			id: null,
 			selectExisting: false
 		};
-		
-		if (!EntityEmbed.modalExists)
-		{
-			return $.embed_modal_create({
-				modalOptions: options
-			}).then(function(){
-				return embedModalOpenInternal($.extend(true, {}, defaults, options));
+
+		return $.embed_modal_create(options)
+			.always(function(){
+				return embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}));
 			});
-		}
-		return embedModalOpenInternal($.extend(true, {}, defaults, options));
 	};
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -4114,11 +4233,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		if (EntityEmbed.modalExists)
-		{
-			return;
-		}
-		
 		$.embed_modal_create().done(function(){
 			for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
 			{
@@ -4547,7 +4661,9 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.add = function () {
 		var self = this;
 		var addToScope = {
-			$currentEditorLocation: $(mediumEditorActiveSelector)
+			modalOptions: {
+				$currentEditorLocation: $(mediumEditorActiveSelector)
+			}
 		};
 		$.embed_modal_open(addToScope)
 			.done(function(respData) {
@@ -4565,9 +4681,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		var scope = {
-			$currentEditorLocation: $('.' + activeEmbedClass),
-			id: $embed.find('figure').attr('id'),
-			embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
+			modalOptions: {
+				$currentEditorLocation: $('.' + activeEmbedClass),
+				id: $embed.find('figure').attr('id'),
+				embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
+			}
 		};
 
 		self.toolbarManager.hideToolbar();
@@ -4675,8 +4793,6 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.activateEmbed = function(embed) {
 		var embedType = embed.embedType || embed;
-
-		console.log('activateEmbed::embedType', embedType);
 
 		// Make sure activeEmbed is a function
 		if(typeof embedType.activateEmbed === 'function')
