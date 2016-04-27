@@ -401,6 +401,9 @@ var EntityEmbed = EntityEmbed || {};
 
 			$embedContainers = $data.find('.entity-embed-container', $data);
 
+			// Make sure active class from embed containers before serialization.
+			$embedContainers.removeClass(activeEmbedClass);
+
 			// jQuery has a builtin method to iterate over all match elements.
 			// Callback is fired in the context of the current element, so the
 			// keyword 'this' refers to the element, in this case our embed container.
