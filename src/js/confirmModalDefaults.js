@@ -6,7 +6,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	var defaultOptions = {
 			modalId: 'leave-confirmation-modal', // the HTML id of the element which contains the modal
-			viewPath: 'modal/modal_confirmation.html', // path to modal HTML file
+			viewPath: 'modal_confirmation.html', // path to modal HTML file
 			abortElId: 'btn-cancel-leave',
 			completeElId: 'btn-confirm-leave'
 		};

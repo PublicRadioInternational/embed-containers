@@ -14,6 +14,8 @@ var gulp = require('gulp'),
 	minifyCss = require('gulp-minify-css'),
 	gConcat = require('gulp-concat'),
 	watch = require('gulp-watch'),
+	htmlmin = require('gulp-htmlmin'),
+	templateCache = require('gulp-angular-templatecache'),
 	config = require(basePath + 'config.json');
 
 var htmlDest = config.serverRoot + '/',
@@ -40,22 +42,36 @@ gulp.task('less', function(){
 		.pipe(gulp.dest(buildPath + 'css/'));
 });
 
+gulp.task('templateCache', function() {
+	gulp.src([htmlPath + '**/*',
+			'!' + htmlPath + 'index.html'])
+		.pipe(htmlmin({
+			collapseWhitespace: true
+		}))
+		.pipe(templateCache('templateCache.js', {
+			moduleSystem: 'IIFE',
+			templateHeader: 'EntityEmbed = EntityEmbed || {}; var templateCache = {};',
+			templateBody: 'templateCache["<%= url %>"] = "<%= contents %>";',
+			templateFooter: 'EntityEmbed.templateCache = templateCache;'
+		}))
+		.pipe(gulp.dest(jsPath));
+});
+
 gulp.task('concatJs', function()
 {
-  gulp.src([jsPath + 'apiService.js',
-      jsPath + 'entityEmbedToolbar.js',
-      jsPath + 'genericEmbed.js',
-      jsPath + 'modal.js',
-      jsPath + 'confirmModalDefaults.js',
-      jsPath + 'embedModalDefaults.js',
-      jsPath + 'embeds/*.js',
-      jsPath + 'embedModal.js',
-      jsPath + 'entityEmbedAddon.js',
-      libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
-    .pipe(gConcat('embed-containers.js'))
-    .pipe(gulp.dest(buildPath + 'js/'));
-
-	gulp.src([buildPath + 'js/embed-containers.js'])
+	gulp.src([jsPath + 'templateCache.js',
+			jsPath + 'apiService.js',
+			jsPath + 'entityEmbedToolbar.js',
+			jsPath + 'genericEmbed.js',
+			jsPath + 'modal.js',
+			jsPath + 'confirmModalDefaults.js',
+			jsPath + 'embedModalDefaults.js',
+			jsPath + 'embeds/*.js',
+			jsPath + 'embedModal.js',
+			jsPath + 'entityEmbedAddon.js',
+			libPath + 'EasyAutocomplete/dist/jquery.easy-autocomplete.min.js'])
+		.pipe(gConcat('embed-containers.js'))
+		.pipe(gulp.dest(buildPath + 'js/'))
 		.pipe(gConcat('embed-containers.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(buildPath + 'js/'));
@@ -72,7 +88,8 @@ gulp.task('devLess', function(){
 
 gulp.task('devConcatJs', function()
 {
-	gulp.src([jsPath + 'apiService.js',
+	gulp.src([jsPath + 'templateCache.js',
+			jsPath + 'apiService.js',
 			jsPath + 'entityEmbedToolbar.js',
 			jsPath + 'genericEmbed.js',
 			jsPath + 'modal.js',
@@ -122,7 +139,7 @@ gulp.task('watchJs', function()
 
 gulp.task('watchHtml', function()
 {
-	gulp.watch(htmlPath + '**/*.html', ['devMove']);
+	gulp.watch(htmlPath + '**/*.html', ['templateCache', 'devConcatJs', 'devMove']);
 });
 
 gulp.task('watchPhp', function()
@@ -132,6 +149,6 @@ gulp.task('watchPhp', function()
 
 gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml', 'watchPhp']);
 
-gulp.task('default', ['copyLib', 'devLess', 'devConcatJs', 'devMove', 'watch']);
+gulp.task('default', ['copyLib', 'devLess', 'templateCache', 'devConcatJs', 'devMove', 'watch']);
 
-gulp.task('build', ['less', 'concatJs', 'move'])
+gulp.task('build', ['less', 'templateCache', 'concatJs', 'move'])
