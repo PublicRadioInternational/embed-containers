@@ -63,7 +63,7 @@ $(document).ready(function(){
 			}
 		]
 	};
-	
+
 	$('.editable').mediumInsert({
 		editor: medEditor,
 		enabled: true,
@@ -87,7 +87,9 @@ $(document).ready(function(){
 
 	$openAddSingleEmbedBtn.click(function(){
 		$.embed_modal_open({
-				embedTypeStr: 'related-link',
+				modalOptions:{
+					embedTypeStr: 'related-link'
+				}
 			})
 			.done(function(scope){
 				console.log('Embed modal open (add single) successfully saved, server response to follow.');
@@ -111,8 +113,10 @@ $(document).ready(function(){
 
 	$openEditEmbedBtn.click(function(){
 		$.embed_modal_open({
-				embedTypeStr: 'newsletter',
-				id: '2607f8daf38342f28054b29a7c26b118',
+				modalOptions:{
+					embedTypeStr: 'newsletter',
+					id: '2607f8daf38342f28054b29a7c26b118'
+				}
 			})
 			.done(function(scope){
 				console.log('Embed modal open (edit) successfully saved, server response to follow.');
