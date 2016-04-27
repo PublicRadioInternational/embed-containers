@@ -406,14 +406,20 @@ var EntityEmbed = EntityEmbed || {};
 				$(embedModalSelectors.elements.saveSpinner).hide();
 			},
 			after: function(scope){
+				var $selExInput, $embedView, $confirmModal, confirmModalScope, confirmModalDefaults, embedObject, templatePath, i;
+
+				function initEmbedTypeModal(embedType, $view) {
+					embedType.initModal($view);
+				}
+
 				// first load all dynamic content
 
 				// load a query input in the select existing container for each embed type
-				for(var i = 0; i < scope.embedTypes.length; i++)
+				for(i = 0; i < scope.embedTypes.length; i++)
 				{
 					$(embedModalSelectors.containers.selectExistingEmbed).append(generateSelExInputHtml(scope.embedTypes[i]));
 
-					var $selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
+					$selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
 											.find('input[name="' + scope.embedTypes[i].options.object_type + '-query"]');
 
 					initAutoComplete(scope.embedTypes[i], scope.modalCtrl);
@@ -428,71 +434,98 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 				// load the views for creating new embeds (one view for each embed type)
-				var optionIndex = 0;
-				for(var i = 0; i < scope.embedTypes.length; i++)
+				for(i = 0; i < scope.embedTypes.length; i++)
 				{
-					var embedObject = scope.embedTypes[i];
+					embedObject = scope.embedTypes[i];
 					// create option in dropdown for this embed
 					scope.$embedTypeSelect.append('<option value="' +
 						embedObject.options.object_type + '">' + embedObject.options.displayName +
 						'</option>');
 
 					// create the embed view container and load the view into it
+					$embedView = $('<div id="' + embedObject.name + '"></div>');
+
 					scope.$modalBody
 						.find(embedModalSelectors.containers.createNewEmbed)
-						.append('<div id="' + embedObject.name + '"></div>');
+						.append($embedView);
 
-					var $embedView = scope.$modalBody.find('#' + embedObject.name);
-					$embedView.load(scope.modalHtmlLocation + embedObject.options.viewPath, function(responseText, textStatus, xhr){
-						console.log(embedObject.options.viewPath + ' load completed with status: ' + textStatus);
+					templatePath = scope.modalHtmlLocation + embedObject.options.viewPath;
 
-						if (textStatus === 'error')
-						{
-							// TODO : error view (so that user knows something went wrong)
-						}
-					});
+					// Check to if there is a cached template for this template path
+					if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
+					{
+						$embedView.html( EntityEmbed.templateCache[templatePath] );
+						initEmbedTypeModal(embedObject, $embedView);
+					}
+					else
+					{
+						$embedView.load(templatePath, (function(_embedObject, _templatePath) {
+							return function(responseText, textStatus, xhr){
+								console.log(_embedObject.options.viewPath + ' load completed with status: ' + textStatus);
+
+								if (textStatus === 'error')
+								{
+									// TODO : error view (so that user knows something went wrong)
+								}
+
+								// Add template to template cache
+								EntityEmbed.templateCache = EntityEmbed.templateCache || {};
+								EntityEmbed.templateCache[_templatePath] = $(this).html();
+
+								initEmbedTypeModal(_embedObject, $(this));
+							}
+						})(embedObject, templatePath));
+					}
 
 					// augment the embedObject for use with this modal
 					embedObject.$view = $embedView;
-					embedObject.optionIndex = optionIndex;
+					embedObject.optionIndex = i;
+					// Hide embed view container until needed
 					$embedView.hide();
-
-					// increment optionIndex to keep it valid
-					optionIndex++;
 				}
 
-				// TODO : find a better way to handle async load
-				setTimeout(function(){
-					for(var i = 0; i < scope.embedTypes.length; i++)
-					{
-						scope.embedTypes[i].initModal(scope.embedTypes[i].$view);
-					}
-				}, 200);
-
 				// load the confirm navigation modal
-				var confirmModalDefaults = new EntityEmbed.confirmModalDefaults();
+				confirmModalScope = {
+					parentModalCtrl: scope.modalCtrl
+				};
+				confirmModalDefaults = new EntityEmbed.confirmModalDefaults();
 				embedModalSelectors.elements.confirmModal = '#' + confirmModalDefaults.options.modalId;
-				$('#' + confirmModalDefaults.options.modalId).load(confirmModalDefaults.options.viewPath, function(responseText, textStatus, xhr){
-						console.log('leave confirmation modal load completed with status: ' + textStatus);
-						if (textStatus === 'error')
-						{
-							// TODO : error view (so that user knows something went wrong)
-							return;
-						}
-						var confirmModalScope = {
-							parentModalCtrl: scope.modalCtrl
-						};
-						confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
-						$('#' + confirmModalDefaults.options.modalId).modal(confirmModalDefaults, confirmModalScope);
-					});
+				$confirmModal = $('#' + confirmModalDefaults.options.modalId);
+				templatePath = scope.modalHtmlLocation + confirmModalDefaults.options.viewPath
+
+				// Check to if there is a cached template for this template path
+				if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
+				{
+					$confirmModal.html( EntityEmbed.templateCache[templatePath] );
+					confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+					$confirmModal.modal(confirmModalDefaults, confirmModalScope);
+				}
+				else
+				{
+					$confirmModal.load(templatePath, function(responseText, textStatus, xhr){
+							console.log('leave confirmation modal load completed with status: ' + textStatus);
+							if (textStatus === 'error')
+							{
+								// TODO : error view (so that user knows something went wrong)
+								return;
+							}
+
+							// Add template to template cache
+							EntityEmbed.templateCache = EntityEmbed.templateCache || {};
+							EntityEmbed.templateCache[templatePath] = $confirmModal.html();
+							confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+							$confirmModal.modal(confirmModalDefaults, confirmModalScope);
+						});
+				}
 
 				// now set up events for buttons etc.
 
 				// configure the select-embed-type dropdown to change the modal view
 				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
 					function(e, currentScope){
-						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+
+						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						setModalView(currentScope, embedType);
 
 						if (currentScope.modalType === EntityEmbed.embedModalTypes.selectExisting)
@@ -628,20 +661,29 @@ var EntityEmbed = EntityEmbed || {};
 				return true;
 			},
 			after: function(scope){
-				var $embedContainer;
+				var $embedContainer, $embedTemp;
+				var classes, i, m;
 
 				toggleEditorTyping(scope, 'true');
 
 				if (scope.$currentEditorLocation.length > 0)
 				{
-					$embedContainer = scope.$currentEditorLocation.replaceWith(generateEmbedHtmlInternal(scope.currentEmbedType, true));
+					classes = scope.$currentEditorLocation.attr('class').split(' ');
+					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
+
+					for(i = 0, m = classes.length; i < m; i++)
+					{
+						$embedTemp.addClass(classes[i]);
+					}
+
+					scope.$currentEditorLocation.replaceWith( $embedTemp );
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: 		scope.currentEmbedType.model,
 					embedType: 	scope.currentEmbedType,
-					$embed: $embedContainer
+					$embed: scope.$currentEditorLocation
 				});
 			}
 		}

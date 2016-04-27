@@ -211,11 +211,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		if (EntityEmbed.modalExists)
-		{
-			return;
-		}
-		
 		$.embed_modal_create().done(function(){
 			for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
 			{
@@ -644,7 +639,9 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.add = function () {
 		var self = this;
 		var addToScope = {
-			$currentEditorLocation: $(mediumEditorActiveSelector)
+			modalOptions: {
+				$currentEditorLocation: $(mediumEditorActiveSelector)
+			}
 		};
 		$.embed_modal_open(addToScope)
 			.done(function(respData) {
@@ -662,9 +659,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		var scope = {
-			$currentEditorLocation: $('.' + activeEmbedClass),
-			id: $embed.find('figure').attr('id'),
-			embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
+			modalOptions: {
+				$currentEditorLocation: $('.' + activeEmbedClass),
+				id: $embed.find('figure').attr('id'),
+				embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
+			}
 		};
 
 		self.toolbarManager.hideToolbar();
@@ -772,8 +771,6 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.activateEmbed = function(embed) {
 		var embedType = embed.embedType || embed;
-
-		console.log('activateEmbed::embedType', embedType);
 
 		// Make sure activeEmbed is a function
 		if(typeof embedType.activateEmbed === 'function')
