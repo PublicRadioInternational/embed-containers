@@ -226,10 +226,20 @@ var EntityEmbed = EntityEmbed || {};
 			id: null,
 			selectExisting: false
 		};
+		var modalOptions = options && options.modalOptions || {};
+		var promise = $.Deferred();
 
-		return $.embed_modal_create(options)
+		$.embed_modal_create(options)
 			.always(function(){
-				return embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}));
+				embedModalOpenInternal($.extend(true, {}, defaults, modalOptions || {}))
+					.done(function(data) {
+						promise.resolve(data);
+					})
+					.fail(function() {
+						promise.reject();
+					});
 			});
+
+		return promise;
 	};
 })();

@@ -4013,11 +4013,21 @@ var EntityEmbed = EntityEmbed || {};
 			id: null,
 			selectExisting: false
 		};
+		var modalOptions = options && options.modalOptions || {};
+		var promise = $.Deferred();
 
-		return $.embed_modal_create(options)
+		$.embed_modal_create(options)
 			.always(function(){
-				return embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}));
+				embedModalOpenInternal($.extend(true, {}, defaults, modalOptions || {}))
+					.done(function(data) {
+						promise.resolve(data);
+					})
+					.fail(function() {
+						promise.reject();
+					});
 			});
+
+		return promise;
 	};
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -4422,6 +4432,9 @@ var EntityEmbed = EntityEmbed || {};
 			$data = $('<div />').html(data[key].value);
 
 			$embedContainers = $data.find('.entity-embed-container', $data);
+
+			// Make sure active class from embed containers before serialization.
+			$embedContainers.removeClass(activeEmbedClass);
 
 			// jQuery has a builtin method to iterate over all match elements.
 			// Callback is fired in the context of the current element, so the
