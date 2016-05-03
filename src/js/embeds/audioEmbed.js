@@ -165,17 +165,12 @@ var EntityEmbed = EntityEmbed || {};
 				var mp3FormData = new FormData();
 				mp3FormData.append('upload', file);
 
-				return $.ajax({
-					url: self.options.httpPaths.uploadFile,
-					type: 'POST',
+				return EntityEmbed.apiService.uploadFile({
+					path: self.options.httpPaths.uploadFile,
 					data: mp3FormData,
 					headers: {
-						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': responseData.response.object_id,
-						'x-debug': '1'
-					},
-					processData: false,
-					contentType: false
+						'x-object-id': responseData.response.object_id
+					}
 				});
 			})
 			.done(function(responseData){

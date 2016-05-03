@@ -12,26 +12,48 @@ var EntityEmbed = EntityEmbed || {};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
-		config.data.debug = config.debug;
-		config.data.auth_token = config.auth_token;
+		
+		var ajaxOptions = {
+			timeout: 15000,
+			crossDomain: true,
+			type: config.methodType, 
+			dataType: 'json',
+			url: config.domainName + config.path,
+		};
 
-		return $.ajax({
-				timeout: 15000,
-				crossDomain: true,
-				type: config.methodType, 
-				dataType: 'json',
-				url: config.domainName + config.path,
-				data: JSON.stringify(config.data)
-			});
+		if (!!config.headers) // this is a file upload
+		{	
+			config.headers['x-auth-token'] = config.auth_token;
+			config.headers['x-debug'] = config.debug;
+
+			ajaxOptions.headers = config.headers;
+
+			ajaxOptions.processData = false;
+			ajaxOptions.contentType = false;
+			ajaxOptions.data = config.data;
+		}
+		else
+		{
+			config.data.debug = config.debug;
+			config.data.auth_token = config.auth_token;
+			ajaxOptions.data = JSON.stringify(config.data);
+		}
+
+		return $.ajax(ajaxOptions);
 	};
 
-	function set(config) {
+	function set(config){
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	function get(config) {
+	function get(config){
 		config.methodType = 'POST';
+		return ajaxWrapper(config);
+	};
+
+	function uploadFile(config){
+		config.methodType = 'Post';
 		return ajaxWrapper(config);
 	};
 
@@ -67,6 +89,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.apiService = {
 		set: set,
 		get: get,
+		uploadFile: uploadFile,
 		setAuthToken: setAuthToken,
 		getAuthToken: getAuthToken,
 		getDomainName: getDomainName,
