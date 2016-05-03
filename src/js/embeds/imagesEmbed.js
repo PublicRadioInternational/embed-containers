@@ -23,8 +23,8 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				getLicenses: 'admin/image-license/list',
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedImgDisplay = '.uploaded-image-file',

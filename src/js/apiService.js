@@ -6,6 +6,7 @@ var EntityEmbed = EntityEmbed || {};
 		data: {},
 		debug: 0,
 		auth_token: '',
+		domainName: '',
 		path: ''
 	};
 
@@ -19,18 +20,12 @@ var EntityEmbed = EntityEmbed || {};
 				crossDomain: true,
 				type: config.methodType, 
 				dataType: 'json',
-				url: config.path,
+				url: config.domainName + config.path,
 				data: JSON.stringify(config.data)
 			});
 	};
 
-	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
-	function put(config) {
-		config.methodType = 'POST';
-		return ajaxWrapper(config);
-	};
-
-	function post(config) {
+	function set(config) {
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
@@ -48,20 +43,33 @@ var EntityEmbed = EntityEmbed || {};
 		return defaultConfig.auth_token;	
 	};
 
+	function getDomainName(d){
+		return defaultConfig.domainName;
+	};	
+
+	function setDomainName(d){
+		defaultConfig.domainName = d;
+		if (!defaultConfig.domainName.endsWith('/'))
+		{
+			defaultConfig.domainName += '/';
+		}
+	};
+
 	// determine debug level
 	var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
 	var isDevEnv = rgxDevEnv.test(window.location.host);
 	if (isDevEnv){
+		defaultConfig.auth_token = 'abc123';
 		defaultConfig.debug = 1;
-		setAuthToken('abc123');
 	}
 
 	// expose necesary functionality
 	EntityEmbed.apiService = {
-		put: put,
-		post: post,
+		set: set,
 		get: get,
 		setAuthToken: setAuthToken,
-		getAuthToken: getAuthToken
+		getAuthToken: getAuthToken,
+		getDomainName: getDomainName,
+		setDomainName: setDomainName
 	};	
 })();

@@ -25,7 +25,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedAudioDisplay = '.uploaded-audio-file',

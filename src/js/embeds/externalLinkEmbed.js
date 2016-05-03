@@ -13,14 +13,13 @@ var EntityEmbed = EntityEmbed || {};
 			imageLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
-					upload: 'required',
 					title: 'required',
 					url: 'required',
 					linkText: 'required'
 				}
 			},
 			httpPaths:{
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedImgDisplay = '.uploaded-image-file',

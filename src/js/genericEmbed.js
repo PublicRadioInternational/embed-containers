@@ -18,10 +18,9 @@ var EntityEmbed = EntityEmbed || {};
 		viewPath: '',
 		displayName: 'Generic',
 		httpPaths:{
-			put: 'https://test-services.pri.org/admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
-			post: 'https://test-services.pri.org/admin/embed/edit',
-			get: 'https://test-services.pri.org/admin/embed/fetch',
-			getAll: 'https://test-services.pri.org/admin/embed/list'
+			set: 'admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
+			get: 'admin/embed/fetch',
+			getAll: 'admin/embed/list'
 		},
 		styles: {
 			left: true,
@@ -151,15 +150,15 @@ var EntityEmbed = EntityEmbed || {};
 			//		this code smells, do something better here... maybe put in cleanModel?
 			self.model.object_type = self.options.object_type;
 
-			return EntityEmbed.apiService.post({
-				path: self.options.httpPaths.post, 
+			return EntityEmbed.apiService.set({
+				path: self.options.httpPaths.set, 
 				data: self.model
 			});
 		}
 		else
 		{
-			return EntityEmbed.apiService.put({
-				path: self.options.httpPaths.put, 
+			return EntityEmbed.apiService.set({
+				path: self.options.httpPaths.set, 
 				data: self.model
 			});
 		}
