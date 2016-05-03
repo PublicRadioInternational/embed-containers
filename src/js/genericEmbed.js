@@ -145,23 +145,16 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 
-		if (embedIsNew){
-			// add the object_type onto the model
-			//		this code smells, do something better here... maybe put in cleanModel?
-			self.model.object_type = self.options.object_type;
-
-			return EntityEmbed.apiService.set({
-				path: self.options.httpPaths.set, 
-				data: self.model
-			});
-		}
-		else
+		if (embedIsNew)
 		{
-			return EntityEmbed.apiService.set({
-				path: self.options.httpPaths.set, 
-				data: self.model
-			});
+			// add the object_type onto the model
+			self.model.object_type = self.options.object_type;
 		}
+
+		return EntityEmbed.apiService.set({
+			path: self.options.httpPaths.set, 
+			data: self.model
+		});
 	};
 
 	EntityEmbed.embedTypes = {
