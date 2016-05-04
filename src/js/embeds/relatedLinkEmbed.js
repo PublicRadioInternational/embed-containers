@@ -21,13 +21,14 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
+					linkInput: 'atLeastOne'
 				}
 			},
 			httpPaths:{
-				getContentList: 'https://test-services.pri.org/admin/content/list',
+				getContentList: 'admin/content/list',
 				getContentItem: {
-					story: 'https://test-services.pri.org/admin/story/fetch',
-					episode: 'https://test-services.pri.org/admin/episode/fetch'
+					story: 'admin/story/fetch',
+					episode: 'admin/episode/fetch'
 				}
 			}
 		},
@@ -99,7 +100,7 @@ var EntityEmbed = EntityEmbed || {};
 				requestDelay: 600,
 				url: function(phrase) {
 					ajaxData.title = phrase;
-					return self.options.httpPaths.getContentList;
+					return EntityEmbed.apiService.getDomainName() + self.options.httpPaths.getContentList;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;
@@ -224,6 +225,10 @@ var EntityEmbed = EntityEmbed || {};
 				$placeholder.height(placeholderHeight);
 			}
 		});
+
+		$.validator.addMethod('atLeastOne', function(value, element){
+			return this.optional(element) || $('.related-link-url').length > 0;
+		}, $.validator.format('One link is required.'));
 	};
 
 	relatedLinkEmbed.prototype.clearForm = function($el){
@@ -237,6 +242,7 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 		self.parent.getModelFromForm($el, self);
+		delete self.model.linkInput;
 		self.model.links = [];
 
 		// Pull data from all link elements and add to model just the properties need to look it up again

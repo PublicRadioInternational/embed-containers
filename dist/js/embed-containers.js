@@ -10,7 +10,7 @@ templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multi
 templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Insert Instagram URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to instagram post\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><div class=\"embed-modal-half-column\"><h2 class=\"header-text\"></h2></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div id=\"leave-confirmation-modal\"><div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
-templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
+templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input name=\"linkInput\" type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
 templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div></form><fieldset id=\"embed-modal-slideshow-image-select-existing\"><legend></legend><div class=\"embed-modal-row simg-query-container\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></fieldset><fieldset id=\"embed-modal-slideshow-image\"><legend></legend><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Choosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></fieldset>";
 templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
@@ -22,37 +22,54 @@ var EntityEmbed = EntityEmbed || {};
 		data: {},
 		debug: 0,
 		auth_token: '',
+		domainName: '',
 		path: ''
 	};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
-		config.data.debug = config.debug;
-		config.data.auth_token = config.auth_token;
+		
+		var ajaxOptions = {
+			timeout: 15000,
+			crossDomain: true,
+			type: config.methodType, 
+			dataType: 'json',
+			url: config.domainName + config.path,
+		};
 
-		return $.ajax({
-				timeout: 15000,
-				crossDomain: true,
-				type: config.methodType, 
-				dataType: 'json',
-				url: config.path,
-				data: JSON.stringify(config.data)
-			});
+		if (!!config.headers) // this is a file upload
+		{	
+			config.headers['x-auth-token'] = config.auth_token;
+			config.headers['x-debug'] = config.debug;
+
+			ajaxOptions.headers = config.headers;
+
+			ajaxOptions.processData = false;
+			ajaxOptions.contentType = false;
+			ajaxOptions.data = config.data;
+		}
+		else
+		{
+			config.data.debug = config.debug;
+			config.data.auth_token = config.auth_token;
+			ajaxOptions.data = JSON.stringify(config.data);
+		}
+
+		return $.ajax(ajaxOptions);
 	};
 
-	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
-	function put(config) {
+	function set(config){
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	function post(config) {
+	function get(config){
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	function get(config) {
-		config.methodType = 'POST';
+	function uploadFile(config){
+		config.methodType = 'Post';
 		return ajaxWrapper(config);
 	};
 
@@ -64,21 +81,35 @@ var EntityEmbed = EntityEmbed || {};
 		return defaultConfig.auth_token;	
 	};
 
+	function getDomainName(d){
+		return defaultConfig.domainName;
+	};	
+
+	function setDomainName(d){
+		defaultConfig.domainName = d;
+		if (!defaultConfig.domainName.endsWith('/'))
+		{
+			defaultConfig.domainName += '/';
+		}
+	};
+
 	// determine debug level
 	var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
 	var isDevEnv = rgxDevEnv.test(window.location.host);
 	if (isDevEnv){
+		defaultConfig.auth_token = 'abc123';
 		defaultConfig.debug = 1;
-		setAuthToken('abc123');
 	}
 
 	// expose necesary functionality
 	EntityEmbed.apiService = {
-		put: put,
-		post: post,
+		set: set,
 		get: get,
+		uploadFile: uploadFile,
 		setAuthToken: setAuthToken,
-		getAuthToken: getAuthToken
+		getAuthToken: getAuthToken,
+		getDomainName: getDomainName,
+		setDomainName: setDomainName
 	};	
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -374,10 +405,9 @@ var EntityEmbed = EntityEmbed || {};
 		viewPath: '',
 		displayName: 'Generic',
 		httpPaths:{
-			put: 'https://test-services.pri.org/admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
-			post: 'https://test-services.pri.org/admin/embed/edit',
-			get: 'https://test-services.pri.org/admin/embed/fetch',
-			getAll: 'https://test-services.pri.org/admin/embed/list'
+			set: 'admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
+			get: 'admin/embed/fetch',
+			getAll: 'admin/embed/list'
 		},
 		styles: {
 			left: true,
@@ -502,23 +532,16 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 
-		if (embedIsNew){
-			// add the object_type onto the model
-			//		this code smells, do something better here... maybe put in cleanModel?
-			self.model.object_type = self.options.object_type;
-
-			return EntityEmbed.apiService.post({
-				path: self.options.httpPaths.post, 
-				data: self.model
-			});
-		}
-		else
+		if (embedIsNew)
 		{
-			return EntityEmbed.apiService.put({
-				path: self.options.httpPaths.put, 
-				data: self.model
-			});
+			// add the object_type onto the model
+			self.model.object_type = self.options.object_type;
 		}
+
+		return EntityEmbed.apiService.set({
+			path: self.options.httpPaths.set, 
+			data: self.model
+		});
 	};
 
 	EntityEmbed.embedTypes = {
@@ -1168,7 +1191,7 @@ var EntityEmbed = EntityEmbed || {};
 				requestDelay: 600,
 				url: function(phrase) {
 					ajaxData.title = phrase;
-					return embedType.options.httpPaths.getAll;
+					return EntityEmbed.apiService.getDomainName() + embedType.options.httpPaths.getAll;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;
@@ -1583,7 +1606,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedAudioDisplay = '.uploaded-audio-file',
@@ -1723,17 +1746,12 @@ var EntityEmbed = EntityEmbed || {};
 				var mp3FormData = new FormData();
 				mp3FormData.append('upload', file);
 
-				return $.ajax({
-					url: self.options.httpPaths.uploadFile,
-					type: 'POST',
+				return EntityEmbed.apiService.uploadFile({
+					path: self.options.httpPaths.uploadFile,
 					data: mp3FormData,
 					headers: {
-						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': responseData.response.object_id,
-						'x-debug': '1'
-					},
-					processData: false,
-					contentType: false
+						'x-object-id': responseData.response.object_id
+					}
 				});
 			})
 			.done(function(responseData){
@@ -1950,14 +1968,13 @@ var EntityEmbed = EntityEmbed || {};
 			imageLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
-					upload: 'required',
 					title: 'required',
 					url: 'required',
 					linkText: 'required'
 				}
 			},
 			httpPaths:{
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedImgDisplay = '.uploaded-image-file',
@@ -2059,18 +2076,14 @@ var EntityEmbed = EntityEmbed || {};
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
-				return $.ajax({
-					url: self.options.httpPaths.uploadFile,
-					type: 'POST',
+				return EntityEmbed.apiService.uploadFile({
+					path: self.options.httpPaths.uploadFile,
 					data: imageFormData,
 					headers: {
-						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': responseData.response.object_id,
-						'x-debug': '1'
-					},
-					processData: false,
-					contentType: false
+						'x-object-id': responseData.response.object_id
+					}
 				});
+				
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
 			});
@@ -2346,15 +2359,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	iframeEmbed.prototype.parseForEditor = function(){
 		return  '<div class="iframe-embed">' +
-					'<div class="iframe-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
 					'<iframe src="' + this.model.url + '" ' + 
 						'frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
 					'</iframe>' + 
-					'<div class="iframe-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' + 
 				'</div>';
 	};
 
@@ -2384,8 +2391,8 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				getLicenses: 'admin/image-license/list',
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedImgDisplay = '.uploaded-image-file',
@@ -2530,17 +2537,12 @@ var EntityEmbed = EntityEmbed || {};
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
-				return $.ajax({
-					url: self.options.httpPaths.uploadFile,
-					type: 'POST',
+				return EntityEmbed.apiService.uploadFile({
+					path: self.options.httpPaths.uploadFile,
 					data: imageFormData,
 					headers: {
-						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': responseData.response.object_id,
-						'x-debug': '1'
-					},
-					processData: false,
-					contentType: false
+						'x-object-id': responseData.response.object_id
+					}
 				});
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
@@ -2710,7 +2712,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getNewsletters: 'https://test-services.pri.org/admin/newsletter/list'
+				getNewsletters: 'admin/newsletter/list'
 			}
 		};
 
@@ -2803,13 +2805,14 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
+					linkInput: 'atLeastOne'
 				}
 			},
 			httpPaths:{
-				getContentList: 'https://test-services.pri.org/admin/content/list',
+				getContentList: 'admin/content/list',
 				getContentItem: {
-					story: 'https://test-services.pri.org/admin/story/fetch',
-					episode: 'https://test-services.pri.org/admin/episode/fetch'
+					story: 'admin/story/fetch',
+					episode: 'admin/episode/fetch'
 				}
 			}
 		},
@@ -2881,7 +2884,7 @@ var EntityEmbed = EntityEmbed || {};
 				requestDelay: 600,
 				url: function(phrase) {
 					ajaxData.title = phrase;
-					return self.options.httpPaths.getContentList;
+					return EntityEmbed.apiService.getDomainName() + self.options.httpPaths.getContentList;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;
@@ -3006,6 +3009,10 @@ var EntityEmbed = EntityEmbed || {};
 				$placeholder.height(placeholderHeight);
 			}
 		});
+
+		$.validator.addMethod('atLeastOne', function(value, element){
+			return this.optional(element) || $('.related-link-url').length > 0;
+		}, $.validator.format('One link is required.'));
 	};
 
 	relatedLinkEmbed.prototype.clearForm = function($el){
@@ -3019,6 +3026,7 @@ var EntityEmbed = EntityEmbed || {};
 	relatedLinkEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 		self.parent.getModelFromForm($el, self);
+		delete self.model.linkInput;
 		self.model.links = [];
 
 		// Pull data from all link elements and add to model just the properties need to look it up again
@@ -3269,7 +3277,7 @@ var EntityEmbed = EntityEmbed || {};
 				requestDelay: 600,
 				url: function(phrase) {
 					ajaxData.title = phrase;
-					return imageEmbed.options.httpPaths.getAll;
+					return EntityEmbed.apiService.getDomainName() + imageEmbed.options.httpPaths.getAll;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;
@@ -3295,7 +3303,7 @@ var EntityEmbed = EntityEmbed || {};
 						$('input[name="simg-query"]').val('');
 
 						EntityEmbed.apiService.get({
-							path: imageEmbed.options.httpPaths.get,
+							path: EntityEmbed.apiService.getDomainName() + imageEmbed.options.httpPaths.get,
 							data: {
 								object_id: objectId
 							}
@@ -3768,15 +3776,9 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		return '<div class="video-embed">' +
-					'<div class="video-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
 						self.model.videoHtmlString  +
-					'</div>' +
-					'<div class="video-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
+					'</div>' + 
 				'</div>';
 	};
 
@@ -3802,6 +3804,8 @@ var EntityEmbed = EntityEmbed || {};
 			modalBody: '.embed-modal-body',
 			abortEl: '#btn-abort-modal',
 			embedTypeSelect: '#select-embed-type',
+			authToken: null,							// auth_token for the apiService
+			domainName: null,							// domainName for the apiService
 			embedTypes:{								// specify all embed types and their options here
 				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
@@ -3958,6 +3962,16 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		// END [2]
 
+		if (!!options.authToken)
+		{
+			EntityEmbed.apiService.setAuthToken(options.authToken);
+		}
+
+		if (!!options.domainName)
+		{
+			EntityEmbed.apiService.setDomainName(options.domainName);
+		}
+
 		return promise;
 	};
 
@@ -4042,6 +4056,8 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
 			label: '<span class="fa fa-code"></span>',
+			authToken: null,	// for the apiService
+			domainName: null,	// for the apiService
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -4234,6 +4250,15 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
+
+		if (!!self.options.authToken)
+		{
+			EntityEmbed.apiService.setAuthToken(self.options.authToken);
+		}
+		if (!!self.options.domainName)
+		{
+			EntityEmbed.apiService.setDomainName(self.options.domainName);
+		}
 
 		self.toolbarManager.createActionToolbar($('body'));
 
@@ -4634,7 +4659,7 @@ var EntityEmbed = EntityEmbed || {};
 		if(isString && !isHtml)
 		{
 			EntityEmbed.apiService.get({
-					path: 'https://test-services.pri.org/admin/embed/edit',
+					path: 'admin/embed/edit',
 					data: {
 						object_id : contentData
 					}

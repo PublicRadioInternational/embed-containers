@@ -19,6 +19,8 @@ var EntityEmbed = EntityEmbed || {};
 			modalBody: '.embed-modal-body',
 			abortEl: '#btn-abort-modal',
 			embedTypeSelect: '#select-embed-type',
+			authToken: null,							// auth_token for the apiService
+			domainName: null,							// domainName for the apiService
 			embedTypes:{								// specify all embed types and their options here
 				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
@@ -174,6 +176,16 @@ var EntityEmbed = EntityEmbed || {};
 			setUpModal();
 		}
 		// END [2]
+
+		if (!!options.authToken)
+		{
+			EntityEmbed.apiService.setAuthToken(options.authToken);
+		}
+
+		if (!!options.domainName)
+		{
+			EntityEmbed.apiService.setDomainName(options.domainName);
+		}
 
 		return promise;
 	};

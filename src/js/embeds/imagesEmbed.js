@@ -23,8 +23,8 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getLicenses: 'https://test-services.pri.org/admin/image-license/list',
-				uploadFile: 'https://test-services.pri.org/admin/embed/file-upload'
+				getLicenses: 'admin/image-license/list',
+				uploadFile: 'admin/embed/file-upload'
 			}
 		},
 		uploadedImgDisplay = '.uploaded-image-file',
@@ -169,17 +169,12 @@ var EntityEmbed = EntityEmbed || {};
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
-				return $.ajax({
-					url: self.options.httpPaths.uploadFile,
-					type: 'POST',
+				return EntityEmbed.apiService.uploadFile({
+					path: self.options.httpPaths.uploadFile,
 					data: imageFormData,
 					headers: {
-						'x-auth-token': EntityEmbed.apiService.getAuthToken(),
-						'x-object-id': responseData.response.object_id,
-						'x-debug': '1'
-					},
-					processData: false,
-					contentType: false
+						'x-object-id': responseData.response.object_id
+					}
 				});
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;

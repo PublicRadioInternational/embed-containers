@@ -71,7 +71,10 @@ $(document).ready(function(){
 		addons: {
 			images: false,
 			embeds: false,
-			entityEmbeds: true
+			entityEmbeds: {
+				authToken: 'abc123',
+				domainName: 'https://test-services.pri.org'
+			}
 		}
 	});
 

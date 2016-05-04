@@ -6,37 +6,54 @@ var EntityEmbed = EntityEmbed || {};
 		data: {},
 		debug: 0,
 		auth_token: '',
+		domainName: '',
 		path: ''
 	};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
-		config.data.debug = config.debug;
-		config.data.auth_token = config.auth_token;
+		
+		var ajaxOptions = {
+			timeout: 15000,
+			crossDomain: true,
+			type: config.methodType, 
+			dataType: 'json',
+			url: config.domainName + config.path,
+		};
 
-		return $.ajax({
-				timeout: 15000,
-				crossDomain: true,
-				type: config.methodType, 
-				dataType: 'json',
-				url: config.path,
-				data: JSON.stringify(config.data)
-			});
+		if (!!config.headers) // this is a file upload
+		{	
+			config.headers['x-auth-token'] = config.auth_token;
+			config.headers['x-debug'] = config.debug;
+
+			ajaxOptions.headers = config.headers;
+
+			ajaxOptions.processData = false;
+			ajaxOptions.contentType = false;
+			ajaxOptions.data = config.data;
+		}
+		else
+		{
+			config.data.debug = config.debug;
+			config.data.auth_token = config.auth_token;
+			ajaxOptions.data = JSON.stringify(config.data);
+		}
+
+		return $.ajax(ajaxOptions);
 	};
 
-	// TODO : refactor this - we (probably) only need one function, since everything uses POST now
-	function put(config) {
+	function set(config){
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	function post(config) {
+	function get(config){
 		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
-	function get(config) {
-		config.methodType = 'POST';
+	function uploadFile(config){
+		config.methodType = 'Post';
 		return ajaxWrapper(config);
 	};
 
@@ -48,20 +65,34 @@ var EntityEmbed = EntityEmbed || {};
 		return defaultConfig.auth_token;	
 	};
 
+	function getDomainName(d){
+		return defaultConfig.domainName;
+	};	
+
+	function setDomainName(d){
+		defaultConfig.domainName = d;
+		if (!defaultConfig.domainName.endsWith('/'))
+		{
+			defaultConfig.domainName += '/';
+		}
+	};
+
 	// determine debug level
 	var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
 	var isDevEnv = rgxDevEnv.test(window.location.host);
 	if (isDevEnv){
+		defaultConfig.auth_token = 'abc123';
 		defaultConfig.debug = 1;
-		setAuthToken('abc123');
 	}
 
 	// expose necesary functionality
 	EntityEmbed.apiService = {
-		put: put,
-		post: post,
+		set: set,
 		get: get,
+		uploadFile: uploadFile,
 		setAuthToken: setAuthToken,
-		getAuthToken: getAuthToken
+		getAuthToken: getAuthToken,
+		getDomainName: getDomainName,
+		setDomainName: setDomainName
 	};	
 })();
