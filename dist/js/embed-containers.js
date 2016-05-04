@@ -3184,18 +3184,18 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			var id = guid || generateId();
-			var newHtml = 
-				'<div class="slideshow-radio-container">' + 
-					'<label class="slideshow-radio">' + 
-						'<input type="radio" id="' + id + '" name="radioOption">' + 
+			var newHtml =
+				'<div class="slideshow-radio-container">' +
+					'<label class="slideshow-radio">' +
+						'<input type="radio" id="' + id + '" name="radioOption">' +
 						'<span class="' + labelTextClass + '">' +
 							label +
 						'</span>' +
-						'<label class="slideshow-image-error"></label>' + 
-					'</label>' + 
-					'<div class="remove-slideshow-image">' + 
-						'<i class="fa fa-times"></i>' + 
-					'</div>' + 
+						'<label class="slideshow-image-error"></label>' +
+					'</label>' +
+					'<div class="remove-slideshow-image">' +
+						'<i class="fa fa-times"></i>' +
+					'</div>' +
 				'</div>';
 
 			$(imageSelect).append(newHtml);
@@ -3215,7 +3215,7 @@ var EntityEmbed = EntityEmbed || {};
 			imageObjects[currentImageId] = imageEmbed.model;
 		},
 		selectSlideshowImage = function(imageId){
-			var $newImageSelectOption = $('#' + imageId); 
+			var $newImageSelectOption = $('#' + imageId);
 
 			if (!currentImageId || currentImageId === '') // this is the first image - show hidden UI items
 			{
@@ -3312,7 +3312,7 @@ var EntityEmbed = EntityEmbed || {};
 							// add data to it so the handler knows what to do
 							addEvent.imageModel = respData.response;
 							$('input[name="simg-query"]').trigger(addEvent);
-							
+
 						})
 						.fail(function(respData){
 							// TODO: show error UI
@@ -3350,21 +3350,17 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.model =  self.cleanModel();
 
-		// get image embed type
-		for (var et in EntityEmbed.embedTypes)
+		// Make sure image embed type has been defined
+		if(typeof EntityEmbed.embedTypes.image === 'function')
 		{
-			if (EntityEmbed.embedTypes[et].name === 'imagesEmbed')
-			{
-				imageEmbed = new EntityEmbed.embedTypes[et]();
+			imageEmbed = new EntityEmbed.embedTypes.image();
 
-				// initialize it with the correct form (remember there are two on this page)
-				imageEmbed.initModal($(imageForm));
+			// initialize it with the correct form (remember there are two on this page)
+			imageEmbed.initModal($(imageForm));
 
-				$(imageForm).hide();
-				break;
-			}
+			$(imageForm).hide();
 		}
-		if (!imageEmbed)
+		else
 		{
 			console.log('could not find image embed for use in slideshow embed');
 			return;
@@ -3412,7 +3408,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		// event handler for the select button within the select existing view
 		$el.find('input[name="simg-query"]').on('existingImageSelected', function(e){
-			
+
 				var imageNum = 1;
 				for (var image in imageObjects)
 				{
@@ -3465,7 +3461,7 @@ var EntityEmbed = EntityEmbed || {};
 			var $currentRadio = $('#' + currentImageId).parent();
 			$currentRadio.find('.' + labelTextClass).text(titleVal);
 		});
-	};	
+	};
 
 	slideshowEmbed.prototype.saveEmbed = function(embedIsNew){
 		var self = this;
@@ -3483,7 +3479,7 @@ var EntityEmbed = EntityEmbed || {};
 			var imageEmbedIsNew = !imageEmbed.model.object_id;
 
 			var promise = imageEmbed.saveEmbed(imageEmbedIsNew);
-			
+
 			promise.done( (function(imageNum){
 					return function(data){
 						if (data.status == 'ERROR')
@@ -3508,13 +3504,13 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		return $.when.apply($, deferreds).then(function(){
 			return self.parent.saveEmbed(embedIsNew, self);
-		});	
+		});
 	};
 
 	slideshowEmbed.prototype.validate = function($el, isAddModal){
 		var self = this;
 
-		
+
 		// TODO : make this work
 		imageEmbed.validate($(imageForm), isAddModal);
 
