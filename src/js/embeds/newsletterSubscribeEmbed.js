@@ -17,7 +17,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
-				getNewsletters: 'https://test-services.pri.org/admin/newsletter/list'
+				getNewsletters: 'admin/newsletter/list'
 			}
 		};
 

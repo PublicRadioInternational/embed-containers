@@ -134,7 +134,7 @@ var EntityEmbed = EntityEmbed || {};
 				requestDelay: 600,
 				url: function(phrase) {
 					ajaxData.title = phrase;
-					return imageEmbed.options.httpPaths.getAll;
+					return EntityEmbed.apiService.getDomainName() + imageEmbed.options.httpPaths.getAll;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;
@@ -160,7 +160,7 @@ var EntityEmbed = EntityEmbed || {};
 						$('input[name="simg-query"]').val('');
 
 						EntityEmbed.apiService.get({
-							path: imageEmbed.options.httpPaths.get,
+							path: EntityEmbed.apiService.getDomainName() + imageEmbed.options.httpPaths.get,
 							data: {
 								object_id: objectId
 							}

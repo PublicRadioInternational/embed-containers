@@ -305,7 +305,7 @@ var EntityEmbed = EntityEmbed || {};
 				requestDelay: 600,
 				url: function(phrase) {
 					ajaxData.title = phrase;
-					return embedType.options.httpPaths.getAll;
+					return EntityEmbed.apiService.getDomainName() + embedType.options.httpPaths.getAll;
 				},
 				listLocation: function(listOfData){
 					return listOfData.response.data;

@@ -14,6 +14,8 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
 			label: '<span class="fa fa-code"></span>',
+			authToken: null,	// for the apiService
+			domainName: null,	// for the apiService
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -206,6 +208,15 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
+
+		if (!!self.options.authToken)
+		{
+			EntityEmbed.apiService.setAuthToken(self.options.authToken);
+		}
+		if (!!self.options.domainName)
+		{
+			EntityEmbed.apiService.setDomainName(self.options.domainName);
+		}
 
 		self.toolbarManager.createActionToolbar($('body'));
 
@@ -606,7 +617,7 @@ var EntityEmbed = EntityEmbed || {};
 		if(isString && !isHtml)
 		{
 			EntityEmbed.apiService.get({
-					path: 'https://test-services.pri.org/admin/embed/edit',
+					path: 'admin/embed/edit',
 					data: {
 						object_id : contentData
 					}
