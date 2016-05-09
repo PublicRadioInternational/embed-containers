@@ -28,7 +28,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = iframeEmbed;
 
 	// PUBLIC
-	iframeEmbed.prototype.orderIndex = 11;
+	iframeEmbed.prototype.orderIndex = 12;
 
 	iframeEmbed.prototype.cleanModel = function(){
 		return {

@@ -28,7 +28,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = instagramEmbed;
 
 	// PUBLIC
-	instagramEmbed.prototype.orderIndex = 8;
+	instagramEmbed.prototype.orderIndex = 9;
 
 	instagramEmbed.prototype.getModelFromForm = function($el){
 		var self = this;

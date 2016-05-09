@@ -28,7 +28,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = facebookEmbed;
 
 	// PUBLIC
-	facebookEmbed.prototype.orderIndex = 7;
+	facebookEmbed.prototype.orderIndex = 8;
 
 	facebookEmbed.prototype.getModelFromForm = function($el){
 		var self = this;

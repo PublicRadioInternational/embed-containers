@@ -30,7 +30,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = globalBuzzEmbed;
 
 	// PUBLIC
-	globalBuzzEmbed.prototype.orderIndex = 13;
+	globalBuzzEmbed.prototype.orderIndex = 14;
 
 	globalBuzzEmbed.prototype.cleanModel = function(){
 		return {

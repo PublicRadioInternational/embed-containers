@@ -62,7 +62,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = externalLinkEmbed;
 
 	// PUBLIC
-	externalLinkEmbed.prototype.orderIndex = 9;
+	externalLinkEmbed.prototype.orderIndex = 10;
 
 	externalLinkEmbed.prototype.cleanModel = function(){
 		return {
