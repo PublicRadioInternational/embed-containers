@@ -29,7 +29,7 @@ var EntityEmbed = EntityEmbed || {};
 			wide: true
 		},
 		validationOptions: {
-			focusCleanip: true
+			focusCleanup: true
 		}
 	};
 
