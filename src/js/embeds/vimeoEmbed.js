@@ -42,10 +42,10 @@ var EntityEmbed = EntityEmbed || {};
 	var makeVimeoEmbedUrl = function(videoId) {
 		// TODO: embed opts should be configurable
 		var opts = '?' + [
-			'title=0',      // Hide video title
-			'portrait=0',   // Hide creator portrait
-			'byline=0',     // Hide creater byline
-			'color=dc5555', // Set color to sites primary accent color. I ♥ Vimeo.
+			'title=0',		// Hide video title
+			'portrait=0',	// Hide creator portrait
+			'byline=0',		// Hide creater byline
+			'color=dc5555',	// Set color to sites primary accent color. I ♥ Vimeo.
 		].join('&');
 
 		return '//player.vimeo.com/video/' + getVimeoVideoId(videoId) + opts;
@@ -77,35 +77,34 @@ var EntityEmbed = EntityEmbed || {};
 		$.validator.addMethod('domainIsVimeo', function(value, element, params) {
 			var isValid = value.indexOf('vimeo.com') != -1;
 			return this.optional(element) || isValid;
-		}, 'The video must be from www.vimeo.com');
+		}, 'The video must be from Vimeo');
+	};
+
+	// ASSUMPTION - model is already populated
+	// TODO : embedIsNew can be determined programatically (check if model has object_id)
+	videoEmbed.prototype.saveEmbed = function(embedIsNew){
+		var self = this;
+
+		if (embedIsNew)
+		{
+			// add the object_type onto the model
+			self.model.object_type = self.options.object_type;
+		}
+
+		return EntityEmbed.apiService.set({
+			path: self.options.httpPaths.set, 
+			data: self.model
+		});
 	};
 
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		$.support.cors = true;
-
-		$.ajax({
-			crossDomain: true,
-			cache: false,
-			async: false,
-			timeout: 15000,
-			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
-			dataType: 'json',
-			data: {
-				url: self.model.url
-			},
-			success: function(data){
-				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
-			},
-			error: function(jqXHR, textStatus, error){
-				// TODO
-			}
-		});
-
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						self.model.videoHtmlString  +
+						'<iframe src="' +
+							makeVimeoEmbedUrl(self.model.url) + '" >' +
+						'</iframe>' + 
 					'</div>' + 
 				'</div>';
 	};

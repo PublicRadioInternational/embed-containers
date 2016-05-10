@@ -52,9 +52,9 @@ var EntityEmbed = EntityEmbed || {};
 	var makeYoutubeEmbedUrl = function(videoId) {
 		// TODO: embed opts should be configurable
 		var opts = '?' + [
-		'showinfo=0',       // Hide video title
-		'modestbranding=1', // Hide YouTube logo on controls
-		'rel=0'             // Don't show related video grid after video has finished
+			'showinfo=0',		// Hide video title
+			'modestbranding=1',	// Hide YouTube logo on controls
+			'rel=0'				// Don't show related video grid after video has finished
 		].join('&');
 
 		return '//www.youtube.com/embed/' + getYoutubeVideoId(videoId) + opts;
@@ -86,35 +86,17 @@ var EntityEmbed = EntityEmbed || {};
 		$.validator.addMethod('domainIsYoutube', function(value, element, params) {
 			var isValid = value.indexOf('youtube.com') != -1;
 			return this.optional(element) || isValid;
-		}, 'The video must be from www.youtube.com');
+		}, 'The video must be from YouTube');
 	};
 
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		$.support.cors = true;
-
-		$.ajax({
-			crossDomain: true,
-			cache: false,
-			async: false,
-			timeout: 15000,
-			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
-			dataType: 'json',
-			data: {
-				url: self.model.url
-			},
-			success: function(data){
-				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
-			},
-			error: function(jqXHR, textStatus, error){
-				// TODO
-			}
-		});
-
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						self.model.videoHtmlString  +
+						'<iframe src="' +
+							makeYoutubeEmbedUrl(self.model.url) + '" >' +
+						'</iframe>' + 
 					'</div>' + 
 				'</div>';
 	};

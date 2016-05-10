@@ -24,7 +24,8 @@ var EntityEmbed = EntityEmbed || {};
 			embedTypes:{								// specify all embed types and their options here
 				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
-				video:{},
+				youtube:{},
+				vimeo:{},
 				audio:{},
 				twitter:{},
 				instagram:{},
