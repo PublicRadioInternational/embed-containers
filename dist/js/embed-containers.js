@@ -11,9 +11,10 @@ templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-ro
 templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><div class=\"embed-modal-half-column\"><h2 class=\"header-text\"></h2></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div id=\"leave-confirmation-modal\"><div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
 templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input name=\"linkInput\" type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
-templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div></form><fieldset id=\"embed-modal-slideshow-image-select-existing\"><legend></legend><div class=\"embed-modal-row simg-query-container\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></fieldset><fieldset id=\"embed-modal-slideshow-image\"><legend></legend><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Choosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></fieldset>";
+templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div></form><fieldset id=\"embed-modal-slideshow-image-select-existing\"><legend></legend><div class=\"embed-modal-row simg-query-container\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></fieldset><fieldset id=\"embed-modal-slideshow-image\"><legend></legend><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Chosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></fieldset>";
 templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
-templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
+templateCache["modal/modal_video_vimeo.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
+templateCache["modal/modal_video_youtube.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
 var EntityEmbed = EntityEmbed || {};
 
 (function(){
@@ -1848,7 +1849,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = customTextEmbed;
 
 	// PUBLIC
-	customTextEmbed.prototype.orderIndex = 5;
+	customTextEmbed.prototype.orderIndex = 6;
 
 	customTextEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
@@ -2017,7 +2018,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = externalLinkEmbed;
 
 	// PUBLIC
-	externalLinkEmbed.prototype.orderIndex = 9;
+	externalLinkEmbed.prototype.orderIndex = 10;
 
 	externalLinkEmbed.prototype.cleanModel = function(){
 		return {
@@ -2180,7 +2181,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = facebookEmbed;
 
 	// PUBLIC
-	facebookEmbed.prototype.orderIndex = 7;
+	facebookEmbed.prototype.orderIndex = 8;
 
 	facebookEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
@@ -2283,7 +2284,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = globalBuzzEmbed;
 
 	// PUBLIC
-	globalBuzzEmbed.prototype.orderIndex = 13;
+	globalBuzzEmbed.prototype.orderIndex = 14;
 
 	globalBuzzEmbed.prototype.cleanModel = function(){
 		return {
@@ -2347,7 +2348,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = iframeEmbed;
 
 	// PUBLIC
-	iframeEmbed.prototype.orderIndex = 11;
+	iframeEmbed.prototype.orderIndex = 12;
 
 	iframeEmbed.prototype.cleanModel = function(){
 		return {
@@ -2630,7 +2631,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = instagramEmbed;
 
 	// PUBLIC
-	instagramEmbed.prototype.orderIndex = 8;
+	instagramEmbed.prototype.orderIndex = 9;
 
 	instagramEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
@@ -2726,7 +2727,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = newsletterSubscribeEmbed;
 
 	// PUBLIC
-	newsletterSubscribeEmbed.prototype.orderIndex = 12;
+	newsletterSubscribeEmbed.prototype.orderIndex = 13;
 
 	newsletterSubscribeEmbed.prototype.cleanModel = function(){
 		return {
@@ -2956,7 +2957,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = relatedLinkEmbed;
 
 	// PUBLIC
-	relatedLinkEmbed.prototype.orderIndex = 10;
+	relatedLinkEmbed.prototype.orderIndex = 11;
 
 	relatedLinkEmbed.prototype.cleanModel = function(){
 		return {
@@ -3661,7 +3662,7 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = twitterEmbed;
 
 	// PUBLIC
-	twitterEmbed.prototype.orderIndex = 6;
+	twitterEmbed.prototype.orderIndex = 7;
 
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
@@ -3722,7 +3723,6 @@ var EntityEmbed = EntityEmbed || {};
 	// PRIVATE
 	var embedName = 'video',
 		defaults = {
-			viewPath: 'modal_video.html',
 			displayName: 'Video',
 			object_type: 'video',
 			validationOptions: {
@@ -3743,8 +3743,6 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbed.embedTypes[embedName] = videoEmbed;
 
 	// PUBLIC
-	videoEmbed.prototype.orderIndex = 4;
-
 	videoEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
@@ -3755,33 +3753,167 @@ var EntityEmbed = EntityEmbed || {};
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		$.support.cors = true;
-
-		$.ajax({
-			crossDomain: true,
-			cache: false,
-			async: false,
-			timeout: 15000,
-			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
-			dataType: 'json',
-			data: {
-				url: self.model.url
-			},
-			success: function(data){
-				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
-			},
-			error: function(jqXHR, textStatus, error){
-				// TODO
-			}
-		});
-
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						self.model.videoHtmlString  +
+						self.makeEmbedUrl()
 					'</div>' + 
 				'</div>';
 	};
+})();
 
+(function(){
+
+	'use strict';
+
+	// PRIVATE
+	var embedName = 'vimeo',
+		defaults = {
+			viewPath: 'modal_video_vimeo.html',
+			displayName: 'Video - Vimeo',
+			video_type: 'vimeo', 
+			validationOptions: {
+				rules: {
+					title: 'required',
+					url: {
+						required: true,
+						domainIsVimeo: true
+					}
+				}
+			}
+		};
+
+	// Vimeo URL Patterns:
+	// 1. [http://]player.vimeo.com/video/VIDEOID : IFrame embed. Can have querystring options
+	// 2. [http://]vimeo.com/VIDEOID : URL in address bar when watching on website
+ 
+	// Extracts the id based on Vimeo URL patterns.   
+	var getVimeoVideoId = function(videoId) {
+		var result = (videoId.indexOf('/') > -1) ?
+		// Vimeo's urls all have the video id at the end of the path segment,
+		// after the last '/' up to the end of the string (or '?' if pressent)
+		videoId.match(/\/([^?\/]+)(?:\?|$)/i)[1] :
+		// Not URL. Assume original value is the Id
+		videoId;
+
+		return result;
+	};
+
+	// CONSTRUCTOR
+	function vimeoEmbed(options){
+		var self = this;
+		self.parent.constructor(options, defaults, embedName, self);
+	};
+
+	vimeoEmbed.inherits(EntityEmbed.embedTypes.video);
+	EntityEmbed.embedTypes[embedName] = vimeoEmbed;
+
+	// PUBLIC
+	vimeoEmbed.prototype.orderIndex = 5;
+
+	vimeoEmbed.prototype.init = function($el){
+		var self = this;
+		self.parent.init($el, self);
+
+		$.validator.addMethod('domainIsVimeo', function(value, element, params) {
+			var isValid = value.indexOf('vimeo.com') != -1;
+			return this.optional(element) || isValid;
+		}, 'The video must be from Vimeo');
+	};
+
+	// Generate Vimeo embed URL (pattern 1)
+	vimeoEmbed.prototype.makeEmbedUrl = function(videoId) {
+		// TODO: embed opts should be configurable
+		var opts = '?' + [
+			'title=0',		// Hide video title
+			'portrait=0',	// Hide creator portrait
+			'byline=0',		// Hide creater byline
+			'color=dc5555',	// Set color to sites primary accent color. I ♥ Vimeo.
+		].join('&');
+
+		return '//player.vimeo.com/video/' + getVimeoVideoId(videoId) + opts;
+	};
+})();
+
+(function(){
+
+	'use strict';
+
+	// PRIVATE
+	var embedName = 'youtube',
+		defaults = {
+			viewPath: 'modal_video_youtube.html',
+			displayName: 'Video - Youtube',
+			video_type: 'youtube', 
+			validationOptions: {
+				rules: {
+					title: 'required',
+					url: {
+						required: true,
+						domainIsYoutube: true
+					}
+				}
+			}
+		};
+
+	// YouTube URL Patterns:
+	// 1. [http://]www.youtube.com/embed/VIDEOID : IFrame embed. Can have querystring options
+	// 2. [http://]www.youtube.com/v/VIDEOID : AS3 embed. Can have querystring options
+	// 3. [http://]www.youtube.com/watch?v=VIDEOID : URL in address bar when watching on website
+	// 4. [http://]youtu.be/VIDEOID : Sharing URL. Can have querystring options
+
+	// Extracts the id based on YouTube URL patterns.   
+	var getYoutubeVideoId = function(videoId) {
+		var result = (videoId.indexOf('/') > -1) ?
+		
+		// This is a url
+		(videoId.indexOf('/watch') > -1) ?
+		
+		// URL is pattern 3
+		videoId.match(/v=([^&]+)(?:&|$)/i)[1] :
+		
+		// All other URL patterns have the video id at the end of the path segment,
+		// after the last '/' up to the end of the string (or '?' if pressent)
+		videoId.match(/\/([^?\/]+)(?:\?|$)/i)[1] :
+		
+		// Not URL. Assume original value is the id
+		videoId;
+
+		return result;
+	};
+
+	// CONSTRUCTOR
+	var youtubeEmbed = function(options){
+		var self = this;
+		self.parent.constructor(options, defaults, embedName, self);
+	};
+
+	youtubeEmbed.inherits(EntityEmbed.embedTypes.video);
+	EntityEmbed.embedTypes[embedName] = youtubeEmbed;
+
+	// PUBLIC
+	youtubeEmbed.prototype.orderIndex = 4;
+
+	youtubeEmbed.prototype.init = function($el){
+		var self = this;
+		self.parent.init($el, self);
+
+		$.validator.addMethod('domainIsYoutube', function(value, element, params) {
+			var isValid = value.indexOf('youtube.com') != -1;
+			return this.optional(element) || isValid;
+		}, 'The video must be from YouTube');
+	};
+
+	// Generate YouTube embed URL (pattern 1)
+	youtubeEmbed.prototype.makeEmbedUrl = function(videoId) {
+		// TODO: embed opts should be configurable
+		var opts = '?' + [
+			'showinfo=0',		// Hide video title
+			'modestbranding=1',	// Hide YouTube logo on controls
+			'rel=0'				// Don't show related video grid after video has finished
+		].join('&');
+
+		return '//www.youtube.com/embed/' + getYoutubeVideoId(videoId) + opts;
+	};
 })();
 var EntityEmbed = EntityEmbed || {};
 
@@ -3809,7 +3941,8 @@ var EntityEmbed = EntityEmbed || {};
 			embedTypes:{								// specify all embed types and their options here
 				image:{},								// TODO : allow global specification of embed types without hardcoding defaults
 				slideshow: {},
-				video:{},
+				youtube:{},
+				vimeo:{},
 				audio:{},
 				twitter:{},
 				instagram:{},

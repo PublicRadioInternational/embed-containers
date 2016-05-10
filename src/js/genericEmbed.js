@@ -18,7 +18,7 @@ var EntityEmbed = EntityEmbed || {};
 		viewPath: '',
 		displayName: 'Generic',
 		httpPaths:{
-			set: 'admin/embed/edit',	// TODO : rename API path handle (put is now a misnomer)
+			set: 'admin/embed/edit',
 			get: 'admin/embed/fetch',
 			getAll: 'admin/embed/list'
 		},
