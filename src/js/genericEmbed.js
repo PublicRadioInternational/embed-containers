@@ -28,7 +28,9 @@ var EntityEmbed = EntityEmbed || {};
 			center: true,
 			wide: true
 		},
-		validationOptions: {}
+		validationOptions: {
+			focusCleanip: true
+		}
 	};
 
 	genericEmbed.prototype.cleanModel = function(){
@@ -105,11 +107,16 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
 		var self = child || this;
-
-		if(!!self.$validator)
-		{	
- 			self.$validator.resetForm();
+		
+		var $form = $el;
+		if (!$form.is('form'))
+		{
+			$form = $el.find('form');
 		}
+		$form.each(function(){
+			$(this).validate(self.options.validationOptions).resetForm();
+		});
+		
 		var formList = $el.find('form');
 		for (var i = 0; i < formList.length; i++)
 		{
@@ -117,8 +124,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	 	self.model = self.cleanModel();
 	};
-
-	genericEmbed.prototype.editorEvents = function(){};
 
 	genericEmbed.prototype.parseForEditor = function(){
 		var self = this;
@@ -136,7 +141,9 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			$form = $el.find('form');
 		}
-		self.$validator = $form.validate(self.options.validationOptions);
+		self.$validator = $form.each(function(){
+			$(this).validate(self.options.validationOptions);
+		});
 		return self.$validator;
 	};
 

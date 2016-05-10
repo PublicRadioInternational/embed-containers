@@ -15,11 +15,17 @@ var EntityEmbed = EntityEmbed || {};
 					slideshowTitle: 'required',
 					title: 'required',
 					altText: 'required',
-					license: 'required'//,
-					// radioOption: {
-					// 	slideshowImage: true,
-					// 	errorLabelContainer: '.slideshow-image-error'
-					// }
+					license: 'required',
+					radioOption: {
+					 	slideshowImage: true
+					}
+				},
+				errorPlacement: function(error, element){
+					if (element.attr('name') === 'radioOption')
+					{
+						error.css('float', 'right');
+					}
+					error.insertAfter(element);
 				}
 			}
 		},
@@ -68,8 +74,8 @@ var EntityEmbed = EntityEmbed || {};
 
 			$op.find('.remove-slideshow-image').on('click', (function(){
 				return function(embedId, $radioOp){
-					delete imageObjects[id];
-					$op.remove();
+					delete imageObjects[embedId];
+					$radioOp.remove();
 				}
 			})(id, $op));
 
@@ -107,8 +113,13 @@ var EntityEmbed = EntityEmbed || {};
 			$(selectExistingImageContainer).show();
 		},
 		hideSelectExistingImage = function(){
-			$(imageForm).show();
+			if ($('[name="radioOption"]:checked').length !== 0)
+			{
+				$(imageForm).show();
+			}
 			$(selectExistingImageContainer).hide();
+
+			$('input[name="simg-query"]').val('');
 		},
 		initAutoComplete = function (){
 			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
@@ -143,7 +154,6 @@ var EntityEmbed = EntityEmbed || {};
 					return data.title;
 				},
 				preparePostData: function(data) {
-					data.title = $('input[name="simg-query"]').val();
 					return JSON.stringify(data);
 				},
 				list: {
@@ -160,7 +170,7 @@ var EntityEmbed = EntityEmbed || {};
 						$('input[name="simg-query"]').val('');
 
 						EntityEmbed.apiService.get({
-							path: EntityEmbed.apiService.getDomainName() + imageEmbed.options.httpPaths.get,
+							path: imageEmbed.options.httpPaths.get,
 							data: {
 								object_id: objectId
 							}
@@ -242,7 +252,7 @@ var EntityEmbed = EntityEmbed || {};
 							!!imageObjects[imgId].altText &&
 							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
 			}
-			return this.optional(element) || isValid;
+			return isValid;
 		}, 'missing required fields');
 
 		imageEmbed.loadLicenses($el);
@@ -258,6 +268,8 @@ var EntityEmbed = EntityEmbed || {};
 
 		// event handler for the add image icon
 		$('.slideshow-image-add').on('click', function(){
+			hideSelectExistingImage();
+
 			var imageNum = 1;
 			for (var image in imageObjects)
 			{
@@ -303,8 +315,8 @@ var EntityEmbed = EntityEmbed || {};
 
 		$(cancelSelectExistingImageBtn).on('click', function(){
 			hideSelectExistingImage();
-			$('input[name="simg-query"]').val('')
 		});
+
 		// event handler for changing the image object which populates the form (select radio option)
 		$(imageSelect).on('click', function(e){
 			var $clickedOption = $(imageSelect + ' :checked');
@@ -370,17 +382,6 @@ var EntityEmbed = EntityEmbed || {};
 		return $.when.apply($, deferreds).then(function(){
 			return self.parent.saveEmbed(embedIsNew, self);
 		});
-	};
-
-	slideshowEmbed.prototype.validate = function($el, isAddModal){
-		var self = this;
-
-
-		// TODO : make this work
-		imageEmbed.validate($(imageForm), isAddModal);
-
-
-		return self.parent.validate($el.find('form').first(), isAddModal, self);
 	};
 
 	slideshowEmbed.prototype.getModelFromForm = function($form){

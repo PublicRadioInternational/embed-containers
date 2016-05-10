@@ -142,12 +142,7 @@ gulp.task('watchHtml', function()
 	gulp.watch(htmlPath + '**/*.html', ['templateCache', 'devConcatJs', 'devMove']);
 });
 
-gulp.task('watchPhp', function()
-{
-	gulp.watch(htmlPath + '**/*.php', ['devMove']);
-});
-
-gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml', 'watchPhp']);
+gulp.task('watch', ['watchLess', 'watchJs', 'watchHtml']);
 
 gulp.task('default', ['copyLib', 'devLess', 'templateCache', 'devConcatJs', 'devMove', 'watch']);
 
