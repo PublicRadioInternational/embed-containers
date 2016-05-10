@@ -195,7 +195,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					scope.alwaysCallback();
 				}
-				scope.currentEmbedType.clearForm();
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			};
 
 			scope.currentEmbedType.saveEmbed(isAddModal)
@@ -651,7 +651,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
-				scope.currentEmbedType.clearForm();
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				delete scope.confirmedLeave;
 				return true;
 			},
