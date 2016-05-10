@@ -44,7 +44,7 @@
 	{
 		.make-xs-column(1);
 		margin: 0 auto;
-		margin-top: 14px;
+		margin-top: 10px;
 	}
 }
 
@@ -59,21 +59,20 @@
 	
 	#slideshow-image-select-btns
 	{
-		float: right;
-		button
-		{
-			.btn();
-		}
-
-		#btn-select-existing-simg
-		{
-			.btn-primary();
-		}
+		.make-xs-column(2);
 
 		#btn-cancel-select-existing-simg
 		{
+			margin-top: 25px;
+			.btn();
 			.btn-default(); 
 		}
+	}
+
+
+	.simg-query-container
+	{
+		.make-xs-column(10);
 	}
 }
 
@@ -88,5 +87,4 @@
 			background-color: #bfbfbf !important;
 		}
 	}
-
 }

@@ -617,7 +617,7 @@ var EntityEmbed = EntityEmbed || {};
 		if(isString && !isHtml)
 		{
 			EntityEmbed.apiService.get({
-					path: 'admin/embed/edit',
+					path: 'admin/embed/edit', // TODO : not hardcode
 					data: {
 						object_id : contentData
 					}
