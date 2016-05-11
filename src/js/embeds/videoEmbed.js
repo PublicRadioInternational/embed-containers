@@ -58,8 +58,8 @@ var EntityEmbed = EntityEmbed || {};
 	// Vimeo URL Patterns:
 	// 1. [http://]player.vimeo.com/video/VIDEOID : IFrame embed. Can have querystring options
 	// 2. [http://]vimeo.com/VIDEOID : URL in address bar when watching on website
- 
-	// Extracts the id based on Vimeo URL patterns.   
+
+	// Extracts the id based on Vimeo URL patterns.
 	var getVimeoVideoId = function(videoId) {
 		var result = (videoId.indexOf('/') > -1) ?
 		// Vimeo's urls all have the video id at the end of the path segment,
@@ -77,20 +77,20 @@ var EntityEmbed = EntityEmbed || {};
 	// 3. [http://]www.youtube.com/watch?v=VIDEOID : URL in address bar when watching on website
 	// 4. [http://]youtu.be/VIDEOID : Sharing URL. Can have querystring options
 
-	// Extracts the id based on YouTube URL patterns.   
+	// Extracts the id based on YouTube URL patterns.
 	var getYoutubeVideoId = function(videoId) {
 		var result = (videoId.indexOf('/') > -1) ?
-		
+
 		// This is a url
 		(videoId.indexOf('/watch') > -1) ?
-		
+
 		// URL is pattern 3
 		videoId.match(/v=([^&]+)(?:&|$)/i)[1] :
-		
+
 		// All other URL patterns have the video id at the end of the path segment,
 		// after the last '/' up to the end of the string (or '?' if pressent)
 		videoId.match(/\/([^?\/]+)(?:\?|$)/i)[1] :
-		
+
 		// Not URL. Assume original value is the id
 		videoId;
 
@@ -127,32 +127,10 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	videoEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		$.support.cors = true;
-
-		$.ajax({
-			crossDomain: true,
-			cache: false,
-			async: false,
-			timeout: 15000,
-			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
-			dataType: 'json',
-			data: {
-				url: self.model.url
-			},
-			success: function(data){
-				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
-			},
-			error: function(jqXHR, textStatus, error){
-				// TODO
-			}
-		});
-
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
 						makeEmbedIframe(self.model) +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 
