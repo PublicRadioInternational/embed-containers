@@ -20,10 +20,6 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			}
 		},
-		makeEmbedIframe = function(model){
-			var html = '<iframe src="' + makeVideoUrl(model.url) + '"	></iframe>'
-			return html;
-		},
 		makeVideoUrl = function(url){
 			if (url.indexOf('vimeo.com') !== -1)
 			{
@@ -127,31 +123,9 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	videoEmbed.prototype.parseForEditor = function(){
-		var self = this;
-
-		$.support.cors = true;
-
-		$.ajax({
-			crossDomain: true,
-			cache: false,
-			async: false,
-			timeout: 15000,
-			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
-			dataType: 'json',
-			data: {
-				url: self.model.url
-			},
-			success: function(data){
-				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
-			},
-			error: function(jqXHR, textStatus, error){
-				// TODO
-			}
-		});
-
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						makeEmbedIframe(self.model) +
+						'<iframe src="' + makeVideoUrl(model.url) + '"	></iframe>' + 
 					'</div>' + 
 				'</div>';
 	};
