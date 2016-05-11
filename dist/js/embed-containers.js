@@ -1890,7 +1890,7 @@ var EntityEmbed = EntityEmbed || {};
 	customTextEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			displayTitle: null,
+			displayTitle: "",
 			text: null
 		};
 	}
