@@ -123,9 +123,10 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	videoEmbed.prototype.parseForEditor = function(){
+		var self = this;
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						'<iframe src="' + makeVideoUrl(model.url) + '"	></iframe>' + 
+						'<iframe src="' + makeVideoUrl(self.model.url) + '"	></iframe>' + 
 					'</div>' + 
 				'</div>';
 	};

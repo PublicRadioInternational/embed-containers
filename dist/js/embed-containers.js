@@ -11,7 +11,7 @@ templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-ro
 templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><div class=\"embed-modal-half-column\"><h2 class=\"header-text\"></h2></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div id=\"leave-confirmation-modal\"><div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
 templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input name=\"linkInput\" type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
-templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div><hr><div id=\"embed-modal-slideshow-image-select-existing\"><div class=\"embed-modal-row simg-query-container\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></div><div id=\"embed-modal-slideshow-image\"><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Chosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></div></form>";
+templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div></form><hr><div class=\"embed-modal-row\" id=\"embed-modal-slideshow-image-select-existing\"><div class=\"simg-query-container\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></div><div id=\"embed-modal-slideshow-image\"><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Chosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></div>";
 templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
 var EntityEmbed = EntityEmbed || {};
@@ -415,7 +415,9 @@ var EntityEmbed = EntityEmbed || {};
 			center: true,
 			wide: true
 		},
-		validationOptions: {}
+		validationOptions: {
+			focusCleanup: true
+		}
 	};
 
 	genericEmbed.prototype.cleanModel = function(){
@@ -492,11 +494,16 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
 		var self = child || this;
-
-		if(!!self.$validator)
-		{	
- 			self.$validator.resetForm();
+		
+		var $form = $el;
+		if (!$form.is('form'))
+		{
+			$form = $el.find('form');
 		}
+		$form.each(function(){
+			$(this).validate(self.options.validationOptions).resetForm();
+		});
+		
 		var formList = $el.find('form');
 		for (var i = 0; i < formList.length; i++)
 		{
@@ -504,8 +511,6 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	 	self.model = self.cleanModel();
 	};
-
-	genericEmbed.prototype.editorEvents = function(){};
 
 	genericEmbed.prototype.parseForEditor = function(){
 		var self = this;
@@ -523,7 +528,9 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			$form = $el.find('form');
 		}
-		self.$validator = $form.validate(self.options.validationOptions);
+		self.$validator = $form.each(function(){
+			$(this).validate(self.options.validationOptions);
+		});
 		return self.$validator;
 	};
 
@@ -992,10 +999,17 @@ var EntityEmbed = EntityEmbed || {};
 							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
 
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
-			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
+			var isValid = true;
+			for(var i = 0; i < $validator.length; i++)
+			{
+				isValid = $(scope.currentEmbedType.$validator[i]).valid() && isValid;
+			}
+			
+			if (isSaving || !isValid)
 			{
 				return;
 			}
+
 			isSaving = true;
 			$(embedModalSelectors.elements.saveSpinner).show();
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
@@ -1074,7 +1088,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					scope.alwaysCallback();
 				}
-				$validator.resetForm();
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			};
 
 			scope.currentEmbedType.saveEmbed(isAddModal)
@@ -1530,10 +1544,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
-				// TODO : track validator on scope, reset here, then delete from scope
-				// 			could also use validator on currentEmbedType object
-				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, true);
-				$validator.resetForm();
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				delete scope.confirmedLeave;
 				return true;
 			},
@@ -3010,7 +3021,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		$.validator.addMethod('atLeastOne', function(value, element){
-			return this.optional(element) || $('.related-link-url').length > 0;
+			return $('.related-link-url').length > 0;
 		}, $.validator.format('One link is required.'));
 	};
 
@@ -3255,8 +3266,13 @@ var EntityEmbed = EntityEmbed || {};
 			$(selectExistingImageContainer).show();
 		},
 		hideSelectExistingImage = function(){
-			$(imageForm).show();
+			if ($('[name="radioOption"]:checked').length !== 0)
+			{
+				$(imageForm).show();
+			}
 			$(selectExistingImageContainer).hide();
+
+			$('input[name="simg-query"]').val('');
 		},
 		initAutoComplete = function (){
 			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
@@ -3389,7 +3405,7 @@ var EntityEmbed = EntityEmbed || {};
 							!!imageObjects[imgId].altText &&
 							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
 			}
-			return this.optional(element) || isValid;
+			return isValid;
 		}, 'missing required fields');
 
 		imageEmbed.loadLicenses($el);
@@ -3405,6 +3421,8 @@ var EntityEmbed = EntityEmbed || {};
 
 		// event handler for the add image icon
 		$('.slideshow-image-add').on('click', function(){
+			hideSelectExistingImage();
+
 			var imageNum = 1;
 			for (var image in imageObjects)
 			{
@@ -3450,7 +3468,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		$(cancelSelectExistingImageBtn).on('click', function(){
 			hideSelectExistingImage();
-			$('input[name="simg-query"]').val('')
 		});
 
 		// event handler for changing the image object which populates the form (select radio option)
@@ -3614,7 +3631,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			imageEmbed.clearForm($(imageForm));
 		}
-		
+
 		imageObjects = {};
 		currentImageId = '';
 
@@ -3722,10 +3739,85 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required'
+					url: {
+						required: true,
+						validDomain: true
+					}
 				}
 			}
+		},
+		makeVideoUrl = function(url){
+			if (url.indexOf('vimeo.com') !== -1)
+			{
+				// TODO: embed opts should be configurable
+				var opts = '?' + [
+					'title=0',		// Hide video title
+					'portrait=0',	// Hide creator portrait
+					'byline=0',		// Hide creater byline
+					'color=dc5555',	// Set color to sites primary accent color. I ♥ Vimeo.
+				].join('&');
+
+				return '//player.vimeo.com/video/' + getVimeoVideoId(url) + opts;
+			}
+			else if (url.indexOf('youtube.com') !== -1)
+			{
+				// TODO: embed opts should be configurable
+				var opts = '?' + [
+					'showinfo=0',		// Hide video title
+					'modestbranding=1',	// Hide YouTube logo on controls
+					'rel=0'				// Don't show related video grid after video has finished
+				].join('&');
+
+				return '//www.youtube.com/embed/' + getYoutubeVideoId(url) + opts;
+			}
+			else
+			{
+				return '';
+			}
+
 		};
+
+	// Vimeo URL Patterns:
+	// 1. [http://]player.vimeo.com/video/VIDEOID : IFrame embed. Can have querystring options
+	// 2. [http://]vimeo.com/VIDEOID : URL in address bar when watching on website
+
+	// Extracts the id based on Vimeo URL patterns.
+	var getVimeoVideoId = function(videoId) {
+		var result = (videoId.indexOf('/') > -1) ?
+		// Vimeo's urls all have the video id at the end of the path segment,
+		// after the last '/' up to the end of the string (or '?' if pressent)
+		videoId.match(/\/([^?\/]+)(?:\?|$)/i)[1] :
+		// Not URL. Assume original value is the Id
+		videoId;
+
+		return result;
+	};
+
+	// YouTube URL Patterns:
+	// 1. [http://]www.youtube.com/embed/VIDEOID : IFrame embed. Can have querystring options
+	// 2. [http://]www.youtube.com/v/VIDEOID : AS3 embed. Can have querystring options
+	// 3. [http://]www.youtube.com/watch?v=VIDEOID : URL in address bar when watching on website
+	// 4. [http://]youtu.be/VIDEOID : Sharing URL. Can have querystring options
+
+	// Extracts the id based on YouTube URL patterns.
+	var getYoutubeVideoId = function(videoId) {
+		var result = (videoId.indexOf('/') > -1) ?
+
+		// This is a url
+		(videoId.indexOf('/watch') > -1) ?
+
+		// URL is pattern 3
+		videoId.match(/v=([^&]+)(?:&|$)/i)[1] :
+
+		// All other URL patterns have the video id at the end of the path segment,
+		// after the last '/' up to the end of the string (or '?' if pressent)
+		videoId.match(/\/([^?\/]+)(?:\?|$)/i)[1] :
+
+		// Not URL. Assume original value is the id
+		videoId;
+
+		return result;
+	};
 
 	// CONSTRUCTOR
 	function videoEmbed(options){
@@ -3746,32 +3838,21 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+	videoEmbed.prototype.init = function($el){
+		var self = this;
+		self.parent.init($el, self);
+
+		$.validator.addMethod('validDomain', function(value, element, params) {
+			var isValid = value.indexOf('youtube.com') != -1 || value.indexOf('vimeo.com') != -1;
+			return this.optional(element) || isValid;
+		}, 'The video must be from YouTube or Vimeo');
+	};
+
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
-
-		$.support.cors = true;
-
-		$.ajax({
-			crossDomain: true,
-			cache: false,
-			async: false,
-			timeout: 15000,
-			url: 'http://medium.iframe.ly/api/oembed?iframe=1',
-			dataType: 'json',
-			data: {
-				url: self.model.url
-			},
-			success: function(data){
-				self.model.videoHtmlString = $(data.html).find('iframe').attr("style", "").prop('outerHTML');
-			},
-			error: function(jqXHR, textStatus, error){
-				// TODO
-			}
-		});
-
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						self.model.videoHtmlString  +
+						'<iframe src="' + makeVideoUrl(self.model.url) + '"	></iframe>' + 
 					'</div>' + 
 				'</div>';
 	};
