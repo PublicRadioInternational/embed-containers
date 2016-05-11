@@ -227,7 +227,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		$.validator.addMethod('atLeastOne', function(value, element){
-			return this.optional(element) || $('.related-link-url').length > 0;
+			return $('.related-link-url').length > 0;
 		}, $.validator.format('One link is required.'));
 	};
 

@@ -106,10 +106,17 @@ var EntityEmbed = EntityEmbed || {};
 							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
 
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
-			if (isSaving || !scope.currentEmbedType.$view.find('form').valid())
+			var isValid = true;
+			for(var i = 0; i < $validator.length; i++)
+			{
+				isValid = $(scope.currentEmbedType.$validator[i]).valid() && isValid;
+			}
+			
+			if (isSaving || !isValid)
 			{
 				return;
 			}
+
 			isSaving = true;
 			$(embedModalSelectors.elements.saveSpinner).show();
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
@@ -188,14 +195,13 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					scope.alwaysCallback();
 				}
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			};
 
 			scope.currentEmbedType.saveEmbed(isAddModal)
 				.done(successFunction)
 				.fail(failFunction)
 				.always(alwaysFunction);
-
-			$validator.resetForm();
 		},
 		showCreateNewEmbedView = function(scope){
 			$(embedModalSelectors.buttons.showSelectExisting).show();
@@ -645,10 +651,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
-				// TODO : track validator on scope, reset here, then delete from scope
-				// 			could also use validator on currentEmbedType object
-				var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, true);
-				$validator.resetForm();
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				delete scope.confirmedLeave;
 				return true;
 			},
