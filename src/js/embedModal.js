@@ -138,6 +138,15 @@ var EntityEmbed = EntityEmbed || {};
 		EntityEmbed.$embedModal = $modalEl;
 		EntityEmbed.modalExists = true;
 
+		if (!!options.authToken)
+		{
+			EntityEmbed.apiService.setAuthToken(options.authToken);
+		}
+		if (!!options.domainName)
+		{
+			EntityEmbed.apiService.setDomainName(options.domainName);
+		}
+
 		// Check to see if we need to load anything into $modalEl
 		if(options.modalFileName)
 		{
@@ -176,17 +185,7 @@ var EntityEmbed = EntityEmbed || {};
 			setUpModal();
 		}
 		// END [2]
-
-		if (!!options.authToken)
-		{
-			EntityEmbed.apiService.setAuthToken(options.authToken);
-		}
-
-		if (!!options.domainName)
-		{
-			EntityEmbed.apiService.setDomainName(options.domainName);
-		}
-
+		
 		return promise;
 	};
 
@@ -238,12 +237,11 @@ var EntityEmbed = EntityEmbed || {};
 			id: null,
 			selectExisting: false
 		};
-		var modalOptions = options && options.modalOptions || {};
 		var promise = $.Deferred();
 
 		$.embed_modal_create(options)
 			.always(function(){
-				embedModalOpenInternal($.extend(true, {}, defaults, modalOptions || {}))
+				embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}))
 					.done(function(data) {
 						promise.resolve(data);
 					})
