@@ -258,8 +258,10 @@ var EntityEmbed = EntityEmbed || {};
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown keypress', function(e){
+			.on('keydown', function(e){
 				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
+				var protectedElms = ['.entity-embed-container', '[contenteditable]'].join(',');
+				var notProtectedElms = ':not(' + protectedElms + ')';
 
 				// Don't do anything if key is not backspace (8) or delete (46)
 				// or if caret is in a ext node of editor.
@@ -293,11 +295,11 @@ var EntityEmbed = EntityEmbed || {};
 
 				if($anchor[0].nodeType === 3)
 				{
-					$anchor = $anchor.closest('p');
+					$anchor = $anchor.closest(notProtectedElms);
 				}
 
 				// Check to see if our anchor element is a p tag with no text
-				isEmptyP = $anchor.is('p') && !$anchor.text().length;
+				isEmptyP = $anchor.is(notProtectedElms) && !$anchor.text().length;
 
 				// Get the previous sibling when
 				// 	- Backspace is pressed
@@ -339,11 +341,11 @@ var EntityEmbed = EntityEmbed || {};
 
 					if(e.which === 8)
 					{
-						$base = $anchor.prevAll('p').first();
+						$base = $anchor.prevAll(notProtectedElms).first();
 					}
 					else if(e.which === 46)
 					{
-						$base = $anchor.nextAll('p').first();
+						$base = $anchor.nextAll(notProtectedElms).first();
 					}
 
 					// Make sure base element has content so selection process works.

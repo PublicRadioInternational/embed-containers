@@ -84,8 +84,8 @@ var EntityEmbed = EntityEmbed || {};
 		if(EntityEmbed.modalExists)
 		{
 			// Already created modal.
-			// Reject and return promise.
-			promise.reject();
+			// Resolve and return promise.
+			promise.resolve();
 			return promise;
 		}
 

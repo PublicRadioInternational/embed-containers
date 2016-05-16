@@ -9,8 +9,14 @@ $(document).ready(function(){
 	var $openEditEmbedBtn = $('.demo-button-open-modal.open-edit');
 
 	var storyObject = {
-		"html": "<p>This is editable content. Try typing in here!</p>",
-		"embeds": []
+		"html": "<p>This is editable content. Try typing in here!</p><h2>gdfgdfg</h2><div class=\"entity-embed-container\">[[EntityEmbeds:0:23599a8c140a4a11a68c1afe28f9b907]]</div>",
+		"embeds": [
+			{
+				"index": 0,
+				"id": "23599a8c140a4a11a68c1afe28f9b907",
+				"type": "image"
+			}
+		]
 	};
 
 	$('.editable').mediumInsert({
