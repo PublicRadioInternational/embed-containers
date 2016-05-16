@@ -258,7 +258,7 @@ var EntityEmbed = EntityEmbed || {};
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
-			.on('keydown keypress', function(e){
+			.on('keydown', function(e){
 				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
 
 				// Don't do anything if key is not backspace (8) or delete (46)
