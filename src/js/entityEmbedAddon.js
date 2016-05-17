@@ -238,6 +238,22 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
+		var editor = editor = self.core.getEditor();
+
+		editor.subscribe('editableInput', function(data, editableElm) {
+			var badMarkup = [
+				'p > ol',
+				'p > ul',
+				'p > p'
+			].join(',');
+			var $badMarkup = $(editableElm).find(badMarkup);
+
+			$badMarkup.each(function() {
+				var $this = $(this);
+				$this.unwrap();
+				editor.selectElement(this);
+			})
+		});
 
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
@@ -259,7 +275,7 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			// prevent user from destroying modal functionality when deleting first element
 			.on('keydown', function(e){
-				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
+				var selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
 				var protectedElms = ['.entity-embed-container', '[contenteditable]'].join(',');
 				var notProtectedElms = ':not(' + protectedElms + ')';
 
@@ -277,7 +293,6 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 
-				editor = self.core.getEditor();
 				range = selection.getRangeAt(0); // Get current selected range
 				selectionLength = range.endOffset - range.startOffset; // Get length of current selection
 				$anchor = $(selection.anchorNode); // Get the element the selection is currently originating from
@@ -714,7 +729,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.addNewline = function ($embed) {
 		var self = this;
-		var newline = '<p class="entity-embed-new-line"><br></p>';
+		var newline = '<p><br></p>';
 		// TODO : check if there is already a newline before / after
 		$embed.before(newline);
 		$embed.after(newline);

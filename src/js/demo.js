@@ -1,6 +1,10 @@
 $(document).ready(function(){
 
-	var medEditor = new MediumEditor('.editable');
+	var medEditor = new MediumEditor('.editable', {
+    toolbar: {
+      buttons: ['bold', 'italic', 'anchor', 'orderedlist', 'unorderedlist', 'h2', 'h3', 'quote']
+    }
+	});
 
 	var $extractContentBtn = $('#extract-story-content');
 	var $loadStoryBtn = $('#load-default-story');
