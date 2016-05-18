@@ -378,6 +378,9 @@ var EntityEmbed = EntityEmbed || {};
 
 					// Remove empty anchor element
 					$anchor.remove();
+
+					// Trigger input event
+					self.core.triggerInput();
 				}
 
 			})
