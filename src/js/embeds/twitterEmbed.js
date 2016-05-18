@@ -33,50 +33,31 @@ var EntityEmbed = EntityEmbed || {};
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 
-		// TODO: Need to extract this block of code, and instead call parent function
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
+		self.parent.getModelFromForm($el, self);
 
-		var embedCodeName = 'embedCode';
-		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-						'<a href="' + self.model.url + '">' +
-						'</a>' +
-					'</blockquote>' +
-					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
-		self.model[embedCodeName] = code;
+		self.model.embedCode =
+			'<blockquote class="twitter-tweet" data-lang="en">' +
+				'<a href="' + self.model.url + '"></a>' +
+			'</blockquote>' +
+			'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
 	};
 
 	// PUBLIC
 	twitterEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			url: null
+			url: null,
+			embedCode: null
 		};
 	};
 
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		// TODO: Need to make user unable to interact with embed
 		return '<div class="twitter-embed">' +
-					'<div class="twitter-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
 						self.model.embedCode +
 					'</div>' +
-					'<div class="twitter-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 				'</div>';
 	};
-
 })();

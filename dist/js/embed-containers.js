@@ -2237,16 +2237,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		// TODO: Need to make user unable to interact with embed
 		return '<div class="facebook-embed">' +
-					'<div class="facebook-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
-
-					self.model.embedCode +
-
-					'</div>' +
-					'<div class="facebook-info">' +
-						'<span>click here to show the toolbars</span>' +
+						self.model.embedCode +
 					'</div>' +
 				'</div>';
 	};
@@ -2678,17 +2670,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	instagramEmbed.prototype.parseForEditor = function(){
 		var self = this;
-
-		// TODO: Need to make user unable to interact with embed
 		return '<div class="instagram-embed">' +
-					'<div class="instagram-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
 						self.model.embedCode +
-					'</div>' +
-					'<div class="instagram-info">' +
-						'<span>click here to show the toolbars</span>' +
 					'</div>' +
 				'</div>';
 	};
@@ -3677,52 +3661,39 @@ var EntityEmbed = EntityEmbed || {};
 	twitterEmbed.prototype.getModelFromForm = function($el){
 		var self = this;
 
-		// TODO: Need to extract this block of code, and instead call parent function
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
+		self.parent.getModelFromForm($el, self);
 
-		var embedCodeName = 'embedCode';
-		var code = '<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-						'<a href="' + self.model.url + '">' +
-						'</a>' +
-					'</blockquote>' +
-					'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
-		self.model[embedCodeName] = code;
+		if (self.model.url.endsWith('/'))
+		{
+			self.model.url.substr(0, self.model.url.length - 1);
+		}
+		self.model.tweetId = self.model.url.substr(self.model.url.lastIndexOf('/') + 1);
+
+		self.model.embedCode =
+			'<blockquote class="twitter-tweet" data-lang="en">' +
+				'<a href="' + self.model.url + '"></a>' +
+			'</blockquote>' +
+			'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
 	};
 
 	// PUBLIC
 	twitterEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			url: null
+			url: null,
+			embedCode: null
 		};
 	};
 
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		// TODO: Need to make user unable to interact with embed
 		return '<div class="twitter-embed">' +
-					'<div class="twitter-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
 						self.model.embedCode +
 					'</div>' +
-					'<div class="twitter-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 				'</div>';
 	};
-
 })();
 var EntityEmbed = EntityEmbed || {};
 
@@ -3998,6 +3969,15 @@ var EntityEmbed = EntityEmbed || {};
 		EntityEmbed.$embedModal = $modalEl;
 		EntityEmbed.modalExists = true;
 
+		if (!!options.authToken)
+		{
+			EntityEmbed.apiService.setAuthToken(options.authToken);
+		}
+		if (!!options.domainName)
+		{
+			EntityEmbed.apiService.setDomainName(options.domainName);
+		}
+
 		// Check to see if we need to load anything into $modalEl
 		if(options.modalFileName)
 		{
@@ -4036,17 +4016,7 @@ var EntityEmbed = EntityEmbed || {};
 			setUpModal();
 		}
 		// END [2]
-
-		if (!!options.authToken)
-		{
-			EntityEmbed.apiService.setAuthToken(options.authToken);
-		}
-
-		if (!!options.domainName)
-		{
-			EntityEmbed.apiService.setDomainName(options.domainName);
-		}
-
+		
 		return promise;
 	};
 
@@ -4098,12 +4068,11 @@ var EntityEmbed = EntityEmbed || {};
 			id: null,
 			selectExisting: false
 		};
-		var modalOptions = options && options.modalOptions || {};
 		var promise = $.Deferred();
 
 		$.embed_modal_create(options)
 			.always(function(){
-				embedModalOpenInternal($.extend(true, {}, defaults, modalOptions || {}))
+				embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}))
 					.done(function(data) {
 						promise.resolve(data);
 					})
@@ -4355,6 +4324,22 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.events = function () {
 		var self = this;
+		var editor = editor = self.core.getEditor();
+
+		editor.subscribe('editableInput', function(data, editableElm) {
+			var badMarkup = [
+				'p > ol',
+				'p > ul',
+				'p > p'
+			].join(',');
+			var $badMarkup = $(editableElm).find(badMarkup);
+
+			$badMarkup.each(function() {
+				var $this = $(this);
+				$this.unwrap();
+				editor.selectElement(this);
+			})
+		});
 
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
@@ -4376,7 +4361,7 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			// prevent user from destroying modal functionality when deleting first element
 			.on('keydown', function(e){
-				var editor, selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
+				var selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
 				var protectedElms = ['.entity-embed-container', '[contenteditable]'].join(',');
 				var notProtectedElms = ':not(' + protectedElms + ')';
 
@@ -4394,7 +4379,6 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 
-				editor = self.core.getEditor();
 				range = selection.getRangeAt(0); // Get current selected range
 				selectionLength = range.endOffset - range.startOffset; // Get length of current selection
 				$anchor = $(selection.anchorNode); // Get the element the selection is currently originating from
@@ -4831,7 +4815,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.addNewline = function ($embed) {
 		var self = this;
-		var newline = '<p class="entity-embed-new-line"><br></p>';
+		var newline = '<p><br></p>';
 		// TODO : check if there is already a newline before / after
 		$embed.before(newline);
 		$embed.after(newline);
