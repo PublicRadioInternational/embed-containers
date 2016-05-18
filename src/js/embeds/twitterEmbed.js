@@ -35,12 +35,27 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.getModelFromForm($el, self);
 
-		self.model.embedCode =
-			'<blockquote class="twitter-tweet" data-lang="en" style="width:50%; margin:auto;">' +
-				'<a href="' + self.model.url + '">' +
-				'</a>' +
-			'</blockquote>' +
-			'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+		if (self.model.url.endsWith('/'))
+		{
+			self.model.url.substr(0, self.model.url.length - 1);
+		}
+		self.model.tweetId = self.model.url.substr(self.model.url.lastIndexOf('/') + 1);
+
+		$.ajax({
+			url: "https://api.twitter.com/1.1/statuses/oembed.json?id=" + self.model.tweetId,
+			dataType: "jsonp",
+			async: false
+		}).done(function(data){
+			self.model.embedCode = data.html;
+		}).fail(function(data){
+			console.log(data);
+		});
+
+		// self.model.embedCode =
+		// 	'<blockquote class="twitter-tweet" data-lang="en">' +
+		// 		'<a href="' + self.model.url + '"></a>' +
+		// 	'</blockquote>' +
+		// 	'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
 	};
 
 	// PUBLIC
@@ -54,11 +69,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
+
 		return '<div class="twitter-embed">' +
 					'<div class="overlay">' +
 						self.model.embedCode +
 					'</div>' +
 				'</div>';
 	};
-
 })();
