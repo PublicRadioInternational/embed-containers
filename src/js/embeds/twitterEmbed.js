@@ -41,21 +41,11 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		self.model.tweetId = self.model.url.substr(self.model.url.lastIndexOf('/') + 1);
 
-		$.ajax({
-			url: "https://api.twitter.com/1.1/statuses/oembed.json?id=" + self.model.tweetId,
-			dataType: "jsonp",
-			async: false
-		}).done(function(data){
-			self.model.embedCode = data.html;
-		}).fail(function(data){
-			console.log(data);
-		});
-
-		// self.model.embedCode =
-		// 	'<blockquote class="twitter-tweet" data-lang="en">' +
-		// 		'<a href="' + self.model.url + '"></a>' +
-		// 	'</blockquote>' +
-		// 	'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+		self.model.embedCode =
+			'<blockquote class="twitter-tweet" data-lang="en">' +
+				'<a href="' + self.model.url + '"></a>' +
+			'</blockquote>' +
+			'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
 	};
 
 	// PUBLIC
