@@ -240,19 +240,32 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var editor = editor = self.core.getEditor();
 
+		function findTopParent($elm) {
+			var $parent = $elm.parent();
+			if($parent[0] !== self.el)
+			{
+				return findTopParent($parent);
+			}
+
+			return $elm;
+		}
+
 		editor.subscribe('editableInput', function(data, editableElm) {
 			var badMarkup = [
 				'p > ol',
 				'p > ul',
-				'p > p'
+				'p > p',
 			].join(',');
 			var $badMarkup = $(editableElm).find(badMarkup);
+			var $hasStyleAttr = $(editableElm).find('[style]');
 
 			$badMarkup.each(function() {
 				var $this = $(this);
 				$this.unwrap();
 				editor.selectElement(this);
-			})
+			});
+
+			$hasStyleAttr.removeAttr('style');
 		});
 
 		$(document)
@@ -275,7 +288,7 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			// prevent user from destroying modal functionality when deleting first element
 			.on('keydown', function(e){
-				var selection, range, textLength, selectionLength, numChildren, isEmptyP, siblingIsEmbed, $anchor, $sibling, $base;
+				var selection, range, textLength, selectionLength, numChildren, isEmptyAnchor, siblingIsEmbed, $anchor, $sibling, $base;
 				var protectedElms = ['.entity-embed-container', '[contenteditable]'].join(',');
 				var notProtectedElms = ':not(' + protectedElms + ')';
 
@@ -297,8 +310,8 @@ var EntityEmbed = EntityEmbed || {};
 				selectionLength = range.endOffset - range.startOffset; // Get length of current selection
 				$anchor = $(selection.anchorNode); // Get the element the selection is currently originating from
 				textLength = $anchor.text().length;
-				numChildren = self.$el.children().not('.medium-insert-buttons').length; // Get number of editors children that are not UI fof MEIP
-				isEmptyP = false;
+				numChildren = self.$el.children().not('.medium-insert-buttons').length; // Get number of editors children that are not UI for MEIP
+				isEmptyAnchor = false;
 				siblingIsEmbed = false;
 
 				if (selectionLength > 0)
@@ -308,13 +321,16 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 
+				// If anchor is a text node, query for closest usable parent
 				if($anchor[0].nodeType === 3)
 				{
 					$anchor = $anchor.closest(notProtectedElms);
 				}
 
+				$anchor = findTopParent($anchor);
+
 				// Check to see if our anchor element is a p tag with no text
-				isEmptyP = $anchor.is(notProtectedElms) && !$anchor.text().length;
+				isEmptyAnchor = $anchor.is(notProtectedElms) && !$anchor.text().length;
 
 				// Get the previous sibling when
 				// 	- Backspace is pressed
@@ -344,13 +360,14 @@ var EntityEmbed = EntityEmbed || {};
 
 				// Prevent default when:
 				// 	- Anchor is the last empty p tag
-				// 	- A sipling element was fond and is and embed
-				if ( (isEmptyP && numChildren <= 1) || siblingIsEmbed)
+				// 	- A sipling element was found and is and embed
+				if ( (isEmptyAnchor && numChildren <= 1) || siblingIsEmbed)
 				{
 					e.preventDefault();
 				}
 
-				if(isEmptyP && numChildren > 1)
+				//
+				if(isEmptyAnchor && numChildren > 1)
 				{
 					e.preventDefault();
 
