@@ -35,12 +35,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.getModelFromForm($el, self);
 
-		if (self.model.url.endsWith('/'))
-		{
-			self.model.url.substr(0, self.model.url.length - 1);
-		}
-		self.model.tweetId = self.model.url.substr(self.model.url.lastIndexOf('/') + 1);
-
 		self.model.embedCode =
 			'<blockquote class="twitter-tweet" data-lang="en">' +
 				'<a href="' + self.model.url + '"></a>' +
