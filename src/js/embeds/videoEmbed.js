@@ -126,8 +126,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						'<iframe src="' + makeVideoUrl(self.model.url) + '"	></iframe>' + 
-					'</div>' + 
+						'<iframe src="' + makeVideoUrl(self.model.url) + '"	frameborder="0"></iframe>' +
+					'</div>' +
 				'</div>';
 	};
 
