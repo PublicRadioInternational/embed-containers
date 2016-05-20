@@ -66,17 +66,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	instagramEmbed.prototype.parseForEditor = function(){
 		var self = this;
-
-		// TODO: Need to make user unable to interact with embed
 		return '<div class="instagram-embed">' +
-					'<div class="instagram-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
 						self.model.embedCode +
-					'</div>' +
-					'<div class="instagram-info">' +
-						'<span>click here to show the toolbars</span>' +
 					'</div>' +
 				'</div>';
 	};

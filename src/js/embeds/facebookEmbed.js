@@ -75,16 +75,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		// TODO: Need to make user unable to interact with embed
 		return '<div class="facebook-embed">' +
-					'<div class="facebook-info">' +
-						'<span>click here to show the toolbars</span>' +
-					'</div>' +
 					'<div class="overlay">' +
-
-					self.model.embedCode +
-
-					'</div>' +
-					'<div class="facebook-info">' +
-						'<span>click here to show the toolbars</span>' +
+						self.model.embedCode +
 					'</div>' +
 				'</div>';
 	};
