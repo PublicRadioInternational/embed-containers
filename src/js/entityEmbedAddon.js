@@ -256,8 +256,11 @@ var EntityEmbed = EntityEmbed || {};
 				'p > ul',
 				'p > p',
 			].join(',');
+			var badStyleSttr = [
+				'li > span[style]'
+			].join(',');
 			var $badMarkup = $(editableElm).find(badMarkup);
-			var $hasStyleAttr = $(editableElm).find('[style]');
+			var $hasStyleAttr = $(editableElm).find(badStyleSttr);
 
 			$badMarkup.each(function() {
 				var $this = $(this);
