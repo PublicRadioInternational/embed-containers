@@ -1,5 +1,5 @@
 // default styling that the toolbar applies to embeds
-@entity-embed-blocker-strata: 2;
+@entity-embed-blocker-strata: 99;
 
 .embedded-content
 {
@@ -11,53 +11,53 @@
 
 .entity-embed-container
 {
-  .clearfix();
+	.clearfix();
+	clear: both;
+	position: relative;
 
-  position: relative;
+	text-align: center;
 }
 
 .entity-embed-blocker {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: @entity-embed-blocker-strata;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: @entity-embed-blocker-strata;
 }
 
 .entity-embed-center
 {
 	.entity-embed
 	{
-		max-width: 100%;
-		display: block;
 		text-align: center;
 	}
 }
 
-.entity-embed-left
-{
-	.entity-embed
-	{
-		max-width: 100%;
-		float: left;
-	}
+.entity-embed-left,
+.entity-embed-right {
+	width: 33%;
+	z-index: 2;
+	clear: none;
+
+	margin-bottom: 1em;
 }
 
-.entity-embed-right
-{
-	.entity-embed
-	{
-		max-width: 100%;
-		float: right;
-	}
+.entity-embed-left {
+	float: left;
+	margin-left: -1.5em;
+	margin-right: 1em;
 }
 
-.entity-embed-wide
-{
-	.entity-embed
-	{
-		width: 100%;
-		max-width: 100%;
-	}
+.entity-embed-right {
+	float: right;
+	margin-right: -1.5em;
+	margin-left: 1em;
+}
+
+.entity-embed-wide {
+	margin-left: -1.5em;
+	margin-right: -1.5em;
+	text-align: center;
 }
