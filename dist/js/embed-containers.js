@@ -3817,8 +3817,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		return '<div class="video-embed">' +
 					'<div class="overlay">' +
-						'<iframe src="' + makeVideoUrl(self.model.url) + '"	></iframe>' + 
-					'</div>' + 
+						'<iframe src="' + makeVideoUrl(self.model.url) + '"	frameborder="0"></iframe>' +
+					'</div>' +
 				'</div>';
 	};
 
@@ -4334,10 +4334,13 @@ var EntityEmbed = EntityEmbed || {};
 			var badMarkup = [
 				'p > ol',
 				'p > ul',
-				'p > p',
+				'p > p'
+			].join(',');
+			var badStyleSttr = [
+				'li > span[style]'
 			].join(',');
 			var $badMarkup = $(editableElm).find(badMarkup);
-			var $hasStyleAttr = $(editableElm).find('[style]');
+			var $hasStyleAttr = $(editableElm).find(badStyleSttr);
 
 			$badMarkup.each(function() {
 				var $this = $(this);

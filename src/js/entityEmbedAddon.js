@@ -254,7 +254,7 @@ var EntityEmbed = EntityEmbed || {};
 			var badMarkup = [
 				'p > ol',
 				'p > ul',
-				'p > p',
+				'p > p'
 			].join(',');
 			var badStyleSttr = [
 				'li > span[style]'
