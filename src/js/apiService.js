@@ -12,17 +12,17 @@ var EntityEmbed = EntityEmbed || {};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
-		
+
 		var ajaxOptions = {
 			timeout: 15000,
 			crossDomain: true,
-			type: config.methodType, 
+			type: config.methodType,
 			dataType: 'json',
 			url: config.domainName + config.path,
 		};
 
 		if (!!config.headers) // this is a file upload
-		{	
+		{
 			config.headers['x-auth-token'] = config.auth_token;
 			config.headers['x-debug'] = config.debug;
 
@@ -62,12 +62,12 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	function getAuthToken(token){
-		return defaultConfig.auth_token;	
+		return defaultConfig.auth_token;
 	};
 
 	function getDomainName(d){
 		return defaultConfig.domainName;
-	};	
+	};
 
 	function setDomainName(d){
 		defaultConfig.domainName = d;
@@ -94,5 +94,5 @@ var EntityEmbed = EntityEmbed || {};
 		getAuthToken: getAuthToken,
 		getDomainName: getDomainName,
 		setDomainName: setDomainName
-	};	
+	};
 })();
