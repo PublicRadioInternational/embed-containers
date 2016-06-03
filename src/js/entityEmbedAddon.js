@@ -230,14 +230,23 @@ var EntityEmbed = EntityEmbed || {};
 					ui.helper.attr('class')
 				].join(' ');
 
+				// Update placeholder styling and size to match dragged embed
 				ui.placeholder.attr('class', placeholderClasses);
 				ui.placeholder.height(ui.helper.outerHeight());
 				ui.placeholder.width(ui.helper.width());
 
-				self.core.hideButtons();
+				// Hide embed toolbars
+				self.toolbarManager.hideToolbars();
 			},
 			stop: function(event, ui) {
+				// Let listeners know content has changed
 				self.core.triggerInput();
+			},
+			change: function() {
+				// Update position of active MEIP toolbar
+				self.core.positionButtons();
+				// Updated postion of active ME toolbar
+				self.core.getEditor().checkSelection();
 			}
 		});
 
