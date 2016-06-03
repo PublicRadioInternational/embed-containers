@@ -196,33 +196,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Make link list sortabel
 		$linkList.sortable({
-			group: 'links',
-			itemSelector: '.' + linkClass,
-			draggedClass: 'related-link-dragged',
-			placeholderClass: dragPlaceholderClass,
-			placeholder: '<div class="' + dragPlaceholderClass + '"></div>',
-			nested: false,
-			onDragStart: function ($item, container, _super) {
-				var offset = $item.offset(),
-						pointer = container.rootGroup.pointer;
-
-				adjustment = {
-					left: pointer.left - offset.left,
-					top: pointer.top - offset.top
-				};
-
-				placeholderHeight = $item.outerHeight();
-
-				_super($item, container);
-			},
-			onDrag: function ($item, position) {
-				$item.css({
-					left: position.left - adjustment.left,
-					top: position.top - adjustment.top
-				});
-			},
-			afterMove: function($placeholder) {
-				$placeholder.height(placeholderHeight);
+			axis: 'y',
+			handle: '.' + dragLinkClass,
+			items: '.' + linkClass,
+			placeholder: dragPlaceholderClass,
+			start: function (event, ui) {
+				ui.placeholder.height(ui.helper.outerHeight());
 			}
 		});
 
