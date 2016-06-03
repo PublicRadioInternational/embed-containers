@@ -24,9 +24,14 @@
     "bootstrap": "~3.3.6",
     "font-awesome": "~4.5.0",
     "jquery-validation": "^1.14.0",
-    "EasyAutocomplete": "^1.3.3"
+    "EasyAutocomplete": "^1.3.3",
+    "jquery-ui": ">=1.9"
   },
   "devDependencies": {
     "jquery-cycle2": "~2.1.6"
+  },
+  "resolutions": {
+    "blueimp-file-upload": "~9.12.1",
+    "medium-editor": "^5.15.0"
   }
 }

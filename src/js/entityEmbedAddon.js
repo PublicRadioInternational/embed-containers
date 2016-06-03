@@ -8,6 +8,7 @@ var EntityEmbed = EntityEmbed || {};
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
+		embedDragHandle = '',
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
@@ -219,6 +220,26 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		self.toolbarManager.createActionToolbar($('body'));
+
+		self.$el.sortable({
+			handle: '.entity-embed-blocker',
+			placeholder: 'entity-embed-placeholder',
+			start: function (event, ui) {
+				var placeholderClasses = [
+					ui.placeholder.attr('class'),
+					ui.helper.attr('class')
+				].join(' ');
+
+				ui.placeholder.attr('class', placeholderClasses);
+				ui.placeholder.height(ui.helper.outerHeight());
+				ui.placeholder.width(ui.helper.width());
+
+				self.core.hideButtons();
+			},
+			stop: function(event, ui) {
+				self.core.triggerInput();
+			}
+		});
 
 		self.events();
 
@@ -644,6 +665,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		function setEditorHtml() {
 			self.core.getEditor().setContent(fullHtml);
+			self.$el.sortable('refresh');
 		}
 
 		if(!contentData)
@@ -809,6 +831,8 @@ var EntityEmbed = EntityEmbed || {};
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 
 		self.activateEmbed(embed);
+
+		self.$el.sortable('refresh');
 
 		self.core.triggerInput();
 
