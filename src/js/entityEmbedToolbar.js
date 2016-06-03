@@ -146,6 +146,17 @@ var EntityEmbed = EntityEmbed || {};
 		self.positionToolbars($embed);
 	};
 
+	toolbarManager.prototype.hideToolbars = function() {
+		var self = this;
+
+		self.$actionToolbar.hide();
+
+		if (!!$toolbars[self.currentToolbarEmbedType])
+		{
+			$toolbars[self.currentToolbarEmbedType].hide();
+		}
+	}
+
 	toolbarManager.prototype.styleToolbarDo = function($buttonClicked) {
 		var self = this;
 		var $buttonList = $buttonClicked.closest('li').closest('ul');
