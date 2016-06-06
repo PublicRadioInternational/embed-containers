@@ -29,7 +29,18 @@ var EntityEmbed = EntityEmbed || {};
 			wide: true
 		},
 		validationOptions: {
-			focusCleanup: true
+			focusCleanup: true,
+			errorPlacement: function(error, element) {
+				var $parent = element.parent();
+				if($parent.is('.embed-modal-input-group'))
+				{
+					error.insertAfter( $parent );
+				}
+				else
+				{
+					error.insertAfter( element );
+				}
+			}
 		}
 	};
 
@@ -37,7 +48,7 @@ var EntityEmbed = EntityEmbed || {};
 		return {};
 	};
 
-	genericEmbed.prototype.defaultStyle = 'entity-embed-center'; 
+	genericEmbed.prototype.defaultStyle = 'entity-embed-center';
 
 	genericEmbed.prototype.init = function(){
 		var self = this;
@@ -107,7 +118,7 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
 		var self = child || this;
-		
+
 		var $form = $el;
 		if (!$form.is('form'))
 		{
@@ -116,7 +127,7 @@ var EntityEmbed = EntityEmbed || {};
 		$form.each(function(){
 			$(this).validate(self.options.validationOptions).resetForm();
 		});
-		
+
 		var formList = $el.find('form');
 		for (var i = 0; i < formList.length; i++)
 		{
@@ -159,7 +170,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		return EntityEmbed.apiService.set({
-			path: self.options.httpPaths.set, 
+			path: self.options.httpPaths.set,
 			data: self.model
 		});
 	};

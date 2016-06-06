@@ -13,7 +13,8 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required'
+					url: 'required',
+					height: 'required'
 				}
 			}
 		};
@@ -34,16 +35,41 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			url: null,
-			allowsScroll: false
+			allowsScroll: false,
+			width: null,
+			height: 300
 		};
 	};
 
 	iframeEmbed.prototype.parseForEditor = function(){
-		return  '<div class="iframe-embed">' +
-					'<iframe src="' + this.model.url + '" ' + 
-						'frameborder="0" scrolling="' + this.model.allowsScroll + '">' + 
-					'</iframe>' + 
-				'</div>';
+		var h = this.model.height;
+		var w = this.model.width || this.model.height;
+		var heightRatio = h / w * 100;
+		var isResponsive = !!this.model.width;
+		var html = [
+			'<div',
+				' class="iframe-embed' + (isResponsive ? ' iframe-embed-responsive' : '') + '"',
+				isResponsive ? ' style="padding-bottom: ' + heightRatio + '%"' : '',
+			'>',
+				'<iframe src="' + this.model.url + '"',
+					' frameborder="0"',
+					' scrolling="' + this.model.allowsScroll + '"',
+					' height="' + (this.model.height || 300) + '"',
+					' width="' + (this.model.width ? this.model.width : '100%') + '"',
+				'></iframe>',
+			'</div>'
+		].join('');
+
+		if(isResponsive)
+		{
+			html = [
+				'<div class="iframe-embed-responsive-wrapper" style="max-width:' + this.model.width + 'px">',
+				html,
+				'</div>'
+			].join('');
+		}
+
+		return html;
 	};
 
 })();
