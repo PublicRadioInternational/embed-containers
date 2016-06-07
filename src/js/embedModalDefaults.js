@@ -29,7 +29,7 @@ var EntityEmbed = EntityEmbed || {};
 			},
 			elements: {
 				saveSpinner: '#embed-modal-spinner',
-				headerText: '.header-text'
+				headerText: '.header-title'
 			}
 		},
 		toggleEditorTyping = function(scope, toggleCmd){
@@ -111,7 +111,7 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				isValid = $(scope.currentEmbedType.$validator[i]).valid() && isValid;
 			}
-			
+
 			if (isSaving || !isValid)
 			{
 				return;
@@ -639,14 +639,14 @@ var EntityEmbed = EntityEmbed || {};
 						{
 							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
 							{
-								$(embedModalSelectors.elements.confirmModal).openModal({keepPosition: true});
+								$(embedModalSelectors.elements.confirmModal).openModal({parentModal: self});
 								return false;
 							}
 						}
 					}
 					else if (isFormDirty(scope.currentEmbedType.$view)) // this is an add modal
 					{
-						$(embedModalSelectors.elements.confirmModal).openModal({keepPosition: true});
+						$(embedModalSelectors.elements.confirmModal).openModal({parentModal: self});
 						return false;
 					}
 				}

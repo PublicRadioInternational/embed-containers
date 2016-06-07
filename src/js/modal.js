@@ -1,5 +1,5 @@
 ;(function () {
-	
+
 	'use strict';
 
 	var defaultOptions = {
@@ -36,7 +36,7 @@
 		}
 	};
 
-	function modal(el, options, scope) {	
+	function modal(el, options, scope) {
 		var self = this;
 
 		// TODO : only store modal element on scope (no need to have it in two places)
@@ -51,7 +51,7 @@
 
 		self.scope.modalCtrl = self;
 		self.$el.data('scope', self.scope);
-		
+
 		self.options.functions.init.before(self.scope);
 		self.init();
 		self.options.functions.init.after(self.scope);
@@ -72,11 +72,11 @@
 		return seg() + seg() + '-' + seg() + '-' + seg() + '-' +
 				seg() + '-' + seg() + seg() + seg();
 	};
-	
+
 	modal.prototype.backdropHtml = function(id)
 	{
 		var self = this;
-		return '<div id="' + id + '" class="' 
+		return '<div id="' + id + '" class="'
 			+ self.options.backdropClass + '"></div>';
 	};
 
@@ -89,10 +89,18 @@
 
 	modal.prototype.toggle = function(ctrl)
 	{
-		ctrl.$el.toggleClass(ctrl.activeClass);	
-		ctrl.$backdrop.toggleClass(ctrl.activeClass);
-		ctrl.$closeBtn.toggleClass(ctrl.activeClass);
+		var self = this;
+		var modalScope = ctrl.$el.data('scope');
+
 		ctrl.isActive = !ctrl.isActive;
+
+		ctrl.$el.toggle(ctrl.isActive).toggleClass('in', ctrl.isActive);
+		ctrl.$backdrop.toggle(ctrl.isActive).toggleClass('in', ctrl.isActive);
+
+		if( !modalScope.parentModal )
+		{
+			$('body').toggleClass('embed-modal-open', ctrl.isActive);
+		}
 	};
 
 	modal.prototype.init = function()
@@ -107,15 +115,17 @@
 		// link back drop to this modal
 		self.$el.before(self.backdropHtml(backdropId));
 		self.$backdrop = $('#' + backdropId);
-		self.$backdrop.click(function(){
-			self.$el.abortModal();
+
+		self.$el.click(function(e){
+			if(e.target === self.$el[0])
+			{
+				self.$el.abortModal();
+			}
 		});
-	
+
 		// add close button and give expected functionality
 		if (self.options.showCloseBtn){
-			var closeBtnId = self.generateId();
-			self.$el.prepend(self.closeBtnHtml(closeBtnId));
-			self.$closeBtn = $('.' + self.closeBtnClass + '#' + closeBtnId);
+			self.$closeBtn = self.$el.find('.close');
 			self.$closeBtn.click(function(){
 				self.$el.abortModal();
 			});
@@ -137,7 +147,7 @@
 		});
 	};
 
-	/* 
+	/*
 	 * -- registers an event for the modal --
 	 *
 	 * element : the string selector or JQuery object for the element
@@ -185,13 +195,6 @@
 			modalCtrl.toggle(modalCtrl);
 			modalCtrl.options.functions.open.after(modalScope);
 
-			if (!modalScope.keepPosition)
-			{
-				// position the modal within the viewport
-				var distanceFromTop = $(window).height() * .1; // 10% from top of the window
-				var newTopVal = distanceFromTop + $(document).scrollTop();
-				modalCtrl.$el.css('top', newTopVal);
-			}
 			return modalCtrl.promise;
 		}
 		// TODO : return promise even if there is no modalCtrl
@@ -240,12 +243,12 @@
 				}
 
 				var modalScope = modalCtrl.$el.data('scope');
-				
+
 				if (modalCtrl.options.functions.complete.before(modalScope))
 				{
 					modalCtrl.toggle(modalCtrl);
 					modalCtrl.options.functions.complete.after(modalScope);
-					
+
 					// reject promise if app dev has not already done so
 					if(modalCtrl.promise.state() === 'pending')
 					{
