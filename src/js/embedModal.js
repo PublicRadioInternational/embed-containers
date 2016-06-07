@@ -129,7 +129,7 @@ var EntityEmbed = EntityEmbed || {};
 		if(!$modalEl.length)
 		{
 			// Generate a modal element when one was not found
-			$modalEl = $('<div id="' + options.modalElId +'"></div>');
+			$modalEl = $('<div class="embed-modal" id="' + options.modalElId +'"></div>');
 			// Append modal element to modal container
 			$modalContainer.append($modalEl);
 		}
@@ -185,7 +185,7 @@ var EntityEmbed = EntityEmbed || {};
 			setUpModal();
 		}
 		// END [2]
-		
+
 		return promise;
 	};
 
