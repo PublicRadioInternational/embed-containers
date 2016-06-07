@@ -4,33 +4,46 @@
 @embed-modal-top: 10%;
 @embed-modal-strata: 1999;
 
+.embed-modal-open
+{
+	.modal-open();
+}
+
 .embed-modal
 {
 	@em-border-rad: 5px;
 
+	.modal();
+
 	display: none;
-
-	background-color: #fff;
-
-	border-radius: @em-border-rad;
-	-webkit-border-radius: @em-border-rad;
-	-moz-border-radius: @em-border-rad;
-
-	box-shadow: 0 0 20px 0 #222;
-	-webkit-box-shadow: 0 0 20px 0 #222;
-	-moz-box-shadow: 0 0 20px 0 #222;
-
-	position: absolute;
-	top: @embed-modal-top;
-	left: (100-@embed-modal-width)/2;
 	z-index: @embed-modal-strata;
-	margin-bottom: @embed-modal-top;
-
-	width: @embed-modal-width;
 
 	&.em-active
 	{
 		display: block !important;
+	}
+
+	.embed-modal-open &
+	{
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+}
+
+.embed-modal-dialog
+{
+	.modal-dialog();
+
+	width: @embed-modal-width;
+	min-width: 600px;
+
+	margin: 30px auto;
+
+	.embed-modal .embed-modal &
+	{
+		margin: 60px auto;
+		width: @embed-modal-width * 0.70;
+		min-width: 300px;
 	}
 }
 
@@ -38,16 +51,10 @@
 {
 	@background-opacity: .5;
 
-	content: "";
+	.modal-backdrop();
+
 	display: none;
-
-	position: fixed;
-	top: 0;
-	left: 0;
-  z-index: @embed-modal-strata - 1;
-
-	width: 100%;
-	height: 100%;
+	z-index: @embed-modal-strata - 1;
 
 	background-color: #000;
 	opacity: @background-opacity;
@@ -110,27 +117,42 @@
 
 .embed-modal-input-group
 {
-  .input-group();
+	.input-group();
 
-  .embed-modal-form-control,
-  .embed-modal-input-group-addon
-  {
-    &:first-child
-    {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
+	.embed-modal-form-control,
+	.embed-modal-input-group-addon
+	{
+		&:first-child
+		{
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
 
-    &:last-child
-    {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      border-left-width: 0;
-    }
-  }
+		&:last-child
+		{
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			border-left-width: 0;
+		}
+	}
 }
 
 .embed-modal-input-group-addon
 {
-  .input-group-addon();
+	.input-group-addon();
+}
+
+#leave-confirmation-modal
+{
+	#btn-confirm-leave
+	{
+		.btn();
+		.btn-primary();
+	}
+
+	#btn-cancel-leave
+	{
+		.btn();
+		.btn-default();
+	}
 }
