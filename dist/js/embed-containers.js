@@ -284,14 +284,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	toolbarManager.prototype.hideToolbars = function() {
-		var self = this;
-
-		self.$actionToolbar.hide();
-
-		if (!!$toolbars[self.currentToolbarEmbedType])
-		{
-			$toolbars[self.currentToolbarEmbedType].hide();
-		}
+		$('.medium-editor-toolbar').hide();
 	}
 
 	toolbarManager.prototype.styleToolbarDo = function($buttonClicked) {
