@@ -11,6 +11,7 @@ var EntityEmbed = EntityEmbed || {};
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
 		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
+		docEventsReadyKey = 'entityEmbedToolbarEventsReady',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
@@ -69,21 +70,35 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	toolbarManager.prototype.events = function(){
 		var self = this;
-		$(document)
-			// fire toolbar actions when buttons are clicked
-			.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function(){
-				self.styleToolbarDo($(this));
-			})
-			// fire secondary toolbar actions when buttons are clicked
-			.on('click', '.' + actionToolbarClass + ' .medium-editor-action', function(){
-				self.actionToolbarDo($(this));
-			})
+		var $document = $(document);
+
+		if(!$document.data(docEventsReadyKey))
+		{
+			$document
+				// Set
+				.data(docEventsReadyKey, true)
+				// fire toolbar actions when buttons are clicked
+				.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function(){
+					self.styleToolbarDo($(this));
+				})
+				// fire secondary toolbar actions when buttons are clicked
+				.on('click', '.' + actionToolbarClass + ' .medium-editor-action', function(){
+					self.actionToolbarDo($(this));
+				});
+		}
 	};
 
 	toolbarManager.prototype.createActionToolbar = function($location) {
 		var self = this;
-		$location.append(toolbarHtml(self.actions)); // trim?
-		self.$actionToolbar = $('.' + actionToolbarClass);
+		var $toolbar = $location.find('.' + actionToolbarClass);
+
+		if(!$toolbar.length)
+		{
+			$toolbar = $(toolbarHtml(self.actions));
+			$location.append($toolbar);
+		}
+
+		self.$actionToolbar = $toolbar;
 		self.$actionToolbar.hide();
 	}
 
@@ -91,10 +106,13 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var stylesCopy = $.extend(self.styles, {});
 		var deletedEveryField = true;
+		var $toolbar = $location.find('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
+
 		if (!embed.options.styles)
 		{
 			return;
 		}
+
 		for(var style in embed.options.styles)
 		{
 			if (!embed.options.styles[style])
@@ -109,8 +127,13 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!deletedEveryField)
 		{
-			$location.append(toolbarHtml(stylesCopy, embed.name));
-			$toolbars[embed.name] = $('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
+			if(!$toolbar.length)
+			{
+					$toolbar = $(toolbarHtml(stylesCopy, embed.name));
+					$location.append($toolbar);
+			}
+
+			$toolbars[embed.name] = $toolbar;
 			$toolbars[embed.name].hide();
 		}
 	};

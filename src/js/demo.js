@@ -1,10 +1,16 @@
 $(document).ready(function(){
 
-	var medEditor = new MediumEditor('.editable', {
+	var medEditor = new MediumEditor('.editor', {
 		toolbar: {
 			buttons: ['bold', 'italic', 'anchor', 'orderedlist', 'unorderedlist', 'h2', 'h3', 'quote']
 		}
 	});
+
+  var medEditor2 = new MediumEditor('.editor2', {
+    toolbar: {
+      buttons: ['bold', 'italic', 'anchor', 'orderedlist', 'unorderedlist', 'h2', 'h3', 'quote']
+    }
+  });
 
 	var $extractContentBtn = $('#extract-story-content');
 	var $loadStoryBtn = $('#load-default-story');
@@ -108,7 +114,7 @@ $(document).ready(function(){
 		]
 	};
 
-	$('.editable').mediumInsert({
+	$('.editor').mediumInsert({
 		editor: medEditor,
 		enabled: true,
 		buttonLabels: 'fontawesome',
@@ -122,6 +128,20 @@ $(document).ready(function(){
 		}
 	});
 
+  $('.editor2').mediumInsert({
+    editor: medEditor2,
+    enabled: true,
+    buttonLabels: 'fontawesome',
+    addons: {
+      images: false,
+      embeds: false,
+      entityEmbeds: {
+        authToken: 'n2WpxehNeqyP5wnQcWuJozyMZ030f7KLTbiLHtT0q3JQ4mu/ED3NKNZaVqqPZYj/7z7IFt5OZWLkkiGkJulelQ==',
+        domainName: 'https://test-services.pri.org'
+      }
+    }
+  });
+
 	medEditor.subscribe('editableInput', function() {
 		console.log('medEditor: editableInput');
 	});
@@ -134,6 +154,7 @@ $(document).ready(function(){
 
 	$loadStoryBtn.click(function(){
 		medEditor.load_content(storyObject);
+    medEditor2.load_content(storyObject);
 	});
 
 	$openAddSingleEmbedBtn.click(function(){
