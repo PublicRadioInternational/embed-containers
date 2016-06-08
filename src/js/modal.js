@@ -87,12 +87,12 @@
 		return '<i id="' + id + '"" class="' + style + '"></i>';
 	};
 
-	modal.prototype.toggle = function(ctrl)
+	modal.prototype.toggle = function(ctrl, isActive)
 	{
 		var self = this;
 		var modalScope = ctrl.$el.data('scope');
 
-		ctrl.isActive = !ctrl.isActive;
+		ctrl.isActive = isActive;
 
 		ctrl.$el.toggle(ctrl.isActive).toggleClass('in', ctrl.isActive);
 		ctrl.$backdrop.toggle(ctrl.isActive).toggleClass('in', ctrl.isActive);
@@ -192,7 +192,7 @@
 			modalCtrl.promise = $.Deferred();
 
 			modalCtrl.options.functions.open.before(modalScope);
-			modalCtrl.toggle(modalCtrl);
+			modalCtrl.toggle(modalCtrl, true);
 			modalCtrl.options.functions.open.after(modalScope);
 
 			return modalCtrl.promise;
@@ -217,7 +217,7 @@
 
 				if (modalCtrl.options.functions.abort.before(modalScope))
 				{
-					modalCtrl.toggle(modalCtrl);
+					modalCtrl.toggle(modalCtrl, false);
 					modalCtrl.options.functions.abort.after(modalScope);
 
 					// reject promise if app dev has not already done so
@@ -246,7 +246,7 @@
 
 				if (modalCtrl.options.functions.complete.before(modalScope))
 				{
-					modalCtrl.toggle(modalCtrl);
+					modalCtrl.toggle(modalCtrl, false);
 					modalCtrl.options.functions.complete.after(modalScope);
 
 					// reject promise if app dev has not already done so
