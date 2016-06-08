@@ -4877,7 +4877,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-		self.toolbarManager.hideToolbar();
+		self.toolbarManager.hideToolbars();
+
 		$.embed_modal_open(scope)
 			.done(function(respData) {
 				self.addEmbed(respData.$embed, respData.embedType);
