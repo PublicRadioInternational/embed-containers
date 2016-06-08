@@ -188,6 +188,9 @@ var EntityEmbed = EntityEmbed || {};
 		var $progress = $el.find(progressBarId);
 		var adjustment, placeholderHeight;
 
+		// Make sure any links show for previous related links modal are rmoved
+		$linkList.empty();
+
 		// Don't need to show progress on new or cleared forms
 		$progress.parent().hide();
 
