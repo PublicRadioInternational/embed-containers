@@ -236,7 +236,7 @@ var EntityEmbed = EntityEmbed || {};
 				ui.placeholder.width(ui.helper.width());
 
 				// Hide embed toolbars
-				self.toolbarManager.hideToolbars();
+				self.toolbarManager.hideToolbar();
 			},
 			stop: function(event, ui) {
 				// Let listeners know content has changed
@@ -751,7 +751,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-		self.toolbarManager.hideToolbars();
+		self.toolbarManager.hideToolbar();
 
 		$.embed_modal_open(scope)
 			.done(function(respData) {
