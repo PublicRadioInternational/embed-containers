@@ -126,19 +126,20 @@ var EntityEmbed = EntityEmbed || {};
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
 		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
 		docEventsReadyKey = 'entityEmbedToolbarEventsReady',
+		entityEmbedToolbarClass = 'entity-embed-toolbar',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
 			// TODO change class names
-			var toolbarClasses = '';
+			var toolbarClasses = entityEmbedToolbarClass;
 			if (!!embedName) // this is a styles toolbar (specific to embed)
 			{
-				toolbarClasses = 'medium-insert-images-toolbar medium-editor-toolbar medium-toolbar-arrow-under medium-editor-toolbar-active ';
+				toolbarClasses += ' medium-insert-images-toolbar medium-editor-toolbar medium-toolbar-arrow-under medium-editor-toolbar-active ';
 				toolbarClasses += embedName + 'StyleToolbar'
 			}
 			else // this is an action toolbar (not specific to embed)
 			{
-				toolbarClasses = 'medium-insert-images-toolbar2 medium-editor-toolbar medium-editor-toolbar-active';
+				toolbarClasses += ' medium-insert-images-toolbar2 medium-editor-toolbar medium-editor-toolbar-active';
 			}
 
 			var htmlString =
@@ -283,10 +284,6 @@ var EntityEmbed = EntityEmbed || {};
 		self.positionToolbars($embed);
 	};
 
-	toolbarManager.prototype.hideToolbars = function() {
-		$('.medium-editor-toolbar').hide();
-	}
-
 	toolbarManager.prototype.styleToolbarDo = function($buttonClicked) {
 		var self = this;
 		var $buttonList = $buttonClicked.closest('li').closest('ul');
@@ -346,16 +343,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	toolbarManager.prototype.hideToolbar = function(){
 		var self = this;
+    var $toolbars = $('.' + entityEmbedToolbarClass);
 
-		self.$actionToolbar.hide();
-		self.$actionToolbar.find('button').removeClass(activeToolbarBtnClass);
+		$toolbars.hide();
+		$toolbars.find('button').removeClass(activeToolbarBtnClass);
 
-		if (!self.currentToolbarEmbedType || !$toolbars[self.currentToolbarEmbedType])
-		{
-			return;
-		}
-		$toolbars[self.currentToolbarEmbedType].hide();
-		$toolbars[self.currentToolbarEmbedType].find('button').removeClass(activeToolbarBtnClass);
 		self.currentToolbarEmbedType = null;
 	};
 
@@ -4362,7 +4354,7 @@ var EntityEmbed = EntityEmbed || {};
 				ui.placeholder.width(ui.helper.width());
 
 				// Hide embed toolbars
-				self.toolbarManager.hideToolbars();
+				self.toolbarManager.hideToolbar();
 			},
 			stop: function(event, ui) {
 				// Let listeners know content has changed
@@ -4877,7 +4869,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-		self.toolbarManager.hideToolbars();
+		self.toolbarManager.hideToolbar();
 
 		$.embed_modal_open(scope)
 			.done(function(respData) {
