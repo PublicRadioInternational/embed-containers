@@ -224,6 +224,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$el.sortable({
 			handle: '.entity-embed-blocker',
 			placeholder: 'entity-embed-placeholder',
+			distance: 5,
 			start: function (event, ui) {
 				var placeholderClasses = [
 					ui.placeholder.attr('class'),
@@ -239,8 +240,22 @@ var EntityEmbed = EntityEmbed || {};
 				self.toolbarManager.hideToolbar();
 			},
 			stop: function(event, ui) {
+				var $fig = ui.item.find('figure');
+				var embed = $fig.data('embed');
+				var $embed = $(EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed));
+
+				$fig.html($embed.html());
+
+				ui.item.height(ui.placeholder.height());
+
+				self.activateEmbed(embed);
+
 				// Let listeners know content has changed
 				self.core.triggerInput();
+
+				window.setTimeout(function() {
+					ui.item.removeAttr('style');
+				}, 2000);
 			},
 			change: function() {
 				// Update position of active MEIP toolbar
@@ -651,7 +666,7 @@ var EntityEmbed = EntityEmbed || {};
 					embed = usableEmbeds[i];
 
 					// We only need to do reattach HTML once for embed id. Make sure an embed with this id
-					// hasn't laready been reattached.
+					// hasn't already been reattached.
 					if(!done[embed.id])
 					{
 						// Set a flag to skip id's that have already been reattached.
@@ -838,7 +853,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		// apply the default styling to the embed that was just added
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
+
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
+
+		$embedContainer.data('embed', embed);
 
 		self.activateEmbed(embed);
 
