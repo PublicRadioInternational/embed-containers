@@ -1195,11 +1195,14 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
-			var figureClass = 'entity-embed';
+			var $embed = $('<div>').html(embedType.parseForEditor());
+
+			$embed.children().first().addClass('entity-embed');
+
 			var ret = '<figure contenteditable="false" ' +
 							'id="' + embedType.model.object_id	+ '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
-							embedType.parseForEditor() +
+							$embed.html() +
 							'<div class="entity-embed-blocker"></div>' +
 						'</figure>';
 
@@ -1879,7 +1882,8 @@ var EntityEmbed = EntityEmbed || {};
 					customText: 'required'
 				}
 			}
-		};
+		},
+		customTextEditor;
 
 	// CONSTRUCTOR
 	function customTextEmbed(options){
@@ -1893,31 +1897,29 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	customTextEmbed.prototype.orderIndex = 5;
 
-	customTextEmbed.prototype.getModelFromForm = function($el){
+	customTextEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name;
-			var value;
+		var $formFields = $form.find('.embed-modal-form-control');
 
-			if(formFields[i].id == customTextEditorId)
+		$formFields.each(function() {
+			var $this = $(this);
+			var prop = $this.attr('name');
+			var editor = $this.data('editor');
+			var val;
+
+			if(editor)
 			{
-				name = formFields[i].attributes.name.nodeValue
-				value = formFields[i].innerHTML;
+				val = editor.getContent();
 			}
 			else
 			{
-				 name = formFields[i].name;
-				 value = formFields[i].value;
+				val = $this.val();
 			}
 
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-			
-		}
+			val = val.replace(/^\s+|\s+$/, '');
+
+			self.model[prop] = val || null;
+		});
 	};
 
 	customTextEmbed.prototype.cleanModel = function(){
@@ -1928,71 +1930,74 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	}
 
-	customTextEmbed.prototype.clearForm = function($el, self){
-		var self = this;
-		self.parent.clearForm($el, self);
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
+	customTextEmbed.prototype.clearForm = function($form, _self){
+		var self = _self || this;
+		var $formFields = $form.find('.embed-modal-form-control');
+
+		self.parent.clearForm($form, self);
+
+		$formFields.each(function() {
+			var $this = $(this);
+			var editor = $this.data('editor');
+
+			if(editor)
 			{
-				formFields[i].selectedIndex = 0;
+				editor.setContent('');
 			}
 			else
 			{
-				formFields[i].value = null;
-				formFields[i].innerHTML ="";
+				$this.val(null);
 			}
-		}
+		});
+
 		self.model = self.cleanModel();
 	};
 
 	customTextEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
-		var formFields = $form.find('.embed-modal-form-control');
-		for (var i = 0; i < formFields.length; i++)
-		{
-			if (!!formFields.type && formFields[i].type.indexOf('select') !== -1)
+		var $formFields = $form.find('.embed-modal-form-control');
+
+		$formFields.each(function() {
+			var $this = $(this);
+			var prop = $this.attr('name');
+			var data = self.model[prop];
+			var editor = $this.data('editor');
+
+			if(editor)
 			{
-				var options = $(formFields[i]).find('option');
-				var selectedOption = self.model[formFields[i].name];
-				var optionIndex = 0;
-				options.each(function(index){
-					if (this.value === selectedOption)
-					{
-						optionIndex = index;
-					}
-				});
-				formFields[i].selectedIndex = optionIndex;
+				editor.setContent(data);
 			}
 			else
 			{
-				
-				formFields[i].value = self.model[formFields[i].name];
-
-				if(formFields[i].id == customTextEditorId)
-				{
-					formFields[i].innerHTML = self.model[formFields[i].attributes.name.nodeValue];
-				}
-			}
-		}
-	};
-
-	customTextEmbed.prototype.initModal = function($el){
-		var self = this;
-		var customTextEditor = new MediumEditor('#' + customTextEditorId, {
-			placeholder:{
-				text: "Type your text. Highlight words to trigger the styles editor"
+				$this.val(data);
 			}
 		});
 	};
 
+	customTextEmbed.prototype.initModal = function($el){
+		var self = this;
+		var $customText = $('#' + customTextEditorId);
+		var customTextEditor = new MediumEditor($customText[0], {
+			placeholder:{
+				text: "Type your text. Highlight words to trigger the styles editor"
+			}
+		});
+
+		$customText.data('editor', customTextEditor);
+	};
+
 	customTextEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		return  '<div class="custom-text-embed">' + 
-					'<div class="display-title">' + self.model.displayTitle + '</div>' +
-					'<div class="custom-text">' + self.model.customText + '</div>' +
-				'</div>';
+		var embedHtml = [
+			'<div class="custom-text">' + self.model.customText + '</div>'
+		];
+
+		if(self.model.displayTitle)
+		{
+			embedHtml.unshift('<div class="display-title">' + self.model.displayTitle + '</div>');
+		}
+
+		return  '<div class="custom-text-embed">' + embedHtml.join('') +'</div>';
 	};
 
 })();
@@ -4342,6 +4347,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$el.sortable({
 			handle: '.entity-embed-blocker',
 			placeholder: 'entity-embed-placeholder',
+			distance: 5,
 			start: function (event, ui) {
 				var placeholderClasses = [
 					ui.placeholder.attr('class'),
@@ -4357,8 +4363,22 @@ var EntityEmbed = EntityEmbed || {};
 				self.toolbarManager.hideToolbar();
 			},
 			stop: function(event, ui) {
+				var $fig = ui.item.find('figure');
+				var embed = $fig.data('embed');
+				var $embed = $(EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed));
+
+				$fig.html($embed.html());
+
+				ui.item.height(ui.placeholder.height());
+
+				self.activateEmbed(embed);
+
 				// Let listeners know content has changed
 				self.core.triggerInput();
+
+				window.setTimeout(function() {
+					ui.item.removeAttr('style');
+				}, 2000);
 			},
 			change: function() {
 				// Update position of active MEIP toolbar
@@ -4769,7 +4789,7 @@ var EntityEmbed = EntityEmbed || {};
 					embed = usableEmbeds[i];
 
 					// We only need to do reattach HTML once for embed id. Make sure an embed with this id
-					// hasn't laready been reattached.
+					// hasn't already been reattached.
 					if(!done[embed.id])
 					{
 						// Set a flag to skip id's that have already been reattached.
@@ -4956,7 +4976,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		// apply the default styling to the embed that was just added
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
+
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
+
+		$embedContainer.data('embed', embed);
 
 		self.activateEmbed(embed);
 
