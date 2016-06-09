@@ -269,11 +269,14 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		},
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
-			var figureClass = 'entity-embed';
+			var $embed = $('<div>').html(embedType.parseForEditor());
+
+			$embed.children().first().addClass('entity-embed');
+
 			var ret = '<figure contenteditable="false" ' +
 							'id="' + embedType.model.object_id	+ '" ' +
 							'data-embed-type="' + embedType.options.object_type + '" >' +
-							embedType.parseForEditor() +
+							$embed.html() +
 							'<div class="entity-embed-blocker"></div>' +
 						'</figure>';
 
