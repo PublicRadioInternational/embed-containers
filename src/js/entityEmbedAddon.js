@@ -681,7 +681,7 @@ var EntityEmbed = EntityEmbed || {};
 						$embed.html(innerHtml);
 
 						// Fire embedType's activateEmbed method
-						self.addEmbed($embed, embed.embedType);
+						self.addEmbed($embed, embed.embedType, true);
 					}
 				}
 			});
@@ -848,7 +848,7 @@ var EntityEmbed = EntityEmbed || {};
 	 * @return {void}
 	 */
 
-	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed) {
+	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed, skipInputEvent) {
 		var self = this;
 
 		// apply the default styling to the embed that was just added
@@ -862,9 +862,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.$el.sortable('refresh');
 
-		self.core.triggerInput();
-
 		self.core.hideButtons();
+
+		if(!skipInputEvent)
+		{
+			self.core.triggerInput();
+		}
 	};
 
 	/**

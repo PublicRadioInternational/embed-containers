@@ -632,15 +632,41 @@ var EntityEmbed = EntityEmbed || {};
 		abort: {
 			before: function(scope){
 				var self = this;
+				var staleVal, modelVal;
+
+				function prepVal(val) {
+					var result;
+
+					if(val)
+					{
+						switch (typeof val)
+						{
+							case 'array' :
+							case 'object' :
+								result = JSON.stringify(val);
+								break;
+
+							default :
+								result = val;
+								break;
+						}
+					}
+
+					return result || null;
+				}
 
 				if (!scope.confirmedLeave)
 				{
 					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.staleModel) // this is an edit modal - compare current model to stale model
 					{
 						scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+
 						for (var fieldName in scope.currentEmbedType.model)
 						{
-							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
+							staleVal = prepVal(scope.staleModel[fieldName]);
+							modelVal = prepVal(scope.currentEmbedType.model[fieldName]);
+
+							if (staleVal !== modelVal)
 							{
 								$(embedModalSelectors.elements.confirmModal).openModal({parentModal: self});
 								return false;

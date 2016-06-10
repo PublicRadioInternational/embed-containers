@@ -72,8 +72,8 @@ var EntityEmbed = EntityEmbed || {};
 			$(imageSelect).append(newHtml);
 			var $op = $(imageSelect).children().last();
 
-			$op.find('.remove-slideshow-image').on('click', (function(){
-				return function(embedId, $radioOp){
+			$op.find('.remove-slideshow-image').on('click', (function(embedId, $radioOp){
+				return function(){
 					delete imageObjects[embedId];
 					$radioOp.remove();
 				}
@@ -223,7 +223,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	slideshowEmbed.prototype.initModal = function($el){
 		var self = this;
-		self.model =  self.cleanModel();
+		self.model =	self.cleanModel();
 
 		// Make sure image embed type has been defined
 		if(typeof EntityEmbed.embedTypes.image === 'function')
@@ -362,6 +362,9 @@ var EntityEmbed = EntityEmbed || {};
 						if (data.status == 'ERROR')
 						{
 							console.log('failed to put/post a slideshow image');
+
+							delete self.model.images[imageNum];
+
 							return;
 						}
 
