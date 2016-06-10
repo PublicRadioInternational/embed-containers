@@ -84,7 +84,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 
-		self.model.html_rendered = self.parseForEditor();
+		self.model.html_rendered = null;
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
