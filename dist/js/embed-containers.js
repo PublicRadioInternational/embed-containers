@@ -490,7 +490,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 
-		self.model.html_rendered = self.parseForEditor();
+		self.model.html_rendered = null;
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
@@ -1558,15 +1558,41 @@ var EntityEmbed = EntityEmbed || {};
 		abort: {
 			before: function(scope){
 				var self = this;
+				var staleVal, modelVal;
+
+				function prepVal(val) {
+					var result;
+
+					if(val)
+					{
+						switch (typeof val)
+						{
+							case 'array' :
+							case 'object' :
+								result = JSON.stringify(val);
+								break;
+
+							default :
+								result = val;
+								break;
+						}
+					}
+
+					return result || null;
+				}
 
 				if (!scope.confirmedLeave)
 				{
 					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.staleModel) // this is an edit modal - compare current model to stale model
 					{
 						scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+
 						for (var fieldName in scope.currentEmbedType.model)
 						{
-							if (!scope.staleModel[fieldName] || scope.staleModel[fieldName] !== scope.currentEmbedType.model[fieldName])
+							staleVal = prepVal(scope.staleModel[fieldName]);
+							modelVal = prepVal(scope.currentEmbedType.model[fieldName]);
+
+							if (staleVal !== modelVal)
 							{
 								$(embedModalSelectors.elements.confirmModal).openModal({parentModal: self});
 								return false;
@@ -3252,8 +3278,8 @@ var EntityEmbed = EntityEmbed || {};
 			$(imageSelect).append(newHtml);
 			var $op = $(imageSelect).children().last();
 
-			$op.find('.remove-slideshow-image').on('click', (function(){
-				return function(embedId, $radioOp){
+			$op.find('.remove-slideshow-image').on('click', (function(embedId, $radioOp){
+				return function(){
 					delete imageObjects[embedId];
 					$radioOp.remove();
 				}
@@ -3403,7 +3429,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	slideshowEmbed.prototype.initModal = function($el){
 		var self = this;
-		self.model =  self.cleanModel();
+		self.model =	self.cleanModel();
 
 		// Make sure image embed type has been defined
 		if(typeof EntityEmbed.embedTypes.image === 'function')
@@ -3542,6 +3568,9 @@ var EntityEmbed = EntityEmbed || {};
 						if (data.status == 'ERROR')
 						{
 							console.log('failed to put/post a slideshow image');
+
+							delete self.model.images[imageNum];
+
 							return;
 						}
 
@@ -4804,7 +4833,7 @@ var EntityEmbed = EntityEmbed || {};
 						$embed.html(innerHtml);
 
 						// Fire embedType's activateEmbed method
-						self.addEmbed($embed, embed.embedType);
+						self.addEmbed($embed, embed.embedType, true);
 					}
 				}
 			});
@@ -4971,7 +5000,7 @@ var EntityEmbed = EntityEmbed || {};
 	 * @return {void}
 	 */
 
-	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed) {
+	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed, skipInputEvent) {
 		var self = this;
 
 		// apply the default styling to the embed that was just added
@@ -4985,9 +5014,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.$el.sortable('refresh');
 
-		self.core.triggerInput();
-
 		self.core.hideButtons();
+
+		if(!skipInputEvent)
+		{
+			self.core.triggerInput();
+		}
 	};
 
 	/**
