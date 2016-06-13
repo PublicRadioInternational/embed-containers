@@ -316,6 +316,11 @@ var EntityEmbed = EntityEmbed || {};
 			$hasStyleAttr.removeAttr('style');
 		});
 
+		$(window).on('resize', function() {
+			var $currentActiveEmbed = $('.' + activeEmbedClass);
+			self.toolbarManager.positionToolbars($currentActiveEmbed);
+		});
+
 		$(document)
 			// hide toolbar (if active) when clicking anywhere except for toolbar elements
 			.on('click', function(e){
