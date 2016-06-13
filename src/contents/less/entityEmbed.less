@@ -1,5 +1,22 @@
 @bootstrap-columns-per-row: 12;
 
+@keyframes medium-editor-pop-forwards {
+  0% {
+    opacity: 0;
+    -webkit-transform: matrix(0.97, 0, 0, 1, -12, 0);
+            transform: matrix(0.97, 0, 0, 1, -12, 0); }
+  20% {
+    opacity: .7;
+    -webkit-transform: matrix(0.99, 0, 0, 1, -2, 0);
+            transform: matrix(0.99, 0, 0, 1, -2, 0); }
+  40% {
+    opacity: 1;
+    -webkit-transform: matrix(1, 0, 0, 1, 1, 0);
+            transform: matrix(1, 0, 0, 1, 1, 0); }
+  100% {
+    -webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+            transform: matrix(1, 0, 0, 1, 0, 0); } }
+
 .medium-editor-insert-plugin {
 	.medium-insert-buttons
 	{
@@ -17,6 +34,60 @@
 		}
 	}
 }
+
+.entity-embed-toolbar
+{
+  display: none;
+
+  ul
+  {
+    display: flex;
+  }
+
+
+  &.medium-toolbar-arrow-before,
+  &.medium-toolbar-arrow-after
+  {
+    &:after
+    {
+      border-style: solid;
+      border-width: 8px;
+      border-color: transparent;
+      content: '';
+      display: block;
+      height: 0;
+      top: 50%;
+      margin-top: -8px;
+      position: absolute;
+      width: 0;
+    }
+  }
+
+  &.medium-toolbar-arrow-after
+  {
+    &:after
+    {
+      border-left-width: 0;
+      border-right-color: #242424;
+      left: -8px;
+    }
+  }
+
+  &.medium-insert-images-toolbar2
+  {
+
+    &.medium-editor-toolbar-active
+    {
+      -webkit-animation: medium-editor-pop-forwards 160ms forwards linear;
+              animation: medium-editor-pop-forwards 160ms forwards linear; }
+    ul
+    {
+      flex-direction: column;
+    }
+  }
+}
+
+.medium-insert
 
 .embed-modal-row
 {

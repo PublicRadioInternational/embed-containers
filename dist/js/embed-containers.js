@@ -134,12 +134,12 @@ var EntityEmbed = EntityEmbed || {};
 			var toolbarClasses = entityEmbedToolbarClass;
 			if (!!embedName) // this is a styles toolbar (specific to embed)
 			{
-				toolbarClasses += ' medium-insert-images-toolbar medium-editor-toolbar medium-toolbar-arrow-under medium-editor-toolbar-active ';
+				toolbarClasses += ' medium-insert-images-toolbar medium-editor-toolbar medium-editor-stalker-toolbar medium-toolbar-arrow-under medium-editor-toolbar-active ';
 				toolbarClasses += embedName + 'StyleToolbar'
 			}
 			else // this is an action toolbar (not specific to embed)
 			{
-				toolbarClasses += ' medium-insert-images-toolbar2 medium-editor-toolbar medium-editor-toolbar-active';
+				toolbarClasses += ' medium-insert-images-toolbar2 medium-editor-toolbar medium-toolbar-arrow-after medium-editor-toolbar-active';
 			}
 
 			var htmlString =
@@ -365,18 +365,17 @@ var EntityEmbed = EntityEmbed || {};
 			$toolbarLocator = $embed;
 		}
 
-		top = $embed.offset().top + 2; // 2px - distance from a border
-		var left = $toolbarLocator.offset().left + $toolbarLocator.width() + 4; // 4px - distance from border
+		top = $embed.offset().top + $embed.height() / 2 - self.$actionToolbar.height() / 2; // 2px - distance from a border
+		var left = $toolbarLocator.offset().left + $toolbarLocator.outerWidth() + 8 + 4; // 4px - distance from border
 
 		if (left > ($(window).width() - self.$actionToolbar.width()))
 		{
-			top -= (self.$actionToolbar.height() + 8); //8 px - distance from border
 			left = ($(window).width() - self.$actionToolbar.width()) - 50; // 50 px - addittional room
 		}
 
 		self.$actionToolbar
 			.css({
-				top: top,
+				top: Math.min(top, $embed.offset().top),
 				left: left
 			});
 
@@ -2023,7 +2022,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedHtml.unshift('<div class="display-title">' + self.model.displayTitle + '</div>');
 		}
 
-		return  '<div class="custom-text-embed">' + embedHtml.join('') +'</div>';
+		return  '<div class="custom-text-embed entity-embed-secondary-toolbar-locator">' + embedHtml.join('') +'</div>';
 	};
 
 })();
@@ -4466,6 +4465,11 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 			$hasStyleAttr.removeAttr('style');
+		});
+
+		$(window).on('resize', function() {
+			var $currentActiveEmbed = $('.' + activeEmbedClass);
+			self.toolbarManager.positionToolbars($currentActiveEmbed);
 		});
 
 		$(document)
