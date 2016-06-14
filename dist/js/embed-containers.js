@@ -1006,7 +1006,7 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = getEmbedTypeFromTypeString(embedType);
+			scope.currentEmbedType = getEmbedTypeByObjectType(embedType);
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
@@ -1178,20 +1178,12 @@ var EntityEmbed = EntityEmbed || {};
 				scope.$embedTypeSelect.show();
 			}
 		},
-		getEmbedTypeFromTypeString = function(object_type){
+		getEmbedTypeByObjectType = function(objectType){
+			var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+				return et.options.object_type == objectType;
+			})[0];
 
-			var ret = $.grep(embedTypes_stale, function(et){
-				return et.options.object_type == object_type;
-			});
-
-			if (ret.length > 0)
-			{
-				return ret[0];
-			}
-			else
-			{
-				return null;
-			}
+			return embedType && $.extend(true, {}, embedType);
 		},
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var $embed = $('<div>').html(embedType.parseForEditor());
@@ -1626,6 +1618,7 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					classes = scope.$currentEditorLocation.attr('class').split(' ');
+					classes.push(scope.currentEmbedType.defaultStyle);
 					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
 
 					for(i = 0, m = classes.length; i < m; i++)
@@ -1633,13 +1626,15 @@ var EntityEmbed = EntityEmbed || {};
 						$embedTemp.addClass(classes[i]);
 					}
 
-					scope.$currentEditorLocation.replaceWith( $embedTemp );
+					scope.$currentEditorLocation.after( $embedTemp );
+					scope.$currentEditorLocation.remove();
+					scope.$currentEditorLocation = $embedTemp;
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
-					data: 		scope.currentEmbedType.model,
-					embedType: 	scope.currentEmbedType,
+					data: scope.currentEmbedType.model,
+					embedType: scope.currentEmbedType,
 					$embed: scope.$currentEditorLocation
 				});
 			}
@@ -4393,11 +4388,11 @@ var EntityEmbed = EntityEmbed || {};
 			stop: function(event, ui) {
 				var $fig = ui.item.find('figure');
 				var embed = $fig.data('embed');
-				var $embed = $(EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed));
-
-				$fig.html($embed.html());
+				var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
+				var $embed = $(embedHtml);
 
 				ui.item.height(ui.placeholder.height());
+				$fig.html($embed.html());
 
 				self.activateEmbed(embed);
 
@@ -4450,7 +4445,8 @@ var EntityEmbed = EntityEmbed || {};
 			var badMarkup = [
 				'p > ol',
 				'p > ul',
-				'p > p'
+				'p > p',
+				'p > div'
 			].join(',');
 			var badStyleSttr = [
 				'li > span[style]'
@@ -4913,11 +4909,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
-
+		var embedId = $embed.find('figure').attr('id');
 		var scope = {
 			modalOptions: {
 				$currentEditorLocation: $('.' + activeEmbedClass),
-				id: $embed.find('figure').attr('id'),
+				id: embedId,
 				embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
 			}
 		};
@@ -4926,7 +4922,22 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.embed_modal_open(scope)
 			.done(function(respData) {
-				self.addEmbed(respData.$embed, respData.embedType);
+				var $embeds = $('[id=' + embedId + ']', self.$el);
+				var embed = $.extend(true, {}, respData.embedType);
+
+				$embeds.each(function() {
+					var $this = $(this);
+					var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
+					var $embed = $(embedHtml);
+
+					$this.data('embed', embed);
+
+					$this.html($embed.html());
+				});
+
+				self.activateEmbed(embed);
+
+				self.core.triggerInput();
 			});
 	};
 
@@ -5006,13 +5017,20 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed, skipInputEvent) {
 		var self = this;
+		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
+		var $embed;
+
+		if($embedContainer.is('figure'))
+		{
+			$embedContainer = $embedContainer.closest('.' + entityEmbedContainerClass);
+		}
+
+		$embed = $embedContainer.find('figure');
 
 		// apply the default styling to the embed that was just added
-		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
-
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 
-		$embedContainer.data('embed', embed);
+		$('[id="' + embed.model.object_id + '"]', self.$el).data('embed', $.extend(true, {}, embed));
 
 		self.activateEmbed(embed);
 
