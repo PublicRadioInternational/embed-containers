@@ -242,11 +242,11 @@ var EntityEmbed = EntityEmbed || {};
 			stop: function(event, ui) {
 				var $fig = ui.item.find('figure');
 				var embed = $fig.data('embed');
-				var $embed = $(EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed));
-
-				$fig.html($embed.html());
+				var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
+				var $embed = $(embedHtml);
 
 				ui.item.height(ui.placeholder.height());
+				$fig.html($embed.html());
 
 				self.activateEmbed(embed);
 
@@ -299,7 +299,8 @@ var EntityEmbed = EntityEmbed || {};
 			var badMarkup = [
 				'p > ol',
 				'p > ul',
-				'p > p'
+				'p > p',
+				'p > div'
 			].join(',');
 			var badStyleSttr = [
 				'li > span[style]'
@@ -762,11 +763,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
-
+		var embedId = $embed.find('figure').attr('id');
 		var scope = {
 			modalOptions: {
 				$currentEditorLocation: $('.' + activeEmbedClass),
-				id: $embed.find('figure').attr('id'),
+				id: embedId,
 				embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
 			}
 		};
@@ -775,7 +776,22 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.embed_modal_open(scope)
 			.done(function(respData) {
-				self.addEmbed(respData.$embed, respData.embedType);
+				var $embeds = $('[id=' + embedId + ']', self.$el);
+				var embed = $.extend(true, {}, respData.embedType);
+
+				$embeds.each(function() {
+					var $this = $(this);
+					var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
+					var $embed = $(embedHtml);
+
+					$this.data('embed', embed);
+
+					$this.html($embed.html());
+				});
+
+				self.activateEmbed(embed);
+
+				self.core.triggerInput();
 			});
 	};
 
@@ -855,13 +871,20 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed, skipInputEvent) {
 		var self = this;
+		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
+		var $embed;
+
+		if($embedContainer.is('figure'))
+		{
+			$embedContainer = $embedContainer.closest('.' + entityEmbedContainerClass);
+		}
+
+		$embed = $embedContainer.find('figure');
 
 		// apply the default styling to the embed that was just added
-		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
-
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 
-		$embedContainer.data('embed', embed);
+		$('[id="' + embed.model.object_id + '"]', self.$el).data('embed', $.extend(true, {}, embed));
 
 		self.activateEmbed(embed);
 
