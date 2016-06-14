@@ -81,7 +81,7 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = getEmbedTypeFromTypeString(embedType);
+			scope.currentEmbedType = getEmbedTypeByObjectType(embedType);
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
@@ -253,20 +253,12 @@ var EntityEmbed = EntityEmbed || {};
 				scope.$embedTypeSelect.show();
 			}
 		},
-		getEmbedTypeFromTypeString = function(object_type){
+		getEmbedTypeByObjectType = function(objectType){
+			var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+				return et.options.object_type == objectType;
+			})[0];
 
-			var ret = $.grep(embedTypes_stale, function(et){
-				return et.options.object_type == object_type;
-			});
-
-			if (ret.length > 0)
-			{
-				return ret[0];
-			}
-			else
-			{
-				return null;
-			}
+			return embedType && $.extend(true, {}, embedType);
 		},
 		generateEmbedHtmlInternal = function(embedType, includeWrapper){
 			var $embed = $('<div>').html(embedType.parseForEditor());
@@ -701,6 +693,7 @@ var EntityEmbed = EntityEmbed || {};
 				if (scope.$currentEditorLocation.length > 0)
 				{
 					classes = scope.$currentEditorLocation.attr('class').split(' ');
+					classes.push(scope.currentEmbedType.defaultStyle);
 					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
 
 					for(i = 0, m = classes.length; i < m; i++)
@@ -708,13 +701,15 @@ var EntityEmbed = EntityEmbed || {};
 						$embedTemp.addClass(classes[i]);
 					}
 
-					scope.$currentEditorLocation.replaceWith( $embedTemp );
+					scope.$currentEditorLocation.after( $embedTemp );
+					scope.$currentEditorLocation.remove();
+					scope.$currentEditorLocation = $embedTemp;
 				}
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
-					data: 		scope.currentEmbedType.model,
-					embedType: 	scope.currentEmbedType,
+					data: scope.currentEmbedType.model,
+					embedType: scope.currentEmbedType,
 					$embed: scope.$currentEditorLocation
 				});
 			}
