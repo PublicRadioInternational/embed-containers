@@ -6,6 +6,8 @@ var EntityEmbed = EntityEmbed || {};
 
 	var $toolbars = {},	// field name identifies embed type by name
 						// field value is jQuery object of toolbar HTML
+		pluginName = 'mediumInsert',
+		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
@@ -54,6 +56,20 @@ var EntityEmbed = EntityEmbed || {};
 
 			return htmlString;
 		};
+
+	function getCore($embed) {
+		var $contentEditable = $embed.closest('[contenteditable]');
+		var core = $contentEditable.data('plugin_' + pluginName);
+
+		return core;
+	}
+
+	function getAddon($embed) {
+		var $contentEditable = $embed.closest('[contenteditable]');
+		var addon = $contentEditable.data('plugin_' + pluginName + addonName);
+
+		return addon;
+	}
 
 	// CONSTRUCTOR
 	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions, activeEmbedClassParam){
@@ -174,6 +190,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $buttonList = $buttonClicked.closest('li').closest('ul');
 		var $activeLine = $('.' + activeEmbedClass);
+		var core = getCore($activeLine);
 
 		// change the active button to this one
 		// there should only be one active button
@@ -200,7 +217,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
-		self.mediumEditorAddon.core.triggerInput();
+		core.triggerInput();
 	};
 
 	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
@@ -224,7 +241,9 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $activeEmbed = $('.' + activeEmbedClass);
 		var action = self.actions[$toolbarButton.data('action')].clicked;
-		action(self.mediumEditorAddon, $activeEmbed);
+		var addon = getAddon($activeEmbed);
+
+		action(addon, $activeEmbed);
 	};
 
 	toolbarManager.prototype.hideToolbar = function(){
