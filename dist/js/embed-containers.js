@@ -34,6 +34,7 @@ var EntityEmbed = EntityEmbed || {};
 			crossDomain: true,
 			type: config.methodType,
 			dataType: 'json',
+			jsonp: false,
 			url: config.domainName + config.path,
 		};
 
@@ -1083,7 +1084,7 @@ var EntityEmbed = EntityEmbed || {};
 				var successFunction = function(data){
 					if (data.status === 'ERROR')
 					{
-						console.log('PUT failed');
+						console.log('POST failed (API)', data);
 						return;
 					}
 					if (typeof data.response === 'string')
@@ -1091,7 +1092,7 @@ var EntityEmbed = EntityEmbed || {};
 						console.log('Failed to PUT embed type: ' + data.response);
 						return;
 					}
-					console.log('PUT succeeded');
+					console.log('PUT succeeded', data);
 					scope.modalCtrl.$el.completeModal();
 
 					if (!!scope.successCallback)
@@ -1100,9 +1101,9 @@ var EntityEmbed = EntityEmbed || {};
 						scope.successCallback(data.response);
 					}
 				},
-				failFunction = function(data){
+				failFunction = function(jqXhr, status, err){
 					// TODO : UI failure message
-					console.log('PUT failed');
+					console.log('POST failed (XHR)', err);
 
 					if (!!scope.failCallback)
 					{

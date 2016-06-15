@@ -18,6 +18,7 @@ var EntityEmbed = EntityEmbed || {};
 			crossDomain: true,
 			type: config.methodType,
 			dataType: 'json',
+			jsonp: false,
 			url: config.domainName + config.path,
 		};
 
