@@ -38,9 +38,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 		var embedTypes = [];
-		var modalScope = {};
 		var promise = $.Deferred();
-		var $modalContainer, $modalEl, $modalElTemp, templatePath;
+		var modalScope, $modalContainer, $modalEl, $modalElTemp, templatePath;
 
 		function setUpModal(){
 			var embedModalDefaults;
@@ -77,20 +76,42 @@ var EntityEmbed = EntityEmbed || {};
 			$modalEl.hide();
 
 			// Modal elements is ready
-			promise.resolve();
+			promise.resolve($modalEl);
 		};
-
-		// Check our modalExists flag
-		if(EntityEmbed.modalExists)
-		{
-			// Already created modal.
-			// Resolve and return promise.
-			promise.resolve();
-			return promise;
-		}
 
 		// Extend default options with passed options
 		options = $.extend(true, {}, defaults, options);
+
+		// Establish modal container element
+		$modalContainer = $(options.modalContainer);
+
+		// Get modal element from:
+		// 	1. options object
+		// 	2. Query modal container for element with configured id
+		$modalEl = options.$modalEl && options.$modalEl.length ? options.$modalEl : $modalContainer.find('#' + options.modalElId);
+
+		if(!$modalEl.length)
+		{
+			// Generate a modal element when one was not found
+			$modalEl = $('<div class="embed-modal" id="' + options.modalElId +'"></div>');
+			// Append modal element to modal container
+			$modalContainer.append($modalEl);
+		}
+
+		modalScope = $modalEl.data('scope');
+
+		// Check our modalExists flag
+		if(modalScope)
+		{
+			// Already created modal.
+			// Resolve and return promise.
+			promise.resolve($modalEl);
+			return promise;
+		}
+
+		modalScope = {
+			$modalEl: $modalEl
+		};
 
 		//// [1] Init embed types
 		// Init each embed type and add to local embedTypes array
@@ -110,29 +131,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Attach embedTypes array to our various configs for use later on
 		modalScope.embedTypes = embedTypes;
-		EntityEmbed.currentEmbedTypes = embedTypes;
 		//// END [1]
 
 		//// [2] Establish modal containers
 		// Extend options modalScope with local modalScope
 		modalScope = $.extend(true, {}, options.modalScope, modalScope);
 		modalScope.modalHtmlLocation = options.modalHtmlLocation;
-
-		// Establish modal container element
-		$modalContainer = $(options.modalContainer);
-
-		// Get modal element from:
-		// 	1. options object
-		// 	2. Query modal container for element with configured id
-		$modalEl = options.$modalEl && options.$modalEl.length ? options.$modalEl : $modalContainer.find('#' + options.modalElId);
-
-		if(!$modalEl.length)
-		{
-			// Generate a modal element when one was not found
-			$modalEl = $('<div class="embed-modal" id="' + options.modalElId +'"></div>');
-			// Append modal element to modal container
-			$modalContainer.append($modalEl);
-		}
 
 		// Add reference to $modalEl to global EntityEmbed
 		EntityEmbed.$embedModal = $modalEl;
@@ -189,7 +193,7 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	};
 
-	function embedModalOpenInternal(options){
+	function embedModalOpenInternal($embedModal, options){
 		var mType;
 		if (!!options.id)
 		{
@@ -225,7 +229,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: options.embedTypeStr
 		};
 
-		return EntityEmbed.$embedModal.openModal(scope);
+		return $embedModal.openModal(scope);
 	};
 
 	$.embed_modal_open = function(options){
@@ -240,8 +244,8 @@ var EntityEmbed = EntityEmbed || {};
 		var promise = $.Deferred();
 
 		$.embed_modal_create(options)
-			.always(function(){
-				embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}))
+			.done(function($embedModal){
+				embedModalOpenInternal($embedModal, $.extend(true, {}, defaults, options.modalOptions || {}))
 					.done(function(data) {
 						promise.resolve(data);
 					})

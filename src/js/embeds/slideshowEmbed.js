@@ -245,7 +245,7 @@ var EntityEmbed = EntityEmbed || {};
 		$.validator.addMethod('slideshowImage', function(value, element, params) {
 			var imgId = element.id;
 			var isValid = true;
-			if (!!imgId || !!imageObjects[imgId])
+			if (!!imgId && !!imageObjects[imgId])
 			{
 				isValid = 	!!imageObjects[imgId].title &&
 							!!imageObjects[imgId].license &&
@@ -413,12 +413,17 @@ var EntityEmbed = EntityEmbed || {};
 		$(instructionalText).hide();
 
 		// make sure images array is sorted on order
-		self.model.images.sort(function(l, r){
-			return l.order - r.order;
-		});
+		// self.model.images.sort(function(l, r){
+		// 	return l.order - r.order;
+		// });
 
 		for(var i = 0; i < self.model.images.length; i++)
 		{
+			if(!self.model.images[i])
+			{
+				continue;
+			}
+
 			newRadioOption('image ' + (i+1), self.model.images[i].object_id);
 
 			if (i === 0)
@@ -426,10 +431,7 @@ var EntityEmbed = EntityEmbed || {};
 				$('#' + self.model.images[i].object_id).attr('checked', '');
 				currentImageId = self.model.images[i].object_id;
 			}
-		}
 
-		for(var i = 0; i < self.model.images.length; i++)
-		{
 			var promise = EntityEmbed.apiService.get({
 				path: imageEmbed.options.httpPaths.get,
 				data: {

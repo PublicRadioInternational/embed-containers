@@ -81,7 +81,10 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = getEmbedTypeByObjectType(embedType);
+			console.log('setModalView::scope', scope);
+			console.log('setModalView::embedType', embedType);
+
+			scope.currentEmbedType = getEmbedTypeByObjectType(embedType, scope.embedTypes);
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
@@ -253,8 +256,8 @@ var EntityEmbed = EntityEmbed || {};
 				scope.$embedTypeSelect.show();
 			}
 		},
-		getEmbedTypeByObjectType = function(objectType){
-			var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+		getEmbedTypeByObjectType = function(objectType, embedTypes){
+			var embedType = $.grep(embedTypes, function(et){
 				return et.options.object_type == objectType;
 			})[0];
 
@@ -486,19 +489,20 @@ var EntityEmbed = EntityEmbed || {};
 				}
 
 				// load the confirm navigation modal
-				confirmModalScope = {
-					parentModalCtrl: scope.modalCtrl
-				};
 				confirmModalDefaults = new EntityEmbed.confirmModalDefaults();
 				embedModalSelectors.elements.confirmModal = '#' + confirmModalDefaults.options.modalId;
-				$confirmModal = $('#' + confirmModalDefaults.options.modalId);
+				$confirmModal = $(embedModalSelectors.elements.confirmModal, scope.$modalEl);
 				templatePath = scope.modalHtmlLocation + confirmModalDefaults.options.viewPath
+				confirmModalScope = {
+					parentModalCtrl: scope.modalCtrl,
+					$modalEl: $confirmModal
+				};
 
 				// Check to if there is a cached template for this template path
 				if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
 				{
 					$confirmModal.html( EntityEmbed.templateCache[templatePath] );
-					confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+					confirmModalDefaults.init(confirmModalScope); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
 					$confirmModal.modal(confirmModalDefaults, confirmModalScope);
 				}
 				else
@@ -514,7 +518,7 @@ var EntityEmbed = EntityEmbed || {};
 							// Add template to template cache
 							EntityEmbed.templateCache = EntityEmbed.templateCache || {};
 							EntityEmbed.templateCache[templatePath] = $confirmModal.html();
-							confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+							confirmModalDefaults.init(confirmModalScope); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
 							$confirmModal.modal(confirmModalDefaults, confirmModalScope);
 						});
 				}

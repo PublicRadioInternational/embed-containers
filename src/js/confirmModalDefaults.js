@@ -18,15 +18,16 @@ var EntityEmbed = EntityEmbed || {};
 			options = {};
 		}
 		self.options = $.extend(true, {}, defaultOptions, options);
-		self.init();
 	};
 
 
-	confirmModalDefaults.prototype.init = function(){
-		var self = this;
+	confirmModalDefaults.prototype.init = function(scope){
+    var self = this;
 
-		self.$abortEl = $('#' + self.options.abortElId);
-		self.$completeEl = $('#' + self.options.completeElId);
+    console.log('confirmModalDefaults::init::scope', scope);
+
+    self.$abortEl = $('#' + self.options.abortElId, scope.$modalEl);
+    self.$completeEl = $('#' + self.options.completeElId, scope.$modalEl);
 	};
 
 	confirmModalDefaults.prototype.functions = {
