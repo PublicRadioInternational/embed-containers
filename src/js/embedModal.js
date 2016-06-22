@@ -18,6 +18,7 @@ var EntityEmbed = EntityEmbed || {};
 			modalElId: 'embed-modal',
 			modalBody: '.embed-modal-body',
 			abortEl: '#btn-abort-modal',
+			completeEl: '#btn-save-modal',
 			embedTypeSelect: '#select-embed-type',
 			authToken: null,							// auth_token for the apiService
 			domainName: null,							// domainName for the apiService
@@ -39,7 +40,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 		var embedTypes = [];
 		var promise = $.Deferred();
-		var modalScope, $modalContainer, $modalEl, $modalElTemp, templatePath;
+		var modalScope, $modalContainer, $modalEl, $modalElTemp, templatePath, opts, parentModalEmbedType;
 
 		function setUpModal(){
 			var embedModalDefaults;
@@ -66,6 +67,12 @@ var EntityEmbed = EntityEmbed || {};
 				options.modalOptions.$abortEl = $modalEl.find(options.abortEl);
 			}
 
+			// Modal Complete Button
+			if (!options.modalOptions.$completeEl || !options.modalOptions.$completeEl.length)
+			{
+				options.modalOptions.$completeEl = $modalEl.find(options.completeEl);
+			}
+
 			embedModalDefaults = new EntityEmbed.embedModalDefaults();
 
 			options.modalOptions = $.extend(true, {}, embedModalDefaults, options.modalOptions);
@@ -80,7 +87,31 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 		// Extend default options with passed options
-		options = $.extend(true, {}, defaults, options);
+		opts = $.extend(true, {}, defaults, options);
+
+		// Get parent modals current embed type
+		if(opts.modalOptions && opts.modalOptions.parentModal)
+		{
+			parentModalEmbedType = opts.modalOptions.parentModal.scope.currentEmbedType;
+		}
+
+		// Make sure to only use embedTypes configed on options, if applicable.
+		// Don't want to include all defaults in case this is a submodal, to prevent infinit init loop.
+		opts.embedTypes = !!options && options.embedTypes;
+
+		// if no options were configured, use the default types
+		if(!opts.embedTypes)
+		{
+			opts.embedTypes = defaults.embedTypes;
+		}
+
+		// Remove parent modals embed type from local embed types to prevent modal-seption.
+		if(!!parentModalEmbedType)
+		{
+			delete opts.embedTypes[parentModalEmbedType.name];
+		}
+
+		options = opts;
 
 		// Establish modal container element
 		$modalContainer = $(options.modalContainer);
@@ -121,6 +152,11 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
 				embedTypes.push(embedObject);
+
+				if(options.modalOptions.embedTypeStr && options.modalOptions.embedTypeStr === embedName)
+				{
+					modalScope.currentEmbedType = embedObject;
+				}
 			}
 		}
 
@@ -195,6 +231,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	function embedModalOpenInternal($embedModal, options){
 		var mType;
+
 		if (!!options.id)
 		{
 			mType = EntityEmbed.embedModalTypes.edit;
@@ -226,7 +263,9 @@ var EntityEmbed = EntityEmbed || {};
 			$currentEditorLocation: options.$currentEditorLocation,
 			modalType: mType,
 			embedId: options.id,
-			embedType: options.embedTypeStr
+			embedType: options.embedTypeStr,
+			parentModal: options.parentModal,
+			embedData: options.embedData
 		};
 
 		return $embedModal.openModal(scope);

@@ -84,6 +84,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 
+    console.log('genericEmbed::getModelFromForm::self', $.extend(true, {}, self));
+
 		self.model.html_rendered = null;
 	};
 
@@ -162,6 +164,8 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO : embedIsNew can be determined programatically (check if model has object_id)
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
+
+    console.log('genericEmbed::saveEmbed::self', $.extend(true, {}, self));
 
 		if (embedIsNew)
 		{

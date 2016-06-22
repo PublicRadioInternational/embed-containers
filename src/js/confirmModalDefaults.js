@@ -24,8 +24,6 @@ var EntityEmbed = EntityEmbed || {};
 	confirmModalDefaults.prototype.init = function(scope){
     var self = this;
 
-    console.log('confirmModalDefaults::init::scope', scope);
-
     self.$abortEl = $('#' + self.options.abortElId, scope.$modalEl);
     self.$completeEl = $('#' + self.options.completeElId, scope.$modalEl);
 	};

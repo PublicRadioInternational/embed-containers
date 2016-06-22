@@ -3,7 +3,7 @@
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label for="slideshowTitle" class="embed-modal-label">Slideshow Title</label>
-				<input class="embed-modal-input embed-modal-form-control" placeholder="Enter a title for internal use" type="text" name="slideshowTitle" />
+				<input class="embed-modal-input embed-modal-form-control" placeholder="Enter a title for internal use" type="text" name="title" />
 			</div>
 		</div>
 		<div class="embed-modal-half-column">
@@ -13,87 +13,19 @@
 			</div>
 		</div>
 	</div>
+
+	<hr>
+
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column image-list-container">
-				<label>Image List</label>
-				<div class="slideshow-image-add">
-					<i class="fa fa-plus"></i>
-				</div>
-				<div class="slideshow-image-select-existing">
-					<i class="fa fa-search-plus"></i>
-				</div>
-				<div class="embed-modal-slideshow-image-list">
-					<p class="radio-option-placeholder">click <i class="fa fa-plus"></i> to add an image</p>
-					<p class="radio-option-placeholder">click <i class="fa fa-search-plus"></i> to select an existing image</p>
-				</div>
+
+			<div class="slideshow_editor">
+				<div class="slideshow_editor-main"></div>
+				<div class="slideshow_editor-sidebar"></div>
+			</div>
+
 		</div>
 	</div>
 </form>
 
-<hr />
-<div class="embed-modal-row" id="embed-modal-slideshow-image-select-existing">
-	<div class="simg-query-container">
-		<label class="embed-modal-label" for="simg-query">Search for Image(s)</label>
-		<input type="text" class="embed-modal-form-control" name="simg-query" placeholder="begin typing image title ">
-	</div>
-	<div id="slideshow-image-select-btns">
-		<button id="btn-cancel-select-existing-simg">Cancel</button>
-	</div>
-</div>
-
-<div id="embed-modal-slideshow-image">
-	<form method="post" enctype="multipart/form-data">
-		<div class="embed-modal-row">
-			<div class="embed-modal-full-column">
-				<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
-				<span class="fa fa-times cancel-upload-image-btn"></span>
-				<div class="uploaded-image-file">
-					<div>
-						<label>Chosen Image</label>
-						<span class="fa fa-cog edit-chosen-file-btn"></span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="embed-modal-row">
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="title" class="embed-modal-label">Title</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
-				</div>
-			</div>
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="altText" class="embed-modal-label">Alt Text</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
-				</div>
-			</div>
-		</div>
-		<div class="embed-modal-row">
-			<div class="embed-modal-form">
-				<div class="embed-modal-half-column">
-					<label for="credit" class="embed-modal-label">Credit</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
-				</div>
-				<div class="embed-modal-half-column">
-					<label for="creditLink" class="embed-modal-label">Credit Link</label>
-					<input class="embed-modal-input embed-modal-form-control" type="url" name="creditLink" />
-				</div>
-			</div>
-		</div>
-		<div class="embed-modal-row">
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="caption" class="embed-modal-label">Caption</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="caption" />
-				</div>
-			</div>
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="license" class="embed-modal-label">License</label>
-					<select class="embed-modal-form-control" type="text" name="license" id="license"></select>
-				</div>
-			</div>
-		</div>
-	</form>
-</div>
+<div class="embed-modal" id="embed-modal-slideshow-image"></div>
