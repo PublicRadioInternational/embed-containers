@@ -94,8 +94,6 @@
 
 		ctrl.isActive = isActive;
 
-		console.log('modal:toggle::ctrl.$el', ctrl.$el);
-
 		ctrl.$el.toggle(ctrl.isActive).toggleClass('in', ctrl.isActive);
 		ctrl.$backdrop.toggle(ctrl.isActive).toggleClass('in', ctrl.isActive);
 
@@ -269,7 +267,12 @@
 					}
 				}
 
-				completeBeforeDeffered.done(function(){
+				completeBeforeDeffered.done(function(data){
+
+					if(data)
+					{
+						modalScope.currentEmbedType.model = data;
+					}
 
 					modalCtrl.toggle(modalCtrl, false);
 					modalCtrl.options.functions.complete.after(modalScope);

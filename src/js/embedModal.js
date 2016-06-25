@@ -232,7 +232,7 @@ var EntityEmbed = EntityEmbed || {};
 	function embedModalOpenInternal($embedModal, options){
 		var mType;
 
-		if (!!options.id)
+		if (!!options.id || options.embedData)
 		{
 			mType = EntityEmbed.embedModalTypes.edit;
 		}
@@ -265,6 +265,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedId: options.id,
 			embedType: options.embedTypeStr,
 			parentModal: options.parentModal,
+			buffered: options.bufferData,
 			embedData: options.embedData
 		};
 

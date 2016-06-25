@@ -97,6 +97,7 @@ var EntityEmbed = EntityEmbed || {};
 
 			if (!!scope.currentEmbedType)
 			{
+				delete scope.currentEmbedType.model;
 				scope.currentEmbedType.$view.hide();
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
@@ -112,11 +113,13 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				headerText = 'Edit ';
 			}
+			if (!scope.embedId)
+			{
+				headerText += 'New ';
+			}
 			headerText += scope.currentEmbedType.options.displayName;
 
 			scope.elements.headerText.text(headerText);
-
-			console.log('setModalView::scope', scope);
 		},
 		resetModalView = function(scope){
 			var embedName = scope.embedTypes[0].options.object_type;
@@ -144,13 +147,11 @@ var EntityEmbed = EntityEmbed || {};
 
 			isSaving = true;
 
-			scope.elements.saveSpinner, scope.modalCtrl.$el.show();
+			scope.elements.saveSpinner.show();
 
 			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
-			console.log('embedModalDefaults::saveEmbed::currentEmbedType', $.extend(true, {}, scope.currentEmbedType));
-
-			if(!scope.embedData)
+			if(!scope.buffered)
 			{
 
 				scope.currentEmbedType.saveEmbed(isAddModal)
@@ -161,7 +162,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 			else
 			{
-				respData.response = scope.currentEmbedType.model
+				respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
 				successFunction(respData);
 				alwaysFunction(respData);
 			}
@@ -183,12 +184,14 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 
+				scope.currentEmbedType.model = data.response;
+
 				if(isAddModal)
 				{
 					scope.currentEmbedType.model.object_id = data.response.object_id;
 				}
 
-				console.log('POST succeeded');
+				console.log('POST succeeded', data);
 
 				if (!!scope.successCallback)
 				{
@@ -443,8 +446,6 @@ var EntityEmbed = EntityEmbed || {};
 
 				gatherModalElements(scope, scope.modalCtrl.$el);
 
-				console.log('embedModalDefaults::init:before::scope', scope);
-
 				embedTypes_stale = scope.embedTypes;
 				scope.elements.saveSpinner.hide();
 			},
@@ -498,8 +499,6 @@ var EntityEmbed = EntityEmbed || {};
 				);
 
 				// Load all dynamic content
-
-				console.log(scope.embedTypes);
 
 				// load a query input in the select existing container for each embed type
 				for(i = 0; i < scope.embedTypes.length; i++)
@@ -619,21 +618,24 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			after: function(scope){
+
+				function applyData(data) {
+					data = data || {};
+					setModalView(scope, data.object_type);
+					scope.currentEmbedType.model = data;
+					scope.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
+					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+				}
+
 				switch(scope.modalType)
 				{
 					case EntityEmbed.embedModalTypes.edit:
 						showEditEmbedView(scope);
 
-						function applyData(data) {
-							setModalView(scope, data.object_type);
-							scope.currentEmbedType.model = data;
-							scope.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
-							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
-						}
-
-						if(scope.embedData)
+						if(scope.buffered)
 						{
 							applyData(scope.embedData);
+							delete scope.embedData;
 							break;
 						}
 
@@ -764,10 +766,12 @@ var EntityEmbed = EntityEmbed || {};
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
-					data: scope.currentEmbedType.model,
+					data: $.extend(true, {}, scope.currentEmbedType.model),
 					embedType: scope.currentEmbedType,
 					$embed: scope.$currentEditorLocation
 				});
+
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
 	};

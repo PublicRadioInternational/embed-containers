@@ -65,6 +65,7 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
 		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -83,8 +84,6 @@ var EntityEmbed = EntityEmbed || {};
 				self.model[name] = value;
 			}
 		}
-
-    console.log('genericEmbed::getModelFromForm::self', $.extend(true, {}, self));
 
 		self.model.html_rendered = null;
 	};
@@ -164,8 +163,6 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO : embedIsNew can be determined programatically (check if model has object_id)
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
-
-    console.log('genericEmbed::saveEmbed::self', $.extend(true, {}, self));
 
 		if (embedIsNew)
 		{
