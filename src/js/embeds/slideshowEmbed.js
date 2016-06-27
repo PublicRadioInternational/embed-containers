@@ -314,8 +314,8 @@ var EntityEmbed = EntityEmbed || {};
 					};
 				})(index, $this))
 				.fail((function(_index_, _$this_){
-					return function(){
-						console.log('failed to save a slideshow image number ' + _index_);
+					return function(jqXhr, status, err){
+						console.log('failed to save a slideshow image number ' + _index_, err);
 
 						_$this_.removeClass('saving').addClass('error')
 							.find('.' + slideIndicatorClass).removeClass(slideSavingClass).addClass(slideErrorClass);
@@ -358,8 +358,6 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = self.$ui;
 		var imageEmbed = new EntityEmbed.embedTypes.image();
 		var deferreds = [];
-
-		console.log('slideshowEmbed:populateFormWithModel::self.model', self.model);
 
 		self.parent.populateFormWithModel($form.find('form').first(), self);
 
