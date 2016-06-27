@@ -102,9 +102,6 @@
 
 .slideshow_editor-nav_item
 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
   width: @slideshow_editor-nav_btn__width;
   height: @slideshow_editor-nav_btn__width;
@@ -160,7 +157,9 @@
 .slideshow_editor-nav_btn
 {
   transition: all 200ms ease-out;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   right: 0;
@@ -171,11 +170,15 @@
 
   box-shadow: inset 0 0 0 (@slideshow_editor-nav_btn__width / 2 + 1) #fff;
 
+  color: inherit;
+  text-decoration: none;
+
   cursor: pointer;
 
   .slideshow_editor-nav_item.active &
   {
     box-shadow: inset 0 0 0 3px #fff;
+    color: @btn-primary-color;
 
     &:hover
     {
@@ -188,6 +191,7 @@
   .slideshow_editor-nav_item.error &
   {
     box-shadow: inset 0 0 0 0 #fff;
+    color: @btn-primary-color;
   }
 
   .slideshow_editor-nav_item.ui-sortable-helper &
@@ -198,12 +202,13 @@
   &:hover
   {
     box-shadow: inset 0 0 0 3px #fff;
+    color: @btn-primary-color;
+    text-decoration: none;
   }
 }
 
 .slideshow_editor-nav_ind
 {
-
 }
 
 .slideshow_editor-nav_handle
