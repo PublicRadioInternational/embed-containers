@@ -1,9 +1,9 @@
-<form method="post" enctype="multipart/form-data">
+<form>
 	<div class="embed-modal-row">
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label for="slideshowTitle" class="embed-modal-label">Slideshow Title</label>
-				<input class="embed-modal-input embed-modal-form-control" placeholder="Enter a title for internal use" type="text" name="slideshowTitle" />
+				<input class="embed-modal-input embed-modal-form-control" placeholder="Enter a title for internal use" type="text" name="title" />
 			</div>
 		</div>
 		<div class="embed-modal-half-column">
@@ -13,87 +13,50 @@
 			</div>
 		</div>
 	</div>
+
+	<hr>
+
 	<div class="embed-modal-row">
-		<div class="embed-modal-full-column image-list-container">	
-				<label>Image List</label>
-				<div class="slideshow-image-add">
-					<i class="fa fa-plus"></i>
+		<div class="embed-modal-full-column image-list-container">
+
+			<div class="slideshow_intro">
+				<a class="btn btn-lg btn-primary js-add_slide"><span class="fa fa-plus" aria-hidden="true"></span> Add First Image</a>
+			</div>
+
+			<div class="slideshow_editor">
+				<div class="slideshow_editor-slide">
+					<div class="slideshow_editor-slide_image-container">
+						<div class="slideshow_editor-slide_image js-slide_image" style="background-image:url(https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg)">
+							<img src="https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg">
+							</div>
+					</div>
+					<div class="slideshow_editor-slide_text js-slide_text">
+						<div class="slideshow_editor-slide_caption js-slide_caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam feugiat ac nulla in tincidunt. Curabitur pellentesque, justo at sagittis gravida, nunc eros blandit dolor, a scelerisque eros mauris in tellus.</div>
+						<div class="slideshow_editor-slide_credit-container">
+							<span class="slideshow_editor-slide_label">Credit</span>
+							<span class="slideshow_editor-slide_credit_text js-slide_credit">John A. Doe / Unknown News</span>
+							<a class="slideshow_editor-slide_credit_link js-slide_credit" href="" target="_blank">John A. Doe / Unknown News</a>
+						</div>
+					</div>
 				</div>
-				<div class="slideshow-image-select-existing">
-					<i class="fa fa-search-plus"></i>
+
+				<div class="slideshow_editor-nav">
+					<ul class="slideshow_editor-nav_list js-slides">
+						<li class="slideshow_editor-nav_item js-slide_template"><span class="slideshow_editor-nav_ind fa" aria-hidden="true"></span><a class="slideshow_editor-nav_btn"><span class="slideshow_editor-nav_handle" aria-hidden="true"></span></a></li>
+					</ul>
+					<div class="slideshow_editor-add_item"><a class="slideshow_editor-add_btn js-add_slide"><span class="fa fa-plus" aria-label="Add Slide"></span></a></div>
 				</div>
-				<div class="embed-modal-slideshow-image-list">
-					<p class="radio-option-placeholder">click <i class="fa fa-plus"></i> to add an image</p>
-					<p class="radio-option-placeholder">click <i class="fa fa-search-plus"></i> to select an existing image</p>
+
+				<div class="slideshow_editor-toolbar">
+					<ul class="slideshow_editor-toolbar_list">
+						<li class="slideshow_editor-toolbar_item"><a class="slideshow_editor-toolbar_btn js-remove_slide"><span class="fa fa-remove" aria-label="Remove Slide"></span></a></li>
+						<li class="slideshow_editor-toolbar_item"><a class="slideshow_editor-toolbar_btn js-edit_slide"><span class="fa fa-cog" aria-label="Edit Slide"></span></a></li>
+					</ul>
 				</div>
+			</div>
+
 		</div>
 	</div>
 </form>
 
-<hr />
-<div class="embed-modal-row" id="embed-modal-slideshow-image-select-existing">
-	<div class="simg-query-container">
-		<label class="embed-modal-label" for="simg-query">Search for Image(s)</label>
-		<input type="text" class="embed-modal-form-control" name="simg-query" placeholder="begin typing image title ">
-	</div>
-	<div id="slideshow-image-select-btns">
-		<button id="btn-cancel-select-existing-simg">Cancel</button>
-	</div>
-</div>
-
-<div id="embed-modal-slideshow-image">
-	<form method="post" enctype="multipart/form-data">
-		<div class="embed-modal-row">
-			<div class="embed-modal-full-column">
-				<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
-				<span class="fa fa-times cancel-upload-image-btn"></span>
-				<div class="uploaded-image-file">
-					<div>
-						<label>Chosen Image</label>
-						<span class="fa fa-cog edit-chosen-file-btn"></span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="embed-modal-row">
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="title" class="embed-modal-label">Title</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
-				</div>
-			</div>
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="altText" class="embed-modal-label">Alt Text</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
-				</div>
-			</div>
-		</div>
-		<div class="embed-modal-row">
-			<div class="embed-modal-form">
-				<div class="embed-modal-half-column">
-					<label for="credit" class="embed-modal-label">Credit</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
-				</div>	
-				<div class="embed-modal-half-column">
-					<label for="creditLink" class="embed-modal-label">Credit Link</label>
-					<input class="embed-modal-input embed-modal-form-control" type="url" name="creditLink" />
-				</div>
-			</div>
-		</div>
-		<div class="embed-modal-row">
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="caption" class="embed-modal-label">Caption</label>
-					<input class="embed-modal-input embed-modal-form-control" type="text" name="caption" />
-				</div>
-			</div>
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="license" class="embed-modal-label">License</label>
-					<select class="embed-modal-form-control" type="text" name="license" id="license"></select>
-				</div>
-			</div>
-		</div>
-	</form>	
-</div>
+<div class="embed-modal" id="embed-modal-slideshow-image"></div>

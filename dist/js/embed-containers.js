@@ -11,7 +11,7 @@ templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-ro
 templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
 templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input name=\"linkInput\" type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
-templateCache["modal/modal_slideshow.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"slideshowTitle\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><label>Image List</label><div class=\"slideshow-image-add\"><i class=\"fa fa-plus\"></i></div><div class=\"slideshow-image-select-existing\"><i class=\"fa fa-search-plus\"></i></div><div class=\"embed-modal-slideshow-image-list\"><p class=\"radio-option-placeholder\">click <i class=\"fa fa-plus\"></i> to add an image</p><p class=\"radio-option-placeholder\">click <i class=\"fa fa-search-plus\"></i> to select an existing image</p></div></div></div></form><hr><div class=\"embed-modal-row\" id=\"embed-modal-slideshow-image-select-existing\"><div class=\"simg-query-container\"><label class=\"embed-modal-label\" for=\"simg-query\">Search for Image(s)</label><input type=\"text\" class=\"embed-modal-form-control\" name=\"simg-query\" placeholder=\"begin typing image title \"></div><div id=\"slideshow-image-select-btns\"><button id=\"btn-cancel-select-existing-simg\">Cancel</button></div></div><div id=\"embed-modal-slideshow-image\"><form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span><div class=\"uploaded-image-file\"><div><label>Chosen Image</label><span class=\"fa fa-cog edit-chosen-file-btn\"></span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\" id=\"license\"></select></div></div></div></form></div>";
+templateCache["modal/modal_slideshow.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><div class=\"slideshow_intro\"><a class=\"btn btn-lg btn-primary js-add_slide\"><span class=\"fa fa-plus\" aria-hidden=\"true\"></span> Add First Image</a></div><div class=\"slideshow_editor\"><div class=\"slideshow_editor-slide\"><div class=\"slideshow_editor-slide_image-container\"><div class=\"slideshow_editor-slide_image js-slide_image\" style=\"background-image:url(https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg)\"><img src=\"https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg\"></div></div><div class=\"slideshow_editor-slide_text js-slide_text\"><div class=\"slideshow_editor-slide_caption js-slide_caption\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam feugiat ac nulla in tincidunt. Curabitur pellentesque, justo at sagittis gravida, nunc eros blandit dolor, a scelerisque eros mauris in tellus.</div><div class=\"slideshow_editor-slide_credit-container\"><span class=\"slideshow_editor-slide_label\">Credit</span> <span class=\"slideshow_editor-slide_credit_text js-slide_credit\">John A. Doe / Unknown News</span> <a class=\"slideshow_editor-slide_credit_link js-slide_credit\" href=\"\" target=\"_blank\">John A. Doe / Unknown News</a></div></div></div><div class=\"slideshow_editor-nav\"><ul class=\"slideshow_editor-nav_list js-slides\"><li class=\"slideshow_editor-nav_item js-slide_template\"><span class=\"slideshow_editor-nav_ind fa\" aria-hidden=\"true\"></span><a class=\"slideshow_editor-nav_btn\"><span class=\"slideshow_editor-nav_handle\" aria-hidden=\"true\"></span></a></li></ul><div class=\"slideshow_editor-add_item\"><a class=\"slideshow_editor-add_btn js-add_slide\"><span class=\"fa fa-plus\" aria-label=\"Add Slide\"></span></a></div></div><div class=\"slideshow_editor-toolbar\"><ul class=\"slideshow_editor-toolbar_list\"><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-remove_slide\"><span class=\"fa fa-remove\" aria-label=\"Remove Slide\"></span></a></li><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-edit_slide\"><span class=\"fa fa-cog\" aria-label=\"Edit Slide\"></span></a></li></ul></div></div></div></div></form><div class=\"embed-modal\" id=\"embed-modal-slideshow-image\"></div>";
 templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
 var EntityEmbed = EntityEmbed || {};
@@ -490,6 +490,7 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
 		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;
@@ -852,28 +853,56 @@ var EntityEmbed = EntityEmbed || {};
 	$.fn.completeModal = function(addToScope){
 		return this.each(function(){
 			var modalCtrl = $.data(this, 'ctrl');
+			var currentScope, newScope, modalScope, completeBefore, completeBeforeDeffered;
+
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
 				if (!!addToScope)
 				{
-					var currentScope = modalCtrl.$el.data('scope');
-					var newScope = $.extend(true, {}, currentScope, addToScope);
+					currentScope = modalCtrl.$el.data('scope');
+					newScope = $.extend(true, {}, currentScope, addToScope);
 					modalCtrl.$el.data('scope', newScope);
 				}
 
-				var modalScope = modalCtrl.$el.data('scope');
+				modalScope = modalCtrl.$el.data('scope');
 
-				if (modalCtrl.options.functions.complete.before(modalScope))
+				completeBefore = modalCtrl.options.functions.complete.before(modalScope);
+
+				if(typeof completeBefore.state === 'function')
 				{
+					// Promise returned
+					completeBeforeDeffered = completeBefore;
+				}
+				else {
+					// Boolean returned
+					// Establish a promise and resolve/reject accordingly
+					completeBeforeDeffered = $.Deferred();
+					if(completeBefore)
+					{
+						completeBeforeDeffered.resolve();
+					}
+					else
+					{
+						completeBeforeDeffered.reject();
+					}
+				}
+
+				completeBeforeDeffered.done(function(data){
+
+					if(data)
+					{
+						modalScope.currentEmbedType.model = data;
+					}
+
 					modalCtrl.toggle(modalCtrl, false);
 					modalCtrl.options.functions.complete.after(modalScope);
 
-					// reject promise if app dev has not already done so
+					// resolve promise if app dev has not already done so
 					if(modalCtrl.promise.state() === 'pending')
 					{
 						modalCtrl.promise.resolve();
 					}
-				}
+				});
 			}
 		});
 	};
@@ -898,15 +927,14 @@ var EntityEmbed = EntityEmbed || {};
 			options = {};
 		}
 		self.options = $.extend(true, {}, defaultOptions, options);
-		self.init();
 	};
 
 
-	confirmModalDefaults.prototype.init = function(){
-		var self = this;
+	confirmModalDefaults.prototype.init = function(scope){
+    var self = this;
 
-		self.$abortEl = $('#' + self.options.abortElId);
-		self.$completeEl = $('#' + self.options.completeElId);
+    self.$abortEl = $('#' + self.options.abortElId, scope.$modalEl);
+    self.$completeEl = $('#' + self.options.completeElId, scope.$modalEl);
 	};
 
 	confirmModalDefaults.prototype.functions = {
@@ -977,6 +1005,26 @@ var EntityEmbed = EntityEmbed || {};
 				headerText: '.header-title'
 			}
 		},
+		gatherModalElements = function(scope, $el) {
+			function gather(groupKey) {
+				scope[groupKey] = scope[groupKey] || {};
+				for (key in embedModalSelectors[groupKey])
+				{
+					if(embedModalSelectors[groupKey].hasOwnProperty(key))
+					{
+						scope[groupKey][key] = $(embedModalSelectors[groupKey][key], $el);
+					}
+				}
+			}
+
+			for (groupKey in embedModalSelectors)
+			{
+				if(embedModalSelectors.hasOwnProperty(groupKey))
+				{
+					gather(groupKey);
+				}
+			}
+		},
 		toggleEditorTyping = function(scope, toggleCmd){
 			// enable/disable typing in the editor by finding the first class
 			// TODO : find a more generic solution to this
@@ -1022,11 +1070,12 @@ var EntityEmbed = EntityEmbed || {};
 
 			if (!!scope.currentEmbedType)
 			{
+				delete scope.currentEmbedType.model;
 				scope.currentEmbedType.$view.hide();
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = getEmbedTypeByObjectType(embedType);
+			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(embedType, scope.embedTypes);
 
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
@@ -1037,9 +1086,13 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				headerText = 'Edit ';
 			}
+			if (!scope.embedId)
+			{
+				headerText += 'New ';
+			}
 			headerText += scope.currentEmbedType.options.displayName;
 
-			$(embedModalSelectors.elements.headerText).text(headerText)
+			scope.elements.headerText.text(headerText);
 		},
 		resetModalView = function(scope){
 			var embedName = scope.embedTypes[0].options.object_type;
@@ -1049,9 +1102,11 @@ var EntityEmbed = EntityEmbed || {};
 		saveEmbed = function(scope){
 			var isAddModal = scope.modalType == EntityEmbed.embedModalTypes.add ||
 							 scope.modalType == EntityEmbed.embedModalTypes.addSingle;
-
 			var $validator = scope.currentEmbedType.validate(scope.currentEmbedType.$view, isAddModal);
 			var isValid = true;
+			var promise = $.Deferred();
+			var respData = {};
+
 			for(var i = 0; i < $validator.length; i++)
 			{
 				isValid = $(scope.currentEmbedType.$validator[i]).valid() && isValid;
@@ -1059,82 +1114,83 @@ var EntityEmbed = EntityEmbed || {};
 
 			if (isSaving || !isValid)
 			{
-				return;
+				promise.reject()
+				return promise;
 			}
 
 			isSaving = true;
-			$(embedModalSelectors.elements.saveSpinner).show();
-			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
-			if (isAddModal)
-			{
-				var successFunction = function(data){
-					if (data.status === 'ERROR')
-					{
-						console.log('POST failed');
-						return;
-					}
-					if (typeof data.response === 'string')
-					{
-						console.log('Failed to POST embed type: ' + data.response);
-						return;
-					}
-					scope.currentEmbedType.model.object_id = data.response.object_id;
-					console.log('POST succeeded');
-					scope.modalCtrl.$el.completeModal();
-					if (!!scope.successCallback)
-					{
-						// TODO : call this function on select existing (if appropriate)
-						scope.successCallback(data.response);
-					}
-				},
-				failFunction = function(data){
-					// TODO : UI failure message
-					console.log('POST failed');
 
-					if (!!scope.failCallback)
-					{
-						// TODO : call this function on select existing (if appropriate)
-						scope.failCallback();
-					}
-				};
+			scope.elements.saveSpinner.show();
+
+			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+
+			if(!scope.buffered)
+			{
+
+				scope.currentEmbedType.saveEmbed(isAddModal)
+					.done(successFunction)
+					.fail(failFunction)
+					.always(alwaysFunction);
+
 			}
 			else
 			{
-				var successFunction = function(data){
-					if (data.status === 'ERROR')
-					{
-						console.log('POST failed (API)', data);
-						return;
-					}
-					if (typeof data.response === 'string')
-					{
-						console.log('Failed to PUT embed type: ' + data.response);
-						return;
-					}
-					console.log('PUT succeeded', data);
-					scope.modalCtrl.$el.completeModal();
-
-					if (!!scope.successCallback)
-					{
-						// TODO : call this function on select existing (if appropriate)
-						scope.successCallback(data.response);
-					}
-				},
-				failFunction = function(jqXhr, status, err){
-					// TODO : UI failure message
-					console.log('POST failed (XHR)', err);
-
-					if (!!scope.failCallback)
-					{
-						// TODO : call this function on select existing (if appropriate)
-						scope.failCallback();
-					}
-				};
+				respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
+				successFunction(respData);
+				alwaysFunction(respData);
 			}
 
-			var alwaysFunction = function(data){
+			////
+
+			function successFunction(data) {
+				if (data.status === 'ERROR')
+				{
+					console.log('POST failed (API)');
+					promise.reject();
+					return;
+				}
+
+				if (typeof data.response === 'string')
+				{
+					console.log('Failed to POST embed type: ' + data.response);
+					promise.reject();
+					return;
+				}
+
+				scope.currentEmbedType.model = data.response;
+
+				if(isAddModal)
+				{
+					scope.currentEmbedType.model.object_id = data.response.object_id;
+				}
+
+				console.log('POST succeeded', data);
+
+				if (!!scope.successCallback)
+				{
+					// TODO : call this function on select existing (if appropriate)
+					scope.successCallback(data.response);
+				}
+
+				promise.resolve(data.response);
+			}
+
+			function failFunction(jqXhr, status, err){
+				// TODO : UI failure message
+				console.log('POST failed (XHR)', err);
+
+				if (!!scope.failCallback)
+				{
+					// TODO : call this function on select existing (if appropriate)
+					scope.failCallback();
+				}
+
+				promise.reject()
+			}
+
+			function alwaysFunction(data){
 				isSaving = false;
-				$(embedModalSelectors.elements.saveSpinner).hide();
+				scope.elements.saveSpinner.hide();
 
 				if (!!scope.alwaysCallback)
 				{
@@ -1143,63 +1199,75 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			};
 
-			scope.currentEmbedType.saveEmbed(isAddModal)
-				.done(successFunction)
-				.fail(failFunction)
-				.always(alwaysFunction);
+			////
+
+			return promise;
 		},
 		showCreateNewEmbedView = function(scope){
-			$(embedModalSelectors.buttons.showSelectExisting).show();
-			scope.$embedTypeSelect.show();
+			scope.skipSave = false;
 
-			$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
-			$(embedModalSelectors.containers.createNewEmbed).slideDown();
+			scope.buttons.showSelectExisting.show();
 
-			$(embedModalSelectors.containers.selectButtons).hide();
-			$(embedModalSelectors.containers.createButtons).show();
-
-			$(embedModalSelectors.containers.selectExistingEmbed).find('.query-container').hide();
-		},
-		showEditEmbedView = function(scope){
-			$(embedModalSelectors.buttons.showSelectExisting).hide();
-			scope.$embedTypeSelect.hide();
-
-			if ($(embedModalSelectors.containers.selectExistingEmbed).is(':visible'))
+			if(scope.isSingle)
 			{
-				$(embedModalSelectors.containers.selectExistingEmbed).slideUp();
-				$(embedModalSelectors.containers.createNewEmbed).slideDown();
+				scope.modalType = EntityEmbed.embedModalTypes.addSingle;
+			}
+			else
+			{
+				scope.modalType = EntityEmbed.embedModalTypes.add;
+				scope.$embedTypeSelect.show();
 			}
 
-			$(embedModalSelectors.containers.selectButtons).hide();
-			$(embedModalSelectors.containers.createButtons).show();
+			scope.containers.selectExistingEmbed.slideUp();
+			scope.containers.createNewEmbed.slideDown();
 
-			$(embedModalSelectors.buttons.showSelectExisting).hide();
+			scope.containers.selectButtons.hide();
+			scope.containers.createButtons.show();
+
+			scope.containers.selectExistingEmbed.find('.query-container').hide();
 		},
-		showSelectExistingView = function(scope, isSingle){
-			scope.modalType = EntityEmbed.embedModalTypes.selectExisting;
+		showEditEmbedView = function(scope){
+			scope.skipSave = false;
 
-			$(embedModalSelectors.containers.createNewEmbed).slideUp();
-			$(embedModalSelectors.containers.selectExistingEmbed).slideDown();
+			scope.buttons.showSelectExisting.hide();
+			scope.$embedTypeSelect.hide();
 
-			$(embedModalSelectors.containers.createButtons).hide();
-			$(embedModalSelectors.containers.selectButtons).show();
+			if (scope.containers.selectExistingEmbed.is(':visible'))
+			{
+				scope.containers.selectExistingEmbed.slideUp();
+				scope.containers.createNewEmbed.slideDown();
+			}
 
-			$(embedModalSelectors.containers.selectExistingEmbed)
+			scope.containers.selectButtons.hide();
+			scope.containers.createButtons.show();
+
+			scope.buttons.showSelectExisting.hide();
+		},
+		showSelectExistingView = function(scope){
+			scope.skipSave = true;
+
+			scope.containers.createNewEmbed.slideUp();
+			scope.containers.selectExistingEmbed.slideDown();
+
+			scope.containers.createButtons.hide();
+			scope.containers.selectButtons.show();
+
+			scope.containers.selectExistingEmbed
 				.find('.' + scope.currentEmbedType.options.object_type + '-query-container').show();
 
-			if (isSingle)
+			if (scope.isSingle)
 			{
-				$(embedModalSelectors.buttons.cancelSelectExisting).hide();
+				scope.modalType = EntityEmbed.embedModalTypes.selectExistingSingle;
 				scope.$embedTypeSelect.hide();
 			}
 			else
 			{
-				$(embedModalSelectors.buttons.cancelSelectExisting).show();
+				scope.modalType = EntityEmbed.embedModalTypes.selectExisting;
 				scope.$embedTypeSelect.show();
 			}
 		},
-		getEmbedTypeByObjectType = function(objectType){
-			var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+		getEmbedTypeByObjectType = function(objectType, embedTypes){
+			var embedType = $.grep(embedTypes, function(et){
 				return et.options.object_type == objectType;
 			})[0];
 
@@ -1227,7 +1295,8 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
 		//	begin typing the title of an embed and have a dropdown list of embeds displayed to them
-		initAutoComplete = function (embedType, modalCtrl){
+		initAutoComplete = function (embedType, scope){
+			var modalCtrl = scope.modalCtrl;
 			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
 			var isDevEnv = rgxDevEnv.test(window.location.host);
 			var debug = 0;
@@ -1260,7 +1329,7 @@ var EntityEmbed = EntityEmbed || {};
 					return data.title;
 				},
 				preparePostData: function(data) {
-					data.title = $(embedModalSelectors.containers.selectExistingEmbed)
+					data.title = scope.containers.selectExistingEmbed
 									.find('input[name="' + embedType.options.object_type + '-query"]').val();
 					return JSON.stringify(data);
 				},
@@ -1273,11 +1342,11 @@ var EntityEmbed = EntityEmbed || {};
 						enabled: true
 					},
 					onChooseEvent: function(){
-						var itemData = $(embedModalSelectors.containers.selectExistingEmbed)
+						var itemData = scope.containers.selectExistingEmbed
 											.find('input[name="' + embedType.options.object_type + '-query"]')
 											.getSelectedItemData();
 						var objectId = itemData.object_id;
-						$(embedModalSelectors.containers.selectExistingEmbed)
+						scope.containers.selectExistingEmbed
 									.find('input[name="' + embedType.options.object_type + '-query"]').val('')
 
 						EntityEmbed.apiService.get({
@@ -1297,7 +1366,7 @@ var EntityEmbed = EntityEmbed || {};
 							var addEvent = jQuery.Event('existingItemSelected');
 							// add data to it so the handler knows what to do
 							addEvent.embedModel = respData.response;
-							$(embedModalSelectors.containers.selectExistingEmbed)
+							scope.containers.selectExistingEmbed
 								.find('input[name="' + embedType.options.object_type + '-query"]')
 								.trigger(addEvent);
 
@@ -1310,11 +1379,11 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			};
 
-			$(embedModalSelectors.containers.selectExistingEmbed)
+			scope.containers.selectExistingEmbed
 				.find('input[name="' + embedType.options.object_type + '-query"]')
 				.easyAutocomplete(options);
 
-			$(embedModalSelectors.containers.selectExistingEmbed)
+			scope.containers.selectExistingEmbed
 				.find('input[name="' + embedType.options.object_type + '-query"]')
 				.closest('.easy-autocomplete')
 				.removeAttr('style');
@@ -1347,42 +1416,84 @@ var EntityEmbed = EntityEmbed || {};
 				 *		scope.$modalBody
 				 *		scope.embedTypes
 				 */
-				scope.currentEmbedType = null;
+
+				gatherModalElements(scope, scope.modalCtrl.$el);
+
 				embedTypes_stale = scope.embedTypes;
-				$(embedModalSelectors.elements.saveSpinner).hide();
+				scope.elements.saveSpinner.hide();
 			},
 			after: function(scope){
 				var $selExInput, $embedView, $confirmModal, confirmModalScope, confirmModalDefaults, embedObject, templatePath, i;
 
 				function initEmbedTypeModal(embedType, $view) {
-					embedType.initModal($view);
+					embedType.initModal($view, scope.modalCtrl);
 				}
 
-				// first load all dynamic content
+				// Register events before adding dynamic content in case that content contains
+				// elements with id's we plann to target in this scope.
+
+				// // configure save button to call save method
+				// scope.modalCtrl.registerEvent(embedModalSelectors.buttons.saveEmbed, 'click',
+				// 	function(e, currentScope){
+				// 		scope.modalCtrl.$el.completeModal(currentScope);
+				// 	}
+				// );
+
+				// configure show-select-existing button to show the select-existing view
+				scope.modalCtrl.registerEvent(scope.buttons.showSelectExisting, 'click',
+					function(e, currentScope){
+						showSelectExistingView(currentScope);
+					}
+				);
+
+				// configure cancel-select-existing button to show the create-new-embed view
+				scope.modalCtrl.registerEvent(scope.buttons.cancelSelectExisting, 'click',
+					function(e, currentScope){
+						showCreateNewEmbedView(currentScope);
+					}
+				);
+
+				// configure the select-embed-type dropdown to change the modal view
+				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
+					function(e, currentScope){
+						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+
+						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
+						setModalView(currentScope, embedType);
+
+						if (currentScope.modalType === EntityEmbed.embedModalTypes.selectExisting)
+						{
+							scope.containers.selectExistingEmbed
+								.find('.query-container').hide();
+							scope.containers.selectExistingEmbed
+								.find('.' + currentScope.currentEmbedType.options.object_type + '-query-container').show();
+						}
+					}
+				);
+
+				// Load all dynamic content
 
 				// load a query input in the select existing container for each embed type
 				for(i = 0; i < scope.embedTypes.length; i++)
 				{
-					$(embedModalSelectors.containers.selectExistingEmbed).append(generateSelExInputHtml(scope.embedTypes[i]));
+					embedObject = scope.embedTypes[i];
 
-					$selExInput = $(embedModalSelectors.containers.selectExistingEmbed)
-											.find('input[name="' + scope.embedTypes[i].options.object_type + '-query"]');
+					scope.containers.selectExistingEmbed.append(generateSelExInputHtml(embedObject));
 
-					initAutoComplete(scope.embedTypes[i], scope.modalCtrl);
-					$(embedModalSelectors.containers.selectExistingEmbed)
-						.find('.' + scope.embedTypes[i].options.object_type + '-query-container').hide();
+					$selExInput = scope.containers.selectExistingEmbed
+											.find('input[name="' + embedObject.options.object_type + '-query"]');
+
+					initAutoComplete(embedObject, scope);
+					scope.containers.selectExistingEmbed
+						.find('.' + embedObject.options.object_type + '-query-container').hide();
 
 					scope.modalCtrl.registerEvent($selExInput, 'existingItemSelected',
 						function(e, currentScope){
 							currentScope.currentEmbedType.model = e.embedModel;
 							currentScope.modalCtrl.$el.completeModal();
 						});
-				}
 
-				// load the views for creating new embeds (one view for each embed type)
-				for(i = 0; i < scope.embedTypes.length; i++)
-				{
-					embedObject = scope.embedTypes[i];
+					// load the views for creating new embeds (one view for each embed type)
 					// create option in dropdown for this embed
 					scope.$embedTypeSelect.append('<option value="' +
 						embedObject.options.object_type + '">' + embedObject.options.displayName +
@@ -1391,9 +1502,7 @@ var EntityEmbed = EntityEmbed || {};
 					// create the embed view container and load the view into it
 					$embedView = $('<div id="' + embedObject.name + '"></div>');
 
-					scope.$modalBody
-						.find(embedModalSelectors.containers.createNewEmbed)
-						.append($embedView);
+					scope.containers.createNewEmbed.append($embedView);
 
 					templatePath = scope.modalHtmlLocation + embedObject.options.viewPath;
 
@@ -1430,20 +1539,21 @@ var EntityEmbed = EntityEmbed || {};
 					$embedView.hide();
 				}
 
-				// load the confirm navigation modal
-				confirmModalScope = {
-					parentModalCtrl: scope.modalCtrl
-				};
+				// Load the confirm navigation modal
 				confirmModalDefaults = new EntityEmbed.confirmModalDefaults();
 				embedModalSelectors.elements.confirmModal = '#' + confirmModalDefaults.options.modalId;
-				$confirmModal = $('#' + confirmModalDefaults.options.modalId);
+				$confirmModal = scope.elements.confirmModal = $(embedModalSelectors.elements.confirmModal, scope.$modalEl);
 				templatePath = scope.modalHtmlLocation + confirmModalDefaults.options.viewPath
+				confirmModalScope = {
+					parentModalCtrl: scope.modalCtrl,
+					$modalEl: $confirmModal
+				};
 
 				// Check to if there is a cached template for this template path
 				if(EntityEmbed.templateCache && EntityEmbed.templateCache[templatePath])
 				{
 					$confirmModal.html( EntityEmbed.templateCache[templatePath] );
-					confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+					confirmModalDefaults.init(confirmModalScope); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
 					$confirmModal.modal(confirmModalDefaults, confirmModalScope);
 				}
 				else
@@ -1459,57 +1569,18 @@ var EntityEmbed = EntityEmbed || {};
 							// Add template to template cache
 							EntityEmbed.templateCache = EntityEmbed.templateCache || {};
 							EntityEmbed.templateCache[templatePath] = $confirmModal.html();
-							confirmModalDefaults.init(); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
+							confirmModalDefaults.init(confirmModalScope); // this re-registers abort and complete buttons - now that they are loaded, JQuery can find them
 							$confirmModal.modal(confirmModalDefaults, confirmModalScope);
 						});
 				}
-
-				// now set up events for buttons etc.
-
-				// configure the select-embed-type dropdown to change the modal view
-				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
-					function(e, currentScope){
-						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
-
-						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
-						setModalView(currentScope, embedType);
-
-						if (currentScope.modalType === EntityEmbed.embedModalTypes.selectExisting)
-						{
-							$(embedModalSelectors.containers.selectExistingEmbed)
-								.find('.query-container').hide();
-							$(embedModalSelectors.containers.selectExistingEmbed)
-								.find('.' + currentScope.currentEmbedType.options.object_type + '-query-container').show();
-						}
-					}
-				);
-
-				// configure save button to call save method
-				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.saveEmbed, 'click',
-					function(e, currentScope){
-						saveEmbed(currentScope);
-					}
-				);
-
-				// configure show-select-existing button to show the select-existing view
-				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.showSelectExisting, 'click',
-					function(e, currentScope){
-						showSelectExistingView(currentScope, currentScope.modalType === EntityEmbed.embedModalTypes.addSingle ||
-															 currentScope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle);
-					}
-				);
-
-				// configure cancel-select-existing button to show the create-new-embed view
-				scope.modalCtrl.registerEvent(embedModalSelectors.buttons.cancelSelectExisting, 'click',
-					function(e, currentScope){
-						currentScope.modalType = EntityEmbed.embedModalTypes.add;
-						showCreateNewEmbedView(currentScope);
-					}
-				);
 			}
 		},
 		open: {
 			before: function(scope){
+
+				scope.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
+												scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle
+
 				toggleEditorTyping(scope, "false");
 				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
@@ -1520,10 +1591,26 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			after: function(scope){
+
+				function applyData(data) {
+					data = data || {};
+					setModalView(scope, data.object_type);
+					scope.currentEmbedType.model = data;
+					scope.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
+					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+				}
+
 				switch(scope.modalType)
 				{
 					case EntityEmbed.embedModalTypes.edit:
 						showEditEmbedView(scope);
+
+						if(scope.buffered)
+						{
+							applyData(scope.embedData);
+							delete scope.embedData;
+							break;
+						}
 
 						// TODO : loading spinner
 						EntityEmbed.apiService.get({
@@ -1540,15 +1627,14 @@ var EntityEmbed = EntityEmbed || {};
 								return;
 							}
 
-							setModalView(scope, data.response.object_type);
-							scope.currentEmbedType.model = data.response;
-							scope.staleModel = $.extend(true, {}, data.response); // so we can check if the form is dirty later
-							scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
+							applyData(data.response);
+
 						})
 						.fail(function(data){
 							// TODO : UI failure message
 							console.log('failed to get embed type!');
 						});
+
 						break;
 					case EntityEmbed.embedModalTypes.add:
 						showCreateNewEmbedView(scope);
@@ -1605,14 +1691,14 @@ var EntityEmbed = EntityEmbed || {};
 
 							if (staleVal !== modelVal)
 							{
-								$(embedModalSelectors.elements.confirmModal).openModal({parentModal: self});
+								scope.elements.confirmModal.openModal({parentModal: self});
 								return false;
 							}
 						}
 					}
 					else if (isFormDirty(scope.currentEmbedType.$view)) // this is an add modal
 					{
-						$(embedModalSelectors.elements.confirmModal).openModal({parentModal: self});
+						scope.elements.confirmModal.openModal({parentModal: self});
 						return false;
 					}
 				}
@@ -1627,7 +1713,7 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		complete: {
 			before: function(scope){
-				return true;
+				return !!scope.skipSave || saveEmbed(scope);
 			},
 			after: function(scope){
 				var $embedContainer, $embedTemp;
@@ -1653,10 +1739,12 @@ var EntityEmbed = EntityEmbed || {};
 
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
-					data: scope.currentEmbedType.model,
+					data: $.extend(true, {}, scope.currentEmbedType.model),
 					embedType: scope.currentEmbedType,
 					$embed: scope.$currentEditorLocation
 				});
+
+				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
 	};
@@ -2557,29 +2645,54 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+	imagesEmbed.prototype.getImageUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.options.imageLocation, this.model.url_path);
+	};
+
 	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
 		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
+		var $licenseField = $el.find('[name="license"]');
+
+		if($licenseField.children().length)
+		{
+			$licenseField.val(self.model.license);
+			return;
+		}
+
 		EntityEmbed.apiService.get({
 				path: self.options.httpPaths.getLicenses
 			})
 			.done(function(list){
+				var $option;
+
+				if($licenseField.children().length)
+				{
+					$licenseField.val(self.model.license);
+					return;
+				}
+
+				console.log('Recieved licences. Adding options...');
 				//load object into license list
 				if (!list.response.data)
 				{
 					return;
 				}
-				var licenseList = [];
-				licenseList.push(defaultLicenseOption);
+
+				$option = $(defaultLicenseOption);
+				$licenseField.append($option);
+
 				for(var i = 0; i < list.response.data.length;i++)
 				{
-					licenseList.push(
-						'<option value="' + list.response.data[i].license + '">' +
-							list.response.data[i].title +
-						'</option>'
-					);
+					$option = $('<option>');
+					$option.attr('value', list.response.data[i].license)
+						.text(list.response.data[i].title);
+					$licenseField.append($option);
 				}
-				$el.find('[name="license"]').html(licenseList);
+
+				console.log('Setting license value: ', self.model.license);
+
+				$licenseField.val(self.model.license);
 			})
 			.fail(function(data){
 				console.log('failed to find load image license options');
@@ -2590,6 +2703,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		self.loadLicenses($el);
+
 		self.$imageForm = $el.find('input[name="upload"]');
 
 		$el.find(editImageFileBtn).on('click', function(){
@@ -2605,7 +2719,7 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(cancelUploadImageBtn).hide();
 			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
 			{
-				self.$imageForm.parent().find('#upload-error').hide();	
+				self.$imageForm.parent().find('#upload-error').hide();
 			}
 
 			$el.find(uploadedImgDisplay).show();
@@ -2636,7 +2750,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			return promise.then(function(responseData){
@@ -2662,25 +2776,35 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
 		var self = this;
-		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
-		{
-			return '<img class="' + self.imagePreviewClass +
-					'" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">';
-		}
-		else // this is an add modal - the image has been uploaded by the client but not pushed to the server
-		{
-			return	'<div class="' + self.imagePreviewClass + '">' +
-				(self.model.url_path || self.model.upload.name) +
-			'</div>';
-		}
+
+		return '<img class="' + self.imagePreviewClass +
+				'" src="' + self.getImageUrl() + '">';
 	};
+
+
+	imagesEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var oldModel = $.extend(true, {}, self.model);
+		var imagaFormVisible = !!self.$imageForm.is(':visible');
+
+		self.parent.getModelFromForm($form, self);
+
+		if(!imagaFormVisible && !!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
+	}
+
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
+
 		self.parent.populateFormWithModel($form, self);
 
+		self.loadLicenses($form);
+
 		if (!self.model.upload && !self.model.url_path)
-		{	
+		{
 			return;
 		}
 
@@ -2694,15 +2818,15 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		return	'<div class="images-embed">' + 
-					'<img class="entity-embed-secondary-toolbar-locator"' + 
-						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
+		return	'<div class="images-embed">' +
+					'<img class="entity-embed-secondary-toolbar-locator"' +
+						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' +
 					'<div class="images-embed-caption">' +
 						self.model.caption +
-					'</div>' + 
-					'<div class="images-embed-credit">' + 
+					'</div>' +
+					'<div class="images-embed-credit">' +
 						'Credit: ' + self.model.credit +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 })();
@@ -3031,19 +3155,6 @@ var EntityEmbed = EntityEmbed || {};
 			$input.closest('.easy-autocomplete').removeAttr('style');
 		};
 
-	/**
-	 * Private function to get a clopy of an embed type object by object_type value.
-	 * @param	{String} objectType API object_type name
-	 * @return {Object}						Initialized embed type object from EntityEmbed.currentEmbedTypes.
-	 */
-	function getEmbedTypeByObjectType(objectType) {
-		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
-			return et.options.object_type == objectType;
-		})[0];
-
-		return embedType && $.extend(true, {}, embedType);
-	}
-
 	// CONSTRUCTOR
 	function relatedLinkEmbed(options){
 		var self = this;
@@ -3232,21 +3343,18 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'slideshow',
 			validationOptions: {
 				rules: {
-					slideshowTitle: 'required',
-					title: 'required',
-					altText: 'required',
-					license: 'required',
-					radioOption: {
-					 	slideshowImage: true
-					}
-				},
-				errorPlacement: function(error, element){
-					if (element.attr('name') === 'radioOption')
-					{
-						error.css('float', 'right');
-					}
-					error.insertAfter(element);
+					title: 'required'
 				}
+			}
+		},
+		imageModalOptions = {
+			modalElId: 'embed-modal-slideshow-image',
+			embedTypes: {
+				image: {}
+			},
+			modalOptions: {
+				embedTypeStr: 'image',
+				bufferData: true
 			}
 		},
 		generateId = function () {
@@ -3256,170 +3364,101 @@ var EntityEmbed = EntityEmbed || {};
 			}
 			return ret;
 		},
-		// TODO : organize these into object (see embedModalDefaults.js)
-		imageForm = '#embed-modal-slideshow-image',
-		selectExistingImageContainer = '#embed-modal-slideshow-image-select-existing',
-		selectExistingBtnContainer = '#slideshow-image-select-btns',
-		cancelSelectExistingImageBtn = '#btn-cancel-select-existing-simg',
-		imageSelect = '.embed-modal-slideshow-image-list',
-		labelTextClass = 'slideshow-radio-label-text',
-		instructionalText = '.radio-option-placeholder',
-		slideshowImageQueryContainer = '.simg-query-container',
-		imageEmbed,
-		imageObjects = {}, // key = image ID; value = image object
-		currentImageId = null,
-		newRadioOption = function(label, guid){
-			if ($(instructionalText).is(':visible'))
-			{
-				$(instructionalText).hide();
-			}
-
-			var id = guid || generateId();
-			var newHtml =
-				'<div class="slideshow-radio-container">' +
-					'<label class="slideshow-radio">' +
-						'<input type="radio" id="' + id + '" name="radioOption">' +
-						'<span class="' + labelTextClass + '">' +
-							label +
-						'</span>' +
-						'<label class="slideshow-image-error"></label>' +
-					'</label>' +
-					'<div class="remove-slideshow-image">' +
-						'<i class="fa fa-times"></i>' +
-					'</div>' +
-				'</div>';
-
-			$(imageSelect).append(newHtml);
-			var $op = $(imageSelect).children().last();
-
-			$op.find('.remove-slideshow-image').on('click', (function(embedId, $radioOp){
-				return function(){
-					delete imageObjects[embedId];
-					$radioOp.remove();
-				}
-			})(id, $op));
-
-			return id;
-		},
-		saveChangesToImageModel = function(){ // save changes made to $(imageForm) to the respective model
-			imageEmbed.getModelFromForm($(imageForm));
-			imageObjects[currentImageId] = imageEmbed.model;
-		},
-		selectSlideshowImage = function(imageId){
-			var $newImageSelectOption = $('#' + imageId);
-
-			if (!currentImageId || currentImageId === '') // this is the first image - show hidden UI items
-			{
-				$(imageForm).show();
-			}
-			else if (currentImageId === imageId)
-			{
-				return;
-			}
-			else // this is not the first image - save current changes to respective model
-			{
-				saveChangesToImageModel();
-
-				// set the form to show to the selected image's data
-				imageEmbed.clearForm($(imageForm));
-				imageEmbed.model = imageObjects[imageId];
-				imageEmbed.populateFormWithModel($(imageForm));
-			}
-
-			currentImageId = imageId;
-		},
-		showSelectExistingImage = function(){
-			$(imageForm).hide();
-			$(selectExistingImageContainer).show();
-		},
-		hideSelectExistingImage = function(){
-			if ($('[name="radioOption"]:checked').length !== 0)
-			{
-				$(imageForm).show();
-			}
-			$(selectExistingImageContainer).hide();
-
-			$('input[name="simg-query"]').val('');
-		},
-		initAutoComplete = function (){
-			var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
-			var isDevEnv = rgxDevEnv.test(window.location.host);
-			var debug = 0;
-			var ajaxData = {
-				auth_token: EntityEmbed.apiService.getAuthToken(),
-				object_type: imageEmbed.options.object_type
-			};
-
-
-			if(isDevEnv)
-			{
-				ajaxData.debug = 1;
-			}
-
-			var options = {
-				ajaxSettings: {
-					dataType: 'json',
-					method: 'POST',
-					data: ajaxData
-				},
-				requestDelay: 600,
-				url: function(phrase) {
-					ajaxData.title = phrase;
-					return EntityEmbed.apiService.getDomainName() + imageEmbed.options.httpPaths.getAll;
-				},
-				listLocation: function(listOfData){
-					return listOfData.response.data;
-				},
-				getValue: function(data) {
-					return data.title;
-				},
-				preparePostData: function(data) {
-					return JSON.stringify(data);
-				},
-				list: {
-					maxNumberOfElements: 20,
-					match: {
-						enabled: true
-					},
-					sort: {
-						enabled: true
-					},
-					onChooseEvent: function(){
-						var itemData = $('input[name="simg-query"]').getSelectedItemData();
-						var objectId = itemData.object_id;
-						$('input[name="simg-query"]').val('');
-
-						EntityEmbed.apiService.get({
-							path: imageEmbed.options.httpPaths.get,
-							data: {
-								object_id: objectId
-							}
-						})
-						.done(function(respData){
-							if (typeof respData.response === 'string')
-							{
-								console.log('Failed to get list of current embed types for the Select Existing page: ' + respData.response);
-								return;
-							}
-
-							// create an event to be raised
-							var addEvent = jQuery.Event('existingImageSelected');
-							// add data to it so the handler knows what to do
-							addEvent.imageModel = respData.response;
-							$('input[name="simg-query"]').trigger(addEvent);
-
-						})
-						.fail(function(respData){
-							// TODO: show error UI
-							console.log('failed to get embed type!');
-						});
-					}
-				}
-			};
-
-			$('input[name="simg-query"]').easyAutocomplete(options);
-			$('input[name="simg-query"]').closest('.easy-autocomplete').removeAttr('style');
+		slideClass = 'slideshow_editor-nav_item',
+		slideActiveClass = 'active',
+		slideHanleClass = 'slideshow_editor-nav_handle',
+		slideIndicatorClass = 'slideshow_editor-nav_ind',
+		slideNewClass = 'fa-star',
+		slideChangedClass = 'fa-star-o',
+		slideSavingClass = 'fa-circle-o-notch fa-spin',
+		slideCompleteClass = 'fa-check',
+		slideErrorClass = 'fa-exclamation',
+		slidePlaceholderClass = 'slideshow_editor-slide_placholder',
+		uiElements = {
+			// myElm: '.select-my-elm'
+			addSlide: '.js-add_slide',
+			intro: '.slideshow_intro',
+			editor: '.slideshow_editor',
+			slideImage: '.js-slide_image',
+			slideCaption: '.js-slide_caption',
+			slideCreditBlock: '.slideshow_editor-slide_credit-container',
+			slideCredit: '.js-slide_credit',
+			slideText: '.js-slide_text',
+			slides: '.js-slides',
+			slideTemplate: '.js-slide_template',
+			removeSlide: '.js-remove_slide',
+			editSlide: '.js-edit_slide'
 		};
+
+	function activateSlide($slide, scope) {
+		var $ui = scope.$ui;
+
+		scope.$currentSlide = $slide;
+
+		$ui.slides.find('.' + slideActiveClass).removeClass(slideActiveClass);
+		$slide.addClass(slideActiveClass);
+
+		$ui.slides.sortable('refresh');
+
+		viewCurrentSlide(scope);
+	}
+
+	function viewCurrentSlide(scope) {
+		var imageEmbed = new EntityEmbed.embedTypes.image();
+		var $ui = scope.$ui;
+		var model = scope.$currentSlide.data('model');
+		var creditFilter = !!model.creditLink ? 'a' : 'span';
+		var hasCaption = !!model.caption;
+		var hasCredit = !!model.credit;
+		var hasText = hasCaption || hasCredit;
+		var imageUrl;
+
+		imageEmbed.model = model;
+
+		imageUrl = imageEmbed.getImageUrl();
+
+		$ui.slideText.toggle(hasText);
+
+		// Render image
+		$ui.slideImage.css('background-image', 'url("' + imageUrl + '")')
+			.find('img').attr('src', imageUrl);
+
+		// Render Caption
+		$ui.slideCaption.toggle(hasCaption).text(model.caption);
+
+		// Render Credit
+		$ui.slideCreditBlock.toggle(hasCredit);
+		$ui.slideCredit.text(model.credit).hide().filter(creditFilter).show();
+		$ui.slideCreditBlock.find('a:visible').attr('href', model.creditLink);
+	}
+
+	function hideEditor(scope) {
+		var $ui = scope.$ui;
+
+		$ui.intro.show();
+		$ui.editor.hide();
+	}
+
+	function showEditor(scope) {
+		var $ui = scope.$ui;
+
+		$ui.intro.hide();
+		$ui.editor.show();
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
 
 	// CONSTRUCTOR
 	function slideshowEmbed(options){
@@ -3441,274 +3480,281 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	slideshowEmbed.prototype.initModal = function($el){
+	slideshowEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		self.model =	self.cleanModel();
+		var $ui;
 
-		// Make sure image embed type has been defined
-		if(typeof EntityEmbed.embedTypes.image === 'function')
-		{
-			imageEmbed = new EntityEmbed.embedTypes.image();
+		self.model = self.cleanModel();
 
-			// initialize it with the correct form (remember there are two on this page)
-			imageEmbed.initModal($(imageForm));
+		self.$el = imageModalOptions.modalContainer = $el;
 
-			$(imageForm).hide();
-		}
-		else
-		{
-			console.log('could not find image embed for use in slideshow embed');
-			return;
-		}
+		imageModalOptions.modalOptions.parentModal = modalCtrl;
 
-		// configure validation for slideshow images
-		$.validator.addMethod('slideshowImage', function(value, element, params) {
-			var imgId = element.id;
-			var isValid = true;
-			if (!!imgId || !!imageObjects[imgId])
-			{
-				isValid = 	!!imageObjects[imgId].title &&
-							!!imageObjects[imgId].license &&
-							!!imageObjects[imgId].altText &&
-							(!!imageObjects[imgId].upload || !!imageObjects[imgId].url_path);
+		// Set up ui interaction events
+
+		$ui = registerUiElements(self, $el);
+
+		$ui.slideTemplate.removeClass('js-slide_template').detach();
+		$ui.slideTemplate.on('click', 'a', function(e) {
+			var $this = $(this);
+			var $slide = $this.closest('.' + slideClass);
+			activateSlide($slide, self);
+		});
+
+		$ui.slides.sortable({
+			axis: 'x',
+			handle: '.' + slideHanleClass,
+			placeholder: slidePlaceholderClass,
+			start: function (event, ui) {
+				// activateSlide(ui.item, self);
 			}
-			return isValid;
-		}, 'missing required fields');
-
-		imageEmbed.loadLicenses($el);
-
-		/*
-		 * configure icons event handlers that enable a user to create a dynamic list of images
-		 */
-
-		 // event handler for the select existing image icon
-		$('.slideshow-image-select-existing').on('click', function(){
-			showSelectExistingImage();
 		});
 
-		// event handler for the add image icon
-		$('.slideshow-image-add').on('click', function(){
-			hideSelectExistingImage();
+		$ui.addSlide.on('click', function() {
+			delete imageModalOptions.modalOptions.id;
+			delete imageModalOptions.modalOptions.embedData;
 
-			var imageNum = 1;
-			for (var image in imageObjects)
+			$.embed_modal_open(imageModalOptions)
+				.done(function(response) {
+					var $slide = $ui.slideTemplate.clone(true);
+
+					// Add data to slide
+					$slide.data('model', response.data);
+					$slide.find('.' + slideIndicatorClass).addClass(slideNewClass);
+
+					// Append slide
+					$ui.slides.append($slide);
+
+					// Activate slide
+					activateSlide($slide, self);
+				});
+		});
+
+		$ui.editSlide.on('click', function() {
+			var $slide = self.$ui.slides.find('.' + slideActiveClass);
+			var model = $slide.data('model');
+
+			self.$currentSlide = $slide;
+
+			imageModalOptions.modalOptions.id = model.object_id;
+			imageModalOptions.modalOptions.embedData = model;
+
+			$.embed_modal_open(imageModalOptions)
+				.done(function(response) {
+					// Update data on slide
+					$slide.data('model', response.data);
+					// Added changed indicator if not a new slide
+					if(model.object_id)
+					{
+						$slide.find('.' + slideIndicatorClass).addClass(slideChangedClass);
+					}
+					// Show changes to slide
+					viewCurrentSlide(self);
+				});
+		});
+
+		$ui.removeSlide.on('click', function() {
+			var $slide = self.$ui.slides.find('.' + slideActiveClass);
+			var $prev = $slide.prev();
+			var $next = $slide.next();
+			var $sibling;
+
+			$slide.remove();
+
+			switch(true)
 			{
-				imageNum += 1;
-			}
+				case !!$next.length :
+					$sibling = $next;
+					break;
 
-			var id = newRadioOption('image ' + imageNum);
-			imageObjects[id] = imageEmbed.cleanModel();
-		});
-
-		// initialize auto complete for the simg (slideshow image) query input
-		initAutoComplete();
-
-		// event handler for the select button within the select existing view
-		$el.find('input[name="simg-query"]').on('existingImageSelected', function(e){
-
-				var imageNum = 1;
-				for (var image in imageObjects)
-				{
-					imageNum += 1;
-				}
-
-				// track image object
-				imageObjects[e.imageModel.object_id] = e.imageModel;
-
-				// make radio option for image and select it
-				newRadioOption(e.imageModel.title, e.imageModel.object_id);
-				$('#' + e.imageModel.object_id).attr('checked', '');
-
-				// clear image form and save data
-				if (!!currentImageId && currentImageId !== '')
-				{
-					saveChangesToImageModel();
-					imageEmbed.clearForm($(imageForm));
-					currentImageId = e.imageModel.object_id;
-				}
-
-				// populate image form
-				imageEmbed.model = e.imageModel;
-				imageEmbed.populateFormWithModel($(imageForm));
-				hideSelectExistingImage();
-		});
-
-		$(cancelSelectExistingImageBtn).on('click', function(){
-			hideSelectExistingImage();
-		});
-
-		// event handler for changing the image object which populates the form (select radio option)
-		$(imageSelect).on('click', function(e){
-			var $clickedOption = $(imageSelect + ' :checked');
-			if ($clickedOption.length == 0)
-			{
-				return;
-			}
-			selectSlideshowImage($clickedOption.attr('id'));
-		});
-
-		// event handler to change the radio option text to match the title of the image
-		$(imageForm).find('input[name="title"]').on('blur', function(){
-			var titleVal = $(this).val();
-			if (titleVal === '')
-			{
-				return;
+				case !!$prev.length :
+					$sibling = $prev;
+					break;
 			}
 
-			var $currentRadio = $('#' + currentImageId).parent();
-			$currentRadio.find('.' + labelTextClass).text(titleVal);
+			if($sibling)
+			{
+				activateSlide($sibling, self);
+			}
+			else
+			{
+				self.$currentSlide = undefined;
+				hideEditor(self);
+			}
 		});
+
 	};
 
 	slideshowEmbed.prototype.saveEmbed = function(embedIsNew){
 		var self = this;
 		var deferreds = [];
+		var imageEmbed = new EntityEmbed.embedTypes.image();
+		var $slides = self.$ui.slides.children();
 
-		// if this is an edit modal, slideshowTitle will be on model and thats just no good!
-		if (!!self.model.slideshowTitle)
-		{
-			delete self.model.slideshowTitle;
-		}
+		self.model.images = [];
 
-		for(var i = 0; i < self.model.images.length; i++)
-		{
-			imageEmbed.model = self.model.images[i];
-			var imageEmbedIsNew = !imageEmbed.model.object_id;
+		$slides.removeClass(slideActiveClass).each(function(index) {
+			var $this = $(this);
+			var model = $this.data('model');
+			var isNew = !model.object_id;
+			var promise;
 
-			var promise = imageEmbed.saveEmbed(imageEmbedIsNew);
+			$this.addClass('saving').find('.' + slideIndicatorClass).addClass(slideSavingClass);
 
-			promise.done( (function(imageNum){
+			imageEmbed.model = model;
+			promise = imageEmbed.saveEmbed(isNew);
+			promise.done( (function(_index_, _$this_){
 					return function(data){
 						if (data.status == 'ERROR')
 						{
 							console.log('failed to put/post a slideshow image');
-
-							delete self.model.images[imageNum];
-
 							return;
 						}
 
-						self.model.images[imageNum] = {
+						_$this_.removeClass('saving').addClass('complete')
+							.find('.' + slideIndicatorClass).removeClass(slideSavingClass).addClass(slideCompleteClass);
+
+						self.model.images[_index_] = {
 							'object_id' : data.response.object_id,
-							'order'		: imageNum
+							'order'		: _index_
 						};
 					};
-				})(i))
-				.fail((function(imageNum){
+				})(index, $this))
+				.fail((function(_index_, _$this_){
 					return function(){
-						console.log('failed to save a slideshow image number ' + imageNum);
+						console.log('failed to save a slideshow image number ' + _index_);
+
+						_$this_.removeClass('saving').addClass('error')
+							.find('.' + slideIndicatorClass).removeClass(slideSavingClass).addClass(slideErrorClass);
 					};
-				})(i));
+				})(index, $this));
 
 			deferreds.push(promise);
-		}
+		});
+
 		return $.when.apply($, deferreds).then(function(){
+
+			console.log('all images saved.', self.model.images);
+
 			return self.parent.saveEmbed(embedIsNew, self);
 		});
 	};
 
 	slideshowEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
-		saveChangesToImageModel();
-		self.model.title = $form.find('input[name=slideshowTitle]').val();
-		self.model.displayTitle = $form.find('input[name=displayTitle]').val();
+		var $slides = self.$ui.slides.children();
+
+		// Gather slideshow fields data
+		self.parent.getModelFromForm($form.find('form').first(), self);
+
 		self.model.images = [];
 
-		for (var image in imageObjects)
-		{
-			self.model.images.push(imageObjects[image]);
-		}
+		$slides.each(function(index) {
+			var $this = $(this);
+			var model = $this.data('model');
+
+			self.model.images[index] = {
+				object_id: model.object_id,
+				order: index
+			}
+		});
 	};
 
 	slideshowEmbed.prototype.populateFormWithModel = function($form){
-		var self = this,
-			deferreds = [];
+		var self = this;
+		var $ui = self.$ui;
+		var imageEmbed = new EntityEmbed.embedTypes.image();
+		var deferreds = [];
 
-		self.model.slideshowTitle = self.model.title;
 		self.parent.populateFormWithModel($form.find('form').first(), self);
 
-		// hide this while we are loading the image embeds
-		$(imageSelect).hide();
-
-		$(instructionalText).hide();
+		if(!self.model.images.length)
+		{
+			hideEditor(self);
+			return;
+		}
 
 		// make sure images array is sorted on order
 		self.model.images.sort(function(l, r){
-			return l.order - r.order;
+			return !!l && !!r && l.order - r.order;
 		});
 
 		for(var i = 0; i < self.model.images.length; i++)
 		{
-			newRadioOption('image ' + (i+1), self.model.images[i].object_id);
-
-			if (i === 0)
+			// Skip empty items in case a past bug left a gap in the data.
+			if(!self.model.images[i])
 			{
-				$('#' + self.model.images[i].object_id).attr('checked', '');
-				currentImageId = self.model.images[i].object_id;
+				continue;
 			}
-		}
 
-		for(var i = 0; i < self.model.images.length; i++)
-		{
+			// Request image emebed data from API
 			var promise = EntityEmbed.apiService.get({
 				path: imageEmbed.options.httpPaths.get,
 				data: {
-					object_id: self.model.images[i].object_id,
+					object_id: self.model.images[i].object_id + 'err',
 					auth_token: EntityEmbed.apiService.getAuthToken
 				}
 			});
 
-			promise.done((function(imageOrder){
+			// Handle response
+			promise.done((function(image){
 				return function(data){
 					if (data.status === 'ERROR' || typeof data.response === 'string')
 					{
-						console.log('could not load slideshow image number ' + imageOrder);
+						console.log('Could not load slideshow image number ' + image.order, image, data);
+						// TODO: Remove invalid item from images array... Maybe?
 						return;
 					}
 
-					imageObjects[data.response.object_id] = data.response;
+					// Extend image with returned data
+					$.extend(true, image, data.response);
 
-					var $radioOp = $('#' + data.response.object_id).parent();
-					$radioOp.find('.' + labelTextClass).text(data.response.title);
-
-					if (imageOrder == 0)
-					{
-						imageEmbed.model = data.response;
-					}
 				};
-			})(self.model.images[i].order))
-			.fail((function(imageOrder){
-				return function(){
-					console.log('could not load slideshow image number ' + imageOrder)
+			})(self.model.images[i]))
+			.fail((function(image){
+				return function(jqXhr, status, err){
+					console.log('Could not load slideshow image number ' + image.order, image, err);
+						// TODO: Remove invalid item from images array... Maybe?
 				};
-			})(self.model.images[i].order));
+			})(self.model.images[i]));
 
+			// Add request promise to our deferreds
 			deferreds.push(promise);
 		}
 
+		//
 		$.when.apply($, deferreds).done(function(){
-			$(imageSelect).show();
-			$(imageForm).show();
+			var i, m, $slide, $first;
 
-			imageEmbed.populateFormWithModel($(imageForm));
+			// Generte and attach slides
+			for (i = 0, m = self.model.images.length; i < m; i++)
+			{
+				$slide = $ui.slideTemplate.clone(true);
+				$slide.data('model', self.model.images[i]);
+				$ui.slides.append($slide);
+
+				if(i === 0)
+				{
+					$first = $slide;
+				}
+			}
+
+			activateSlide($first, self);
+
+			showEditor(self);
 		});
 	};
 
 	slideshowEmbed.prototype.clearForm = function($el){
 		var self = this;
+
 		self.parent.clearForm($el, self);
-		if (!!imageEmbed)
-		{
-			imageEmbed.clearForm($(imageForm));
-		}
 
-		imageObjects = {};
-		currentImageId = '';
+		// Remove slide elements
 
-		$el.find('.slideshow-radio-container').remove();
-		$(imageForm).hide();
-
-		$(instructionalText).show();
+		self.$ui.slides.empty();
+		self.$ui.slideImage.css('background-image', 'none')
+			.find('img').removeAttr('src');
 	};
 
 })();
@@ -3929,6 +3975,7 @@ var EntityEmbed = EntityEmbed || {};
 			modalElId: 'embed-modal',
 			modalBody: '.embed-modal-body',
 			abortEl: '#btn-abort-modal',
+			completeEl: '#btn-save-modal',
 			embedTypeSelect: '#select-embed-type',
 			authToken: null,							// auth_token for the apiService
 			domainName: null,							// domainName for the apiService
@@ -3949,9 +3996,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 		var embedTypes = [];
-		var modalScope = {};
 		var promise = $.Deferred();
-		var $modalContainer, $modalEl, $modalElTemp, templatePath;
+		var modalScope, $modalContainer, $modalEl, $modalElTemp, templatePath, opts, parentModalEmbedType;
 
 		function setUpModal(){
 			var embedModalDefaults;
@@ -3978,6 +4024,12 @@ var EntityEmbed = EntityEmbed || {};
 				options.modalOptions.$abortEl = $modalEl.find(options.abortEl);
 			}
 
+			// Modal Complete Button
+			if (!options.modalOptions.$completeEl || !options.modalOptions.$completeEl.length)
+			{
+				options.modalOptions.$completeEl = $modalEl.find(options.completeEl);
+			}
+
 			embedModalDefaults = new EntityEmbed.embedModalDefaults();
 
 			options.modalOptions = $.extend(true, {}, embedModalDefaults, options.modalOptions);
@@ -3988,46 +4040,35 @@ var EntityEmbed = EntityEmbed || {};
 			$modalEl.hide();
 
 			// Modal elements is ready
-			promise.resolve();
+			promise.resolve($modalEl);
 		};
 
-		// Check our modalExists flag
-		if(EntityEmbed.modalExists)
-		{
-			// Already created modal.
-			// Resolve and return promise.
-			promise.resolve();
-			return promise;
-		}
-
 		// Extend default options with passed options
-		options = $.extend(true, {}, defaults, options);
+		opts = $.extend(true, {}, defaults, options);
 
-		//// [1] Init embed types
-		// Init each embed type and add to local embedTypes array
-		for (var embedName in EntityEmbed.embedTypes)
+		// Get parent modals current embed type
+		if(opts.modalOptions && opts.modalOptions.parentModal)
 		{
-			if (!!options.embedTypes[embedName])
-			{
-				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
-				embedTypes.push(embedObject);
-			}
+			parentModalEmbedType = opts.modalOptions.parentModal.scope.currentEmbedType;
 		}
 
-		// Sort mebed types by their orderIndex
-		embedTypes.sort(function(l, r){
-			return l.orderIndex - r.orderIndex;
-		});
+		// Make sure to only use embedTypes configed on options, if applicable.
+		// Don't want to include all defaults in case this is a submodal, to prevent infinit init loop.
+		opts.embedTypes = !!options && options.embedTypes;
 
-		// Attach embedTypes array to our various configs for use later on
-		modalScope.embedTypes = embedTypes;
-		EntityEmbed.currentEmbedTypes = embedTypes;
-		//// END [1]
+		// if no options were configured, use the default types
+		if(!opts.embedTypes)
+		{
+			opts.embedTypes = defaults.embedTypes;
+		}
 
-		//// [2] Establish modal containers
-		// Extend options modalScope with local modalScope
-		modalScope = $.extend(true, {}, options.modalScope, modalScope);
-		modalScope.modalHtmlLocation = options.modalHtmlLocation;
+		// Remove parent modals embed type from local embed types to prevent modal-seption.
+		if(!!parentModalEmbedType)
+		{
+			delete opts.embedTypes[parentModalEmbedType.name];
+		}
+
+		options = opts;
 
 		// Establish modal container element
 		$modalContainer = $(options.modalContainer);
@@ -4044,6 +4085,51 @@ var EntityEmbed = EntityEmbed || {};
 			// Append modal element to modal container
 			$modalContainer.append($modalEl);
 		}
+
+		modalScope = $modalEl.data('scope');
+
+		// Check our modalExists flag
+		if(modalScope)
+		{
+			// Already created modal.
+			// Resolve and return promise.
+			promise.resolve($modalEl);
+			return promise;
+		}
+
+		modalScope = {
+			$modalEl: $modalEl
+		};
+
+		//// [1] Init embed types
+		// Init each embed type and add to local embedTypes array
+		for (var embedName in EntityEmbed.embedTypes)
+		{
+			if (!!options.embedTypes[embedName])
+			{
+				var embedObject = new EntityEmbed.embedTypes[embedName](options.embedTypes[embedName]);
+				embedTypes.push(embedObject);
+
+				if(options.modalOptions.embedTypeStr && options.modalOptions.embedTypeStr === embedName)
+				{
+					modalScope.currentEmbedType = embedObject;
+				}
+			}
+		}
+
+		// Sort mebed types by their orderIndex
+		embedTypes.sort(function(l, r){
+			return l.orderIndex - r.orderIndex;
+		});
+
+		// Attach embedTypes array to our various configs for use later on
+		modalScope.embedTypes = embedTypes;
+		//// END [1]
+
+		//// [2] Establish modal containers
+		// Extend options modalScope with local modalScope
+		modalScope = $.extend(true, {}, options.modalScope, modalScope);
+		modalScope.modalHtmlLocation = options.modalHtmlLocation;
 
 		// Add reference to $modalEl to global EntityEmbed
 		EntityEmbed.$embedModal = $modalEl;
@@ -4100,9 +4186,10 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	};
 
-	function embedModalOpenInternal(options){
+	function embedModalOpenInternal($embedModal, options){
 		var mType;
-		if (!!options.id)
+
+		if (!!options.id || options.embedData)
 		{
 			mType = EntityEmbed.embedModalTypes.edit;
 		}
@@ -4133,10 +4220,13 @@ var EntityEmbed = EntityEmbed || {};
 			$currentEditorLocation: options.$currentEditorLocation,
 			modalType: mType,
 			embedId: options.id,
-			embedType: options.embedTypeStr
+			embedType: options.embedTypeStr,
+			parentModal: options.parentModal,
+			buffered: options.bufferData,
+			embedData: options.embedData
 		};
 
-		return EntityEmbed.$embedModal.openModal(scope);
+		return $embedModal.openModal(scope);
 	};
 
 	$.embed_modal_open = function(options){
@@ -4151,8 +4241,8 @@ var EntityEmbed = EntityEmbed || {};
 		var promise = $.Deferred();
 
 		$.embed_modal_create(options)
-			.always(function(){
-				embedModalOpenInternal($.extend(true, {}, defaults, options.modalOptions || {}))
+			.done(function($embedModal){
+				embedModalOpenInternal($embedModal, $.extend(true, {}, defaults, options.modalOptions || {}))
 					.done(function(data) {
 						promise.resolve(data);
 					})
@@ -4275,8 +4365,8 @@ var EntityEmbed = EntityEmbed || {};
 	 * @param  {String} objectType API object_type name
 	 * @return {Object}            Initialized embed type object from EntityEmbed.currentEmbedTypes or undefined if not found.
 	 */
-	function getEmbedTypeByObjectType(objectType) {
-		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+	function getEmbedTypeByObjectType(objectType, embedTypes) {
+		var embedType = $.grep(embedTypes, function(et){
 			return et.options.object_type == objectType;
 		})[0];
 
@@ -4433,10 +4523,15 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		$.embed_modal_create().done(function(){
-			for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
+		$.embed_modal_create().done(function($embedModal){
+			var modalScope = $embedModal.data('scope');
+
+			self.$embedModal = $embedModal;
+			self.embedTypes = modalScope.embedTypes;
+
+			for (var i = 0, m = self.embedTypes.length; i < m; i++)
 			{
-				self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
+				self.toolbarManager.createStyleToolbar($('body'), self.embedTypes[i]);
 			}
 		});
 	};
@@ -4759,7 +4854,7 @@ var EntityEmbed = EntityEmbed || {};
 			for (var i = 0; i < data.embeds.length; i++)
 			{
 				// Convert returned type name to a useful embedType object
-				embedType = getEmbedTypeByObjectType(data.embeds[i].type);
+				embedType = getEmbedTypeByObjectType(data.embeds[i].type, self.embedTypes);
 
 				if(!embedType)
 				{
@@ -5005,7 +5100,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
-		var embedType = getEmbedTypeByObjectType(embedObjectType);
+		var embedType = getEmbedTypeByObjectType(embedObjectType, self.embedTypes);
 
 		// hide current toolbars and deactive any active embed
 		self.toolbarManager.hideToolbar();
