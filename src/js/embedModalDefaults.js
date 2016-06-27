@@ -223,7 +223,6 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					scope.alwaysCallback();
 				}
-				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			};
 
 			////
