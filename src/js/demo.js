@@ -190,7 +190,7 @@ $(document).ready(function(){
 		$.embed_modal_open({
 				modalOptions:{
 					embedTypeStr: 'newsletter',
-					id: '2607f8daf38342f28054b29a7c26b118'
+					id: '89120cec5e594ca28b4aa1b31d55b383'
 				}
 			})
 			.done(function(scope){

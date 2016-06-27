@@ -149,19 +149,6 @@ var EntityEmbed = EntityEmbed || {};
 			$input.closest('.easy-autocomplete').removeAttr('style');
 		};
 
-	/**
-	 * Private function to get a clopy of an embed type object by object_type value.
-	 * @param	{String} objectType API object_type name
-	 * @return {Object}						Initialized embed type object from EntityEmbed.currentEmbedTypes.
-	 */
-	function getEmbedTypeByObjectType(objectType) {
-		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
-			return et.options.object_type == objectType;
-		})[0];
-
-		return embedType && $.extend(true, {}, embedType);
-	}
-
 	// CONSTRUCTOR
 	function relatedLinkEmbed(options){
 		var self = this;

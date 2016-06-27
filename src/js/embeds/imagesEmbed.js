@@ -83,29 +83,54 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
+	imagesEmbed.prototype.getImageUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.options.imageLocation, this.model.url_path);
+	};
+
 	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
 		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
+		var $licenseField = $el.find('[name="license"]');
+
+		if($licenseField.children().length)
+		{
+			$licenseField.val(self.model.license);
+			return;
+		}
+
 		EntityEmbed.apiService.get({
 				path: self.options.httpPaths.getLicenses
 			})
 			.done(function(list){
+				var $option;
+
+				if($licenseField.children().length)
+				{
+					$licenseField.val(self.model.license);
+					return;
+				}
+
+				console.log('Recieved licences. Adding options...');
 				//load object into license list
 				if (!list.response.data)
 				{
 					return;
 				}
-				var licenseList = [];
-				licenseList.push(defaultLicenseOption);
+
+				$option = $(defaultLicenseOption);
+				$licenseField.append($option);
+
 				for(var i = 0; i < list.response.data.length;i++)
 				{
-					licenseList.push(
-						'<option value="' + list.response.data[i].license + '">' +
-							list.response.data[i].title +
-						'</option>'
-					);
+					$option = $('<option>');
+					$option.attr('value', list.response.data[i].license)
+						.text(list.response.data[i].title);
+					$licenseField.append($option);
 				}
-				$el.find('[name="license"]').html(licenseList);
+
+				console.log('Setting license value: ', self.model.license);
+
+				$licenseField.val(self.model.license);
 			})
 			.fail(function(data){
 				console.log('failed to find load image license options');
@@ -116,6 +141,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		self.loadLicenses($el);
+
 		self.$imageForm = $el.find('input[name="upload"]');
 
 		$el.find(editImageFileBtn).on('click', function(){
@@ -131,7 +157,7 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(cancelUploadImageBtn).hide();
 			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
 			{
-				self.$imageForm.parent().find('#upload-error').hide();	
+				self.$imageForm.parent().find('#upload-error').hide();
 			}
 
 			$el.find(uploadedImgDisplay).show();
@@ -162,7 +188,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			return promise.then(function(responseData){
@@ -188,25 +214,35 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
 		var self = this;
-		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
-		{
-			return '<img class="' + self.imagePreviewClass +
-					'" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">';
-		}
-		else // this is an add modal - the image has been uploaded by the client but not pushed to the server
-		{
-			return	'<div class="' + self.imagePreviewClass + '">' +
-				(self.model.url_path || self.model.upload.name) +
-			'</div>';
-		}
+
+		return '<img class="' + self.imagePreviewClass +
+				'" src="' + self.getImageUrl() + '">';
 	};
+
+
+	imagesEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var oldModel = $.extend(true, {}, self.model);
+		var imagaFormVisible = !!self.$imageForm.is(':visible');
+
+		self.parent.getModelFromForm($form, self);
+
+		if(!imagaFormVisible && !!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
+	}
+
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
+
 		self.parent.populateFormWithModel($form, self);
 
+		self.loadLicenses($form);
+
 		if (!self.model.upload && !self.model.url_path)
-		{	
+		{
 			return;
 		}
 
@@ -220,15 +256,15 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
-		return	'<div class="images-embed">' + 
-					'<img class="entity-embed-secondary-toolbar-locator"' + 
-						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' + 
+		return	'<div class="images-embed">' +
+					'<img class="entity-embed-secondary-toolbar-locator"' +
+						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' +
 					'<div class="images-embed-caption">' +
 						self.model.caption +
-					'</div>' + 
-					'<div class="images-embed-credit">' + 
+					'</div>' +
+					'<div class="images-embed-credit">' +
 						'Credit: ' + self.model.credit +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 })();

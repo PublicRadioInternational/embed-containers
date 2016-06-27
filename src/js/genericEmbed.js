@@ -65,6 +65,7 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
 		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+
 		for(var i = 0; i < formFields.length; i++)
 		{
 			var name = formFields[i].name;

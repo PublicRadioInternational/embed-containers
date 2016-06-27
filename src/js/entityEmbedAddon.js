@@ -109,8 +109,8 @@ var EntityEmbed = EntityEmbed || {};
 	 * @param  {String} objectType API object_type name
 	 * @return {Object}            Initialized embed type object from EntityEmbed.currentEmbedTypes or undefined if not found.
 	 */
-	function getEmbedTypeByObjectType(objectType) {
-		var embedType = $.grep(EntityEmbed.currentEmbedTypes, function(et){
+	function getEmbedTypeByObjectType(objectType, embedTypes) {
+		var embedType = $.grep(embedTypes, function(et){
 			return et.options.object_type == objectType;
 		})[0];
 
@@ -267,10 +267,15 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.events();
 
-		$.embed_modal_create().done(function(){
-			for (var i = 0, m = EntityEmbed.currentEmbedTypes.length; i < m; i++)
+		$.embed_modal_create().done(function($embedModal){
+			var modalScope = $embedModal.data('scope');
+
+			self.$embedModal = $embedModal;
+			self.embedTypes = modalScope.embedTypes;
+
+			for (var i = 0, m = self.embedTypes.length; i < m; i++)
 			{
-				self.toolbarManager.createStyleToolbar($('body'), EntityEmbed.currentEmbedTypes[i]);
+				self.toolbarManager.createStyleToolbar($('body'), self.embedTypes[i]);
 			}
 		});
 	};
@@ -593,7 +598,7 @@ var EntityEmbed = EntityEmbed || {};
 			for (var i = 0; i < data.embeds.length; i++)
 			{
 				// Convert returned type name to a useful embedType object
-				embedType = getEmbedTypeByObjectType(data.embeds[i].type);
+				embedType = getEmbedTypeByObjectType(data.embeds[i].type, self.embedTypes);
 
 				if(!embedType)
 				{
@@ -839,7 +844,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $currentActiveEmbed = $('.' + activeEmbedClass);
 		var embedObjectType = $embed.find('[data-embed-type]').attr('data-embed-type');
-		var embedType = getEmbedTypeByObjectType(embedObjectType);
+		var embedType = getEmbedTypeByObjectType(embedObjectType, self.embedTypes);
 
 		// hide current toolbars and deactive any active embed
 		self.toolbarManager.hideToolbar();
