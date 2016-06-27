@@ -3623,7 +3623,9 @@ var EntityEmbed = EntityEmbed || {};
 			var isNew = !model.object_id;
 			var promise;
 
-			$this.addClass('saving').find('.' + slideIndicatorClass).addClass(slideSavingClass);
+			$this.addClass('saving').find('.' + slideIndicatorClass)
+				.removeClass([slideNewClass, slideAddedClass].join(' '))
+				.addClass(slideSavingClass);
 
 			imageEmbed.model = model;
 			promise = imageEmbed.saveEmbed(isNew);
