@@ -233,28 +233,56 @@
 	$.fn.completeModal = function(addToScope){
 		return this.each(function(){
 			var modalCtrl = $.data(this, 'ctrl');
+			var currentScope, newScope, modalScope, completeBefore, completeBeforeDeffered;
+
 			if (!!modalCtrl && modalCtrl.isActive)
 			{
 				if (!!addToScope)
 				{
-					var currentScope = modalCtrl.$el.data('scope');
-					var newScope = $.extend(true, {}, currentScope, addToScope);
+					currentScope = modalCtrl.$el.data('scope');
+					newScope = $.extend(true, {}, currentScope, addToScope);
 					modalCtrl.$el.data('scope', newScope);
 				}
 
-				var modalScope = modalCtrl.$el.data('scope');
+				modalScope = modalCtrl.$el.data('scope');
 
-				if (modalCtrl.options.functions.complete.before(modalScope))
+				completeBefore = modalCtrl.options.functions.complete.before(modalScope);
+
+				if(typeof completeBefore.state === 'function')
 				{
+					// Promise returned
+					completeBeforeDeffered = completeBefore;
+				}
+				else {
+					// Boolean returned
+					// Establish a promise and resolve/reject accordingly
+					completeBeforeDeffered = $.Deferred();
+					if(completeBefore)
+					{
+						completeBeforeDeffered.resolve();
+					}
+					else
+					{
+						completeBeforeDeffered.reject();
+					}
+				}
+
+				completeBeforeDeffered.done(function(data){
+
+					if(data)
+					{
+						modalScope.currentEmbedType.model = data;
+					}
+
 					modalCtrl.toggle(modalCtrl, false);
 					modalCtrl.options.functions.complete.after(modalScope);
 
-					// reject promise if app dev has not already done so
+					// resolve promise if app dev has not already done so
 					if(modalCtrl.promise.state() === 'pending')
 					{
 						modalCtrl.promise.resolve();
 					}
-				}
+				});
 			}
 		});
 	};
