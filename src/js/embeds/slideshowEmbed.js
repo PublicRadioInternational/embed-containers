@@ -37,6 +37,7 @@ var EntityEmbed = EntityEmbed || {};
 		slideActiveClass = 'active',
 		slideHanleClass = 'slideshow_editor-nav_handle',
 		slideIndicatorClass = 'slideshow_editor-nav_ind',
+		slideAddedClass = 'fa-circle-o',
 		slideNewClass = 'fa-star',
 		slideChangedClass = 'fa-star-o',
 		slideSavingClass = 'fa-circle-o-notch fa-spin',
@@ -70,6 +71,8 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.slides.sortable('refresh');
 
 		viewCurrentSlide(scope);
+
+		showEditor(scope);
 	}
 
 	function viewCurrentSlide(scope) {
@@ -104,8 +107,21 @@ var EntityEmbed = EntityEmbed || {};
 	function hideEditor(scope) {
 		var $ui = scope.$ui;
 
+		console.log('hiding slideshow editor...');
+
 		$ui.intro.show();
 		$ui.editor.hide();
+
+		// Remove slide elements
+		$ui.slides.empty();
+
+		// Clear preview
+		$ui.slideImage.css('background-image', 'none')
+			.find('img').removeAttr('src');
+		$ui.slideText.hide();
+		$ui.slideCaption.empty();
+		$ui.slideCreditBlock.hide();
+		$ui.slideCredit.empty().filter('a').removeAttr('href');
 	}
 
 	function showEditor(scope) {
@@ -153,6 +169,8 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
+		console.log('slideshowEmbed::initModal', self);
+
 		self.model = self.cleanModel();
 
 		self.$el = imageModalOptions.modalContainer = $el;
@@ -173,10 +191,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.slides.sortable({
 			axis: 'x',
 			handle: '.' + slideHanleClass,
-			placeholder: slidePlaceholderClass,
-			start: function (event, ui) {
-				// activateSlide(ui.item, self);
-			}
+			placeholder: slidePlaceholderClass
 		});
 
 		$ui.addSlide.on('click', function() {
@@ -186,16 +201,21 @@ var EntityEmbed = EntityEmbed || {};
 			$.embed_modal_open(imageModalOptions)
 				.done(function(response) {
 					var $slide = $ui.slideTemplate.clone(true);
+					var slideClass = !!response.data.object_id ? slideAddedClass : slideNewClass;
+
+					console.log('slideshowEmbed::addSlide::done', response);
 
 					// Add data to slide
 					$slide.data('model', response.data);
-					$slide.find('.' + slideIndicatorClass).addClass(slideNewClass);
+					$slide.find('.' + slideIndicatorClass).addClass(slideClass);
 
 					// Append slide
 					$ui.slides.append($slide);
 
 					// Activate slide
 					activateSlide($slide, self);
+
+					showEditor(self);
 				});
 		});
 
@@ -215,7 +235,9 @@ var EntityEmbed = EntityEmbed || {};
 					// Added changed indicator if not a new slide
 					if(model.object_id)
 					{
-						$slide.find('.' + slideIndicatorClass).addClass(slideChangedClass);
+						$slide.find('.' + slideIndicatorClass)
+							.removeClass(slideAddedClass)
+							.addClass(slideChangedClass);
 					}
 					// Show changes to slide
 					viewCurrentSlide(self);
@@ -335,6 +357,8 @@ var EntityEmbed = EntityEmbed || {};
 		var imageEmbed = new EntityEmbed.embedTypes.image();
 		var deferreds = [];
 
+		console.log('slideshowEmbed:populateFormWithModel::self.model', self.model);
+
 		self.parent.populateFormWithModel($form.find('form').first(), self);
 
 		if(!self.model.images.length)
@@ -419,11 +443,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.clearForm($el, self);
 
-		// Remove slide elements
-
-		self.$ui.slides.empty();
-		self.$ui.slideImage.css('background-image', 'none')
-			.find('img').removeAttr('src');
+		hideEditor(self);
 	};
 
 })();

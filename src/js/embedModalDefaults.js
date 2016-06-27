@@ -103,7 +103,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(embedType, scope.embedTypes);
-
+			scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 
@@ -484,6 +484,8 @@ var EntityEmbed = EntityEmbed || {};
 				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
 					function(e, currentScope){
 						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+
+						console.log('embedModalDefaults::embedTypeSelect', embedType);
 
 						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						setModalView(currentScope, embedType);
