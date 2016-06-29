@@ -259,6 +259,11 @@ var EntityEmbed = EntityEmbed || {};
 	toolbarManager.prototype.positionToolbars = function($embed) {
 		var self = this;
 
+		if(!$embed.length)
+		{
+			return;
+		}
+
 		// position action tool bar
 
 		// TODO : position action tool bar in a way that doesn't suck
