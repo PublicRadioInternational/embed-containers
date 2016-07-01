@@ -168,6 +168,54 @@ var EntityEmbed = EntityEmbed || {};
 			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
 			$el.find("[name=title]").val(fileName);
 		});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
+
+		$el.on('drop', function(event) {
+			event.preventDefault();
+
+			var files = event.originalEvent.dataTransfer.files;
+			var file, $uploadImageDisplay, $editImageFileBtn, $preview;
+
+			console.log('imagesEmbed::drop::files', files);
+
+			if (!!files && !!files.length)
+			{
+				file = files[0];
+
+				if(file.type.indexOf('image') === -1)
+				{
+					return;
+				}
+
+				console.log('Updating image preview...', file);
+
+				self.model.upload = file;
+
+				$uploadImageDisplay = $el.find(uploadedImgDisplay);
+				$editImageFileBtn = $el.find(editImageFileBtn);
+				$preview = $uploadImageDisplay.find('.' + self.imagePreviewClass);
+
+				if (!$preview.length)
+				{
+					$preview = $(self.generateUploadedImgPreview());
+					$uploadImageDisplay.append($preview);
+				}
+				else
+				{
+					$preview.attr('src', self.getImageUrl());
+				}
+
+				self.$imageForm.hide();
+
+				$uploadImageDisplay.show();
+				$editImageFileBtn.show();
+
+				$el.find("[name=title]").val(file.name);
+			}
+		})
 	};
 
 	imagesEmbed.prototype.clearForm = function($el){
@@ -226,6 +274,8 @@ var EntityEmbed = EntityEmbed || {};
 		var imagaFormVisible = !!self.$imageForm.is(':visible');
 
 		self.parent.getModelFromForm($form, self);
+
+		console.log('imagesEmbed::getModelFromForm', imagaFormVisible, oldModel, self.model);
 
 		if(!imagaFormVisible && !!oldModel.upload && !self.model.upload)
 		{
