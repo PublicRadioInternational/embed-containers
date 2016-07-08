@@ -107,8 +107,6 @@ var EntityEmbed = EntityEmbed || {};
 	function hideEditor(scope) {
 		var $ui = scope.$ui;
 
-		console.log('hiding slideshow editor...');
-
 		$ui.intro.show();
 		$ui.editor.hide();
 
@@ -169,8 +167,6 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
-		console.log('slideshowEmbed::initModal', self);
-
 		self.model = self.cleanModel();
 
 		self.$el = imageModalOptions.modalContainer = $el;
@@ -202,8 +198,6 @@ var EntityEmbed = EntityEmbed || {};
 				.done(function(response) {
 					var $slide = $ui.slideTemplate.clone(true);
 					var slideClass = !!response.data.object_id ? slideAddedClass : slideNewClass;
-
-					console.log('slideshowEmbed::addSlide::done', response);
 
 					// Add data to slide
 					$slide.data('model', response.data);

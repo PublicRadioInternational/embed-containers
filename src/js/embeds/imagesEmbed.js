@@ -27,10 +27,6 @@ var EntityEmbed = EntityEmbed || {};
 				uploadFile: 'admin/embed/file-upload'
 			}
 		},
-		uploadedImgDisplay = '.uploaded-image-file',
-		cancelUploadImageBtn = '.cancel-upload-image-btn',
-		editImageFileBtn = '.edit-chosen-file-btn',
-		uploadImageFileBtn = ".embed-modal-file-input",
 		uiElements = {
 			// myElm: '.select-my-elm'
 			imageEditorPreview: '.image_editor-preview',
@@ -166,56 +162,73 @@ var EntityEmbed = EntityEmbed || {};
 
 	function updateImagePreview(scope, file) {
 		var $ui = scope.$ui;
+		var image = new Image();
+		var promise = $.Deferred();
 		var imageUrl;
+
+		function handleLoad() {
+			showImagePreview(scope);
+			promise.resolve();
+			$(this).off('load', handleLoad);
+		}
+
+		$ui.imageEditorPreviewImage.on('load', handleLoad);
 
 		if (file)
 		{
 			scope.model.upload = file;
 		}
 
-		imageUrl = scope.getImageUrl()
+		imageUrl = scope.getImageUrl();
 
 		$ui.imageEditorPreview.css('background-image', 'url("' + imageUrl + '")')
 		$ui.imageEditorPreviewImage.attr('src', imageUrl);
 
-		showImagePreview(scope)
+		return promise;
 	}
 
 	function updateFormWithImageData(scope, file) {
 		var $ui = scope.$ui;
+		var promise = $.Deferred();
 
-		if (file)
+		if (!file)
 		{
-			scope.model.upload = file;
+			file = scope.model.upload;
 		}
 
 		EXIF.getData(file, function() {
 			var imageData = this.iptcdata;
-			var currentModel, tempModel, lcModel, i, m, lc;
-
-			console.log('Updating Form with metadata:', this.iptcdata);
+			var currentModel, tempModel, lcModel, prop, i, m, lc;
 
 			if (scope.licenses && !!scope.licenses.length)
 			{
-				// Try to identify Licence with data
+				// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
 				for (i = 0, m = scope.licenses.length; i < m; i++)
 				{
 					lc = licenseConfigs[ scope.licenses[i].license ];
-					if(lc && lc.claimData && lc.claimData(imageData))
+					// Check if config can and does claim data
+					if(lc && typeof lc.claimData === 'function' && lc.claimData(imageData))
 					{
-						lcModel = lc.getModelFromData && lc.getModelFromData(imageData, this) || {};
+						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
+						lcModel = typeof lc.getModelFromData === 'function' && lc.getModelFromData(imageData, this) || {};
+						// Set license prop to the claiming license
 						lcModel.license = scope.licenses[i].license;
 					}
 				}
 			}
 
+			// Get a model using the default mapping method
 			tempModel = getModelFromData(imageData, this);
 
+			// Update the scope's model with current form values
 			scope.getModelFromForm($ui.form);
 
+			// Clone current model so we can manipulate it
 			currentModel = $.extend(true, {}, scope.model);
 
-			for (var prop in currentModel)
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel or lcModel during merge.
+			for (prop in currentModel)
 			{
 				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
 				{
@@ -223,25 +236,30 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			}
 
-			console.log('updateFormWithImageData', tempModel, currentModel);
-
+			// Merge models together.
+			// 		currentModel > lcModel > tempModel
 			scope.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
 
-			console.log('updateFormWithImageData:scope.model', $.extend(true, {}, scope.model));
+			// Current model may contain old upload file, make sure it is set to the new file
+			scope.model.upload = file;
 
-			scope.populateFormWithModel($ui.form);
-		})
+			scope.populateFormWithModel($ui.form)
+				.done(function () {
+					promise.resolve();
+				});
+		});
+
+		return promise;
 	}
 
 	function showImagePreview(scope) {
 		var $ui = scope.$ui;
 
-		console.log('showImagePreview:scope.model', $.extend(true, {}, scope.model));
-
-		$ui.uploadFileInput.removeClass('error').hide()
-			.parent().find('#upload-error').remove();
+		// Hide file input and related toolbar btns
+		$ui.uploadFileInputContainer.hide();
 		$ui.cancelUploadImageBtn.hide();
 
+		// Show Image Preview and related toolbar btns
 		$ui.imageEditorPreview.show();
 		$ui.editImageFileBtn.show();
 		$ui.undoUploadImageBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
@@ -250,14 +268,15 @@ var EntityEmbed = EntityEmbed || {};
 	function showFileInput(scope) {
 		var $ui = scope.$ui;
 
-		console.log('showFileInput:scope.model', $.extend(true, {}, scope.model));
-
-		// Hide Image Preview
+		// Hide Image Preview and related toolbar btns
 		$ui.imageEditorPreview.hide();
 		$ui.editImageFileBtn.hide();
 		$ui.undoUploadImageBtn.hide();
 
-		$ui.uploadFileInput.show();
+		// Show file input and related toolbar btns. Clean up after previous validation errors.
+		$ui.uploadFileInput.removeClass('error')
+			.parent().find('#upload-error').remove();
+		$ui.uploadFileInputContainer.show();
 		$ui.cancelUploadImageBtn.toggle(!!(scope.model.url_path || scope.model.upload));
 	}
 
@@ -314,8 +333,6 @@ var EntityEmbed = EntityEmbed || {};
 					return;
 				}
 
-				console.log('Recieved licenses. Adding options...', list);
-
 				if($licenseField.children().length > 1)
 				{
 					$licenseField.val(self.model.license);
@@ -331,8 +348,6 @@ var EntityEmbed = EntityEmbed || {};
 						.text(list.response.data[i].title);
 					$licenseField.append($option);
 				}
-
-				console.log('Setting license value: ', self.model.license);
 
 				$licenseField.val(self.model.license);
 			})
@@ -359,12 +374,9 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui = registerUiElements(self, $el);
 
-		console.log('imagesEmbed::initModal', self, modalCtrl);
-
 		self.loadLicenses($el);
 
 		$ui.editImageFileBtn.on('click', 'a', function(){
-			// showFileInput(modalCtrl.scope.currentEmbedType);
 			$ui.uploadFileInput.click();
 		});
 
@@ -374,16 +386,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		$ui.undoUploadImageBtn.on('click', 'a', function() {
 			delete modalCtrl.scope.currentEmbedType.model.upload;
+			$ui.uploadFileInput.val('');
 			updateImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
 		$ui.uploadFileInput.on('change', function(event){
 			var file = event.target.files[0];
-
-			console.log('imagesEmbed::change::event', event);
-
-			// updateImagePreview(self, file);
-
 			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
 		});
 
@@ -391,28 +399,43 @@ var EntityEmbed = EntityEmbed || {};
 			event.preventDefault();
 		});
 
-		$el.on('drop', function(event) {
-			event.preventDefault();
+		$ui.imageEditor
+			.on('dragenter', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				event.preventDefault();
 
-			var files = event.originalEvent.dataTransfer.files;
-			var file;
+				var $this = $(this);
+				var files = event.originalEvent.dataTransfer.files;
+				var file;
 
-			console.log('imagesEmbed::drop::files', files);
-
-			if (!!files && !!files.length)
-			{
-				file = files[0];
-
-				if(file.type.indexOf('image') === -1)
+				if (!!files && !!files.length)
 				{
-					return;
+					file = files[0];
+
+					if(file.type.indexOf('image') === -1)
+					{
+						return;
+					}
+
+					$this.addClass('js-dropped');
+
+					setTimeout(function() {
+
+						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
+							.then(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
+
+					}, 300);
 				}
-
-				// updateImagePreview(self, file);
-
-				updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
-			}
-		})
+			});
 	};
 
 	imagesEmbed.prototype.clearForm = function($el){
@@ -472,8 +495,6 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.getModelFromForm($form, self);
 
-		console.log('imagesEmbed::getModelFromForm', imageFormVisible, oldModel, self.model);
-
 		if(!!oldModel.upload && !self.model.upload)
 		{
 			self.model.upload = oldModel.upload;
@@ -483,6 +504,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
+		var promise = $.Deferred();
 
 		self.parent.populateFormWithModel($form, self);
 
@@ -490,8 +512,17 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!!self.model.upload || !!self.model.url_path)
 		{
-			updateImagePreview(self);
+			updateImagePreview(self)
+				.then(function() {
+					promise.resolve();
+				});
 		}
+		else
+		{
+			promise.resolve();
+		}
+
+		return promise;
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
