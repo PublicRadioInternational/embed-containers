@@ -3,7 +3,8 @@ $(document).ready(function(){
 	var medEditor = new MediumEditor('.editor', {
 		toolbar: {
 			buttons: ['bold', 'italic', 'anchor', 'orderedlist', 'unorderedlist', 'h2', 'h3', 'quote']
-		}
+		},
+		imageDragging: false
 	});
 
   var medEditor2 = new MediumEditor('.editor2', {

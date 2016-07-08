@@ -1,11 +1,79 @@
 <form method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row">
-		<div class="embed-modal-full-column">
+
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="upload">Image File</label>
+				<div class="image_editor">
+					<div class="image_editor-intro">
+						<div class="image_editor-intro_inner">
+							<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
+						</div>
+					</div>
+
+					<div class="image_editor-preview">
+						<img class="image_editor-preview_image">
+					</div>
+
+					<div class="image_editor-toolbar">
+						<ul class="image_editor-toolbar_list">
+							<li class="image_editor-toolbar_item js-upload">
+								<a class="image_editor-tollbar_btn"><span class="fa fa-upload" aria-label="Select Another Image"></span></a>
+							</li>
+							<li class="image_editor-toolbar_item js-upload-undo">
+								<a class="image_editor-tollbar_btn"><span class="fa fa-undo" aria-label="Revert Selected Image"></span></a>
+							</li>
+							<li class="image_editor-toolbar_item js-upload-cancel">
+								<a class="image_editor-tollbar_btn"><span class="fa fa-arrow-left" aria-label="Cancel Image Select"></span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="embed-modal-form">
+				<label for="title" class="embed-modal-label">Title</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="title" />
+			</div>
+
+			<div class="embed-modal-form">
+				<label for="altText" class="embed-modal-label">Alt Text</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="altText" />
+			</div>
+		</div>
+
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label for="caption" class="embed-modal-label">Caption</label>
+				<textarea class="embed-modal-input embed-modal-form-control" name="caption" rows="5"></textarea>
+			</div>
+
+			<div class="embed-modal-form">
+				<label for="credit" class="embed-modal-label">Credit</label>
+				<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
+			</div>
+
+			<div class="embed-modal-form">
+				<label for="creditLink" class="embed-modal-label">Credit Link</label>
+				<input class="embed-modal-input embed-modal-form-control" type="url" name="creditLink" />
+			</div>
+
+			<div class="embed-modal-form">
+				<label for="license" class="embed-modal-label">License</label>
+				<select class="embed-modal-form-control" type="text" name="license">
+					<option value="" disabled selected>-- Select A License --</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- <div class="embed-modal-full-column">
 			<label class="embed-modal-label" for="upload">Image File</label>
 			<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
 			<span class="fa fa-times cancel-upload-image-btn"></span>
 			<span class="fa fa-cog edit-chosen-file-btn"></span>
-			<div class="uploaded-image-file"></div>
+			<div class="uploaded-image-file">
+				<img class="image-preview">
+			</div>
 		</div>
 	</div>
 	<div class="embed-modal-row">
@@ -27,7 +95,7 @@
 			<div class="embed-modal-half-column">
 				<label for="credit" class="embed-modal-label">Credit</label>
 				<input class="embed-modal-input embed-modal-form-control" type="text" name="credit" />
-			</div>	
+			</div>
 			<div class="embed-modal-half-column">
 				<label for="creditLink" class="embed-modal-label">Credit Link</label>
 				<input class="embed-modal-input embed-modal-form-control" type="url" name="creditLink" />
@@ -40,12 +108,14 @@
 				<label for="caption" class="embed-modal-label">Caption</label>
 				<input class="embed-modal-input embed-modal-form-control" type="text" name="caption" />
 			</div>
-		</div>			
+		</div>
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label for="license" class="embed-modal-label">License</label>
-				<select class="embed-modal-form-control" type="text" name="license"></select>
+				<select class="embed-modal-form-control" type="text" name="license">
+					<option disabled selected>-- Select A License --</option>
+				</select>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </form>
