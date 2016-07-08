@@ -6,7 +6,7 @@ templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=
 templateCache["modal/modal_facebook.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form has-error\"><label class=\"embed-modal-label\" for=\"url\">Facebook Status</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to status\" class=\"embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_globalBuzz.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"quote\">Quote</label><textarea name=\"quote\" type=\"text\" placeholder=\"Enter quote\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteText\">Quote Url Text</label><input name=\"quoteUrlText\" type=\"text\" placeholder=\"Enter URL label\" class=\"embed-modal-form-control\"></div><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteUrl\">Quote Url</label><input name=\"quoteUrl\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"credit\">Credit</label><input name=\"credit\" type=\"text\" placeholder=\"Attribute the source\" class=\"embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_iframe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Source</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL or iframe source code\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Height</label><div class=\"embed-modal-input-group\"><input name=\"height\" type=\"number\" placeholder=\"\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Width</label><div class=\"embed-modal-input-group\"><input name=\"width\" type=\"number\" placeholder=\"Full Width\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"allowsScroll\">Scroll</label><select name=\"allowsScroll\" class=\"embed-modal-form-control\"><option>No</option><option>Yes</option></select></div></div></div></form>";
-templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span><div class=\"uploaded-image-file\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"></select></div></div></div></form>";
+templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><textarea class=\"embed-modal-input embed-modal-form-control\" name=\"caption\" rows=\"5\"></textarea></div><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"><option value=\"\" disabled=\"disabled\" selected=\"selected\">-- Select A License --</option></select></div></div><!-- <div class=\"embed-modal-full-column\">\r\n			<label class=\"embed-modal-label\" for=\"upload\">Image File</label>\r\n			<input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\" />\r\n			<span class=\"fa fa-times cancel-upload-image-btn\"></span>\r\n			<span class=\"fa fa-cog edit-chosen-file-btn\"></span>\r\n			<div class=\"uploaded-image-file\">\r\n				<img class=\"image-preview\">\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"title\" class=\"embed-modal-label\">Title</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"altText\" class=\"embed-modal-label\">Alt Text</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-form\">\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"credit\" class=\"embed-modal-label\">Credit</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\" />\r\n			</div>\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"caption\" class=\"embed-modal-label\">Caption</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"license\" class=\"embed-modal-label\">License</label>\r\n				<select class=\"embed-modal-form-control\" type=\"text\" name=\"license\">\r\n					<option disabled selected>-- Select A License --</option>\r\n				</select>\r\n			</div>\r\n		</div>\r\n	</div> --></div></form>";
 templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Insert Instagram URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to instagram post\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
@@ -48,6 +48,11 @@ var EntityEmbed = EntityEmbed || {};
 			ajaxOptions.processData = false;
 			ajaxOptions.contentType = false;
 			ajaxOptions.data = config.data;
+
+			if (typeof config.xhr === 'function')
+			{
+				ajaxOptions.xhr = config.xhr;
+			}
 		}
 		else
 		{
@@ -70,7 +75,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	function uploadFile(config){
-		config.methodType = 'Post';
+		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
@@ -505,7 +510,7 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				value = formFields[i].files[0];
 			}
-			else
+			else if(!!formFields[i].value.length)
 			{
 				value = formFields[i].value;
 			}
@@ -564,7 +569,8 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			formList[i].reset();
 		}
-	 	self.model = self.cleanModel();
+
+		self.model = self.cleanModel();
 	};
 
 	genericEmbed.prototype.parseForEditor = function(){
@@ -2595,34 +2601,258 @@ var EntityEmbed = EntityEmbed || {};
 				uploadFile: 'admin/embed/file-upload'
 			}
 		},
-		uploadedImgDisplay = '.uploaded-image-file',
-		cancelUploadImageBtn = '.cancel-upload-image-btn',
-		editImageFileBtn = '.edit-chosen-file-btn',
-		uploadImageFileBtn = ".embed-modal-file-input",
-		getImageUrl = function(imageLocation, imageUrl)
-		{
-			if (!imageUrl || imageUrl === '')
-			{
-				return '';
-			}
+		uiElements = {
+			// myElm: '.select-my-elm'
+			imageEditorPreview: '.image_editor-preview',
+			imageEditorPreviewImage: '.image_editor-preview_image',
+			editImageFileBtn: '.js-upload',
+			cancelUploadImageBtn: '.js-upload-cancel',
+			undoUploadImageBtn: '.js-upload-undo',
+			uploadFileInputContainer: '.image_editor-intro',
+			uploadFileInput: '.embed-modal-file-input',
+			imageEditor: '.image_editor'
+		},
+		licenseConfigs = {
+			'ap': {
+				claimData: function(data) {
+					var rgx = /(AP Images|Associated Press)/ig;
+					return !!data.credit && rgx.test(data.credit) ||
+						!!data.copyright && rgx.test(data.copyright);
+				}
+			},
+			'getty': {
+				claimData: function(data) {
+					var rgx = /(Getty ?Images)/ig;
+					return !!data.credit && rgx.test(data.credit) ||
+						!!data.copyright && rgx.test(data.copyright);
+				}
+			},
+			'reuters': {
+				claimData: function(data) {
+					return !!data.credit && data.credit.toLowerCase() === 'reuters';
+				},
+				getModelFromData: function(data, file) {
+					var model = {};
+					var creditArray = [];
 
-			if (imageUrl.indexOf(imageLocation) >= 0)
-			{
-				return imageUrl;
-			}
+					// Credit
+					if(data.byline)
+					{
+						creditArray.push( data.byline.replace(/^\W*\u00A9\s*/, '') )
+					}
 
-			// ensure that there isn't an unintended '//' in final URL
-			if (imageLocation.endsWith('/'))
-			{
-				imageLocation = imageLocation.substring(0, imageLocation.length - 1);
-			}
-			if (!imageUrl.startsWith('/'))
-			{
-				imageUrl = '/' + imageUrl;
-			}
+					if(data.copyright)
+					{
+						creditArray.push(data.copyright)
+					}
 
-			return imageLocation + imageUrl;
+					model.credit = !!creditArray.length ? creditArray.join(' / ') : undefined;;
+
+					// Caption
+					model.caption = data.caption.replace(/\s+REUTERS\/.+$/mg, '');
+
+					return model;
+				}
+			}
 		};
+
+	function getModelFromData(data, file) {
+		var model = {};
+		var creditArray = [];
+
+		// Title
+		model.title = file.name;
+
+		// Credit
+		if(data.byline)
+		{
+			creditArray.push(data.byline)
+		}
+
+		if(data.credit)
+		{
+			creditArray.push(data.credit)
+		}
+
+		if(data.copyright)
+		{
+			creditArray.push(data.copyright)
+		}
+
+		model.credit = creditArray.join(' / ');
+
+		// Caption
+		model.caption = data.caption && data.caption.replace(/\s*\([^\)]+\)\s*$/, '');
+
+		// Alt Text
+		model.altText = data.headline;
+
+		// License
+		// Defalut to not defining a license
+
+		return model;
+	}
+
+	function getImageUrl(imageLocation, imageUrl)
+	{
+		if (!imageUrl || imageUrl === '')
+		{
+			return '';
+		}
+
+		if (imageUrl.indexOf(imageLocation) >= 0)
+		{
+			return imageUrl;
+		}
+
+		// ensure that there isn't an unintended '//' in final URL
+		if (imageLocation.endsWith('/'))
+		{
+			imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+		}
+		if (!imageUrl.startsWith('/'))
+		{
+			imageUrl = '/' + imageUrl;
+		}
+
+		return imageLocation + imageUrl;
+	};
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {
+			form: $el
+		};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function updateImagePreview(scope, file) {
+		var $ui = scope.$ui;
+		var image = new Image();
+		var promise = $.Deferred();
+		var imageUrl;
+
+		function handleLoad() {
+			showImagePreview(scope);
+			promise.resolve();
+			$(this).off('load', handleLoad);
+		}
+
+		$ui.imageEditorPreviewImage.on('load', handleLoad);
+
+		if (file)
+		{
+			scope.model.upload = file;
+		}
+
+		imageUrl = scope.getImageUrl();
+
+		$ui.imageEditorPreview.css('background-image', 'url("' + imageUrl + '")')
+		$ui.imageEditorPreviewImage.attr('src', imageUrl);
+
+		return promise;
+	}
+
+	function updateFormWithImageData(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		if (!file)
+		{
+			file = scope.model.upload;
+		}
+
+		EXIF.getData(file, function() {
+			var imageData = this.iptcdata;
+			var currentModel, tempModel, lcModel, prop, i, m, lc;
+
+			if (scope.licenses && !!scope.licenses.length)
+			{
+				// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
+				for (i = 0, m = scope.licenses.length; i < m; i++)
+				{
+					lc = licenseConfigs[ scope.licenses[i].license ];
+					// Check if config can and does claim data
+					if(lc && typeof lc.claimData === 'function' && lc.claimData(imageData))
+					{
+						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
+						lcModel = typeof lc.getModelFromData === 'function' && lc.getModelFromData(imageData, this) || {};
+						// Set license prop to the claiming license
+						lcModel.license = scope.licenses[i].license;
+					}
+				}
+			}
+
+			// Get a model using the default mapping method
+			tempModel = getModelFromData(imageData, this);
+
+			// Update the scope's model with current form values
+			scope.getModelFromForm($ui.form);
+
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, scope.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel or lcModel during merge.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > lcModel > tempModel
+			scope.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			scope.model.upload = file;
+
+			scope.populateFormWithModel($ui.form)
+				.done(function () {
+					promise.resolve();
+				});
+		});
+
+		return promise;
+	}
+
+	function showImagePreview(scope) {
+		var $ui = scope.$ui;
+
+		// Hide file input and related toolbar btns
+		$ui.uploadFileInputContainer.hide();
+		$ui.cancelUploadImageBtn.hide();
+
+		// Show Image Preview and related toolbar btns
+		$ui.imageEditorPreview.show();
+		$ui.editImageFileBtn.show();
+		$ui.undoUploadImageBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+	}
+
+	function showFileInput(scope) {
+		var $ui = scope.$ui;
+
+		// Hide Image Preview and related toolbar btns
+		$ui.imageEditorPreview.hide();
+		$ui.editImageFileBtn.hide();
+		$ui.undoUploadImageBtn.hide();
+
+		// Show file input and related toolbar btns. Clean up after previous validation errors.
+		$ui.uploadFileInput.removeClass('error')
+			.parent().find('#upload-error').remove();
+		$ui.uploadFileInputContainer.show();
+		$ui.cancelUploadImageBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+	}
 
 	// CONSTRUCTOR
 	function imagesEmbed(options){
@@ -2636,7 +2866,7 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	imagesEmbed.prototype.orderIndex = 1;
 
-	imagesEmbed.prototype.imagePreviewClass = 'image-preview';
+	imagesEmbed.prototype.imageEditorPreviewImageClass = 'image-preview';
 
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
@@ -2657,10 +2887,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
-		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		var $licenseField = $el.find('[name="license"]');
 
-		if($licenseField.children().length)
+		if($licenseField.children().length > 1)
 		{
 			$licenseField.val(self.model.license);
 			return;
@@ -2672,21 +2901,19 @@ var EntityEmbed = EntityEmbed || {};
 			.done(function(list){
 				var $option;
 
-				if($licenseField.children().length)
-				{
-					$licenseField.val(self.model.license);
-					return;
-				}
-
-				console.log('Recieved licences. Adding options...');
 				//load object into license list
 				if (!list.response.data)
 				{
 					return;
 				}
 
-				$option = $(defaultLicenseOption);
-				$licenseField.append($option);
+				if($licenseField.children().length > 1)
+				{
+					$licenseField.val(self.model.license);
+					return;
+				}
+
+				self.licenses = list.response.data;
 
 				for(var i = 0; i < list.response.data.length;i++)
 				{
@@ -2696,8 +2923,6 @@ var EntityEmbed = EntityEmbed || {};
 					$licenseField.append($option);
 				}
 
-				console.log('Setting license value: ', self.model.license);
-
 				$licenseField.val(self.model.license);
 			})
 			.fail(function(data){
@@ -2705,48 +2930,97 @@ var EntityEmbed = EntityEmbed || {};
 			});
 	};
 
-	imagesEmbed.prototype.initModal = function($el){
+	imagesEmbed.prototype.updateFormWithFileMetadata = function($el, file) {
 		var self = this;
+		var tempModel;
+
+		if (file)
+		{
+			self.model.upload = file;
+		}
+		else
+		{
+			file = self.model.upload;
+		}
+	}
+
+	imagesEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui = registerUiElements(self, $el);
 
 		self.loadLicenses($el);
 
-		self.$imageForm = $el.find('input[name="upload"]');
-
-		$el.find(editImageFileBtn).on('click', function(){
-			$el.find(uploadedImgDisplay).hide();
-			$el.find(editImageFileBtn).hide();
-
-			self.$imageForm.css('display', 'inline-block');
-			$el.find(cancelUploadImageBtn).show();
+		$ui.editImageFileBtn.on('click', 'a', function(){
+			$ui.uploadFileInput.click();
 		});
 
-		$el.find(cancelUploadImageBtn).on('click', function(){
-			self.$imageForm.hide();
-			$el.find(cancelUploadImageBtn).hide();
-			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
-			{
-				self.$imageForm.parent().find('#upload-error').hide();
-			}
-
-			$el.find(uploadedImgDisplay).show();
-			$el.find(editImageFileBtn).show();
+		$ui.cancelUploadImageBtn.on('click', 'a', function(){
+			showImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$el.find(uploadImageFileBtn).on('change', function(){
-			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
-			$el.find("[name=title]").val(fileName);
+		$ui.undoUploadImageBtn.on('click', 'a', function() {
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			$ui.uploadFileInput.val('');
+			updateImagePreview(modalCtrl.scope.currentEmbedType);
 		});
+
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
+			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
+		});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
+
+		$ui.imageEditor
+			.on('dragenter', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				event.preventDefault();
+
+				var $this = $(this);
+				var files = event.originalEvent.dataTransfer.files;
+				var file;
+
+				if (!!files && !!files.length)
+				{
+					file = files[0];
+
+					if(file.type.indexOf('image') === -1)
+					{
+						return;
+					}
+
+					$this.addClass('js-dropped');
+
+					setTimeout(function() {
+
+						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
+							.then(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
+
+					}, 300);
+				}
+			});
 	};
 
 	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
+		var $ui = self.$ui;
+
 		self.parent.clearForm($el, self);
 
-		$el.find(uploadedImgDisplay).find('.' + self.imagePreviewClass).remove();
-		$el.find(uploadedImgDisplay).hide();
-		$el.find(cancelUploadImageBtn).hide();
-		$el.find(editImageFileBtn).hide();
-		self.$imageForm.show();
+		$ui.imageEditorPreviewImage.removeAttr('src');
+
+		showFileInput(self);
 	};
 
 	imagesEmbed.prototype.saveEmbed = function(embedIsNew)
@@ -2783,7 +3057,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
 		var self = this;
 
-		return '<img class="' + self.imagePreviewClass +
+		return '<img class="' + self.imageEditorPreviewImageClass +
 				'" src="' + self.getImageUrl() + '">';
 	};
 
@@ -2791,11 +3065,11 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		var oldModel = $.extend(true, {}, self.model);
-		var imagaFormVisible = !!self.$imageForm.is(':visible');
+		var imageFormVisible = !!self.$ui.uploadFileInput.is(':visible');
 
 		self.parent.getModelFromForm($form, self);
 
-		if(!imagaFormVisible && !!oldModel.upload && !self.model.upload)
+		if(!!oldModel.upload && !self.model.upload)
 		{
 			self.model.upload = oldModel.upload;
 		}
@@ -2804,21 +3078,25 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
+		var promise = $.Deferred();
 
 		self.parent.populateFormWithModel($form, self);
 
 		self.loadLicenses($form);
 
-		if (!self.model.upload && !self.model.url_path)
+		if (!!self.model.upload || !!self.model.url_path)
 		{
-			return;
+			updateImagePreview(self)
+				.then(function() {
+					promise.resolve();
+				});
+		}
+		else
+		{
+			promise.resolve();
 		}
 
-		self.$imageForm.hide();
-
-		$form.find(uploadedImgDisplay).show();
-		$form.find(editImageFileBtn).show();
-		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
+		return promise;
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
@@ -3444,8 +3722,6 @@ var EntityEmbed = EntityEmbed || {};
 	function hideEditor(scope) {
 		var $ui = scope.$ui;
 
-		console.log('hiding slideshow editor...');
-
 		$ui.intro.show();
 		$ui.editor.hide();
 
@@ -3506,8 +3782,6 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
-		console.log('slideshowEmbed::initModal', self);
-
 		self.model = self.cleanModel();
 
 		self.$el = imageModalOptions.modalContainer = $el;
@@ -3539,8 +3813,6 @@ var EntityEmbed = EntityEmbed || {};
 				.done(function(response) {
 					var $slide = $ui.slideTemplate.clone(true);
 					var slideClass = !!response.data.object_id ? slideAddedClass : slideNewClass;
-
-					console.log('slideshowEmbed::addSlide::done', response);
 
 					// Add data to slide
 					$slide.data('model', response.data);
@@ -4592,8 +4864,10 @@ var EntityEmbed = EntityEmbed || {};
 			var badStyleSttr = [
 				'li > span[style]'
 			].join(',');
-			var $badMarkup = $(editableElm).find(badMarkup);
-			var $hasStyleAttr = $(editableElm).find(badStyleSttr);
+			var emptyP = '<p><br></p>';
+			var $elm = $(editableElm);
+			var $badMarkup = $elm.find(badMarkup);
+			var $hasStyleAttr = $elm.find(badStyleSttr);
 
 			$badMarkup.each(function() {
 				var $this = $(this);
@@ -4602,6 +4876,13 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 			$hasStyleAttr.removeAttr('style');
+
+			$elm.find('div > br:only-child').parent().replaceWith(emptyP);
+
+			if( !$elm.children().not('.medium-insert-buttons').length )
+			{
+				$elm.prepend(emptyP);
+			}
 		});
 
 		$(window).on('resize', function() {
