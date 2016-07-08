@@ -1,17 +1,123 @@
-.uploaded-image-file
-{
-	display: none;
+@image_editor-toolbar_btn__width: 20px;
 
-	img
+.image_editor
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	height: 188px;
+
+	background-color: @gray-lighter;
+
+	&:after
 	{
+		transition: box-shadow 200ms ease-out;
+		content: '';
 		display: block;
-		margin: 0 auto !important;
-		height: 150px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1;
+
+		box-shadow: inset 0 0 0 0 @brand-info, inset 0 0 0 0 #fff;
 	}
 
-	.image-preview
+	&.js-dragover
 	{
-		margin-left: 20px;
+		&:after
+		{
+			box-shadow: inset 0 0 0 1px @brand-info, inset 0 0 0 10px #fff;
+		}
+	}
+
+	&.js-dropped
+	{
+		&:after
+		{
+			box-shadow: inset 0 0 0 1px @brand-info, inset 0 0 0 95px #fff;
+		}
+	}
+}
+
+.image_editor-intro
+{
+	position: relative;
+	z-index: 2;
+
+	.js-dragover &,
+	.js-dropped &,
+	{
+		z-index: auto;
+	}
+}
+
+.image_editor-intro_inner
+{
+}
+
+.image_editor-preview
+{
+	display: none;
+	overflow: hidden;
+	max-height: 100%;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.image_editor-preview_image
+{
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	visibility: hidden;
+}
+
+.image_editor-toolbar
+{
+	position: absolute;
+	right: 0;
+	bottom: 100%;
+}
+
+.image_editor-toolbar_list
+{
+	display: flex;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.image_editor-toolbar_item
+{
+	margin: 3px;
+}
+
+.image_editor-tollbar_btn
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: @image_editor-toolbar_btn__width;
+	height: @image_editor-toolbar_btn__width;
+
+	background: @btn-primary-color;
+
+	border: 1px solid @btn-primary-border;
+	border-radius: @btn-border-radius-small;
+
+	color: @btn-primary-bg;
+
+	cursor: pointer;
+
+	&:hover
+	{
+		background-color: @btn-primary-bg;
+		color: @btn-primary-color;
+		text-decoration: none;
 	}
 }
 
@@ -37,7 +143,7 @@
 		width: 100%;
 
 		font-style: italic;
-		font-size: 12; 
+		font-size: 12;
 		color: @font-color;
 	}
 
@@ -46,8 +152,8 @@
 		display: block;
 		width: 100%;
 
-		font-style: italic; 
-		font-size: 10; 
+		font-style: italic;
+		font-size: 10;
 		color: @font-color;
 	}
 }

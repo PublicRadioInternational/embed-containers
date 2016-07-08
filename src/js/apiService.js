@@ -32,6 +32,11 @@ var EntityEmbed = EntityEmbed || {};
 			ajaxOptions.processData = false;
 			ajaxOptions.contentType = false;
 			ajaxOptions.data = config.data;
+
+			if (typeof config.xhr === 'function')
+			{
+				ajaxOptions.xhr = config.xhr;
+			}
 		}
 		else
 		{
@@ -54,7 +59,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	function uploadFile(config){
-		config.methodType = 'Post';
+		config.methodType = 'POST';
 		return ajaxWrapper(config);
 	};
 
