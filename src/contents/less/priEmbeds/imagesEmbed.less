@@ -1,17 +1,89 @@
-.uploaded-image-file
+@image_editor-toolbar_btn__width: 20px;
+
+.image_editor
+{
+	height: 188px;
+	position: relative;
+
+	background-color: @gray-lighter;
+}
+
+.image_editor-intro
+{
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.image_editor-preview
 {
 	display: none;
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	right: 0;
+	left: 0;
+	max-height: 100%;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
 
-	img
-	{
-		display: block;
-		margin: 0 auto !important;
-		height: 150px;
-	}
+.image_editor-preview_image
+{
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	visibility: hidden;
+}
 
-	.image-preview
+.image_editor-toolbar
+{
+	position: absolute;
+	right: 0;
+	bottom: 100%;
+}
+
+.image_editor-toolbar_list
+{
+	display: flex;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.image_editor-toolbar_item
+{
+	margin: 3px;
+}
+
+.image_editor-tollbar_btn
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: @image_editor-toolbar_btn__width;
+	height: @image_editor-toolbar_btn__width;
+
+	background: @btn-primary-color;
+
+	border: 1px solid @btn-primary-border;
+	border-radius: 3px;
+
+	color: @btn-primary-bg;
+
+	cursor: pointer;
+
+	&:hover
 	{
-		margin-left: 20px;
+		background-color: @btn-primary-bg;
+		color: @btn-primary-color;
+		text-decoration: none;
 	}
 }
 
@@ -37,7 +109,7 @@
 		width: 100%;
 
 		font-style: italic;
-		font-size: 12; 
+		font-size: 12;
 		color: @font-color;
 	}
 
@@ -46,8 +118,8 @@
 		display: block;
 		width: 100%;
 
-		font-style: italic; 
-		font-size: 10; 
+		font-style: italic;
+		font-size: 10;
 		color: @font-color;
 	}
 }

@@ -310,8 +310,10 @@ var EntityEmbed = EntityEmbed || {};
 			var badStyleSttr = [
 				'li > span[style]'
 			].join(',');
-			var $badMarkup = $(editableElm).find(badMarkup);
-			var $hasStyleAttr = $(editableElm).find(badStyleSttr);
+			var emptyP = '<p><br></p>';
+			var $elm = $(editableElm);
+			var $badMarkup = $elm.find(badMarkup);
+			var $hasStyleAttr = $elm.find(badStyleSttr);
 
 			$badMarkup.each(function() {
 				var $this = $(this);
@@ -320,6 +322,13 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 			$hasStyleAttr.removeAttr('style');
+
+			$elm.find('div > br:only-child').parent().replaceWith(emptyP);
+
+			if( !$elm.children().not('.medium-insert-buttons').length )
+			{
+				$elm.prepend(emptyP);
+			}
 		});
 
 		$(window).on('resize', function() {

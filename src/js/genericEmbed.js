@@ -75,7 +75,7 @@ var EntityEmbed = EntityEmbed || {};
 			{
 				value = formFields[i].files[0];
 			}
-			else
+			else if(!!formFields[i].value.length)
 			{
 				value = formFields[i].value;
 			}
@@ -134,7 +134,8 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			formList[i].reset();
 		}
-	 	self.model = self.cleanModel();
+
+		self.model = self.cleanModel();
 	};
 
 	genericEmbed.prototype.parseForEditor = function(){

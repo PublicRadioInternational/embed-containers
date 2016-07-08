@@ -31,30 +31,235 @@ var EntityEmbed = EntityEmbed || {};
 		cancelUploadImageBtn = '.cancel-upload-image-btn',
 		editImageFileBtn = '.edit-chosen-file-btn',
 		uploadImageFileBtn = ".embed-modal-file-input",
-		getImageUrl = function(imageLocation, imageUrl)
-		{
-			if (!imageUrl || imageUrl === '')
-			{
-				return '';
-			}
+		uiElements = {
+			// myElm: '.select-my-elm'
+			imageEditorPreview: '.image_editor-preview',
+			imageEditorPreviewImage: '.image_editor-preview_image',
+			editImageFileBtn: '.js-upload',
+			cancelUploadImageBtn: '.js-upload-cancel',
+			undoUploadImageBtn: '.js-upload-undo',
+			uploadFileInputContainer: '.image_editor-intro',
+			uploadFileInput: '.embed-modal-file-input',
+			imageEditor: '.image_editor'
+		},
+		licenseConfigs = {
+			'ap': {
+				claimData: function(data) {
+					var rgx = /(AP Images|Associated Press)/ig;
+					return !!data.credit && rgx.test(data.credit) ||
+						!!data.copyright && rgx.test(data.copyright);
+				}
+			},
+			'getty': {
+				claimData: function(data) {
+					var rgx = /(Getty ?Images)/ig;
+					return !!data.credit && rgx.test(data.credit) ||
+						!!data.copyright && rgx.test(data.copyright);
+				}
+			},
+			'reuters': {
+				claimData: function(data) {
+					return !!data.credit && data.credit.toLowerCase() === 'reuters';
+				},
+				getModelFromData: function(data, file) {
+					var model = {};
+					var creditArray = [];
 
-			if (imageUrl.indexOf(imageLocation) >= 0)
-			{
-				return imageUrl;
-			}
+					// Credit
+					if(data.byline)
+					{
+						creditArray.push( data.byline.replace(/^\W*\u00A9\s*/, '') )
+					}
 
-			// ensure that there isn't an unintended '//' in final URL
-			if (imageLocation.endsWith('/'))
-			{
-				imageLocation = imageLocation.substring(0, imageLocation.length - 1);
-			}
-			if (!imageUrl.startsWith('/'))
-			{
-				imageUrl = '/' + imageUrl;
-			}
+					if(data.copyright)
+					{
+						creditArray.push(data.copyright)
+					}
 
-			return imageLocation + imageUrl;
+					model.credit = !!creditArray.length ? creditArray.join(' / ') : undefined;;
+
+					// Caption
+					model.caption = data.caption.replace(/\s+REUTERS\/.+$/mg, '');
+
+					return model;
+				}
+			}
 		};
+
+	function getModelFromData(data, file) {
+		var model = {};
+		var creditArray = [];
+
+		// Title
+		model.title = file.name;
+
+		// Credit
+		if(data.byline)
+		{
+			creditArray.push(data.byline)
+		}
+
+		if(data.credit)
+		{
+			creditArray.push(data.credit)
+		}
+
+		if(data.copyright)
+		{
+			creditArray.push(data.copyright)
+		}
+
+		model.credit = creditArray.join(' / ');
+
+		// Caption
+		model.caption = data.caption && data.caption.replace(/\s*\([^\)]+\)\s*$/, '');
+
+		// Alt Text
+		model.altText = data.headline;
+
+		// License
+		// Defalut to not defining a license
+
+		return model;
+	}
+
+	function getImageUrl(imageLocation, imageUrl)
+	{
+		if (!imageUrl || imageUrl === '')
+		{
+			return '';
+		}
+
+		if (imageUrl.indexOf(imageLocation) >= 0)
+		{
+			return imageUrl;
+		}
+
+		// ensure that there isn't an unintended '//' in final URL
+		if (imageLocation.endsWith('/'))
+		{
+			imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+		}
+		if (!imageUrl.startsWith('/'))
+		{
+			imageUrl = '/' + imageUrl;
+		}
+
+		return imageLocation + imageUrl;
+	};
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {
+			form: $el
+		};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function updateImagePreview(scope, file) {
+		var $ui = scope.$ui;
+		var imageUrl;
+
+		if (file)
+		{
+			scope.model.upload = file;
+		}
+
+		imageUrl = scope.getImageUrl()
+
+		$ui.imageEditorPreview.css('background-image', 'url("' + imageUrl + '")')
+		$ui.imageEditorPreviewImage.attr('src', imageUrl);
+
+		showImagePreview(scope)
+	}
+
+	function updateFormWithImageData(scope, file) {
+		var $ui = scope.$ui;
+
+		if (file)
+		{
+			scope.model.upload = file;
+		}
+
+		EXIF.getData(file, function() {
+			var imageData = this.iptcdata;
+			var currentModel, tempModel, lcModel, i, m, lc;
+
+			console.log('Updating Form with metadata:', this.iptcdata);
+
+			if (scope.licenses && !!scope.licenses.length)
+			{
+				// Try to identify Licence with data
+				for (i = 0, m = scope.licenses.length; i < m; i++)
+				{
+					lc = licenseConfigs[ scope.licenses[i].license ];
+					if(lc && lc.claimData && lc.claimData(imageData))
+					{
+						lcModel = lc.getModelFromData && lc.getModelFromData(imageData, this) || {};
+						lcModel.license = scope.licenses[i].license;
+					}
+				}
+			}
+
+			tempModel = getModelFromData(imageData, this);
+
+			scope.getModelFromForm($ui.form);
+
+			currentModel = $.extend(true, {}, scope.model);
+
+			for (var prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			console.log('updateFormWithImageData', tempModel, currentModel);
+
+			scope.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
+
+			console.log('updateFormWithImageData:scope.model', $.extend(true, {}, scope.model));
+
+			scope.populateFormWithModel($ui.form);
+		})
+	}
+
+	function showImagePreview(scope) {
+		var $ui = scope.$ui;
+
+		console.log('showImagePreview:scope.model', $.extend(true, {}, scope.model));
+
+		$ui.uploadFileInput.removeClass('error').hide()
+			.parent().find('#upload-error').remove();
+		$ui.cancelUploadImageBtn.hide();
+
+		$ui.imageEditorPreview.show();
+		$ui.editImageFileBtn.show();
+		$ui.undoUploadImageBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+	}
+
+	function showFileInput(scope) {
+		var $ui = scope.$ui;
+
+		console.log('showFileInput:scope.model', $.extend(true, {}, scope.model));
+
+		// Hide Image Preview
+		$ui.imageEditorPreview.hide();
+		$ui.editImageFileBtn.hide();
+		$ui.undoUploadImageBtn.hide();
+
+		$ui.uploadFileInput.show();
+		$ui.cancelUploadImageBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+	}
 
 	// CONSTRUCTOR
 	function imagesEmbed(options){
@@ -68,7 +273,7 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	imagesEmbed.prototype.orderIndex = 1;
 
-	imagesEmbed.prototype.imagePreviewClass = 'image-preview';
+	imagesEmbed.prototype.imageEditorPreviewImageClass = 'image-preview';
 
 	imagesEmbed.prototype.cleanModel = function(){
 		return {
@@ -89,10 +294,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
 		var self = this;
-		var defaultLicenseOption = '<option disabled selected>-- select a license --</option>';
 		var $licenseField = $el.find('[name="license"]');
 
-		if($licenseField.children().length)
+		if($licenseField.children().length > 1)
 		{
 			$licenseField.val(self.model.license);
 			return;
@@ -104,21 +308,21 @@ var EntityEmbed = EntityEmbed || {};
 			.done(function(list){
 				var $option;
 
-				if($licenseField.children().length)
-				{
-					$licenseField.val(self.model.license);
-					return;
-				}
-
-				console.log('Recieved licences. Adding options...');
 				//load object into license list
 				if (!list.response.data)
 				{
 					return;
 				}
 
-				$option = $(defaultLicenseOption);
-				$licenseField.append($option);
+				console.log('Recieved licenses. Adding options...', list);
+
+				if($licenseField.children().length > 1)
+				{
+					$licenseField.val(self.model.license);
+					return;
+				}
+
+				self.licenses = list.response.data;
 
 				for(var i = 0; i < list.response.data.length;i++)
 				{
@@ -137,48 +341,89 @@ var EntityEmbed = EntityEmbed || {};
 			});
 	};
 
-	imagesEmbed.prototype.initModal = function($el){
+	imagesEmbed.prototype.updateFormWithFileMetadata = function($el, file) {
 		var self = this;
+		var tempModel;
+
+		if (file)
+		{
+			self.model.upload = file;
+		}
+		else
+		{
+			file = self.model.upload;
+		}
+	}
+
+	imagesEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui = registerUiElements(self, $el);
+
+		console.log('imagesEmbed::initModal', self, modalCtrl);
 
 		self.loadLicenses($el);
 
-		self.$imageForm = $el.find('input[name="upload"]');
-
-		$el.find(editImageFileBtn).on('click', function(){
-			$el.find(uploadedImgDisplay).hide();
-			$el.find(editImageFileBtn).hide();
-
-			self.$imageForm.css('display', 'inline-block');
-			$el.find(cancelUploadImageBtn).show();
+		$ui.editImageFileBtn.on('click', 'a', function(){
+			// showFileInput(modalCtrl.scope.currentEmbedType);
+			$ui.uploadFileInput.click();
 		});
 
-		$el.find(cancelUploadImageBtn).on('click', function(){
-			self.$imageForm.hide();
-			$el.find(cancelUploadImageBtn).hide();
-			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
+		$ui.cancelUploadImageBtn.on('click', 'a', function(){
+			showImagePreview(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.undoUploadImageBtn.on('click', 'a', function() {
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			updateImagePreview(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
+
+			console.log('imagesEmbed::change::event', event);
+
+			// updateImagePreview(self, file);
+
+			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
+		});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
+
+		$el.on('drop', function(event) {
+			event.preventDefault();
+
+			var files = event.originalEvent.dataTransfer.files;
+			var file;
+
+			console.log('imagesEmbed::drop::files', files);
+
+			if (!!files && !!files.length)
 			{
-				self.$imageForm.parent().find('#upload-error').hide();
+				file = files[0];
+
+				if(file.type.indexOf('image') === -1)
+				{
+					return;
+				}
+
+				// updateImagePreview(self, file);
+
+				updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
 			}
-
-			$el.find(uploadedImgDisplay).show();
-			$el.find(editImageFileBtn).show();
-		});
-
-		$el.find(uploadImageFileBtn).on('change', function(){
-			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
-			$el.find("[name=title]").val(fileName);
-		});
+		})
 	};
 
 	imagesEmbed.prototype.clearForm = function($el){
 		var self = this;
+		var $ui = self.$ui;
+
 		self.parent.clearForm($el, self);
 
-		$el.find(uploadedImgDisplay).find('.' + self.imagePreviewClass).remove();
-		$el.find(uploadedImgDisplay).hide();
-		$el.find(cancelUploadImageBtn).hide();
-		$el.find(editImageFileBtn).hide();
-		self.$imageForm.show();
+		$ui.imageEditorPreviewImage.removeAttr('src');
+
+		showFileInput(self);
 	};
 
 	imagesEmbed.prototype.saveEmbed = function(embedIsNew)
@@ -215,7 +460,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.generateUploadedImgPreview = function() {
 		var self = this;
 
-		return '<img class="' + self.imagePreviewClass +
+		return '<img class="' + self.imageEditorPreviewImageClass +
 				'" src="' + self.getImageUrl() + '">';
 	};
 
@@ -223,11 +468,13 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		var oldModel = $.extend(true, {}, self.model);
-		var imagaFormVisible = !!self.$imageForm.is(':visible');
+		var imageFormVisible = !!self.$ui.uploadFileInput.is(':visible');
 
 		self.parent.getModelFromForm($form, self);
 
-		if(!imagaFormVisible && !!oldModel.upload && !self.model.upload)
+		console.log('imagesEmbed::getModelFromForm', imageFormVisible, oldModel, self.model);
+
+		if(!!oldModel.upload && !self.model.upload)
 		{
 			self.model.upload = oldModel.upload;
 		}
@@ -241,16 +488,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.loadLicenses($form);
 
-		if (!self.model.upload && !self.model.url_path)
+		if (!!self.model.upload || !!self.model.url_path)
 		{
-			return;
+			updateImagePreview(self);
 		}
-
-		self.$imageForm.hide();
-
-		$form.find(uploadedImgDisplay).show();
-		$form.find(editImageFileBtn).show();
-		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
 	};
 
 	imagesEmbed.prototype.parseForEditor = function(){
