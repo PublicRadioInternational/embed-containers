@@ -57,7 +57,8 @@ var EntityEmbed = EntityEmbed || {};
 			slides: '.js-slides',
 			slideTemplate: '.js-slide_template',
 			removeSlide: '.js-remove_slide',
-			editSlide: '.js-edit_slide'
+			editSlide: '.js-edit_slide',
+			dropFiles: '.js-drop_files'
 		};
 
 	function activateSlide($slide, scope) {
@@ -267,6 +268,89 @@ var EntityEmbed = EntityEmbed || {};
 				hideEditor(self);
 			}
 		});
+
+		$ui.dropFiles
+			.on('dragenter', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				var filesList = event.originalEvent.dataTransfer.files;
+				var files = [];
+				var slides = [];
+				var i, m;
+
+				event.preventDefault();
+
+				if(!filesList.length)
+				{
+					return;
+				}
+
+				for (i = 0, m = filesList.length; i < m; i++)
+				{
+					files[i] = filesList[i];
+				}
+
+				function processFile(file) {
+					var fileNumber = filesList.length - files.length;
+					var imageEmbed, $slide;
+
+					if(file.type.indexOf('image') === -1)
+					{
+						return;
+					}
+
+					imageEmbed = new EntityEmbed.embedTypes.image();
+
+					imageEmbed.getModelFromFile(file)
+						.done(function(model) {
+
+							delete imageModalOptions.modalOptions.id;
+
+							imageModalOptions.modalOptions.headerText = ['Add Image', fileNumber, 'of', filesList.length].join(' ');
+							imageModalOptions.modalOptions.embedData = model;
+
+							$.embed_modal_open(imageModalOptions)
+								.done(function(response) {
+									var $slide = $ui.slideTemplate.clone(true);
+									var slideClass = !!response.data.object_id ? slideAddedClass : slideNewClass;
+
+									// Add data to slide
+									$slide.data('model', response.data);
+									$slide.find('.' + slideIndicatorClass).addClass(slideClass);
+
+									// Append slide
+									slides.push($slide);
+								})
+								.always(function() {
+
+									delete imageModalOptions.modalOptions.headerText;
+
+									if(!!files.length)
+									{
+										processFile(files.shift());
+									}
+									else
+									{
+										for (i = 0, m = slides.length; i < m; i++)
+										{
+											$ui.slides.append(slides[i]);
+											if(i === 0)
+											{
+												activateSlide(slides[i], self);
+											}
+										}
+									}
+								});
+
+						});
+				}
+
+				processFile(files.shift());
+			});
 
 	};
 

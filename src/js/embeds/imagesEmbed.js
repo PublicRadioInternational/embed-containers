@@ -260,7 +260,8 @@ var EntityEmbed = EntityEmbed || {};
 			credit: null,
 			creditLink: null,
 			caption: null,
-			license: null
+			license: null,
+			object_type: defaults.object_type
 		};
 	};
 
@@ -456,21 +457,21 @@ var EntityEmbed = EntityEmbed || {};
 
 		EXIF.getData(file, function() {
 			var imageData = this.iptcdata;
-			var currentModel, tempModel, lcModel, prop, i, m, lc;
+			var currentModel, tempModel, lcModel, prop, lc;
 
-			if (self.licenses && !!self.licenses.length)
+			// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
+			for (prop in licenseConfigs)
 			{
-				// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
-				for (i = 0, m = self.licenses.length; i < m; i++)
+				if(licenseConfigs.hasOwnProperty(prop))
 				{
-					lc = licenseConfigs[ self.licenses[i].license ];
+					lc = licenseConfigs[ prop ];
 					// Check if config can and does claim data
-					if(lc && typeof lc.claimData === 'function' && lc.claimData(imageData))
+					if(typeof lc.claimData === 'function' && lc.claimData(imageData))
 					{
 						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
-						lcModel = typeof lc.getModelFromData === 'function' && lc.getModelFromData(imageData, this) || {};
+						lcModel = typeof lc.getModelFromData === 'function' ? lc.getModelFromData(imageData, this) : {};
 						// Set license prop to the claiming license
-						lcModel.license = self.licenses[i].license;
+						lcModel.license = prop;
 					}
 				}
 			}
