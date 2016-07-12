@@ -2582,7 +2582,7 @@ var EntityEmbed = EntityEmbed || {};
 	var embedName = 'image',
 		defaults = {
 			viewPath: 'modal_image.html',
-			displayName: 'Image(s)',
+			displayName: 'Image',
 			object_type: 'image',
 			imageLocation: 'https://test-services.pri.org',
 			validationOptions: {
