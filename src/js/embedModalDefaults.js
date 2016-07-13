@@ -90,6 +90,8 @@ var EntityEmbed = EntityEmbed || {};
 			return isDirty;
 		},
 		setModalView = function(scope, embedType){
+			var headerText;
+
 			if (!embedType)
 			{
 				return;
@@ -107,17 +109,22 @@ var EntityEmbed = EntityEmbed || {};
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 
-			// set the header text
-			var headerText = 'Add ';
-			if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+			headerText = scope.headerText;
+
+			if(!headerText)
 			{
-				headerText = 'Edit ';
+				// set the header text
+				headerText = 'Add ';
+				if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+				{
+					headerText = 'Edit ';
+				}
+				if (!scope.embedId)
+				{
+					headerText += 'New ';
+				}
+				headerText += scope.currentEmbedType.options.displayName;
 			}
-			if (!scope.embedId)
-			{
-				headerText += 'New ';
-			}
-			headerText += scope.currentEmbedType.options.displayName;
 
 			scope.elements.headerText.text(headerText);
 		},
@@ -483,8 +490,6 @@ var EntityEmbed = EntityEmbed || {};
 				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
 					function(e, currentScope){
 						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
-
-						console.log('embedModalDefaults::embedTypeSelect', embedType);
 
 						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						setModalView(currentScope, embedType);
