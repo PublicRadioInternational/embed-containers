@@ -12,9 +12,38 @@
 @slideshow_editor-nav__padding: 10px;
 @slideshow_editor-nav_btn__width: 30px;
 
+.slideshow_drop_files
+{
+  position: relative;
+
+  &:before
+  {
+    transition: opacity 200ms ease-out;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: @slideshow_editor__gap;
+    bottom: 0;
+    left: @slideshow_editor__gap;
+    opacity: 0;
+
+    background-color: fade(@brand-primary, 30%);
+  }
+
+  &.js-dragover {
+    &:before
+    {
+      display: block;
+      opacity: 1;
+    }
+  }
+}
+
 .slideshow_intro
 {
   display: none;
+  position: relative;
   text-align: center;
   padding: 100px 0;
 }

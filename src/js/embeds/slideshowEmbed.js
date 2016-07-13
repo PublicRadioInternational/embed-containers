@@ -58,7 +58,7 @@ var EntityEmbed = EntityEmbed || {};
 			slideTemplate: '.js-slide_template',
 			removeSlide: '.js-remove_slide',
 			editSlide: '.js-edit_slide',
-			dropFiles: '.js-drop_files'
+			dropFiles: '.slideshow_drop_files'
 		};
 
 	function activateSlide($slide, scope) {
