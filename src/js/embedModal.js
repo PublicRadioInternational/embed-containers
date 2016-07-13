@@ -266,7 +266,8 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: options.embedTypeStr,
 			parentModal: options.parentModal,
 			buffered: options.bufferData,
-			embedData: options.embedData
+			embedData: options.embedData,
+			headerText: options.headerText
 		};
 
 		return $embedModal.openModal(scope);

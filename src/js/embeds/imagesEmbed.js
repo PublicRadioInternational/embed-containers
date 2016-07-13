@@ -191,63 +191,15 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 
-		if (!file)
-		{
-			file = scope.model.upload;
-		}
+		scope.getModelFromFile(file)
+			.done(function (model) {
 
-		EXIF.getData(file, function() {
-			var imageData = this.iptcdata;
-			var currentModel, tempModel, lcModel, prop, i, m, lc;
+				scope.populateFormWithModel($ui.form)
+					.done(function () {
+						promise.resolve();
+					});
 
-			if (scope.licenses && !!scope.licenses.length)
-			{
-				// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
-				for (i = 0, m = scope.licenses.length; i < m; i++)
-				{
-					lc = licenseConfigs[ scope.licenses[i].license ];
-					// Check if config can and does claim data
-					if(lc && typeof lc.claimData === 'function' && lc.claimData(imageData))
-					{
-						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
-						lcModel = typeof lc.getModelFromData === 'function' && lc.getModelFromData(imageData, this) || {};
-						// Set license prop to the claiming license
-						lcModel.license = scope.licenses[i].license;
-					}
-				}
-			}
-
-			// Get a model using the default mapping method
-			tempModel = getModelFromData(imageData, this);
-
-			// Update the scope's model with current form values
-			scope.getModelFromForm($ui.form);
-
-			// Clone current model so we can manipulate it
-			currentModel = $.extend(true, {}, scope.model);
-
-			// Remove null properties from currentModel so they don't overwrite
-			// properties on tempModel or lcModel during merge.
-			for (prop in currentModel)
-			{
-				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
-				{
-					delete currentModel[prop];
-				}
-			}
-
-			// Merge models together.
-			// 		currentModel > lcModel > tempModel
-			scope.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
-
-			// Current model may contain old upload file, make sure it is set to the new file
-			scope.model.upload = file;
-
-			scope.populateFormWithModel($ui.form)
-				.done(function () {
-					promise.resolve();
-				});
-		});
+			});
 
 		return promise;
 	}
@@ -281,9 +233,14 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	function imagesEmbed(options){
+	function imagesEmbed(options, file){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
+
+		if(file)
+		{
+			self.getModelFromFile(file);
+		}
 	};
 
 	imagesEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
@@ -303,7 +260,8 @@ var EntityEmbed = EntityEmbed || {};
 			credit: null,
 			creditLink: null,
 			caption: null,
-			license: null
+			license: null,
+			object_type: defaults.object_type
 		};
 	};
 
@@ -355,20 +313,6 @@ var EntityEmbed = EntityEmbed || {};
 				console.log('failed to find load image license options');
 			});
 	};
-
-	imagesEmbed.prototype.updateFormWithFileMetadata = function($el, file) {
-		var self = this;
-		var tempModel;
-
-		if (file)
-		{
-			self.model.upload = file;
-		}
-		else
-		{
-			file = self.model.upload;
-		}
-	}
 
 	imagesEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
@@ -427,7 +371,7 @@ var EntityEmbed = EntityEmbed || {};
 					setTimeout(function() {
 
 						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
-							.then(function() {
+							.done(function() {
 								setTimeout(function() {
 									$this.removeClass('js-dropped');
 								}, 300);
@@ -501,6 +445,72 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
+	imagesEmbed.prototype.getModelFromFile = function(file){
+		var self = this;
+		var $ui = self.$ui;
+		var promise = $.Deferred();
+
+		if (!file)
+		{
+			file = self.model.upload;
+		}
+
+		EXIF.getData(file, function() {
+			var imageData = this.iptcdata;
+			var currentModel, tempModel, lcModel, prop, lc;
+
+			// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
+			for (prop in licenseConfigs)
+			{
+				if(licenseConfigs.hasOwnProperty(prop))
+				{
+					lc = licenseConfigs[ prop ];
+					// Check if config can and does claim data
+					if(typeof lc.claimData === 'function' && lc.claimData(imageData))
+					{
+						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
+						lcModel = typeof lc.getModelFromData === 'function' ? lc.getModelFromData(imageData, this) : {};
+						// Set license prop to the claiming license
+						lcModel.license = prop;
+					}
+				}
+			}
+
+			// Get a model using the default mapping method
+			tempModel = getModelFromData(imageData, this);
+
+			// Update model with current form values
+			if($ui)
+			{
+				self.getModelFromForm($ui.form);
+			}
+
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, self.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel or lcModel during merge.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > lcModel > tempModel
+			self.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			self.model.upload = file;
+
+			promise.resolve(self.model);
+		});
+
+		return promise;
+	}
+
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
@@ -513,7 +523,7 @@ var EntityEmbed = EntityEmbed || {};
 		if (!!self.model.upload || !!self.model.url_path)
 		{
 			updateImagePreview(self)
-				.then(function() {
+				.done(function() {
 					promise.resolve();
 				});
 		}
@@ -527,16 +537,20 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var embedHtml = [
+			'<img class="entity-embed-secondary-toolbar-locator" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />'
+		];
 
-		return	'<div class="images-embed">' +
-					'<img class="entity-embed-secondary-toolbar-locator"' +
-						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' +
-					'<div class="images-embed-caption">' +
-						self.model.caption +
-					'</div>' +
-					'<div class="images-embed-credit">' +
-						'Credit: ' + self.model.credit +
-					'</div>' +
-				'</div>';
+		if(!!self.model.caption)
+		{
+			embedHtml.push('<div class="images-embed-caption">' + self.model.caption +'</div>');
+		}
+
+		if(!!self.model.credit)
+		{
+			embedHtml.push('<div class="images-embed-credit">Credit: ' + self.model.credit +'</div>');
+		}
+
+		return	'<div class="images-embed">' + embedHtml.join('') +'</div>';
 	};
 })();
