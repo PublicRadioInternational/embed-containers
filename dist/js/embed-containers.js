@@ -8,10 +8,10 @@ templateCache["modal/modal_globalBuzz.html"] = "<form><div class=\"embed-modal-r
 templateCache["modal/modal_iframe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Source</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL or iframe source code\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Height</label><div class=\"embed-modal-input-group\"><input name=\"height\" type=\"number\" placeholder=\"\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Width</label><div class=\"embed-modal-input-group\"><input name=\"width\" type=\"number\" placeholder=\"Full Width\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"allowsScroll\">Scroll</label><select name=\"allowsScroll\" class=\"embed-modal-form-control\"><option>No</option><option>Yes</option></select></div></div></div></form>";
 templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><textarea class=\"embed-modal-input embed-modal-form-control\" name=\"caption\" rows=\"5\"></textarea></div><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"><option value=\"\" disabled=\"disabled\" selected=\"selected\">-- Select A License --</option></select></div></div><!-- <div class=\"embed-modal-full-column\">\r\n			<label class=\"embed-modal-label\" for=\"upload\">Image File</label>\r\n			<input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\" />\r\n			<span class=\"fa fa-times cancel-upload-image-btn\"></span>\r\n			<span class=\"fa fa-cog edit-chosen-file-btn\"></span>\r\n			<div class=\"uploaded-image-file\">\r\n				<img class=\"image-preview\">\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"title\" class=\"embed-modal-label\">Title</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"altText\" class=\"embed-modal-label\">Alt Text</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-form\">\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"credit\" class=\"embed-modal-label\">Credit</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\" />\r\n			</div>\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"caption\" class=\"embed-modal-label\">Caption</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"license\" class=\"embed-modal-label\">License</label>\r\n				<select class=\"embed-modal-form-control\" type=\"text\" name=\"license\">\r\n					<option disabled selected>-- Select A License --</option>\r\n				</select>\r\n			</div>\r\n		</div>\r\n	</div> --></div></form>";
 templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Insert Instagram URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to instagram post\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
-templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Close</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Cancel</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
+templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Cancel</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Create New Embed</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
 templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input name=\"linkInput\" type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
-templateCache["modal/modal_slideshow.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column image-list-container\"><div class=\"slideshow_intro\"><a class=\"btn btn-lg btn-primary js-add_slide\"><span class=\"fa fa-plus\" aria-hidden=\"true\"></span> Add First Image</a></div><div class=\"slideshow_editor\"><div class=\"slideshow_editor-slide\"><div class=\"slideshow_editor-slide_image-container\"><div class=\"slideshow_editor-slide_image js-slide_image\" style=\"background-image:url(https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg)\"><img src=\"https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg\"></div></div><div class=\"slideshow_editor-slide_text js-slide_text\"><div class=\"slideshow_editor-slide_caption js-slide_caption\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam feugiat ac nulla in tincidunt. Curabitur pellentesque, justo at sagittis gravida, nunc eros blandit dolor, a scelerisque eros mauris in tellus.</div><div class=\"slideshow_editor-slide_credit-container\"><span class=\"slideshow_editor-slide_label\">Credit</span> <span class=\"slideshow_editor-slide_credit_text js-slide_credit\">John A. Doe / Unknown News</span> <a class=\"slideshow_editor-slide_credit_link js-slide_credit\" href=\"\" target=\"_blank\">John A. Doe / Unknown News</a></div></div></div><div class=\"slideshow_editor-nav\"><ul class=\"slideshow_editor-nav_list js-slides\"><li class=\"slideshow_editor-nav_item js-slide_template\"><a class=\"slideshow_editor-nav_btn\"><span class=\"slideshow_editor-nav_ind fa\" aria-hidden=\"true\"></span><span class=\"slideshow_editor-nav_handle\" aria-hidden=\"true\"></span></a></li></ul><div class=\"slideshow_editor-add_item\"><a class=\"slideshow_editor-add_btn js-add_slide\"><span class=\"fa fa-plus\" aria-label=\"Add Slide\"></span></a></div></div><div class=\"slideshow_editor-toolbar\"><ul class=\"slideshow_editor-toolbar_list\"><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-remove_slide\"><span class=\"fa fa-remove\" aria-label=\"Remove Slide\"></span></a></li><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-edit_slide\"><span class=\"fa fa-cog\" aria-label=\"Edit Slide\"></span></a></li></ul></div></div></div></div></form><div class=\"embed-modal\" id=\"embed-modal-slideshow-image\"></div>";
+templateCache["modal/modal_slideshow.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column slideshow_drop_files\"><div class=\"slideshow_intro\"><a class=\"btn btn-lg btn-primary js-add_slide\"><span class=\"fa fa-plus\" aria-hidden=\"true\"></span> Add First Image</a></div><div class=\"slideshow_editor\"><div class=\"slideshow_editor-slide\"><div class=\"slideshow_editor-slide_image-container\"><div class=\"slideshow_editor-slide_image js-slide_image\" style=\"background-image:url(https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg)\"><img src=\"https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg\"></div></div><div class=\"slideshow_editor-slide_text js-slide_text\"><div class=\"slideshow_editor-slide_caption js-slide_caption\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam feugiat ac nulla in tincidunt. Curabitur pellentesque, justo at sagittis gravida, nunc eros blandit dolor, a scelerisque eros mauris in tellus.</div><div class=\"slideshow_editor-slide_credit-container\"><span class=\"slideshow_editor-slide_label\">Credit</span> <span class=\"slideshow_editor-slide_credit_text js-slide_credit\">John A. Doe / Unknown News</span> <a class=\"slideshow_editor-slide_credit_link js-slide_credit\" href=\"\" target=\"_blank\">John A. Doe / Unknown News</a></div></div></div><div class=\"slideshow_editor-nav\"><ul class=\"slideshow_editor-nav_list js-slides\"><li class=\"slideshow_editor-nav_item js-slide_template\"><a class=\"slideshow_editor-nav_btn\"><span class=\"slideshow_editor-nav_ind fa\" aria-hidden=\"true\"></span><span class=\"slideshow_editor-nav_handle\" aria-hidden=\"true\"></span></a></li></ul><div class=\"slideshow_editor-add_item\"><a class=\"slideshow_editor-add_btn js-add_slide\"><span class=\"fa fa-plus\" aria-label=\"Add Slide\"></span></a></div></div><div class=\"slideshow_editor-toolbar\"><ul class=\"slideshow_editor-toolbar_list\"><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-remove_slide\"><span class=\"fa fa-remove\" aria-label=\"Remove Slide\"></span></a></li><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-edit_slide\"><span class=\"fa fa-cog\" aria-label=\"Edit Slide\"></span></a></li></ul></div></div></div></div></form><div class=\"embed-modal\" id=\"embed-modal-slideshow-image\"></div>";
 templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
 var EntityEmbed = EntityEmbed || {};
@@ -1074,6 +1074,8 @@ var EntityEmbed = EntityEmbed || {};
 			return isDirty;
 		},
 		setModalView = function(scope, embedType){
+			var headerText;
+
 			if (!embedType)
 			{
 				return;
@@ -1091,17 +1093,22 @@ var EntityEmbed = EntityEmbed || {};
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
 
-			// set the header text
-			var headerText = 'Add ';
-			if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+			headerText = scope.headerText;
+
+			if(!headerText)
 			{
-				headerText = 'Edit ';
+				// set the header text
+				headerText = 'Add ';
+				if (scope.modalType === EntityEmbed.embedModalTypes.edit)
+				{
+					headerText = 'Edit ';
+				}
+				if (!scope.embedId)
+				{
+					headerText += 'New ';
+				}
+				headerText += scope.currentEmbedType.options.displayName;
 			}
-			if (!scope.embedId)
-			{
-				headerText += 'New ';
-			}
-			headerText += scope.currentEmbedType.options.displayName;
 
 			scope.elements.headerText.text(headerText);
 		},
@@ -1467,8 +1474,6 @@ var EntityEmbed = EntityEmbed || {};
 				scope.modalCtrl.registerEvent(scope.$embedTypeSelect, 'change',
 					function(e, currentScope){
 						var embedType = e.currentTarget.options[e.currentTarget.selectedIndex].value;
-
-						console.log('embedModalDefaults::embedTypeSelect', embedType);
 
 						currentScope.currentEmbedType.clearForm(currentScope.currentEmbedType.$view);
 						setModalView(currentScope, embedType);
@@ -2765,63 +2770,15 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 
-		if (!file)
-		{
-			file = scope.model.upload;
-		}
+		scope.getModelFromFile(file)
+			.done(function (model) {
 
-		EXIF.getData(file, function() {
-			var imageData = this.iptcdata;
-			var currentModel, tempModel, lcModel, prop, i, m, lc;
+				scope.populateFormWithModel($ui.form)
+					.done(function () {
+						promise.resolve();
+					});
 
-			if (scope.licenses && !!scope.licenses.length)
-			{
-				// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
-				for (i = 0, m = scope.licenses.length; i < m; i++)
-				{
-					lc = licenseConfigs[ scope.licenses[i].license ];
-					// Check if config can and does claim data
-					if(lc && typeof lc.claimData === 'function' && lc.claimData(imageData))
-					{
-						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
-						lcModel = typeof lc.getModelFromData === 'function' && lc.getModelFromData(imageData, this) || {};
-						// Set license prop to the claiming license
-						lcModel.license = scope.licenses[i].license;
-					}
-				}
-			}
-
-			// Get a model using the default mapping method
-			tempModel = getModelFromData(imageData, this);
-
-			// Update the scope's model with current form values
-			scope.getModelFromForm($ui.form);
-
-			// Clone current model so we can manipulate it
-			currentModel = $.extend(true, {}, scope.model);
-
-			// Remove null properties from currentModel so they don't overwrite
-			// properties on tempModel or lcModel during merge.
-			for (prop in currentModel)
-			{
-				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
-				{
-					delete currentModel[prop];
-				}
-			}
-
-			// Merge models together.
-			// 		currentModel > lcModel > tempModel
-			scope.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
-
-			// Current model may contain old upload file, make sure it is set to the new file
-			scope.model.upload = file;
-
-			scope.populateFormWithModel($ui.form)
-				.done(function () {
-					promise.resolve();
-				});
-		});
+			});
 
 		return promise;
 	}
@@ -2855,9 +2812,14 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	function imagesEmbed(options){
+	function imagesEmbed(options, file){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
+
+		if(file)
+		{
+			self.getModelFromFile(file);
+		}
 	};
 
 	imagesEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
@@ -2877,7 +2839,8 @@ var EntityEmbed = EntityEmbed || {};
 			credit: null,
 			creditLink: null,
 			caption: null,
-			license: null
+			license: null,
+			object_type: defaults.object_type
 		};
 	};
 
@@ -2929,20 +2892,6 @@ var EntityEmbed = EntityEmbed || {};
 				console.log('failed to find load image license options');
 			});
 	};
-
-	imagesEmbed.prototype.updateFormWithFileMetadata = function($el, file) {
-		var self = this;
-		var tempModel;
-
-		if (file)
-		{
-			self.model.upload = file;
-		}
-		else
-		{
-			file = self.model.upload;
-		}
-	}
 
 	imagesEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
@@ -3001,7 +2950,7 @@ var EntityEmbed = EntityEmbed || {};
 					setTimeout(function() {
 
 						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
-							.then(function() {
+							.done(function() {
 								setTimeout(function() {
 									$this.removeClass('js-dropped');
 								}, 300);
@@ -3075,6 +3024,72 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
+	imagesEmbed.prototype.getModelFromFile = function(file){
+		var self = this;
+		var $ui = self.$ui;
+		var promise = $.Deferred();
+
+		if (!file)
+		{
+			file = self.model.upload;
+		}
+
+		EXIF.getData(file, function() {
+			var imageData = this.iptcdata;
+			var currentModel, tempModel, lcModel, prop, lc;
+
+			// Try to identify Licence by giving license configs a chance to claim the data. First come, first serve.
+			for (prop in licenseConfigs)
+			{
+				if(licenseConfigs.hasOwnProperty(prop))
+				{
+					lc = licenseConfigs[ prop ];
+					// Check if config can and does claim data
+					if(typeof lc.claimData === 'function' && lc.claimData(imageData))
+					{
+						// Attempt to get model object from congifs getModelFromData method, fallback to empty object
+						lcModel = typeof lc.getModelFromData === 'function' ? lc.getModelFromData(imageData, this) : {};
+						// Set license prop to the claiming license
+						lcModel.license = prop;
+					}
+				}
+			}
+
+			// Get a model using the default mapping method
+			tempModel = getModelFromData(imageData, this);
+
+			// Update model with current form values
+			if($ui)
+			{
+				self.getModelFromForm($ui.form);
+			}
+
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, self.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel or lcModel during merge.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > lcModel > tempModel
+			self.model = $.extend(true, {}, tempModel, lcModel || {}, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			self.model.upload = file;
+
+			promise.resolve(self.model);
+		});
+
+		return promise;
+	}
+
 
 	imagesEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
@@ -3087,7 +3102,7 @@ var EntityEmbed = EntityEmbed || {};
 		if (!!self.model.upload || !!self.model.url_path)
 		{
 			updateImagePreview(self)
-				.then(function() {
+				.done(function() {
 					promise.resolve();
 				});
 		}
@@ -3101,17 +3116,21 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var embedHtml = [
+			'<img class="entity-embed-secondary-toolbar-locator" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />'
+		];
 
-		return	'<div class="images-embed">' +
-					'<img class="entity-embed-secondary-toolbar-locator"' +
-						' src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />' +
-					'<div class="images-embed-caption">' +
-						self.model.caption +
-					'</div>' +
-					'<div class="images-embed-credit">' +
-						'Credit: ' + self.model.credit +
-					'</div>' +
-				'</div>';
+		if(!!self.model.caption)
+		{
+			embedHtml.push('<div class="images-embed-caption">' + self.model.caption +'</div>');
+		}
+
+		if(!!self.model.credit)
+		{
+			embedHtml.push('<div class="images-embed-credit">Credit: ' + self.model.credit +'</div>');
+		}
+
+		return	'<div class="images-embed">' + embedHtml.join('') +'</div>';
 	};
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -3672,7 +3691,8 @@ var EntityEmbed = EntityEmbed || {};
 			slides: '.js-slides',
 			slideTemplate: '.js-slide_template',
 			removeSlide: '.js-remove_slide',
-			editSlide: '.js-edit_slide'
+			editSlide: '.js-edit_slide',
+			dropFiles: '.slideshow_drop_files'
 		};
 
 	function activateSlide($slide, scope) {
@@ -3882,6 +3902,89 @@ var EntityEmbed = EntityEmbed || {};
 				hideEditor(self);
 			}
 		});
+
+		$ui.dropFiles
+			.on('dragenter', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				var filesList = event.originalEvent.dataTransfer.files;
+				var files = [];
+				var slides = [];
+				var i, m;
+
+				event.preventDefault();
+
+				if(!filesList.length)
+				{
+					return;
+				}
+
+				for (i = 0, m = filesList.length; i < m; i++)
+				{
+					files[i] = filesList[i];
+				}
+
+				function processFile(file) {
+					var fileNumber = filesList.length - files.length;
+					var imageEmbed, $slide;
+
+					if(file.type.indexOf('image') === -1)
+					{
+						return;
+					}
+
+					imageEmbed = new EntityEmbed.embedTypes.image();
+
+					imageEmbed.getModelFromFile(file)
+						.done(function(model) {
+
+							delete imageModalOptions.modalOptions.id;
+
+							imageModalOptions.modalOptions.headerText = ['Add Image', fileNumber, 'of', filesList.length].join(' ');
+							imageModalOptions.modalOptions.embedData = model;
+
+							$.embed_modal_open(imageModalOptions)
+								.done(function(response) {
+									var $slide = $ui.slideTemplate.clone(true);
+									var slideClass = !!response.data.object_id ? slideAddedClass : slideNewClass;
+
+									// Add data to slide
+									$slide.data('model', response.data);
+									$slide.find('.' + slideIndicatorClass).addClass(slideClass);
+
+									// Append slide
+									slides.push($slide);
+								})
+								.always(function() {
+
+									delete imageModalOptions.modalOptions.headerText;
+
+									if(!!files.length)
+									{
+										processFile(files.shift());
+									}
+									else
+									{
+										for (i = 0, m = slides.length; i < m; i++)
+										{
+											$ui.slides.append(slides[i]);
+											if(i === 0)
+											{
+												activateSlide(slides[i], self);
+											}
+										}
+									}
+								});
+
+						});
+				}
+
+				processFile(files.shift());
+			});
 
 	};
 
@@ -4521,7 +4624,8 @@ var EntityEmbed = EntityEmbed || {};
 			embedType: options.embedTypeStr,
 			parentModal: options.parentModal,
 			buffered: options.bufferData,
-			embedData: options.embedData
+			embedData: options.embedData,
+			headerText: options.headerText
 		};
 
 		return $embedModal.openModal(scope);
