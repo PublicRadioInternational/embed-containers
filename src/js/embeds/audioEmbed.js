@@ -16,8 +16,7 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: 'required',
 					upload: {
-						required: true,
-						extension: "mp3"
+						required: true
 					},
 					wavFile: {
 						extension: "wav"
@@ -32,28 +31,16 @@ var EntityEmbed = EntityEmbed || {};
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
 		uploadMp3FileBtn = ".embed-modal-file-input",
-		getAudioUrl = function(audioLocation, audioUrl)
-		{
-			if (!audioUrl || audioUrl === '')
-			{
-				return '';
-			}
-			if (audioUrl.indexOf(audioLocation) >= 0)
-			{
-				return audioUrl;
-			}
-
-			// ensure that there isn't an unintended '//' in final URL
-			if (audioLocation.endsWith('/'))
-			{
-				audioLocation = audioLocation.substring(0, audioLocation.length - 1);
-			}
-			if (!audioUrl.startsWith('/'))
-			{
-				audioLocation = '/' + audioUrl;
-			}
-
-			return audioLocation + audioUrl;
+		uiElements = {
+			// myElm: '.select-my-elm'
+			audioEditorPreview: '.audio_editor-preview',
+			audioEditorPreviewWaveform: '.audio_editor-preview_waveform',
+			editFileBtn: '.js-upload',
+			cancelUploadBtn: '.js-upload-cancel',
+			undoUploadBtn: '.js-upload-undo',
+			uploadFileInputContainer: '.audio_editor-intro',
+			uploadFileInput: '.embed-modal-file-input',
+			audioEditor: '.audio_editor'
 		};
 
 	function formatFileSize(bytes) {
@@ -74,6 +61,117 @@ var EntityEmbed = EntityEmbed || {};
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
 
+	function getModelFromData(data, file) {
+		var model = {};
+
+		// Title
+		model.title = file.name;
+
+		// Credit
+		model.credit = data.artist;
+
+		return model;
+	}
+
+	function getAudioUrl(audioLocation, audioUrl) {
+		if (!audioUrl || audioUrl === '')
+		{
+			return '';
+		}
+		if (audioUrl.indexOf(audioLocation) >= 0)
+		{
+			return audioUrl;
+		}
+
+		// ensure that there isn't an unintended '//' in final URL
+		if (audioLocation.endsWith('/'))
+		{
+			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+		}
+		if (!audioUrl.startsWith('/'))
+		{
+			audioLocation = '/' + audioUrl;
+		}
+
+		return audioLocation + audioUrl;
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {
+			form: $el
+		};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function updateAudioPreview(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		// Render Thumbnail
+
+		// Render waveform
+
+		showAudioPreview(scope);
+
+		promise.resolve();
+
+		return promise;
+	}
+
+	function updateFormWithFileData(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		scope.getModelFromFile(file)
+			.done(function (model) {
+
+				scope.populateFormWithModel($ui.form)
+					.done(function () {
+						promise.resolve();
+					});
+
+			});
+
+		return promise;
+	}
+
+	function showAudioPreview(scope) {
+		var $ui = scope.$ui;
+
+		// Hide file input and related toolbar btns
+		$ui.uploadFileInputContainer.hide();
+		$ui.cancelUploadBtn.hide();
+
+		// Show Image Preview and related toolbar btns
+		$ui.audioEditorPreview.show();
+		$ui.editFileBtn.show();
+		$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+	}
+
+	function showFileInput(scope) {
+		var $ui = scope.$ui;
+
+		// Hide Image Preview and related toolbar btns
+		$ui.audioEditorPreview.hide();
+		$ui.editFileBtn.hide();
+		$ui.undoUploadBtn.hide();
+
+		// Show file input and related toolbar btns. Clean up after previous validation errors.
+		$ui.uploadFileInput.removeClass('error')
+			.parent().find('#upload-error').remove();
+		$ui.uploadFileInputContainer.show();
+		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+	}
+
 	// CONSTRUCTOR
 	function audioEmbed(options){
 		var self = this;
@@ -86,58 +184,97 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	audioEmbed.prototype.orderIndex = 3;
 
-	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
-
 	audioEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
 			url_path: null,
 			credit: null,
-			creditLink: null
+			creditLink: null,
+			object_type: defaults.object_type
 		};
 	};
 
-	audioEmbed.prototype.initModal = function($el){
-		var self = this;	
+	audioEmbed.prototype.getAudioUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getAudioUrl(this.options.audioLocation, this.model.url_path);
+	};
 
-		self.$mp3Form = $el.find('input[name="upload"]');
-		//self.$wavForm = $el.find('input[name="wavFile"]');
+	audioEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui = registerUiElements(self, $el);
 
-		$el.find(editAudioFileBtn).on('click', function(){
-			$el.find(uploadedAudioDisplay).hide();
-			$el.find(editAudioFileBtn).hide();
-
-			self.$mp3Form.css('display', 'inline-block');
-			$el.find(cancelUploadAudioBtn).show();
+		$ui.editFileBtn.on('click', 'a', function(){
+			$ui.uploadFileInput.click();
 		});
 
-		$el.find(cancelUploadAudioBtn).on('click', function(){
-			self.$mp3Form.hide();
-			$el.find(cancelUploadAudioBtn).hide();
-			if (self.$mp3Form.parent().find('#upload-error').is(':visible'))
-			{
-				self.$mp3Form.parent().find('#upload-error').hide();	
-			}
-
-			$el.find(editAudioFileBtn).show();
-			$el.find(uploadedAudioDisplay).show();
+		$ui.cancelUploadBtn.on('click', 'a', function(){
+			showAudioPreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$el.find(uploadMp3FileBtn).on('change', function(){
-			var fileName =  $el.find(uploadMp3FileBtn)[0].files[0].name;
-			$el.find("[name=title]").val(fileName);
+		$ui.undoUploadBtn.on('click', 'a', function() {
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			$ui.uploadFileInput.val('');
+			updateImagePreview(modalCtrl.scope.currentEmbedType);
 		});
+
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
+			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
+		});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
+
+		$ui.audioEditor
+			.on('dragenter', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				event.preventDefault();
+
+				var $this = $(this);
+				var files = event.originalEvent.dataTransfer.files;
+				var file;
+
+				if (!!files && !!files.length)
+				{
+					file = files[0];
+
+					console.log('dropped file', file);
+
+					if(!/(?:mpeg|mp3)/.test(file.type))
+					{
+						return;
+					}
+
+					$this.addClass('js-dropped');
+
+					setTimeout(function() {
+
+						updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
+							.done(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
+
+					}, 300);
+				}
+			});
 	};
 
 	audioEmbed.prototype.clearForm = function($el){
 		var self = this;
+		var $ui = self.$ui;
+
 		self.parent.clearForm($el, self);
 
-		$el.find(uploadedAudioDisplay).find('.' + self.audioPreviewClass).remove();
-		$el.find(uploadedAudioDisplay).hide();
-		$el.find(cancelUploadAudioBtn).hide();
-		$el.find(editAudioFileBtn).hide();
-		self.$mp3Form.show();
+		// Destroy waveform preview
+
+		showFileInput(self);
 	};
 
 	audioEmbed.prototype.saveEmbed = function(embedIsNew)
@@ -147,7 +284,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			return promise.then(function(responseData){
@@ -190,7 +327,7 @@ var EntityEmbed = EntityEmbed || {};
 			var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
 
 			return '<audio controls class="' + self.audioPreviewClass + '">' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
+						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' +
 					'</audio>';
 		}
 		else // this is an add modal - the audio has been uploaded by the client but not pushed to the server
@@ -201,20 +338,75 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	audioEmbed.prototype.populateFormWithModel = function($form){
+	audioEmbed.prototype.getModelFromFile = function(file){
 		var self = this;
-		self.parent.populateFormWithModel($form, self);
+		var $ui = self.$ui;
+		var promise = $.Deferred();
 
-		if (!self.model.upload && !self.model.url_path)
-		{	
-			return;
+		if (!file)
+		{
+			file = self.model.upload;
 		}
 
-		self.$mp3Form.hide();
+		id3(file, function(err, tags) {
+			var currentModel, tempModel, prop;
 
-		$form.find(uploadedAudioDisplay).show();
-		$form.find(editAudioFileBtn).show();
-		$form.find(uploadedAudioDisplay).append(self.generateUploadedPreview());
+			console.log('file tags', tags);
+
+			// Get a model using the default mapping method
+			tempModel = getModelFromData(tags, file);
+
+			// Update model with current form values
+			if($ui)
+			{
+				self.getModelFromForm($ui.form);
+			}
+
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, self.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel during merge.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > tempModel
+			self.model = $.extend(true, {}, tempModel, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			self.model.upload = file;
+
+			promise.resolve(self.model);
+		});
+
+		return promise;
+	}
+
+	audioEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var promise = $.Deferred();
+
+		self.parent.populateFormWithModel($form, self);
+
+		if (!!self.model.upload || !!self.model.url_path)
+		{
+			updateAudioPreview(self)
+				.done(function() {
+					promise.resolve();
+				});
+		}
+		else
+		{
+			promise.resolve();
+		}
+
+		return promise;
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){
@@ -225,13 +417,13 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
 		}
-		
-		return  '<div class="audio-embed">' + 
+
+		return	'<div class="audio-embed">' +
 					'<audio controls>' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
+						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' +
 					'</audio>' +
 					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
-					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
+					'<div class="link">Link: ' + self.model.creditLink + '</div>' +
 				'</div>';
 	};
 

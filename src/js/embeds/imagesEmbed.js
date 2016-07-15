@@ -31,9 +31,9 @@ var EntityEmbed = EntityEmbed || {};
 			// myElm: '.select-my-elm'
 			imageEditorPreview: '.image_editor-preview',
 			imageEditorPreviewImage: '.image_editor-preview_image',
-			editImageFileBtn: '.js-upload',
-			cancelUploadImageBtn: '.js-upload-cancel',
-			undoUploadImageBtn: '.js-upload-undo',
+			editFileBtn: '.js-upload',
+			cancelUploadBtn: '.js-upload-cancel',
+			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.image_editor-intro',
 			uploadFileInput: '.embed-modal-file-input',
 			imageEditor: '.image_editor'
@@ -187,7 +187,7 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	}
 
-	function updateFormWithImageData(scope, file) {
+	function updateFormWithFileData(scope, file) {
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 
@@ -209,12 +209,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Hide file input and related toolbar btns
 		$ui.uploadFileInputContainer.hide();
-		$ui.cancelUploadImageBtn.hide();
+		$ui.cancelUploadBtn.hide();
 
 		// Show Image Preview and related toolbar btns
 		$ui.imageEditorPreview.show();
-		$ui.editImageFileBtn.show();
-		$ui.undoUploadImageBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+		$ui.editFileBtn.show();
+		$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
 	}
 
 	function showFileInput(scope) {
@@ -222,25 +222,20 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Hide Image Preview and related toolbar btns
 		$ui.imageEditorPreview.hide();
-		$ui.editImageFileBtn.hide();
-		$ui.undoUploadImageBtn.hide();
+		$ui.editFileBtn.hide();
+		$ui.undoUploadBtn.hide();
 
 		// Show file input and related toolbar btns. Clean up after previous validation errors.
 		$ui.uploadFileInput.removeClass('error')
 			.parent().find('#upload-error').remove();
 		$ui.uploadFileInputContainer.show();
-		$ui.cancelUploadImageBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload));
 	}
 
 	// CONSTRUCTOR
-	function imagesEmbed(options, file){
+	function imagesEmbed(options){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
-
-		if(file)
-		{
-			self.getModelFromFile(file);
-		}
 	};
 
 	imagesEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
@@ -320,15 +315,15 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.loadLicenses($el);
 
-		$ui.editImageFileBtn.on('click', 'a', function(){
+		$ui.editFileBtn.on('click', 'a', function(){
 			$ui.uploadFileInput.click();
 		});
 
-		$ui.cancelUploadImageBtn.on('click', 'a', function(){
+		$ui.cancelUploadBtn.on('click', 'a', function(){
 			showImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.undoUploadImageBtn.on('click', 'a', function() {
+		$ui.undoUploadBtn.on('click', 'a', function() {
 			delete modalCtrl.scope.currentEmbedType.model.upload;
 			$ui.uploadFileInput.val('');
 			updateImagePreview(modalCtrl.scope.currentEmbedType);
@@ -336,7 +331,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$ui.uploadFileInput.on('change', function(event){
 			var file = event.target.files[0];
-			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
+			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
 		});
 
 		$(document).on('dragover drop', function(event) {
@@ -370,7 +365,7 @@ var EntityEmbed = EntityEmbed || {};
 
 					setTimeout(function() {
 
-						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
+						updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
 							.done(function() {
 								setTimeout(function() {
 									$this.removeClass('js-dropped');
