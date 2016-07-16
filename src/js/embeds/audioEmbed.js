@@ -40,7 +40,9 @@ var EntityEmbed = EntityEmbed || {};
 			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.audio_editor-intro',
 			uploadFileInput: '.embed-modal-file-input',
-			audioEditor: '.audio_editor'
+			audioEditor: '.audio_editor',
+			previewControls: '.audio_editor-preview_controls',
+			previewWaveform: '.audio_editor-preview_waveform'
 		};
 
 	function formatFileSize(bytes) {
@@ -112,17 +114,84 @@ var EntityEmbed = EntityEmbed || {};
 		return scope.$ui;
 	}
 
-	function updateAudioPreview(scope, file) {
+	function updatePreviewThumbnail(scope, data) {
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 
-		// Render Thumbnail
+		musicmetadata(data, function (err, result) {
+			if (err) throw err;
+			console.log('musicmetadata', result);
+			if (result.picture.length > 0) {
+				var picture = result.picture[0];
+				var dataUri = URL.createObjectURL(new Blob([picture.data], {'type': 'image/' + picture.format}));
+				$ui.previewControls.css('background-image', 'url("' + dataUri + '")');
+			}
+			else
+			{
+				$ui.previewControls.css('background-image', '');
+			}
+			promise.resolve();
+		});
 
-		// Render waveform
+		return promise;
+	}
+
+	function updatePreviewWaveform(scope, data) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+		var ws = $ui.previewWaveform.data('wavesurfer');
+
+		if(!ws)
+		{
+			ws = WaveSurfer.create({
+				container: $ui.previewWaveform[0]
+			});
+		}
+
+		ws.unAll();
+		ws.on('ready', function() {
+			promise.resolve();
+		});
+
+		ws.loadBlob(data);
+
+		$ui.previewWaveform.data('wavesurfer', ws);
+
+		return promise;
+	}
+
+	function updateAudioPreview(scope, file) {
+		var promise = $.Deferred();
+		var xhr, audioUrl, thumbnailPromise, waveformPromise;
+
+		if(scope.model.url_path)
+		{
+			audioUrl = getAudioUrl(scope.options.audioLocation, scope.model.url_path);
+			xhr = new XMLHttpRequest();
+			xhr.responseType = "arraybuffer";
+			xhr.open("get", audioUrl, true);
+			xhr.onload = function(e) {
+				// Render Thumbnail
+				thumbnailPromise = updatePreviewThumbnail(scope, e.target.response);
+				// Render waveform
+				waveformPromise = updatePreviewWaveform(scope, e.target.response);
+			}
+			xhr.send();
+		}
+		else
+		{
+			// Render Thumbnail
+			thumbnailPromise = updatePreviewThumbnail(scope, scope.model.upload);
+			// Render waveform
+			waveformPromise = updatePreviewWaveform(scope, scope.model.upload);
+		}
 
 		showAudioPreview(scope);
 
-		promise.resolve();
+		$.when.apply($, [thumbnailPromise, waveformPromise])
+			.done(function() {
+				promise.resolve();
+			});
 
 		return promise;
 	}
@@ -348,7 +417,7 @@ var EntityEmbed = EntityEmbed || {};
 			file = self.model.upload;
 		}
 
-		id3(file, function(err, tags) {
+		musicmetadata(file, function(err, tags) {
 			var currentModel, tempModel, prop;
 
 			console.log('file tags', tags);
