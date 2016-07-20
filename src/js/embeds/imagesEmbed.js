@@ -424,18 +424,9 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	imagesEmbed.prototype.generateUploadedImgPreview = function() {
-		var self = this;
-
-		return '<img class="' + self.imageEditorPreviewImageClass +
-				'" src="' + self.getImageUrl() + '">';
-	};
-
-
 	imagesEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		var oldModel = $.extend(true, {}, self.model);
-		var imageFormVisible = !!self.$ui.uploadFileInput.is(':visible');
 
 		self.parent.getModelFromForm($form, self);
 
