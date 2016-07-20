@@ -1,5 +1,5 @@
 (function(){EntityEmbed = EntityEmbed || {}; var templateCache = {};templateCache["modal"] = "null";
-templateCache["modal/modal_audio.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\"> <span class=\"fa fa-times cancel-upload-file-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span> <span class=\"uploaded-audio-file\"></span></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
+templateCache["modal/modal_audio.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-upload\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div><!-- <div class=\"embed-modal-form\">\r\n					<label class=\"embed-modal-label\" for=\"upload\">MP3 File</label>\r\n					<input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\"/>\r\n					<span class=\"fa fa-times cancel-upload-file-btn\"></span>\r\n					<span class=\"fa fa-cog edit-chosen-file-btn\"></span>\r\n					<span class=\"uploaded-audio-file\">\r\n					</span>\r\n				</div> --></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
 templateCache["modal/modal_confirmation.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><h3>Are you sure you want to leave?</h3></div><div class=\"embed-modal-body\"><h4>All your changes will be lost if you leave this window!</h4></div><div class=\"embed-modal-footer\"><button id=\"btn-confirm-leave\">Yes - Leave</button> <button id=\"btn-cancel-leave\">No - Stay</button></div></div></div>";
 templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"customText\">Text</label><div name=\"customText\" type=\"text\" placeholder=\"Type your text. Highlight words to trigger the styles editor\" class=\"embed-modal-form-control\" id=\"custom-text-editor\"></div></div></div></div></form>";
 templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image Thumbnail File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span><div class=\"uploaded-image-file\"></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
@@ -1804,28 +1804,16 @@ var EntityEmbed = EntityEmbed || {};
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
 		uploadMp3FileBtn = ".embed-modal-file-input",
-		getAudioUrl = function(audioLocation, audioUrl)
-		{
-			if (!audioUrl || audioUrl === '')
-			{
-				return '';
-			}
-			if (audioUrl.indexOf(audioLocation) >= 0)
-			{
-				return audioUrl;
-			}
-
-			// ensure that there isn't an unintended '//' in final URL
-			if (audioLocation.endsWith('/'))
-			{
-				audioLocation = audioLocation.substring(0, audioLocation.length - 1);
-			}
-			if (!audioUrl.startsWith('/'))
-			{
-				audioLocation = '/' + audioUrl;
-			}
-
-			return audioLocation + audioUrl;
+		uiElements = {
+			// myElm: '.select-my-elm'
+			audioEditor: '.audio_editor',
+			previewContainer: '.audio_editor-preview',
+			previewAudio: '.audio_editor-preview_audio',
+			editFileBtn: '.js-upload',
+			cancelUploadBtn: '.js-upload-cancel',
+			undoUploadBtn: '.js-upload-undo',
+			uploadFileInputContainer: '.audio_editor-intro',
+			uploadFileInput: '.embed-modal-file-input'
 		};
 
 	function formatFileSize(bytes) {
@@ -1845,6 +1833,167 @@ var EntityEmbed = EntityEmbed || {};
 		}
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
+
+	function getModelFromData(data, file) {
+		var model = {};
+
+		// Title
+		model.title = file.name;
+
+		// Credit
+		model.credit = data.artist;
+
+		return model;
+	}
+
+	function getAudioUrl(audioLocation, audioUrl) {
+		if (!audioUrl || audioUrl === '')
+		{
+			return '';
+		}
+		if (audioUrl.indexOf(audioLocation) >= 0)
+		{
+			return audioUrl;
+		}
+
+		// ensure that there isn't an unintended '//' in final URL
+		if (audioLocation.endsWith('/'))
+		{
+			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+		}
+		if (!audioUrl.startsWith('/'))
+		{
+			audioLocation = '/' + audioUrl;
+		}
+
+		return audioLocation + audioUrl;
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {
+			form: $el
+		};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function updatePreviewThumbnail(scope, data) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		musicmetadata(data, function (err, result) {
+			if (err) throw err;
+			console.log('musicmetadata', result);
+			if (result.picture.length > 0) {
+				var picture = result.picture[0];
+				var dataUri = URL.createObjectURL(new Blob([picture.data], {'type': 'image/' + picture.format}));
+				$ui.previewControls.css('background-image', 'url("' + dataUri + '")');
+			}
+			else
+			{
+				$ui.previewControls.css('background-image', '');
+			}
+			promise.resolve();
+		});
+
+		return promise;
+	}
+
+	function updatePreviewWaveform(scope, data) {
+		var $ui = scope.$ui;
+		var ws = scope.ws;
+		var promise = $.Deferred();
+
+		ws.unAll();
+		ws.on('ready', function() {
+			promise.resolve();
+		});
+		ws.on('play', function() {
+			$ui.previewPlayIcon.hide();
+			$ui.previewPauseIcon.show();
+		});
+		ws.on('pause', function() {
+			$ui.previewPlayIcon.show();
+			$ui.previewPauseIcon.hide();
+		});
+
+		ws.loadBlob(data);
+
+		scope.wavesurfer = ws;
+
+		return promise;
+	}
+
+	function updateAudioPreview(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+		var src_url = scope.getAudioUrl();
+		var src_type = 'audio/mp3';
+		// var $source = $('<source>');
+
+		$ui.previewAudio.attr('src', src_url).attr('type', src_type);
+
+		// $ui.previewAudio.empty().append($source);
+
+		showAudioPreview(scope);
+
+		promise.resolve();
+
+		return promise;
+	}
+
+	function updateFormWithFileData(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		scope.getModelFromFile(file)
+			.done(function (model) {
+
+				scope.populateFormWithModel($ui.form)
+					.done(function () {
+						promise.resolve();
+					});
+
+			});
+
+		return promise;
+	}
+
+	function showAudioPreview(scope) {
+		var $ui = scope.$ui;
+
+		// Hide file input and related toolbar btns
+		$ui.uploadFileInputContainer.hide();
+		$ui.cancelUploadBtn.hide();
+
+		// Show Image Preview and related toolbar btns
+		$ui.previewContainer.show();
+		$ui.editFileBtn.show();
+		$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+	}
+
+	function showFileInput(scope) {
+		var $ui = scope.$ui;
+
+		// Hide Image Preview and related toolbar btns
+		$ui.previewContainer.hide();
+		$ui.editFileBtn.hide();
+		$ui.undoUploadBtn.hide();
+
+		// Show file input and related toolbar btns. Clean up after previous validation errors.
+		$ui.uploadFileInput.removeClass('error')
+			.parent().find('#upload-error').remove();
+		$ui.uploadFileInputContainer.show();
+		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+	}
 
 	// CONSTRUCTOR
 	function audioEmbed(options){
@@ -1870,7 +2019,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	audioEmbed.prototype.initModal = function($el){
-		var self = this;	
+		var self = this;
 
 		self.$mp3Form = $el.find('input[name="upload"]');
 		//self.$wavForm = $el.find('input[name="wavFile"]');
@@ -1888,7 +2037,7 @@ var EntityEmbed = EntityEmbed || {};
 			$el.find(cancelUploadAudioBtn).hide();
 			if (self.$mp3Form.parent().find('#upload-error').is(':visible'))
 			{
-				self.$mp3Form.parent().find('#upload-error').hide();	
+				self.$mp3Form.parent().find('#upload-error').hide();
 			}
 
 			$el.find(editAudioFileBtn).show();
@@ -1905,11 +2054,9 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.clearForm($el, self);
 
-		$el.find(uploadedAudioDisplay).find('.' + self.audioPreviewClass).remove();
-		$el.find(uploadedAudioDisplay).hide();
-		$el.find(cancelUploadAudioBtn).hide();
-		$el.find(editAudioFileBtn).hide();
-		self.$mp3Form.show();
+		$ui.previewAudio.removeAttr('src').removeAttr('type');
+
+		showFileInput(self);
 	};
 
 	audioEmbed.prototype.saveEmbed = function(embedIsNew)
@@ -1919,7 +2066,7 @@ var EntityEmbed = EntityEmbed || {};
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			return promise.then(function(responseData){
@@ -1955,30 +2102,74 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	audioEmbed.prototype.generateUploadedPreview = function() {
+	audioEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
-		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the audio file
-		{
-			var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		var oldModel = $.extend(true, {}, self.model);
 
-			return '<audio controls class="' + self.audioPreviewClass + '">' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
-					'</audio>';
-		}
-		else // this is an add modal - the audio has been uploaded by the client but not pushed to the server
+		self.parent.getModelFromForm($form, self);
+
+		if(!!oldModel.upload && !self.model.upload)
 		{
-			return	'<div class="' + self.audioPreviewClass + '">' +
-				(self.model.url_path || self.model.upload.name) +
-			'</div>';
+			self.model.upload = oldModel.upload;
 		}
-	};
+	}
+
+	audioEmbed.prototype.getModelFromFile = function(file){
+		var self = this;
+		var $ui = self.$ui;
+		var promise = $.Deferred();
+
+		if (!file)
+		{
+			file = self.model.upload;
+		}
+
+		musicmetadata(file, function(err, tags) {
+			var currentModel, tempModel, prop;
+
+			console.log('file tags', tags);
+
+			// Get a model using the default mapping method
+			tempModel = getModelFromData(tags, file);
+
+			// Update model with current form values
+			if($ui)
+			{
+				self.getModelFromForm($ui.form);
+			}
+
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, self.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel during merge.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > tempModel
+			self.model = $.extend(true, {}, tempModel, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			self.model.upload = file;
+
+			promise.resolve(self.model);
+		});
+
+		return promise;
+	}
 
 	audioEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
 		self.parent.populateFormWithModel($form, self);
 
 		if (!self.model.upload && !self.model.url_path)
-		{	
+		{
 			return;
 		}
 
@@ -1991,20 +2182,21 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var fileType = 'mp3';
+		var embedHtml = [
+			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/mp3"></audio>'
+		];
 
-		if (!!self.model.url_path && self.model.url_path !== '')
+		if(!!self.model.credit)
 		{
-			fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+			embedHtml.push('<div class="credit">Credit: ' + self.model.credit + '</div>');
 		}
-		
-		return  '<div class="audio-embed">' + 
-					'<audio controls>' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' + 
-					'</audio>' +
-					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
-					'<div class="link">Link: ' + self.model.creditLink + '</div>' + 
-				'</div>';
+
+		if(!!self.model.creditLink)
+		{
+			embedHtml.push('<div class="link">Link: ' + self.model.creditLink + '</div>');
+		}
+
+		return '<div class="audio-embed">' + embedHtml.join('') +'</div>';
 	};
 
 })();
@@ -3003,18 +3195,9 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	imagesEmbed.prototype.generateUploadedImgPreview = function() {
-		var self = this;
-
-		return '<img class="' + self.imageEditorPreviewImageClass +
-				'" src="' + self.getImageUrl() + '">';
-	};
-
-
 	imagesEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		var oldModel = $.extend(true, {}, self.model);
-		var imageFormVisible = !!self.$ui.uploadFileInput.is(':visible');
 
 		self.parent.getModelFromForm($form, self);
 
