@@ -344,7 +344,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		$ui.imageEditor
-			.on('dragenter', function() {
+			.on('dragenter dragover', function() {
 				$(this).addClass('js-dragover');
 			})
 			.on('dragleave drop', function() {
