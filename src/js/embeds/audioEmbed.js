@@ -32,7 +32,6 @@ var EntityEmbed = EntityEmbed || {};
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
 		uploadMp3FileBtn = ".embed-modal-file-input",
-<<<<<<< HEAD
 		uiElements = {
 			// myElm: '.select-my-elm'
 			audioEditor: '.audio_editor',
@@ -43,30 +42,6 @@ var EntityEmbed = EntityEmbed || {};
 			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.audio_editor-intro',
 			uploadFileInput: '.embed-modal-file-input'
-=======
-		getAudioUrl = function(audioLocation, audioUrl)
-		{
-			if (!audioUrl || audioUrl === '')
-			{
-				return '';
-			}
-			if (audioUrl.indexOf(audioLocation) >= 0)
-			{
-				return audioUrl;
-			}
-
-			// ensure that there isn't an unintended '//' in final URL
-			if (audioLocation.endsWith('/'))
-			{
-				audioLocation = audioLocation.substring(0, audioLocation.length - 1);
-			}
-			if (!audioUrl.startsWith('/'))
-			{
-				audioLocation = '/' + audioUrl;
-			}
-
-			return audioLocation + audioUrl;
->>>>>>> refs/remotes/origin/QA
 		};
 
 	function formatFileSize(bytes) {
@@ -87,7 +62,6 @@ var EntityEmbed = EntityEmbed || {};
 		return (bytes / 1000).toFixed(2) + ' KB';
 	};
 
-<<<<<<< HEAD
 	function getModelFromData(data, file) {
 		var model = {};
 
@@ -249,8 +223,6 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload));
 	}
 
-=======
->>>>>>> refs/remotes/origin/QA
 	// CONSTRUCTOR
 	function audioEmbed(options){
 		var self = this;

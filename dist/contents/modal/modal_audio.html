@@ -1,13 +1,46 @@
 <form method="post" enctype="multipart/form-data">
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
-			<div class="embed-modal-form"> 
+			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="upload">MP3 File</label>
-				<input class="embed-modal-input embed-modal-file-input" type="file" name="upload"/>
-				<span class="fa fa-times cancel-upload-file-btn"></span>
-				<span class="fa fa-cog edit-chosen-file-btn"></span>
-				<span class="uploaded-audio-file">
-				</span>
+
+				<div class="audio_editor">
+
+					<div class="audio_editor-intro">
+						<div class="audio_editor-intro_inner">
+							<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="audio/mpeg, audio/mp3" />
+						</div>
+					</div>
+
+					<div class="audio_editor-preview">
+						<div class="audio_editor-preview_inner">
+							<audio class="audio_editor-preview_audio" controls></audio>
+						</div>
+					</div>
+
+					<div class="audio_editor-toolbar">
+						<ul class="audio_editor-toolbar_list">
+							<li class="audio_editor-toolbar_item js-upload">
+								<a class="audio_editor-tollbar_btn"><span class="fa fa-upload" aria-label="Select Another Image"></span></a>
+							</li>
+							<li class="audio_editor-toolbar_item js-upload-undo">
+								<a class="audio_editor-tollbar_btn"><span class="fa fa-undo" aria-label="Revert Selected Image"></span></a>
+							</li>
+							<li class="audio_editor-toolbar_item js-upload-cancel">
+								<a class="audio_editor-tollbar_btn"><span class="fa fa-arrow-left" aria-label="Cancel Image Select"></span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- <div class="embed-modal-form">
+					<label class="embed-modal-label" for="upload">MP3 File</label>
+					<input class="embed-modal-input embed-modal-file-input" type="file" name="upload"/>
+					<span class="fa fa-times cancel-upload-file-btn"></span>
+					<span class="fa fa-cog edit-chosen-file-btn"></span>
+					<span class="uploaded-audio-file">
+					</span>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -24,11 +57,11 @@
 			<div class="embed-modal-half-column">
 				<label for="credit" class="embed-modal-label">Credit</label>
 				<input id="credit" class="embed-modal-form-control embed-modal-input" type="text" name="credit" />
-			</div>	
+			</div>
 			<div class="embed-modal-half-column">
 				<label for="creditLink" class="embed-modal-label">Credit Link</label>
 				<input id="creditLink" class="embed-modal-form-control embed-modal-input" type="url" name="creditLink" />
 			</div>
 		</div>
-	</div>	
+	</div>
 </form>
