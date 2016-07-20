@@ -230,7 +230,7 @@ var EntityEmbed = EntityEmbed || {};
     });
 
     $ui.audioEditor
-      .on('dragenter', function() {
+      .on('dragenter dragover', function() {
         $(this).addClass('js-dragover');
       })
       .on('dragleave drop', function() {
@@ -340,31 +340,17 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui = self.$ui;
 		var promise = $.Deferred();
+		var musicmetadata = (typeof define === 'function' && define.amd) ? require('musicmetadata') : window.musicmetadata;
 
-		if (!file)
-		{
-			file = self.model.upload;
-		}
+		console.log('musicmetadata: ', musicmetadata);
 
-		musicmetadata(file, function(err, tags) {
-			var currentModel, tempModel, prop;
-
-			console.log('file tags', tags);
-
-			// Get a model using the default mapping method
-			tempModel = getModelFromData(tags, file);
-
-			// Update model with current form values
-			if($ui)
-			{
-				self.getModelFromForm($ui.form);
-			}
-
+		function extendCurrentModel(model) {
+			var currentModel, prop;
 			// Clone current model so we can manipulate it
 			currentModel = $.extend(true, {}, self.model);
 
 			// Remove null properties from currentModel so they don't overwrite
-			// properties on tempModel during merge.
+			// properties on model during merge.
 			for (prop in currentModel)
 			{
 				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
@@ -374,14 +360,39 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			// Merge models together.
-			// 		currentModel > tempModel
-			self.model = $.extend(true, {}, tempModel, currentModel);
+			// 		currentModel > model
+			self.model = $.extend(true, {}, model, currentModel);
 
 			// Current model may contain old upload file, make sure it is set to the new file
 			self.model.upload = file;
 
 			promise.resolve(self.model);
-		});
+		}
+
+		if (!file)
+		{
+			file = self.model.upload;
+		}
+
+		// Update model with current form values
+		if($ui)
+		{
+			self.getModelFromForm($ui.form);
+		}
+
+		if(musicmetadata)
+		{
+			musicmetadata(file, function(err, tags) {
+
+				console.log('file tags', tags);
+
+				extendCurrentModel( getModelFromData(tags, file) );
+			});
+		}
+		else
+		{
+			extendCurrentModel( getModelFromData({}, file) );
+		}
 
 		return promise;
 	}

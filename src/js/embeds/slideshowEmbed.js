@@ -270,7 +270,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		$ui.dropFiles
-			.on('dragenter', function() {
+			.on('dragenter dragover', function() {
 				$(this).addClass('js-dragover');
 			})
 			.on('dragleave drop', function() {
