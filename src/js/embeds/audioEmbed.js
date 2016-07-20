@@ -33,20 +33,14 @@ var EntityEmbed = EntityEmbed || {};
 		uploadMp3FileBtn = ".embed-modal-file-input",
 		uiElements = {
 			// myElm: '.select-my-elm'
-			audioEditorPreview: '.audio_editor-preview',
-			audioEditorPreviewWaveform: '.audio_editor-preview_waveform',
+			audioEditor: '.audio_editor',
+			previewContainer: '.audio_editor-preview',
+			previewAudio: '.audio_editor-preview_audio',
 			editFileBtn: '.js-upload',
 			cancelUploadBtn: '.js-upload-cancel',
 			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.audio_editor-intro',
-			uploadFileInput: '.embed-modal-file-input',
-			audioEditor: '.audio_editor',
-			previewControls: '.audio_editor-preview_controls',
-			previewPlayBtn: '.audio_editor-preview_control',
-			previewPlayIcon: '.audio_editor-preview_control .js-play',
-			previewPauseIcon: '.audio_editor-preview_control .js-pause',
-			previewWaveform: '.audio_editor-preview_waveform',
-			loadingIndicator: '.audio_editor-loading'
+			uploadFileInput: '.embed-modal-file-input'
 		};
 
 	function formatFileSize(bytes) {
@@ -168,39 +162,17 @@ var EntityEmbed = EntityEmbed || {};
 	function updateAudioPreview(scope, file) {
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
-		var xhr, audioUrl, thumbnailPromise, waveformPromise;
+		var src_url = scope.getAudioUrl();
+		var src_type = 'audio/mp3';
+		// var $source = $('<source>');
 
-		if(scope.model.url_path)
-		{
-			audioUrl = getAudioUrl(scope.options.audioLocation, scope.model.url_path);
-			xhr = new XMLHttpRequest();
-			xhr.responseType = "arraybuffer";
-			xhr.open("get", audioUrl, true);
-			xhr.onload = function(e) {
-				// Render Thumbnail
-				thumbnailPromise = updatePreviewThumbnail(scope, e.target.response);
-				// Render waveform
-				waveformPromise = updatePreviewWaveform(scope, e.target.response);
-			}
-			xhr.send();
-		}
-		else
-		{
-			// Render Thumbnail
-			thumbnailPromise = updatePreviewThumbnail(scope, scope.model.upload);
-			// Render waveform
-			waveformPromise = updatePreviewWaveform(scope, scope.model.upload);
-		}
+		$ui.previewAudio.attr('src', src_url).attr('type', src_type);
+
+		// $ui.previewAudio.empty().append($source);
 
 		showAudioPreview(scope);
 
-		$ui.loadingIndicator.fadeIn(200);
-
-		$.when.apply($, [thumbnailPromise, waveformPromise])
-			.done(function() {
-				$ui.loadingIndicator.fadeOut(200);
-				promise.resolve();
-			});
+		promise.resolve();
 
 		return promise;
 	}
@@ -230,7 +202,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.cancelUploadBtn.hide();
 
 		// Show Image Preview and related toolbar btns
-		$ui.audioEditorPreview.show();
+		$ui.previewContainer.show();
 		$ui.editFileBtn.show();
 		$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
 	}
@@ -239,7 +211,7 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 
 		// Hide Image Preview and related toolbar btns
-		$ui.audioEditorPreview.hide();
+		$ui.previewContainer.hide();
 		$ui.editFileBtn.hide();
 		$ui.undoUploadBtn.hide();
 
@@ -342,32 +314,6 @@ var EntityEmbed = EntityEmbed || {};
 					}, 300);
 				}
 			});
-
-			self.ws = WaveSurfer.create({
-				container: $ui.previewWaveform[0],
-				cursorColor: '#fff',
-				progressColor: '#337ab7',
-				waveColor: '#bbb'
-			});
-
-			$ui.previewWaveform.on('dblclick', function(event) {
-				event.preventDefault();
-				self.ws.play();
-			});
-
-			$ui.previewPlayBtn.on('click', function(event) {
-				event.preventDefault();
-				if(self.ws.isPlaying())
-				{
-					self.ws.pause();
-				}
-				else
-				{
-					self.ws.play();
-				}
-			});
-
-			$ui.previewPauseIcon.hide();
 	};
 
 	audioEmbed.prototype.clearForm = function($el){
@@ -376,12 +322,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.clearForm($el, self);
 
-		if(self.ws.isPlaying())
-		{
-			self.ws.stop();
-		}
-
-		self.ws.empty();
+		$ui.previewAudio.removeAttr('src').removeAttr('type');
 
 		showFileInput(self);
 	};
@@ -429,23 +370,17 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	audioEmbed.prototype.generateUploadedPreview = function() {
+	audioEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
-		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the audio file
-		{
-			var fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+		var oldModel = $.extend(true, {}, self.model);
 
-			return '<audio controls class="' + self.audioPreviewClass + '">' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' +
-					'</audio>';
-		}
-		else // this is an add modal - the audio has been uploaded by the client but not pushed to the server
+		self.parent.getModelFromForm($form, self);
+
+		if(!!oldModel.upload && !self.model.upload)
 		{
-			return	'<div class="' + self.audioPreviewClass + '">' +
-				(self.model.url_path || self.model.upload.name) +
-			'</div>';
+			self.model.upload = oldModel.upload;
 		}
-	};
+	}
 
 	audioEmbed.prototype.getModelFromFile = function(file){
 		var self = this;
@@ -520,20 +455,21 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var fileType = 'mp3';
+		var embedHtml = [
+			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/mp3"></audio>'
+		];
 
-		if (!!self.model.url_path && self.model.url_path !== '')
+		if(!!self.model.credit)
 		{
-			fileType = self.model.url_path.substring(self.model.url_path.lastIndexOf('.') + 1);
+			embedHtml.push('<div class="credit">Credit: ' + self.model.credit + '</div>');
 		}
 
-		return	'<div class="audio-embed">' +
-					'<audio controls>' +
-						'<source src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/' + fileType + '">' +
-					'</audio>' +
-					'<div class="credit">Credit: ' + self.model.credit + '</div>' +
-					'<div class="link">Link: ' + self.model.creditLink + '</div>' +
-				'</div>';
+		if(!!self.model.creditLink)
+		{
+			embedHtml.push('<div class="link">Link: ' + self.model.creditLink + '</div>');
+		}
+
+		return '<div class="audio-embed">' + embedHtml.join('') +'</div>';
 	};
 
 })();

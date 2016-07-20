@@ -46,29 +46,6 @@
 	}
 }
 
-.audio_editor-loading
-{
-	display: none;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	top: 50%;
-	left: 0;
-	right: 0;
-	transform: translateY(-50%);
-	z-index: 9;
-
-	font-size: 2em;
-	color: @brand-primary;
-	text-align: center;
-
-	.fa
-	{
-		font-size: 1.5em;
-		vertical-align: bottom;
-	}
-}
-
 .audio_editor-intro
 {
 	position: relative;
@@ -98,8 +75,14 @@
 .audio_editor-preview_inner
 {
 	display: flex;
+	justify-content: center;
 	align-items: center;
 	height: 100%;
+}
+
+.audio_editor-preview_audio
+{
+	width: 80%;
 }
 
 .audio_editor-preview_controls
@@ -219,6 +202,8 @@
   .audio-embed {
     audio {
       position: relative;
+      width: 100%;
+      max-width: 800px;
       // z-index: @entity-embed-blocker-strata + 1;
     }
   }
