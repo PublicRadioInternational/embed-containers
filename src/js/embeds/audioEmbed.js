@@ -42,7 +42,11 @@ var EntityEmbed = EntityEmbed || {};
 			uploadFileInput: '.embed-modal-file-input',
 			audioEditor: '.audio_editor',
 			previewControls: '.audio_editor-preview_controls',
-			previewWaveform: '.audio_editor-preview_waveform'
+			previewPlayBtn: '.audio_editor-preview_control',
+			previewPlayIcon: '.audio_editor-preview_control .js-play',
+			previewPauseIcon: '.audio_editor-preview_control .js-pause',
+			previewWaveform: '.audio_editor-preview_waveform',
+			loadingIndicator: '.audio_editor-loading'
 		};
 
 	function formatFileSize(bytes) {
@@ -138,29 +142,31 @@ var EntityEmbed = EntityEmbed || {};
 
 	function updatePreviewWaveform(scope, data) {
 		var $ui = scope.$ui;
+		var ws = scope.ws;
 		var promise = $.Deferred();
-		var ws = $ui.previewWaveform.data('wavesurfer');
-
-		if(!ws)
-		{
-			ws = WaveSurfer.create({
-				container: $ui.previewWaveform[0]
-			});
-		}
 
 		ws.unAll();
 		ws.on('ready', function() {
 			promise.resolve();
 		});
+		ws.on('play', function() {
+			$ui.previewPlayIcon.hide();
+			$ui.previewPauseIcon.show();
+		});
+		ws.on('pause', function() {
+			$ui.previewPlayIcon.show();
+			$ui.previewPauseIcon.hide();
+		});
 
 		ws.loadBlob(data);
 
-		$ui.previewWaveform.data('wavesurfer', ws);
+		scope.wavesurfer = ws;
 
 		return promise;
 	}
 
 	function updateAudioPreview(scope, file) {
+		var $ui = scope.$ui;
 		var promise = $.Deferred();
 		var xhr, audioUrl, thumbnailPromise, waveformPromise;
 
@@ -188,8 +194,11 @@ var EntityEmbed = EntityEmbed || {};
 
 		showAudioPreview(scope);
 
+		$ui.loadingIndicator.fadeIn(200);
+
 		$.when.apply($, [thumbnailPromise, waveformPromise])
 			.done(function() {
+				$ui.loadingIndicator.fadeOut(200);
 				promise.resolve();
 			});
 
@@ -333,6 +342,32 @@ var EntityEmbed = EntityEmbed || {};
 					}, 300);
 				}
 			});
+
+			self.ws = WaveSurfer.create({
+				container: $ui.previewWaveform[0],
+				cursorColor: '#fff',
+				progressColor: '#337ab7',
+				waveColor: '#bbb'
+			});
+
+			$ui.previewWaveform.on('dblclick', function(event) {
+				event.preventDefault();
+				self.ws.play();
+			});
+
+			$ui.previewPlayBtn.on('click', function(event) {
+				event.preventDefault();
+				if(self.ws.isPlaying())
+				{
+					self.ws.pause();
+				}
+				else
+				{
+					self.ws.play();
+				}
+			});
+
+			$ui.previewPauseIcon.hide();
 	};
 
 	audioEmbed.prototype.clearForm = function($el){
@@ -341,7 +376,12 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.clearForm($el, self);
 
-		// Destroy waveform preview
+		if(self.ws.isPlaying())
+		{
+			self.ws.stop();
+		}
+
+		self.ws.empty();
 
 		showFileInput(self);
 	};
