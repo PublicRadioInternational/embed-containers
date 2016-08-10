@@ -239,7 +239,7 @@ var EntityEmbed = EntityEmbed || {};
 		showCreateNewEmbedView = function(scope){
 			scope.skipSave = false;
 
-			scope.buttons.showSelectExisting.show();
+			scope.buttons.showSelectExisting.toggle(!scope.addOnly);
 
 			if(scope.isSingle)
 			{
