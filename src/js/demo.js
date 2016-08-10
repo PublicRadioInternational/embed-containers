@@ -176,7 +176,10 @@ $(document).ready(function(){
 	$openAddAnyEmbedBtn.click(function(){
 		$.embed_modal_open({
 				authToken: 'abc123',							// we dont necessarily need to pass these options here b/c
-				domainName: 'https://test-services.pri.org'		// it is configured in the entity embed addon, but this is
+				domainName: 'https://test-services.pri.org',		// it is configured in the entity embed addon, but this is
+				modalOptions: {
+					addOnly: true
+				}
 			})													// a good example that configuration can be done like so
 			.done(function(scope){
 				console.log('Embed modal open (add any) successfully saved, server response to follow.');

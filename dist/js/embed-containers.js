@@ -1223,7 +1223,7 @@ var EntityEmbed = EntityEmbed || {};
 		showCreateNewEmbedView = function(scope){
 			scope.skipSave = false;
 
-			scope.buttons.showSelectExisting.show();
+			scope.buttons.showSelectExisting.toggle(!scope.addOnly);
 
 			if(scope.isSingle)
 			{
@@ -4813,6 +4813,7 @@ var EntityEmbed = EntityEmbed || {};
 		var scope = {
 			$currentEditorLocation: options.$currentEditorLocation,
 			modalType: mType,
+			addOnly: options.addOnly,
 			embedId: options.id,
 			embedType: options.embedTypeStr,
 			parentModal: options.parentModal,
@@ -4831,7 +4832,8 @@ var EntityEmbed = EntityEmbed || {};
 												//		null - add any
 												//		not null - add single or edit (if id is also specified)
 			id: null,
-			selectExisting: false
+			selectExisting: false,
+			addOnly: false
 		};
 		var promise = $.Deferred();
 
