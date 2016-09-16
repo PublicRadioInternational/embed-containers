@@ -48,7 +48,11 @@
 
 .audio_editor-intro
 {
-	position: relative;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 	z-index: 2;
 
 	.js-dragover &,
@@ -60,6 +64,27 @@
 
 .audio_editor-intro_inner
 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+
+	padding: 20px;
+
+	text-align: center;
+
+	input[type="file"] {
+		display: inline-block;
+	}
+
+	hr {
+		margin: 10px auto;
+		border-top-color: #cdcdcd;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
 }
 
 .audio_editor-preview
