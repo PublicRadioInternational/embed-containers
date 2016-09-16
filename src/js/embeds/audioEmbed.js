@@ -41,7 +41,9 @@ var EntityEmbed = EntityEmbed || {};
 			cancelUploadBtn: '.js-upload-cancel',
 			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.audio_editor-intro',
-			uploadFileInput: '.embed-modal-file-input'
+			uploadFileInput: '.embed-modal-file-input',
+			urlExternalInput: '.embed-modal-url-external',
+			setUrlBtn: '.js-set-url'
 		};
 
 	function formatFileSize(bytes) {
@@ -77,8 +79,9 @@ var EntityEmbed = EntityEmbed || {};
 	function getAudioUrl(audioLocation, audioUrl) {
 		if (!audioUrl || audioUrl === '')
 		{
-			return '';
+			return audioLocation || '';
 		}
+
 		if (audioUrl.indexOf(audioLocation) >= 0)
 		{
 			return audioUrl;
@@ -89,6 +92,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
 		}
+
 		if (!audioUrl.startsWith('/'))
 		{
 			audioLocation = '/' + audioUrl;
@@ -113,11 +117,11 @@ var EntityEmbed = EntityEmbed || {};
 		return scope.$ui;
 	}
 
-	function updateAudioPreview(scope, file) {
+	function updateAudioPreview(scope) {
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 		var src_url = scope.getAudioUrl();
-		var src_type = 'audio/mp3';
+		// var src_type = 'audio/mp3';
 
 		$ui.previewAudio
 			.attr('src', src_url)
@@ -198,77 +202,97 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-  audioEmbed.prototype.getAudioUrl = function() {
-    return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getAudioUrl(this.options.audioLocation, this.model.url_path);
-  };
+	audioEmbed.prototype.getAudioUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
+			!!this.model.url_external ? this.model.url_external :
+			getAudioUrl(this.options.audioLocation, this.model.url_path);
+	};
 
-  audioEmbed.prototype.initModal = function($el, modalCtrl){
-    var self = this;
-    var $ui = registerUiElements(self, $el);
+	audioEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui = registerUiElements(self, $el);
 
-    $ui.editFileBtn.on('click', 'a', function(){
-      $ui.uploadFileInput.click();
-    });
+		$ui.editFileBtn.on('click', 'a', function(){
+			$ui.uploadFileInput.click();
+		});
 
-    $ui.cancelUploadBtn.on('click', 'a', function(){
-      showAudioPreview(modalCtrl.scope.currentEmbedType);
-    });
+		$ui.cancelUploadBtn.on('click', 'a', function(){
+			showAudioPreview(modalCtrl.scope.currentEmbedType);
+		});
 
-    $ui.undoUploadBtn.on('click', 'a', function() {
-      delete modalCtrl.scope.currentEmbedType.model.upload;
-      $ui.uploadFileInput.val('');
-      updateAudioPreview(modalCtrl.scope.currentEmbedType);
-    });
+		$ui.undoUploadBtn.on('click', 'a', function() {
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			$ui.uploadFileInput.val('');
+			updateAudioPreview(modalCtrl.scope.currentEmbedType);
+		});
 
-    $ui.uploadFileInput.on('change', function(event){
-      var file = event.target.files[0];
-      updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
-    });
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
+			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
+		});
 
-    $(document).on('dragover drop', function(event) {
-      event.preventDefault();
-    });
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
 
-    $ui.audioEditor
-      .on('dragenter dragover', function() {
-        $(this).addClass('js-dragover');
-      })
-      .on('dragleave drop', function() {
-        $(this).removeClass('js-dragover');
-      })
-      .on('drop', function(event) {
-        event.preventDefault();
+		$ui.audioEditor
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				event.preventDefault();
 
-        var $this = $(this);
-        var files = event.originalEvent.dataTransfer.files;
-        var file;
+				var $this = $(this);
+				var files = event.originalEvent.dataTransfer.files;
+				var file;
 
-        if (!!files && !!files.length)
-        {
-          file = files[0];
+				if (!!files && !!files.length)
+				{
+					file = files[0];
 
-          console.log('dropped file', file);
+					console.log('dropped file', file);
 
-          if(!/(?:mpeg|mp3)/.test(file.type))
-          {
-            return;
-          }
+					if(!/(?:mpeg|mp3)/.test(file.type))
+					{
+						return;
+					}
 
-          $this.addClass('js-dropped');
+					$this.addClass('js-dropped');
 
-          setTimeout(function() {
+					setTimeout(function() {
 
-            updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
-              .done(function() {
-                setTimeout(function() {
-                  $this.removeClass('js-dropped');
-                }, 300);
-              });
+						updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
+							.done(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
 
-          }, 300);
-        }
-      });
-  };
+					}, 300);
+				}
+			});
+
+		$ui.setUrlBtn.on('click', function(event) {
+			event.preventDefault();
+
+			// Get model from form
+			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
+
+			console.log('Set URL', modalCtrl.scope.currentEmbedType.model);
+
+			if(!!modalCtrl.scope.currentEmbedType.model.url_external) {
+				// Make sure local file data is removed
+				$ui.uploadFileInput.val('');
+				delete modalCtrl.scope.currentEmbedType.model.upload;
+				delete modalCtrl.scope.currentEmbedType.model.url_path;
+
+				updateAudioPreview(modalCtrl.scope.currentEmbedType);
+			}
+		});
+	};
 
 	audioEmbed.prototype.clearForm = function($el){
 		var self = this;
@@ -398,24 +422,24 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	audioEmbed.prototype.populateFormWithModel = function($form){
-    var self = this;
-    var promise = $.Deferred();
+		var self = this;
+		var promise = $.Deferred();
 
-    self.parent.populateFormWithModel($form, self);
+		self.parent.populateFormWithModel($form, self);
 
-    if (!!self.model.upload || !!self.model.url_path)
-    {
-      updateAudioPreview(self)
-        .done(function() {
-          promise.resolve();
-        });
-    }
-    else
-    {
-      promise.resolve();
-    }
+		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
+		{
+			updateAudioPreview(self)
+				.done(function() {
+					promise.resolve();
+				});
+		}
+		else
+		{
+			promise.resolve();
+		}
 
-    return promise;
+		return promise;
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){
