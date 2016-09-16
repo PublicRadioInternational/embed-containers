@@ -37,7 +37,7 @@ var EntityEmbed = EntityEmbed || {};
 			audioEditor: '.audio_editor',
 			previewContainer: '.audio_editor-preview',
 			previewAudio: '.audio_editor-preview_audio',
-			editFileBtn: '.js-upload',
+			editFileBtn: '.js-edit-file',
 			cancelUploadBtn: '.js-upload-cancel',
 			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.audio_editor-intro',
@@ -121,15 +121,13 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 		var src_url = scope.getAudioUrl();
-		// var src_type = 'audio/mp3';
 
 		$ui.previewAudio
-			.attr('src', src_url)
-			.attr('type', src_type);
-
-		showAudioPreview(scope);
-
-		promise.resolve();
+			.on('canplay', function() {
+				showAudioPreview(scope);
+				promise.resolve();
+			})
+			.attr('src', src_url);
 
 		return promise;
 	}
@@ -168,6 +166,7 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 
 		// Hide Image Preview and related toolbar btns
+		$ui.uploadFileInput.val('');
 		$ui.previewContainer.hide();
 		$ui.editFileBtn.hide();
 		$ui.undoUploadBtn.hide();
@@ -197,6 +196,7 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			url_path: null,
+			url_external: null,
 			credit: null,
 			creditLink: null
 		};
@@ -213,7 +213,7 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
-			$ui.uploadFileInput.click();
+			showFileInput(modalCtrl.scope.currentEmbedType);
 		});
 
 		$ui.cancelUploadBtn.on('click', 'a', function(){
@@ -228,6 +228,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$ui.uploadFileInput.on('change', function(event){
 			var file = event.target.files[0];
+			$ui.urlExternalInput.val('');
 			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
 		});
 
@@ -276,6 +277,9 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 		$ui.setUrlBtn.on('click', function(event) {
+			var $this = $(this);
+			var btnInnerHtml = $this.html();
+
 			event.preventDefault();
 
 			// Get model from form
@@ -289,7 +293,12 @@ var EntityEmbed = EntityEmbed || {};
 				delete modalCtrl.scope.currentEmbedType.model.upload;
 				delete modalCtrl.scope.currentEmbedType.model.url_path;
 
-				updateAudioPreview(modalCtrl.scope.currentEmbedType);
+				$this.html('Loading...');
+
+				updateAudioPreview(modalCtrl.scope.currentEmbedType)
+					.done(function() {
+						$this.html(btnInnerHtml);
+					});
 			}
 		});
 	};
@@ -444,8 +453,9 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
-			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/mp3"></audio>'
+			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];
 
 		if(!!self.model.credit)
