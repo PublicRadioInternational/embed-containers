@@ -123,11 +123,11 @@ var EntityEmbed = EntityEmbed || {};
 		var src_url = scope.getAudioUrl();
 
 		$ui.previewAudio
-			.on('canplay', function() {
-				showAudioPreview(scope);
-				promise.resolve();
-			})
 			.attr('src', src_url);
+
+		showAudioPreview(scope);
+
+		promise.resolve();
 
 		return promise;
 	}
@@ -175,7 +175,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.uploadFileInput.removeClass('error')
 			.parent().find('#upload-error').remove();
 		$ui.uploadFileInputContainer.show();
-		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload || scope.model.url_external));
 	}
 
 	// CONSTRUCTOR
