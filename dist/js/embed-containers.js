@@ -1,5 +1,5 @@
 (function(){EntityEmbed = EntityEmbed || {}; var templateCache = {};templateCache["modal"] = "null";
-templateCache["modal/modal_audio.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-upload\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
+templateCache["modal/modal_audio.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Set URL</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
 templateCache["modal/modal_confirmation.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><h3>Are you sure you want to leave?</h3></div><div class=\"embed-modal-body\"><h4>All your changes will be lost if you leave this window!</h4></div><div class=\"embed-modal-footer\"><button id=\"btn-confirm-leave\">Yes - Leave</button> <button id=\"btn-cancel-leave\">No - Stay</button></div></div></div>";
 templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"customText\">Text</label><div name=\"customText\" type=\"text\" placeholder=\"Type your text. Highlight words to trigger the styles editor\" class=\"embed-modal-form-control\" id=\"custom-text-editor\"></div></div></div></div></form>";
 templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image Thumbnail File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span><div class=\"uploaded-image-file\"></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
@@ -1809,11 +1809,13 @@ var EntityEmbed = EntityEmbed || {};
 			audioEditor: '.audio_editor',
 			previewContainer: '.audio_editor-preview',
 			previewAudio: '.audio_editor-preview_audio',
-			editFileBtn: '.js-upload',
+			editFileBtn: '.js-edit-file',
 			cancelUploadBtn: '.js-upload-cancel',
 			undoUploadBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.audio_editor-intro',
-			uploadFileInput: '.embed-modal-file-input'
+			uploadFileInput: '.embed-modal-file-input',
+			urlExternalInput: '.embed-modal-url-external',
+			setUrlBtn: '.js-set-url'
 		};
 
 	function formatFileSize(bytes) {
@@ -1849,8 +1851,9 @@ var EntityEmbed = EntityEmbed || {};
 	function getAudioUrl(audioLocation, audioUrl) {
 		if (!audioUrl || audioUrl === '')
 		{
-			return '';
+			return audioLocation || '';
 		}
+
 		if (audioUrl.indexOf(audioLocation) >= 0)
 		{
 			return audioUrl;
@@ -1861,6 +1864,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
 		}
+
 		if (!audioUrl.startsWith('/'))
 		{
 			audioLocation = '/' + audioUrl;
@@ -1885,15 +1889,13 @@ var EntityEmbed = EntityEmbed || {};
 		return scope.$ui;
 	}
 
-	function updateAudioPreview(scope, file) {
+	function updateAudioPreview(scope) {
 		var $ui = scope.$ui;
 		var promise = $.Deferred();
 		var src_url = scope.getAudioUrl();
-		var src_type = 'audio/mp3';
 
 		$ui.previewAudio
-			.attr('src', src_url)
-			.attr('type', src_type);
+			.attr('src', src_url);
 
 		showAudioPreview(scope);
 
@@ -1936,6 +1938,7 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 
 		// Hide Image Preview and related toolbar btns
+		$ui.uploadFileInput.val('');
 		$ui.previewContainer.hide();
 		$ui.editFileBtn.hide();
 		$ui.undoUploadBtn.hide();
@@ -1944,7 +1947,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.uploadFileInput.removeClass('error')
 			.parent().find('#upload-error').remove();
 		$ui.uploadFileInputContainer.show();
-		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload || scope.model.url_external));
 	}
 
 	// CONSTRUCTOR
@@ -1965,82 +1968,112 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			url_path: null,
+			url_external: null,
 			credit: null,
 			creditLink: null
 		};
 	};
 
-  audioEmbed.prototype.getAudioUrl = function() {
-    return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getAudioUrl(this.options.audioLocation, this.model.url_path);
-  };
+	audioEmbed.prototype.getAudioUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
+			!!this.model.url_external ? this.model.url_external :
+			getAudioUrl(this.options.audioLocation, this.model.url_path);
+	};
 
-  audioEmbed.prototype.initModal = function($el, modalCtrl){
-    var self = this;
-    var $ui = registerUiElements(self, $el);
+	audioEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui = registerUiElements(self, $el);
 
-    $ui.editFileBtn.on('click', 'a', function(){
-      $ui.uploadFileInput.click();
-    });
+		$ui.editFileBtn.on('click', 'a', function(){
+			showFileInput(modalCtrl.scope.currentEmbedType);
+		});
 
-    $ui.cancelUploadBtn.on('click', 'a', function(){
-      showAudioPreview(modalCtrl.scope.currentEmbedType);
-    });
+		$ui.cancelUploadBtn.on('click', 'a', function(){
+			showAudioPreview(modalCtrl.scope.currentEmbedType);
+		});
 
-    $ui.undoUploadBtn.on('click', 'a', function() {
-      delete modalCtrl.scope.currentEmbedType.model.upload;
-      $ui.uploadFileInput.val('');
-      updateAudioPreview(modalCtrl.scope.currentEmbedType);
-    });
+		$ui.undoUploadBtn.on('click', 'a', function() {
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			$ui.uploadFileInput.val('');
+			updateAudioPreview(modalCtrl.scope.currentEmbedType);
+		});
 
-    $ui.uploadFileInput.on('change', function(event){
-      var file = event.target.files[0];
-      updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
-    });
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
+			$ui.urlExternalInput.val('');
+			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
+		});
 
-    $(document).on('dragover drop', function(event) {
-      event.preventDefault();
-    });
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
 
-    $ui.audioEditor
-      .on('dragenter dragover', function() {
-        $(this).addClass('js-dragover');
-      })
-      .on('dragleave drop', function() {
-        $(this).removeClass('js-dragover');
-      })
-      .on('drop', function(event) {
-        event.preventDefault();
+		$ui.audioEditor
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(event) {
+				event.preventDefault();
 
-        var $this = $(this);
-        var files = event.originalEvent.dataTransfer.files;
-        var file;
+				var $this = $(this);
+				var files = event.originalEvent.dataTransfer.files;
+				var file;
 
-        if (!!files && !!files.length)
-        {
-          file = files[0];
+				if (!!files && !!files.length)
+				{
+					file = files[0];
 
-          console.log('dropped file', file);
+					console.log('dropped file', file);
 
-          if(!/(?:mpeg|mp3)/.test(file.type))
-          {
-            return;
-          }
+					if(!/(?:mpeg|mp3)/.test(file.type))
+					{
+						return;
+					}
 
-          $this.addClass('js-dropped');
+					$this.addClass('js-dropped');
 
-          setTimeout(function() {
+					setTimeout(function() {
 
-            updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
-              .done(function() {
-                setTimeout(function() {
-                  $this.removeClass('js-dropped');
-                }, 300);
-              });
+						updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
+							.done(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
 
-          }, 300);
-        }
-      });
-  };
+					}, 300);
+				}
+			});
+
+		$ui.setUrlBtn.on('click', function(event) {
+			var $this = $(this);
+			var btnInnerHtml = $this.html();
+
+			event.preventDefault();
+
+			// Get model from form
+			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
+
+			console.log('Set URL', modalCtrl.scope.currentEmbedType.model);
+
+			if(!!modalCtrl.scope.currentEmbedType.model.url_external) {
+				// Make sure local file data is removed
+				$ui.uploadFileInput.val('');
+				delete modalCtrl.scope.currentEmbedType.model.upload;
+				delete modalCtrl.scope.currentEmbedType.model.url_path;
+
+				$this.html('Loading...');
+
+				updateAudioPreview(modalCtrl.scope.currentEmbedType)
+					.done(function() {
+						$this.html(btnInnerHtml);
+					});
+			}
+		});
+	};
 
 	audioEmbed.prototype.clearForm = function($el){
 		var self = this;
@@ -2170,30 +2203,31 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	audioEmbed.prototype.populateFormWithModel = function($form){
-    var self = this;
-    var promise = $.Deferred();
+		var self = this;
+		var promise = $.Deferred();
 
-    self.parent.populateFormWithModel($form, self);
+		self.parent.populateFormWithModel($form, self);
 
-    if (!!self.model.upload || !!self.model.url_path)
-    {
-      updateAudioPreview(self)
-        .done(function() {
-          promise.resolve();
-        });
-    }
-    else
-    {
-      promise.resolve();
-    }
+		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
+		{
+			updateAudioPreview(self)
+				.done(function() {
+					promise.resolve();
+				});
+		}
+		else
+		{
+			promise.resolve();
+		}
 
-    return promise;
+		return promise;
 	};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
-			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + getAudioUrl(self.options.audioLocation, self.model.url_path) + '" type="audio/mp3"></audio>'
+			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];
 
 		if(!!self.model.credit)
