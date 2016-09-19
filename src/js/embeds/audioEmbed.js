@@ -6,28 +6,6 @@ var EntityEmbed = EntityEmbed || {};
 
 	// PRIVATE
 	var embedName = 'audio',
-		defaults = {
-			viewPath: 'modal_audio.html',
-			displayName: 'Audio',
-			object_type: 'audio',
-			audioLocation: 'https://test-services.pri.org',
-			validationOptions: {
-				rules: {
-					title: 'required',
-					url: 'required',
-					upload: {
-						required: true,
-						extension: "mp3"
-					},
-					wavFile: {
-						extension: "wav"
-					}
-				}
-			},
-			httpPaths:{
-				uploadFile: 'admin/embed/file-upload'
-			}
-		},
 		uploadedAudioDisplay = '.uploaded-audio-file',
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
@@ -44,6 +22,39 @@ var EntityEmbed = EntityEmbed || {};
 			uploadFileInput: '.embed-modal-file-input',
 			urlExternalInput: '.embed-modal-url-external',
 			setUrlBtn: '.js-set-url'
+		},
+		defaults = {
+			viewPath: 'modal_audio.html',
+			displayName: 'Audio',
+			object_type: 'audio',
+			audioLocation: 'https://test-services.pri.org',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					url: 'required',
+					upload: {
+						required: {
+							depends: function(element) {
+								return !$(uiElements.urlExternalInput).val();
+							}
+						},
+						extension: "mp3"
+					},
+					url_external: {
+						required: {
+							depends: function(element) {
+								return !$(uiElements.uploadFileInput).val();
+							}
+						}
+					},
+					wavFile: {
+						extension: "wav"
+					}
+				}
+			},
+			httpPaths:{
+				uploadFile: 'admin/embed/file-upload'
+			}
 		};
 
 	function formatFileSize(bytes) {
