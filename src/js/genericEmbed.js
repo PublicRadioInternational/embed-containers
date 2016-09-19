@@ -32,7 +32,7 @@ var EntityEmbed = EntityEmbed || {};
 			focusCleanup: true,
 			errorPlacement: function(error, element) {
 				var $parent = element.parent();
-				if($parent.is('.embed-modal-input-group'))
+				if($parent.is('.embed-modal-input-group, .input-group'))
 				{
 					error.insertAfter( $parent );
 				}
