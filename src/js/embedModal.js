@@ -236,7 +236,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			mType = EntityEmbed.embedModalTypes.edit;
 		}
-		else if (!!options.embedTypeStr)
+		else if (!!options.embedTypeStr && (typeof options.embedTypeStr === 'string' || options.embedTypeStr.length === 1))
 		{
 			if (options.selectExisting)
 			{
@@ -282,7 +282,8 @@ var EntityEmbed = EntityEmbed || {};
 												//		not null - add single or edit (if id is also specified)
 			id: null,
 			selectExisting: false,
-			addOnly: false
+			addOnly: false,
+			embedTypeSelectOptions: null
 		};
 		var promise = $.Deferred();
 
