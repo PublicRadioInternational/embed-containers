@@ -27,6 +27,7 @@ var EntityEmbed = EntityEmbed || {};
 				slideshow: {},
 				video:{},
 				audio:{},
+				audioProgram: {},
 				twitter:{},
 				instagram:{},
 				facebook:{},

@@ -5,13 +5,14 @@ var EntityEmbed = EntityEmbed || {};
 	'use strict';
 
 	// PRIVATE
-	var embedName = 'audio',
+	var embedName = 'audioProgram',
 		uploadedAudioDisplay = '.uploaded-audio-file',
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
 		uploadMp3FileBtn = '.embed-modal-file-input',
 		uiElements = {
 			// myElm: '.select-my-elm'
+			programInput: '.js-program',
 			audioEditor: '.audio_editor',
 			previewContainer: '.audio_editor-preview',
 			previewAudio: '.audio_editor-preview_audio',
@@ -24,14 +25,15 @@ var EntityEmbed = EntityEmbed || {};
 			setUrlBtn: '.js-set-url'
 		},
 		defaults = {
-			viewPath: 'modal_audio.html',
-			displayName: 'Audio',
-			object_type: 'audio',
+			viewPath: 'modal_audioProgram.html',
+			displayName: 'Program Audio',
+			object_type: 'audio_program',
 			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required',
+					program: 'required',
+					audio_type: 'required',
 					upload: {
 						required: {
 							depends: function(element) {
@@ -53,6 +55,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
+				getOrganizationList: 'admin/organization/list',
 				uploadFile: 'admin/embed/file-upload'
 			}
 		};
@@ -111,6 +114,97 @@ var EntityEmbed = EntityEmbed || {};
 
 		return audioLocation + audioUrl;
 	}
+
+
+	//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
+	//	begin typing the title of a story and have a dropdown list of stories displayed to them
+	//	based on their input. This function also takes into account validation of the modal form.
+	function initAutoComplete(scope, $el){
+		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+		var isDevEnv = rgxDevEnv.test(window.location.host);
+		var debug = 0;
+		var ajaxData = {
+			auth_token: EntityEmbed.apiService.getAuthToken(),
+			organization_type: 'program',
+			published: true
+		};
+		var $input = scope.$ui.programInput;
+
+		if(isDevEnv)
+		{
+			ajaxData.debug = 1;
+		}
+
+		var options = {
+			ajaxSettings: {
+				dataType: 'json',
+				method: 'POST',
+				data: ajaxData
+			},
+			requestDelay: 600,
+			url: function(phrase) {
+				ajaxData.title = phrase;
+				return EntityEmbed.apiService.getDomainName() + scope.options.httpPaths.getOrganizationList;
+			},
+			listLocation: function(listOfData){
+				return listOfData.response.data;
+			},
+			getValue: function(data) {
+				if(data.pub_state == 1)
+				{
+					return data.title;
+				}
+				else
+				{
+					return '';
+				}
+			},
+			preparePostData: function(data) {
+				data.title = $input.val();
+				return JSON.stringify(data);
+			},
+			list: {
+				maxNumberOfElements: 10,
+				match: {
+					enabled: true
+				},
+				sort: {
+					enabled: true
+				},
+				onChooseEvent: function(){ // store the users story selection
+					var itemData = $input.getSelectedItemData();
+
+					if (!!itemData.object_id)
+					{
+						scope.model.program = {
+							object_id: itemData.object_id,
+							object_type: itemData.object_type
+						};
+					}
+					else
+					{
+						scope.model.program = null;
+					}
+
+					console.log('Program Change: ', scope.model.program, $input.val());
+				}
+			}
+		};
+
+		$input.easyAutocomplete(options);
+
+		$input.on('keypress keydown', function(){
+			var $this = $(this);
+			var value = $this.val();
+			if(!value.replace(/^\s+|\s+$/,''))
+			{
+				scope.model.program = null;
+				console.log('Program Removed: ', scope.model.program, value);
+			}
+		});
+
+		$input.closest('.easy-autocomplete').removeAttr('style');
+	};
 
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {
@@ -190,36 +284,36 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	function audioEmbed(options){
+	function audioProgramEmbed(options){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	}
 
-	audioEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
-	EntityEmbed.embedTypes[embedName] = audioEmbed;
+	audioProgramEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = audioProgramEmbed;
 
 	// PUBLIC
-	audioEmbed.prototype.orderIndex = 3;
+	audioProgramEmbed.prototype.orderIndex = 3;
 
-	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
+	audioProgramEmbed.prototype.audioPreviewClass = 'audio-preview';
 
-	audioEmbed.prototype.cleanModel = function(){
+	audioProgramEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
 			url_path: null,
 			url_external: null,
-			credit: null,
-			creditLink: null
+			program: null,
+			audio_type: null
 		};
 	};
 
-	audioEmbed.prototype.getAudioUrl = function() {
+	audioProgramEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
 			getAudioUrl(this.options.audioLocation, this.model.url_path);
 	};
 
-	audioEmbed.prototype.initModal = function($el, modalCtrl){
+	audioProgramEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $ui = registerUiElements(self, $el);
 
@@ -312,9 +406,11 @@ var EntityEmbed = EntityEmbed || {};
 					});
 			}
 		});
+
+		initAutoComplete(self, $el);
 	};
 
-	audioEmbed.prototype.clearForm = function($el){
+	audioProgramEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el, self);
 
@@ -325,7 +421,7 @@ var EntityEmbed = EntityEmbed || {};
 		showFileInput(self);
 	};
 
-	audioEmbed.prototype.saveEmbed = function(embedIsNew)
+	audioProgramEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
 		var self = this;
 		var file = self.model.upload;
@@ -368,7 +464,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	audioEmbed.prototype.getModelFromForm = function($form){
+	audioProgramEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		var oldModel = $.extend(true, {}, self.model);
 
@@ -380,7 +476,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
-	audioEmbed.prototype.getModelFromFile = function(file){
+	audioProgramEmbed.prototype.getModelFromFile = function(file){
 		var self = this;
 		var $ui = self.$ui;
 		var promise = $.Deferred();
@@ -441,7 +537,7 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	}
 
-	audioEmbed.prototype.populateFormWithModel = function($form){
+	audioProgramEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
 		var promise = $.Deferred();
 
@@ -462,7 +558,7 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	};
 
-	audioEmbed.prototype.parseForEditor = function(){
+	audioProgramEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
