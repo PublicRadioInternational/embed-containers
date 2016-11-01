@@ -133,7 +133,7 @@ var EntityEmbed = EntityEmbed || {};
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {};
 
-		for(key in uiElements)
+		for(var key in uiElements)
 		{
 			if(uiElements.hasOwnProperty(key))
 			{
