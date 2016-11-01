@@ -35,7 +35,7 @@ var EntityEmbed = EntityEmbed || {};
 			videoDropTarget: '.video_editor-intro_inner'
 		};
 
-		var makeEmbedUrl = function(url){
+		function makeEmbedUrl(url){
 			var ret = '';
 
 			if (url.indexOf('vimeo.com') !== -1)
@@ -63,9 +63,9 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			return ret;
-		};
+		}
 
-		var makeWatchUrl = function(url){
+		function makeWatchUrl(url){
 			var ret = '';
 
 			if (url.indexOf('vimeo.com') !== -1)
@@ -78,7 +78,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 
 			return ret;
-		};
+		}
 
 	// Vimeo URL Patterns:
 	// 1. [http://]player.vimeo.com/video/VIDEOID : IFrame embed. Can have querystring options
