@@ -161,7 +161,7 @@ $(document).ready(function(){
 	$openAddSingleEmbedBtn.click(function(){
 		$.embed_modal_open({
 				modalOptions:{
-					embedTypeStr: 'related-link'
+					embedTypeStr: 'video'
 				}
 			})
 			.done(function(scope){

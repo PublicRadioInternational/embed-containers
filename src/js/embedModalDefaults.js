@@ -97,6 +97,12 @@ var EntityEmbed = EntityEmbed || {};
 				return;
 			}
 
+			scope.isAdd = scope.modalCtrl.isAdd = scope.modalType === EntityEmbed.embedModalTypes.add ||
+						 scope.modalType === EntityEmbed.embedModalTypes.addSingle;
+
+			scope.isSingle = scope.modalCtrl.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
+											scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle;
+
 			if (!!scope.currentEmbedType)
 			{
 				delete scope.currentEmbedType.model;
@@ -140,6 +146,25 @@ var EntityEmbed = EntityEmbed || {};
 			var isValid = true;
 			var promise = $.Deferred();
 			var respData = {};
+			var modelPromise;
+
+			function doSave() {
+				if(!scope.buffered)
+				{
+
+					scope.currentEmbedType.saveEmbed(isAddModal, scope.currentEmbedType)
+						.done(successFunction)
+						.fail(failFunction)
+						.always(alwaysFunction);
+
+				}
+				else
+				{
+					respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
+					successFunction(respData);
+					alwaysFunction(respData);
+				}
+			}
 
 			for(var i = 0; i < $validator.length; i++)
 			{
@@ -156,22 +181,17 @@ var EntityEmbed = EntityEmbed || {};
 
 			scope.elements.saveSpinner.show();
 
-			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+			modelPromise = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
-			if(!scope.buffered)
+			if(typeof modelPromise === 'object' && typeof modelPromise.then === 'function')
 			{
-
-				scope.currentEmbedType.saveEmbed(isAddModal)
-					.done(successFunction)
-					.fail(failFunction)
-					.always(alwaysFunction);
-
+				modelPromise.always(function() {
+					doSave();
+				});
 			}
 			else
 			{
-				respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
-				successFunction(respData);
-				alwaysFunction(respData);
+				doSave();
 			}
 
 			////
@@ -610,10 +630,6 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		open: {
 			before: function(scope){
-
-				scope.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
-												scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle
-
 				toggleEditorTyping(scope, "false");
 				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
@@ -627,9 +643,16 @@ var EntityEmbed = EntityEmbed || {};
 
 				function applyData(data) {
 					data = data || {};
+
+					// Make sure html_rendered key is not set to normalize stale model to current model comparison
+					if(!!data.html_rendered)
+					{
+						data.html_rendered = null;
+					}
+
 					setModalView(scope, data.object_type);
 					scope.currentEmbedType.model = data;
-					scope.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
+					scope.currentEmbedType.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
 					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 				}
 
@@ -713,13 +736,13 @@ var EntityEmbed = EntityEmbed || {};
 
 				if (!scope.confirmedLeave)
 				{
-					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.staleModel) // this is an edit modal - compare current model to stale model
+					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.currentEmbedType.staleModel) // this is an edit modal - compare current model to stale model
 					{
 						scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
 						for (var fieldName in scope.currentEmbedType.model)
 						{
-							staleVal = prepVal(scope.staleModel[fieldName]);
+							staleVal = prepVal(scope.currentEmbedType.staleModel[fieldName]);
 							modelVal = prepVal(scope.currentEmbedType.model[fieldName]);
 
 							if (staleVal !== modelVal)
