@@ -33,7 +33,31 @@ var EntityEmbed = EntityEmbed || {};
 			editBtn: '.js-btn-edit',
 			cancelBtn: '.js-btn-cancel',
 			videoDropTarget: '.video_editor-intro_inner'
+		},
+		youtubeOptions = {
+			showinfo: 0,				// Hide video title
+			modestbranding: 1,	// Hide YouTube logo on controls
+			rel: 0							// Don't show related video grid after video has finished
+		},
+		vimeoOptions = {
+			title: 0,					// Hide video title
+			portrait: 0,			// Hide creator portrait
+			byline: 0,				// Hide creater byline
+			color: 'dc5555'		// Set color to sites primary accent color. I ♥ Vimeo.
 		};
+
+		function makeUrlParams(obj) {
+			var ret = [];
+			for(var key in obj)
+			{
+				if(obj.hasOwnProperty(key))
+				{
+					ret.push([key, obj[key]].join('='));
+				}
+			}
+
+			return ret.join('&');
+		}
 
 		function makeEmbedUrl(url){
 			var ret = '';
@@ -41,23 +65,14 @@ var EntityEmbed = EntityEmbed || {};
 			if (url.indexOf('vimeo.com') !== -1)
 			{
 				// TODO: embed opts should be configurable
-				var opts = '?' + [
-					'title=0',		// Hide video title
-					'portrait=0',	// Hide creator portrait
-					'byline=0',		// Hide creater byline
-					'color=dc5555',	// Set color to sites primary accent color. I ♥ Vimeo.
-				].join('&');
+				var opts = '?' + makeUrlParams(vimeoOptions);
 
 				ret = '//player.vimeo.com/video/' + getVimeoVideoId(url) + opts;
 			}
 			else if (url.indexOf('youtube.com') !== -1)
 			{
 				// TODO: embed opts should be configurable
-				var opts = '?' + [
-					'showinfo=0',		// Hide video title
-					'modestbranding=1',	// Hide YouTube logo on controls
-					'rel=0'				// Don't show related video grid after video has finished
-				].join('&');
+				var opts = '?' + makeUrlParams(youtubeOptions);
 
 				ret = '//www.youtube.com/embed/' + getYoutubeVideoId(url) + opts;
 			}
@@ -124,14 +139,32 @@ var EntityEmbed = EntityEmbed || {};
 
 	var getOembedData = function(url) {
 		var promise = $.Deferred();
+		var apiUrl, dataOptions;
+
+		switch(true)
+		{
+			case url.indexOf('vimeo.com') !== -1 :
+			apiUrl = 'https://vimeo.com/api/oembed.json';
+			dataOptions = $.extend(true, {}, vimeoOptions);
+			break;
+
+			case url.indexOf('youtube.com') !== -1 :
+			apiUrl = 'https://noembed.com/embed'; // Use Noembed until YouTube supports jsonp or we create our own oEmbed API
+			dataOptions = {};
+			break;
+		}
+
+		dataOptions.url = url;
+
 		var ajaxOptions = {
 			timeout: 2000,
 			crossDomain: true,
 			type: 'GET',
 			dataType: 'jsonp',
-			url: '//noembed.com/embed',
-			data: {
-				url: url
+			url: apiUrl,
+			data: dataOptions,
+			success: function(data) {
+				console.log(data);
 			}
 		};
 
@@ -207,6 +240,9 @@ var EntityEmbed = EntityEmbed || {};
 		// Set title to oEmbed title
 		scope.model.title = oembed.title;
 
+		// Set embedCode
+		scope.model.embedCode = oembed.html;
+
 		// Store oEmbed data on model
 		scope.model.oembed = oembed;
 	}
@@ -233,10 +269,16 @@ var EntityEmbed = EntityEmbed || {};
 
 	videoEmbed.prototype.clearForm = function($el){
 		var self = this;
+		var $ui = self.$ui;
 
 		self.parent.clearForm($el, self);
 
 		showIntro(self);
+
+		$ui.previewIframe.removeAttr('src');
+		$ui.previewTitle.empty();
+		$ui.previewAuthor.removeAttr('href').empty();
+		$ui.previewProvider.removeAttr('href').empty();
 	};
 
 	// function to initialize the modal view
