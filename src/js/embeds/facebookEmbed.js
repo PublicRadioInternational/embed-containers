@@ -78,7 +78,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		return $.ajax(ajaxOptions)
 			.done(function(data) {
-				console.log('getOembedData', data);
+				console.log('facebookEmbed > getOembedData', data);
 			});
 	}
 
@@ -284,7 +284,8 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			url: null,
-			oembed: null
+			oembed: null,
+			embedCode: null
 		};
 	};
 
