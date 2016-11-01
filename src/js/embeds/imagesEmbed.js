@@ -334,13 +334,13 @@ var EntityEmbed = EntityEmbed || {};
 			updateImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.uploadFileInput.on('change', function(event){
-			var file = event.target.files[0];
+		$ui.uploadFileInput.on('change', function(evt){
+			var file = evt.target.files[0];
 			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
 		});
 
-		$(document).on('dragover drop', function(event) {
-			event.preventDefault();
+		$(document).on('dragover drop', function(evt) {
+			evt.preventDefault();
 		});
 
 		$ui.imageEditor
@@ -350,11 +350,11 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(event) {
-				event.preventDefault();
+			.on('drop', function(evt) {
+				evt.preventDefault();
 
 				var $this = $(this);
-				var files = event.originalEvent.dataTransfer.files;
+				var files = evt.originalEvent.dataTransfer.files;
 				var file;
 
 				if (!!files && !!files.length)

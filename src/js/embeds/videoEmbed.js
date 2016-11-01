@@ -15,7 +15,7 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: {
 						required: true,
-						validDomain: true
+						validVideoDomain: true
 					}
 				}
 			}
@@ -116,7 +116,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		self.parent.init($el, self);
 
-		$.validator.addMethod('validDomain', function(value, element, params) {
+		$.validator.addMethod('validVideoDomain', function(value, element, params) {
 			var isValid = value.indexOf('youtube.com') != -1 || value.indexOf('vimeo.com') != -1;
 			return this.optional(element) || isValid;
 		}, 'The video must be from YouTube or Vimeo');
