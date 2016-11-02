@@ -56,24 +56,41 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function getOembedTitle(oembed) {
-		var titleSelector = 'a[href="' + oembed.url + '"]';
-		var $embed, $title, title;
+		var dateSelector = 'a[href="' + oembed.url + '"]';
+		var titleSelector = 'blockquote';
+		var rgxDate = /\w+\s\d{1,2},\s\d{4}/;
+		var $embed, $title, $date, date, title, titleTemp, titleTrunc;
+
+		$embed = $('<div>').html(oembed.html);
+
+		$date = $embed.find(dateSelector);
+		date = $date.text().match(rgxDate)[0];
 
 		// Set title to oEmbed title
-		if(!!oembed.title)
+		titleTemp = oembed.title;
+
+		if(!titleTemp)
 		{
-			title = oembed.title;
-		}
-		else
-		{
-			// Parse embed html for title
-			$embed = $(oembed.html);
+			// Parse embed html for title element
 			$title = $embed.find(titleSelector);
-			title = [
-				oembed.author_name,
-				$title.text()
-			].join(' - ');
+			titleTemp = $title.text();
 		}
+
+		// Limit title length to 10 words
+		titleTrunc = titleTemp.split(' ').slice(0,10).join(' ');
+
+		// Append ellipsis if title was shortened
+		if (titleTrunc !== titleTemp)
+		{
+			titleTrunc += '...';
+		}
+
+		// Build final title
+		title = [
+			oembed.author_name,
+			date,
+			titleTrunc
+		].join(' - ');
 
 		return title;
 	}
