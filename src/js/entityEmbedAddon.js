@@ -795,18 +795,32 @@ var EntityEmbed = EntityEmbed || {};
 
 				$embeds.each(function() {
 					var $this = $(this);
-					var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
-					var $embed = $(embedHtml);
 
 					$this.data('embed', embed);
 
-					$this.html($embed.html());
+					self.renderEmbed($this.closest('.' + entityEmbedContainerClass));
 				});
 
 				self.activateEmbed(embed);
 
 				self.core.triggerInput();
 			});
+	};
+
+	EntityEmbeds.prototype.renderEmbed = function($embed, doActivateEmbed) {
+		var self = this;
+		var $figure = $embed.find('> figure');
+		var embed = $figure.data('embed');
+		var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
+		var $embedTemp = $(embedHtml);
+
+		// Replace figure's inner HTML with new embed's inner Html.
+		$figure.html( $embedTemp.html() );
+
+		if(doActivateEmbed)
+		{
+			self.activateEmbed(embed);
+		}
 	};
 
 	/**

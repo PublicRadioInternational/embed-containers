@@ -402,13 +402,13 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-  instagramEmbed.prototype.activateEmbed = function(){
-    // Check to see if Instagram scripts have already been loaded
-    if(window.instgrm)
-    {
-      // Tell instegram to process embeds again
-      window.instgrm.Embeds.process();
-    }
-  }
+	instagramEmbed.prototype.activateEmbed = function(){
+		// Check to see if Instagram scripts have already been loaded
+		if(window.instgrm)
+		{
+			// Tell instegram to process embeds again
+			window.instgrm.Embeds.process();
+		}
+	}
 
 })(window);

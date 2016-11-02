@@ -222,24 +222,55 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
+		console.log('activeline data:', $activeLine.data());
+
 		// TODO: Tell EntityEmbedAddon to re-render embed.
+		self.mediumEditorAddon.renderEmbed($activeLine, true);
 
 		core.triggerInput();
 	};
 
 	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
 		var self = this;
+		var prevWidth = $activeLine.width();
+		var PrevHeight = $activeLine.height();
+		var count = 0;
+
+		function repositionToolbars() {
+			var w = $activeLine.width();
+			var h = $activeLine.height();
+
+			if(w !== prevWidth || h !== PrevHeight)
+			{
+				console.log('reposition toolbars...', count, w, prevWidth, h, PrevHeight);
+				count = 1;
+				prevWidth = w;
+				PrevHeight = h;
+				self.positionToolbars($activeLine);
+			}
+
+			if(count < 20) {
+				count++;
+				console.log(count);
+				self.positionToolbarsTimeout = window.setTimeout(function(){
+					repositionToolbars();
+				}, 100);
+			}
+			else
+			{
+				delete self.positionToolbarsTimeout;
+			}
+		}
 
 		$activeLine.addClass(styleClass);
+
 		if (!!self.styles[buttonAction].added)
 		{
 			self.styles[buttonAction].added($activeLine)
 		}
 		if (shouldPositionToolbar)
 		{
-			setTimeout(function(){
-				self.positionToolbars($('.' + activeEmbedClass));
-			}, 50);
+			repositionToolbars();
 		}
 	};
 
@@ -261,6 +292,12 @@ var EntityEmbed = EntityEmbed || {};
 		$toolbars.find('button').removeClass(activeToolbarBtnClass);
 
 		self.currentToolbarEmbedType = null;
+
+		if(self.positionToolbarsTimeout)
+		{
+			window.clearInterval(self.positionToolbarsTimeout);
+			delete self.positionToolbarsTimeout;
+		}
 	};
 
 	toolbarManager.prototype.positionToolbars = function($embed) {
