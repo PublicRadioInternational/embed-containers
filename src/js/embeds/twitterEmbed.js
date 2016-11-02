@@ -388,9 +388,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		return '<div class="twitter-embed">' +
-					'<div class="overlay">' +
 						self.model.embedCode +
-					'</div>' +
 				'</div>';
 	};
 })();

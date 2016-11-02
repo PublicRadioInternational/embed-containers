@@ -398,9 +398,7 @@ var EntityEmbed = EntityEmbed || {};
 	instagramEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		return '<div class="instagram-embed">' +
-					'<div class="overlay">' +
 						self.model.embedCode +
-					'</div>' +
 				'</div>';
 	};
 

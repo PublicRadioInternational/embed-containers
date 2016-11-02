@@ -433,9 +433,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 
 		return '<div class="facebook-embed">' +
-					'<div class="overlay">' +
-						getPostHtml(self.model.embedCode) +
-					'</div>' +
+					getPostHtml(self.model.embedCode) +
 				'</div>';
 	};
 

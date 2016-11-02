@@ -360,7 +360,7 @@ var EntityEmbed = EntityEmbed || {};
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		return '<div class="video-embed">' +
-					'<div class="overlay">' +
+					'<div class="video-embed-inner">' +
 						'<iframe src="' + makeEmbedUrl(self.model.url) + '"	frameborder="0"></iframe>' +
 					'</div>' +
 				'</div>';
