@@ -12,7 +12,7 @@ var EntityEmbed = EntityEmbed || {};
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
-		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
+		actionToolbarLocatorClass = '.entity-embed-secondary-toolbar-locator',
 		docEventsReadyKey = 'entityEmbedToolbarEventsReady',
 		entityEmbedToolbarClass = 'entity-embed-toolbar',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
@@ -77,6 +77,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
 		self.actions = toolbarActions;
+		self.embedTypes = [];
 		if (!!activeEmbedClassParam)
 		{
 			activeEmbedClass = activeEmbedClassParam;
@@ -124,6 +125,10 @@ var EntityEmbed = EntityEmbed || {};
 		var stylesCopy = $.extend(self.styles, {});
 		var deletedEveryField = true;
 		var $toolbar = $location.find('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
+
+		console.log(embed);
+
+		self.embedTypes[embed.name] = embed;
 
 		if (!embed.options.styles)
 		{
@@ -217,6 +222,8 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
+		// TODO: Tell EntityEmbedAddon to re-render embed.
+
 		core.triggerInput();
 	};
 
@@ -258,6 +265,8 @@ var EntityEmbed = EntityEmbed || {};
 
 	toolbarManager.prototype.positionToolbars = function($embed) {
 		var self = this;
+		var embedType = self.embedTypes[self.currentToolbarEmbedType];
+		var toolbarLocatorClass = embedType.options.actionToolbarLocatorClass || actionToolbarLocatorClass;
 
 		if(!$embed.length)
 		{
@@ -269,7 +278,7 @@ var EntityEmbed = EntityEmbed || {};
 		// TODO : position action tool bar in a way that doesn't suck
 		//			this positioning frequently interferes with the other toolbar
 
-		var $toolbarLocator = $embed.find('.' + actionToolbarLocatorClass);
+		var $toolbarLocator = $embed.find(toolbarLocatorClass);
 		if ($toolbarLocator.length === 0)
 		{
 			$toolbarLocator = $embed;

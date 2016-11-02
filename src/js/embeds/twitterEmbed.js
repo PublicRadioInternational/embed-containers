@@ -10,10 +10,14 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_twitter.html',
 			displayName: 'Twitter',
 			object_type: 'twitter',
+			actionToolbarLocatorClass: '.twitter-tweet',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required'
+					url: {
+						required: true,
+						validTwitterUrl: true
+					}
 				}
 			}
 		},
@@ -133,9 +137,6 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function applyOembedToModel(scope, oembed) {
-		var titleSelector = 'a[href="' + oembed.url + '"]';
-		var $embed, $title;
-
 		// Set title to oEmbed title
 		scope.model.title = scope.model.title || scope.$ui.titleInput.val() || getOembedTitle(oembed);
 
@@ -174,8 +175,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$ui = registerUiElements(self, $el);
 
-		$.validator.addMethod('validFacebookUrl', function(value, element, params) {
-			var rgxFacebookPost = /^(?:https:)?\/\/www\.facebook\.com\/(?:[^\/]+\/)?(?:activity|media|notes|permalink|photos?|posts|questions|videos?)/i;
+		$.validator.addMethod('validTwitterUrl', function(value, element, params) {
 			var isValid = isValidUrl(value);
 			return this.optional(element) || isValid;
 		}, 'The URL must be to a valid Facebook post or video.');
@@ -186,9 +186,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			self.getModelFromForm($el)
 				.done(function() {
-
-					console.log('Twitter EMbed Model:', self.model);
-
 					if(isValidUrl(self.model.url))
 					{
 						showPreview(self);
@@ -228,8 +225,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					droppedUrl = droppedString;
 				}
-
-				if(!!$droppedElm.length)
+				else if(!!$droppedElm.length)
 				{
 					$context.append($droppedElm);
 					droppedUrl = $context.find('[href]').attr('href');

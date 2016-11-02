@@ -10,6 +10,7 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_facebook.html',
 			displayName: 'Facebook',
 			object_type: 'facebook',
+			actionToolbarLocatorClass: '.fb-post, .fb-video',
 			validationOptions: {
 				rules: {
 					title: 'required',
@@ -105,6 +106,20 @@ var EntityEmbed = EntityEmbed || {};
 		return title;
 	}
 
+	/**
+	 * Get only the post markup from embed code.
+	 *
+	 * @param   {String}  embedCode  Embed code markup to parse.
+	 *
+	 * @return  {String}             HTML markup of post.
+	 */
+	function getPostHtml(embedCode) {
+		var $post = $('<div>').html(embedCode).find('.fb-post, .fb-video');
+		var $embed = $('<div>').html($post);
+
+		return $embed.html();
+	}
+
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {};
 
@@ -137,10 +152,9 @@ var EntityEmbed = EntityEmbed || {};
 		var $ui = scope.$ui;
 		var $embed = $('<div>').html(scope.model.embedCode).find('.fb-post, .fb-video');
 
-		// $embed.attr('data-width', 'auto');
-
 		// Append embed html code
-		$ui.previewPost.html($embed);
+		// For rendering puposes, we want only the embed markup, not the bootstrap script or fb-root element. We'll handle that later as needed.
+		$ui.previewPost.html(getPostHtml(scope.model.embedCode));
 
 		// Set title text
 		$ui.titleInput.val(scope.model.title);
@@ -160,7 +174,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		// Show preview container
 		$ui.preview.show();
-		// Facebook SDK script only first once, so we need to kick off a parse ourselves.
+		// Facebook SDK script only run once, so we need to kick off a parse ourselves.
 		scope.activateEmbed();
 
 		// Hide intro related elements
@@ -169,9 +183,6 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function applyOembedToModel(scope, oembed) {
-		var titleSelector = 'a[href="' + oembed.url + '"]';
-		var $embed, $title;
-
 		// Set title to oEmbed title
 		scope.model.title = scope.model.title || scope.$ui.titleInput.val() || getOembedTitle(oembed);
 
@@ -211,7 +222,6 @@ var EntityEmbed = EntityEmbed || {};
 		$ui = registerUiElements(self, $el);
 
 		$.validator.addMethod('validFacebookUrl', function(value, element, params) {
-			var rgxFacebookPost = /^(?:https:)?\/\/www\.facebook\.com\/(?:[^\/]+\/)?(?:activity|media|notes|permalink|photos?|posts|questions|videos?)/i;
 			var isValid = isValidUrl(value);
 			return this.optional(element) || isValid;
 		}, 'The URL must be to a valid Facebook post or video.');
@@ -261,8 +271,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					droppedUrl = droppedString;
 				}
-
-				if(!!$droppedElm.length)
+				else if(!!$droppedElm.length)
 				{
 					$context.append($droppedElm);
 					droppedUrl = $context.find('[href]').attr('href');
@@ -422,10 +431,10 @@ var EntityEmbed = EntityEmbed || {};
 
 	facebookEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		// TODO: Need to make user unable to interact with embed
+
 		return '<div class="facebook-embed">' +
 					'<div class="overlay">' +
-						self.model.embedCode +
+						getPostHtml(self.model.embedCode) +
 					'</div>' +
 				'</div>';
 	};

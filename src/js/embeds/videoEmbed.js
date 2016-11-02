@@ -339,8 +339,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					droppedUrl = droppedString;
 				}
-
-				if(!!$droppedElm.length)
+				else if(!!$droppedElm.length)
 				{
 					$context.append($droppedElm);
 					droppedUrl = $context.find('[href]').attr('href');
