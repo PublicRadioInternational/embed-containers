@@ -8,7 +8,7 @@ var EntityEmbed = EntityEmbed || {};
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
-		embedDragHandle = '',
+		embedClassPrefix = 'entity-embed-',
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
@@ -240,19 +240,16 @@ var EntityEmbed = EntityEmbed || {};
 				self.toolbarManager.hideToolbar();
 			},
 			stop: function(event, ui) {
-				var $fig = ui.item.find('figure');
-				var embed = $fig.data('embed');
-				var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
-				var $embed = $(embedHtml);
-
+				// Lock item height to placeholder height
 				ui.item.height(ui.placeholder.height());
-				$fig.html($embed.html());
 
-				self.activateEmbed(embed);
+				// Rerender embed
+				self.renderEmbed(ui.item, true);
 
 				// Let listeners know content has changed
 				self.core.triggerInput();
 
+				// Unlock item height after giving embed time to render
 				window.setTimeout(function() {
 					ui.item.removeAttr('style');
 				}, 2000);
@@ -654,7 +651,7 @@ var EntityEmbed = EntityEmbed || {};
 							placeholder = generatePlaceholderString(embed);
 
 							// Generate the embed HTML
-							embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
+							embedHtml = self.generateEmbedHtml(embed.embedType);
 
 							// Replace placeholder string in full story HTML with the embed HTML
 							// A quick split and join should work since our placeholder string is unique to:
@@ -760,12 +757,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var addToScope = {
 			modalOptions: {
-				$currentEditorLocation: $(mediumEditorActiveSelector)
 			}
 		};
 		$.embed_modal_open(addToScope)
 			.done(function(respData) {
-				self.addEmbed(respData.$embed, respData.embedType);
+				self.addEmbed(null, respData.embedType);
 			});
 	};
 
@@ -777,11 +773,12 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
-		var embedId = $embed.find('figure').attr('id');
+		var $figure = $embed.find('figure');
+		var embed = $figure.data('embed');
+
 		var scope = {
 			modalOptions: {
-				$currentEditorLocation: $('.' + activeEmbedClass),
-				id: embedId,
+				id: embed.model.object_id,
 				embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
 			}
 		};
@@ -790,18 +787,18 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.embed_modal_open(scope)
 			.done(function(respData) {
-				var $embeds = $('[id=' + embedId + ']', self.$el);
-				var embed = $.extend(true, {}, respData.embedType);
+				var embedType = $.extend(true, {}, respData.embedType);
+				var $embeds = $('[id=' + embedType.model.object_id + ']', self.$el);
 
 				$embeds.each(function() {
 					var $this = $(this);
 
-					$this.data('embed', embed);
+					$this.data('embed', embedType);
 
 					self.renderEmbed($this.closest('.' + entityEmbedContainerClass));
 				});
 
-				self.activateEmbed(embed);
+				self.activateEmbed(embedType);
 
 				self.core.triggerInput();
 			});
@@ -811,8 +808,10 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $figure = $embed.find('> figure');
 		var embed = $figure.data('embed');
-		var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
+		var embedHtml = self.generateEmbedHtml(embed);
 		var $embedTemp = $(embedHtml);
+
+		$embed.addClass(embedClassPrefix + embed.options.object_type);
 
 		// Replace figure's inner HTML with new embed's inner Html.
 		$figure.html( $embedTemp.html() );
@@ -889,6 +888,21 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
+	EntityEmbeds.prototype.generateEmbedHtml = function(embedType){
+		var $embed = $('<div>').html(embedType.parseForEditor());
+
+		$embed.children().first().addClass('entity-embed');
+
+		var ret = '<figure contenteditable="false" ' +
+						'id="' + embedType.model.object_id	+ '" ' +
+						'data-embed-type="' + embedType.options.object_type + '" >' +
+						$embed.html() +
+						'<div class="entity-embed-blocker"></div>' +
+					'</figure>';
+
+		return ret;
+	};
+
 	/**
 	 * Add custom content
 	 *
@@ -900,21 +914,35 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed, skipInputEvent) {
 		var self = this;
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
-		var $embed;
+		var $embed, $figure, $activeElement;
+
+		if(!$embedContainer)
+		{
+			// Find currently acive element
+			$activeElement = $(mediumEditorActiveSelector, self.$el);
+
+			// Generate embed HTML
+			$embedContainer = $('<div>').addClass(entityEmbedContainerClass);
+			$embedContainer.html(self.generateEmbedHtml(embed));
+
+			// Replace active element with embed elment
+			$activeElement.replaceWith($embedContainer);
+		}
 
 		if($embedContainer.is('figure'))
 		{
 			$embedContainer = $embedContainer.closest('.' + entityEmbedContainerClass);
 		}
 
-		$embed = $embedContainer.find('figure');
+		$embedContainer.addClass(embedClassPrefix + embed.options.object_type);
 
 		// apply the default styling to the embed that was just added
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 
-		$('[id="' + embed.model.object_id + '"]', self.$el).data('embed', $.extend(true, {}, embed));
+		$figure = $embedContainer.find('figure');
+		$figure.data('embed', $.extend(true, {}, embed));
 
-		self.activateEmbed(embed);
+		self.renderEmbed($embedContainer, true);
 
 		self.$el.sortable('refresh');
 

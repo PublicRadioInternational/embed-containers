@@ -207,7 +207,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	function applyOembedToModel(scope, oembed) {
 		// Set title to oEmbed title
-		scope.model.title = scope.model.title || scope.$ui.titleInput.val() || getOembedTitle(oembed);
+		scope.model.title = scope.model.title || scope.$ui.titleInput.val();
+		if(!scope.model.title)
+		{
+			scope.model.title = getOembedTitle(oembed);
+		}
 
 		// Set embedCode
 		scope.model.embedCode = oembed.html;

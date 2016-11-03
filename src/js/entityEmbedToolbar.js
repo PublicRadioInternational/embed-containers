@@ -236,6 +236,8 @@ var EntityEmbed = EntityEmbed || {};
 		var PrevHeight = $activeLine.height();
 		var count = 0;
 
+		window.clearTimeout(self.positionToolbarsTimeout);
+
 		function repositionToolbars() {
 			var w = $activeLine.width();
 			var h = $activeLine.height();
@@ -295,14 +297,15 @@ var EntityEmbed = EntityEmbed || {};
 
 		if(self.positionToolbarsTimeout)
 		{
-			window.clearInterval(self.positionToolbarsTimeout);
+			window.clearTimeout(self.positionToolbarsTimeout);
 			delete self.positionToolbarsTimeout;
 		}
 	};
 
 	toolbarManager.prototype.positionToolbars = function($embed) {
 		var self = this;
-		var embedType = self.embedTypes[self.currentToolbarEmbedType];
+		var $figure = $embed.find('> figure');
+		var embedType = $figure.data('embed');
 		var toolbarLocatorClass = embedType.options.actionToolbarLocatorClass || actionToolbarLocatorClass;
 
 		if(!$embed.length)
