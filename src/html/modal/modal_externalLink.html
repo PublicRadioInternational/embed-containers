@@ -2,25 +2,8 @@
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
 			<div class="embed-modal-form">
-				<label class="embed-modal-label" for="upload">Image Thumbnail File</label>
-				<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
-				<span class="fa fa-times cancel-upload-image-btn"></span>
-				<span class="fa fa-cog edit-chosen-file-btn"></span>
-				<div class="uploaded-image-file"></div>
-			</div>
-		</div>
-	</div>
-	<div class="embed-modal-row">
-		<div class="embed-modal-half-column">
-			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="title">Title</label>
 				<input name="title" type="text" placeholder ="Enter a title for internal use" class="embed-modal-form-control"/>
-			</div>
-		</div>
-		<div class="embed-modal-half-column">
-			<div class="embed-modal-form">
-				<label class="embed-modal-label" for="displayTitle">Display Title</label>
-				<input name="displayTitle" type="text" placeholder="Enter a title for display purposes" class="embed-modal-form-control"/>
 			</div>
 		</div>
 	</div>
@@ -28,21 +11,58 @@
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="linkText">External Link Text</label>
-				<input name="linkText" type="text" placeholder="Enter link text" class="embed-modal-form-control"/>
+				<input name="link_text" type="text" placeholder="Enter link text" class="embed-modal-form-control"/>
 			</div>
 		</div>
 		<div class="embed-modal-half-column">
 			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="url">External Link Url</label>
-				<input name="url" type="url" placeholder="Enter URL" class="embed-modal-form-control"/>
+				<input name="link_url" type="url" placeholder="Enter URL" class="embed-modal-form-control"/>
 			</div>
 		</div>
 	</div>
+
+	<hr>
+
 	<div class="embed-modal-row">
-		<div class="embed-modal-full-column">
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="upload">Teaser Image</label>
+				<div class="image_editor">
+					<div class="image_editor-intro">
+						<div class="image_editor-intro_inner">
+							<input class="embed-modal-input embed-modal-file-input" type="file" name="upload" accept="image/*" />
+						</div>
+					</div>
+
+					<div class="image_editor-preview">
+						<img class="image_editor-preview_image">
+					</div>
+
+					<div class="image_editor-toolbar">
+						<ul class="image_editor-toolbar_list">
+							<li class="image_editor-toolbar_item js-upload">
+								<a class="image_editor-tollbar_btn"><span class="fa fa-upload" aria-label="Select Another Image"></span></a>
+							</li>
+							<li class="image_editor-toolbar_item js-upload-undo">
+								<a class="image_editor-tollbar_btn"><span class="fa fa-undo" aria-label="Revert Selected Image"></span></a>
+							</li>
+							<li class="image_editor-toolbar_item js-upload-cancel">
+								<a class="image_editor-tollbar_btn"><span class="fa fa-arrow-left" aria-label="Cancel Image Select"></span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="display title">Teaser Title</label>
+				<input name="teaser_title" type="text" placeholder="Enter a title for display purposes" class="embed-modal-form-control js-input-teaser_title"/>
+			</div>
 			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="teaser">Teaser</label>
-				<textarea name="teaser" type="text" placeholder="Enter teaser" rows="3" class="embed-modal-form-control"></textarea>
+				<textarea name="teaser" type="text" placeholder="Enter teaser" rows="5" class="embed-modal-form-control"></textarea>
 			</div>
 		</div>
 	</div>

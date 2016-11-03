@@ -266,7 +266,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	imagesEmbed.prototype.getImageUrl = function() {
-		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.options.imageLocation, this.model.url_path);
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :  this.model.url_path;
 	};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
@@ -316,7 +316,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl);
+
+		$ui = registerUiElements(self, $el);
 
 		self.loadLicenses($el);
 
@@ -471,10 +475,7 @@ var EntityEmbed = EntityEmbed || {};
 			tempModel = getModelFromData(imageData, this);
 
 			// Update model with current form values
-			if($ui)
-			{
-				self.getModelFromForm($ui.form);
-			}
+			self.getModelFromForm(self.$el);
 
 			// Clone current model so we can manipulate it
 			currentModel = $.extend(true, {}, self.model);

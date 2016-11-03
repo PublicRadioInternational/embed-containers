@@ -169,11 +169,13 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	relatedLinkEmbed.prototype.initModal = function($el){
+	relatedLinkEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $linkList = $el.find(linkListId);
 		var $progress = $el.find(progressBarId);
 		var adjustment, placeholderHeight;
+
+		self.parent.initModal($el, modalCtrl);
 
 		// Don't need to show progress on new or cleared forms
 		$progress.parent().hide();

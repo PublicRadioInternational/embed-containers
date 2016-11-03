@@ -62,6 +62,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		console.log('modalCtrl', modalCtrl);
 		self.modalCtrl = modalCtrl;
+		self.$el = $el;
 	};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){

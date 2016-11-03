@@ -35,7 +35,7 @@ var EntityEmbed = EntityEmbed || {};
 					upload: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.urlExternalInput).val();
+								return !$(uiElements.urlExternalInput, $(element).closest('form')).val();
 							}
 						},
 						extension: "mp3"
@@ -43,7 +43,7 @@ var EntityEmbed = EntityEmbed || {};
 					url_external: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.uploadFileInput).val();
+								return !$(uiElements.uploadFileInput, $(element).closest('form')).val();
 							}
 						}
 					},
@@ -221,7 +221,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl);
+
+		$ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
 			showFileInput(modalCtrl.scope.currentEmbedType);
@@ -464,7 +468,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
+		var audioSrc = self.model.url_external || self.model.url_path;
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];
