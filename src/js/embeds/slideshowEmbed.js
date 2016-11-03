@@ -179,7 +179,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui = registerUiElements(self, $el);
 
 		$ui.slideTemplate.removeClass('js-slide_template').detach();
-		$ui.slideTemplate.on('click', 'a', function(e) {
+		$ui.slideTemplate.on('click', 'a', function() {
 			var $this = $(this);
 			var $slide = $this.closest('.' + slideClass);
 			activateSlide($slide, self);
@@ -276,13 +276,13 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(event) {
-				var filesList = event.originalEvent.dataTransfer.files;
+			.on('drop', function(evt) {
+				var filesList = evt.originalEvent.dataTransfer.files;
 				var files = [];
 				var slides = [];
 				var i, m;
 
-				event.preventDefault();
+				evt.preventDefault();
 
 				if(!filesList.length)
 				{

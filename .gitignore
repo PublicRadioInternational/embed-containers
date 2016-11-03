@@ -10,3 +10,5 @@ node_modules
 *.iml
 
 config.json
+
+src/js/templateCache.js
