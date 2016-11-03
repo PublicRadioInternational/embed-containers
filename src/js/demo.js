@@ -161,7 +161,7 @@ $(document).ready(function(){
 	$openAddSingleEmbedBtn.click(function(){
 		$.embed_modal_open({
 				modalOptions:{
-					embedTypeStr: 'video'
+					embedTypeStr: 'twitter'
 				}
 			})
 			.done(function(scope){

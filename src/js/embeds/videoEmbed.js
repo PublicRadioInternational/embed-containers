@@ -15,7 +15,7 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: {
 						required: true,
-						validDomain: true
+						validVideoDomain: true
 					}
 				}
 			}
@@ -292,7 +292,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		$ui = registerUiElements(self, $el);
 
-		$.validator.addMethod('validDomain', function(value, element, params) {
+		$.validator.addMethod('validVideoDomain', function(value, element, params) {
 			var isValid = value.indexOf('youtube.com') != -1 || value.indexOf('vimeo.com') != -1;
 			return this.optional(element) || isValid;
 		}, 'The video must be from YouTube or Vimeo');
@@ -339,8 +339,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					droppedUrl = droppedString;
 				}
-
-				if(!!$droppedElm.length)
+				else if(!!$droppedElm.length)
 				{
 					$context.append($droppedElm);
 					droppedUrl = $context.find('[href]').attr('href');
@@ -361,7 +360,7 @@ var EntityEmbed = EntityEmbed || {};
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		return '<div class="video-embed">' +
-					'<div class="overlay">' +
+					'<div class="video-embed-inner">' +
 						'<iframe src="' + makeEmbedUrl(self.model.url) + '"	frameborder="0"></iframe>' +
 					'</div>' +
 				'</div>';

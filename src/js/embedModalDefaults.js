@@ -326,26 +326,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			return embedType && $.extend(true, {}, embedType);
 		},
-		generateEmbedHtmlInternal = function(embedType, includeWrapper){
-			var $embed = $('<div>').html(embedType.parseForEditor());
-
-			$embed.children().first().addClass('entity-embed');
-
-			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id	+ '" ' +
-							'data-embed-type="' + embedType.options.object_type + '" >' +
-							$embed.html() +
-							'<div class="entity-embed-blocker"></div>' +
-						'</figure>';
-
-			if (includeWrapper)
-			{
-				return	'<div class="entity-embed-container">' +
-							ret +
-						'</div>';
-			}
-			return ret;
-		},
 		//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
 		//	begin typing the title of an embed and have a dropdown list of embeds displayed to them
 		initAutoComplete = function (embedType, scope){
@@ -441,7 +421,7 @@ var EntityEmbed = EntityEmbed || {};
 				.closest('.easy-autocomplete')
 				.removeAttr('style');
 		},
-		generateSelExInputHtml = function(embedType) { // SelEx -> SelectExisting
+		generateSelectExistingInputHtml = function(embedType) {
 			return	'<div class="embed-modal-row ' + embedType.options.object_type + '-query-container query-container">' +
 						'<div class="embed-modal-full-column">' +
 							'<label class="embed-modal-label" for="query">Search for ' + embedType.options.displayName + '</label>' +
@@ -452,8 +432,6 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 	function embedModalDefaults(){};
-
-	embedModalDefaults.prototype.generateEmbedHtml = generateEmbedHtmlInternal;
 
 	embedModalDefaults.prototype.functions = {
 		init:{
@@ -531,7 +509,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					embedObject = scope.embedTypes[i];
 
-					scope.containers.selectExistingEmbed.append(generateSelExInputHtml(embedObject));
+					scope.containers.selectExistingEmbed.append(generateSelectExistingInputHtml(embedObject));
 
 					$selExInput = scope.containers.selectExistingEmbed
 											.find('input[name="' + embedObject.options.object_type + '-query"]');
@@ -777,27 +755,10 @@ var EntityEmbed = EntityEmbed || {};
 
 				toggleEditorTyping(scope, 'true');
 
-				if (scope.$currentEditorLocation.length > 0)
-				{
-					classes = scope.$currentEditorLocation.attr('class').split(' ');
-					classes.push(scope.currentEmbedType.defaultStyle);
-					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
-
-					for(i = 0, m = classes.length; i < m; i++)
-					{
-						$embedTemp.addClass(classes[i]);
-					}
-
-					scope.$currentEditorLocation.after( $embedTemp );
-					scope.$currentEditorLocation.remove();
-					scope.$currentEditorLocation = $embedTemp;
-				}
-
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: $.extend(true, {}, scope.currentEmbedType.model),
-					embedType: scope.currentEmbedType,
-					$embed: scope.$currentEditorLocation
+					embedType: scope.currentEmbedType
 				});
 
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
