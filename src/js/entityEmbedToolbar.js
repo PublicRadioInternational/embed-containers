@@ -126,8 +126,6 @@ var EntityEmbed = EntityEmbed || {};
 		var deletedEveryField = true;
 		var $toolbar = $location.find('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
 
-		console.log(embed);
-
 		self.embedTypes[embed.name] = embed;
 
 		if (!embed.options.styles)
@@ -222,8 +220,6 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
-		console.log('activeline data:', $activeLine.data());
-
 		// TODO: Tell EntityEmbedAddon to re-render embed.
 		self.mediumEditorAddon.renderEmbed($activeLine, true);
 
@@ -244,7 +240,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			if(w !== prevWidth || h !== PrevHeight)
 			{
-				console.log('reposition toolbars...', count, w, prevWidth, h, PrevHeight);
 				count = 1;
 				prevWidth = w;
 				PrevHeight = h;
@@ -253,7 +248,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			if(count < 20) {
 				count++;
-				console.log(count);
 				self.positionToolbarsTimeout = window.setTimeout(function(){
 					repositionToolbars();
 				}, 100);
