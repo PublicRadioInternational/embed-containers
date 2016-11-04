@@ -288,7 +288,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
-		self.parent.initModal($el, modalCtrl);
+		self.parent.initModal($el, modalCtrl, self);
 
 		$ui = registerUiElements(self, $el);
 

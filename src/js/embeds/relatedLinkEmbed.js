@@ -175,7 +175,7 @@ var EntityEmbed = EntityEmbed || {};
 		var $progress = $el.find(progressBarId);
 		var adjustment, placeholderHeight;
 
-		self.parent.initModal($el, modalCtrl);
+		self.parent.initModal($el, modalCtrl, self);
 
 		// Don't need to show progress on new or cleared forms
 		$progress.parent().hide();

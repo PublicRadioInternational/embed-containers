@@ -27,7 +27,6 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
-			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
@@ -87,29 +86,31 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(audioLocation, audioUrl) {
-		if (!audioUrl || audioUrl === '')
+	function getImageUrl(url)
+	{
+		var apiDomain = EntityEmbed.apiService.getDomainName();
+
+		if (!url || url === '')
 		{
-			return audioLocation || '';
+			return '';
 		}
 
-		if (audioUrl.indexOf(audioLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return audioUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (audioLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
 		}
 
-		if (!audioUrl.startsWith('/'))
-		{
-			audioLocation = '/' + audioUrl;
-		}
-
-		return audioLocation + audioUrl;
+		return apiDomain + url;
 	}
 
 	function registerUiElements(scope, $el) {
@@ -216,14 +217,14 @@ var EntityEmbed = EntityEmbed || {};
 	audioEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.options.audioLocation, this.model.url_path);
+			getAudioUrl(this.model.url_path);
 	};
 
 	audioEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $ui;
 
-		self.parent.initModal($el, modalCtrl);
+		self.parent.initModal($el, modalCtrl, self);
 
 		$ui = registerUiElements(self, $el);
 
@@ -468,7 +469,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var audioSrc = self.model.url_external || self.model.url_path;
+		var audioSrc = self.model.url_external || self.getAudioUrl(self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];

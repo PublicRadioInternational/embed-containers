@@ -13,6 +13,7 @@ var EntityEmbed = EntityEmbed || {};
 			imageEditorPreviewImage: '.image_editor-preview_image',
 			editImageFileBtn: '.js-upload',
 			cancelUploadImageBtn: '.js-upload-cancel',
+			removeUploadImageBtn: '.js-upload-remove',
 			undoUploadImageBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.image_editor-intro',
 			uploadFileInput: '.embed-modal-file-input',
@@ -22,7 +23,6 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_externalLink.html',
 			displayName: 'External Link',
 			object_type: 'external-link',
-			imageLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
@@ -47,29 +47,31 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		};
 
-	function getImageUrl(imageLocation, imageUrl)
+	function getImageUrl(url)
 	{
-		if (!imageUrl || imageUrl === '')
+		var apiDomain = EntityEmbed.apiService.getDomainName();
+
+		if (!url || url === '')
 		{
 			return '';
 		}
 
-		if (imageUrl.indexOf(imageLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return imageUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (imageLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
 		}
-		if (!imageUrl.startsWith('/'))
+		if (!url.startsWith('/'))
 		{
-			imageUrl = '/' + imageUrl;
+			url = '/' + url;
 		}
 
-		return imageLocation + imageUrl;
+		return apiDomain + url;
 	}
 
 	function getModelFromData(data, file) {
@@ -132,7 +134,7 @@ var EntityEmbed = EntityEmbed || {};
 		scope.getModelFromFile(file)
 			.done(function (model) {
 
-				scope.populateFormWithModel($ui.form)
+				scope.populateFormWithModel(scope.$el)
 					.done(function () {
 						promise.resolve();
 					});
@@ -140,6 +142,21 @@ var EntityEmbed = EntityEmbed || {};
 			});
 
 		return promise;
+	}
+
+	function removeUploadImage(scope) {
+		var $ui = scope.$ui;
+
+		// Remove
+		scope.model.upload = null;
+		scope.model.url_path = null;
+
+		// Remove value from upload input
+		resetFileInput($ui.uploadFileInput);
+	}
+
+	function resetFileInput($el) {
+		$el.attr('type', '').attr('type', 'file');
 	}
 
 	function showImagePreview(scope) {
@@ -153,6 +170,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.imageEditorPreview.show();
 		$ui.editImageFileBtn.show();
 		$ui.undoUploadImageBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+		$ui.removeUploadImageBtn.toggle(!!scope.model.url_path || !!scope.model.upload);
 	}
 
 	function showFileInput(scope) {
@@ -161,13 +179,14 @@ var EntityEmbed = EntityEmbed || {};
 		// Hide Image Preview and related toolbar btns
 		$ui.imageEditorPreview.hide();
 		$ui.editImageFileBtn.hide();
-		$ui.undoUploadImageBtn.hide();
+		$ui.removeUploadImageBtn.hide();
 
 		// Show file input and related toolbar btns. Clean up after previous validation errors.
 		$ui.uploadFileInput.removeClass('error')
 			.parent().find('#upload-error').remove();
 		$ui.uploadFileInputContainer.show();
 		$ui.cancelUploadImageBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+		$ui.undoUploadImageBtn.toggle(!!scope.staleModel && !!scope.staleModel.url_path && !(scope.model.url_path || scope.model.upload));
 	}
 
 	// CONSTRUCTOR
@@ -195,14 +214,14 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	externalLinkEmbed.prototype.getImageUrl = function() {
-		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :  this.model.url_path;
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :  getImageUrl(this.model.url_path);
 	};
 
 	externalLinkEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $ui;
 
-		self.parent.initModal($el, modalCtrl);
+		self.parent.initModal($el, modalCtrl, self);
 
 		$ui = registerUiElements(self, $el);
 
@@ -214,9 +233,21 @@ var EntityEmbed = EntityEmbed || {};
 			showImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
+		$ui.removeUploadImageBtn.on('click', 'a', function(){
+			removeUploadImage(modalCtrl.scope.currentEmbedType);
+			showFileInput(modalCtrl.scope.currentEmbedType);
+		});
+
 		$ui.undoUploadImageBtn.on('click', 'a', function() {
+			var model = modalCtrl.scope.currentEmbedType.model
+
+			// Remove upload from model and clear input
 			delete modalCtrl.scope.currentEmbedType.model.upload;
-			$ui.uploadFileInput.val('');
+			resetFileInput($ui.uploadFileInput);
+
+			// Reset url_path to stale path if it was removed
+			modalCtrl.scope.currentEmbedType.model.url_path = modalCtrl.scope.currentEmbedType.model.url_path || modalCtrl.scope.currentEmbedType.staleModel.url_path;
+
 			updateImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
@@ -255,7 +286,6 @@ var EntityEmbed = EntityEmbed || {};
 					$this.addClass('js-dropped');
 
 					setTimeout(function() {
-
 						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
 							.done(function() {
 								setTimeout(function() {
@@ -390,32 +420,41 @@ var EntityEmbed = EntityEmbed || {};
 		showFileInput(self);
 	};
 
-	externalLinkEmbed.prototype.generateUploadedImgPreview = function() {
-		var self = this;
-		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
-		{
-			return '<img class="' + self.imagePreviewClass +
-					'" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">';
-		}
-		else // this is an add modal - the image has been uploaded by the client but not pushed to the server
-		{
-			return	'<div class="' + self.imagePreviewClass + '">' +
-				(self.model.url_path || self.model.upload.name) +
-			'</div>';
-		}
-	};
-
 	externalLinkEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var embed = [];
+		var teaserBlock = [];
+		var teaserText = [];
 
-		return 	'<div class="external-link-embed">' +
-					'<img src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">' +
-					'<div class="text-container">' +
-						'<div class="display-title">' + self.model.teaser_title + '</div>' +
-						'<div class="teaser">' + self.model.teaser + '</div>' +
-					'</div>' +
-					'<a href="' + self.model.link_url + '">'  + self.model.link_text + '</a>' +
-				'</div>';
+		// Add Image to Teaser Block
+		if(self.model.url_path)
+		{
+			teaserBlock.push('<div class="external_link-teaser-image"><img src="' + getImageUrl(self.model.url_path) + '"></div>');
+		}
+
+		// Add Teaser to Teaser Block
+		if(self.model.teaser)
+		{
+			if(self.model.teaser_title) {
+				teaserText.push('<div class="external_link-teaser-title">' + self.model.teaser_title + '</div>');
+			}
+
+			teaserText.push('<div class="external_link-teaser-teaser">' + self.model.teaser + '</div>');
+
+			teaserBlock.push('<div class="external_link-teaser-text">' + teaserText.join('') + '</div>');
+		}
+
+		// Add Teaser Block to Embed
+		if(!!teaserBlock.length)
+		{
+			embed.push('<div class="external_link-teaser">' + teaserBlock.join('') + '</div>')
+		}
+
+		// Add Link to Embed
+		embed.push('<a class="external_link-link" href="' + self.model.link_url + '">'  + self.model.link_text + '</a>');
+
+
+		return 	'<div class="external_link">' + embed.join('') + '</div>';
 	};
 
 })();

@@ -118,7 +118,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
-		self.parent.initModal($el, modalCtrl);
+		self.parent.initModal($el, modalCtrl, self);
 
 		$customText.data('editor', customTextEditor);
 	};
