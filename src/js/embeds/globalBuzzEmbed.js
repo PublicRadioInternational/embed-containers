@@ -14,9 +14,9 @@ var EntityEmbed = EntityEmbed || {};
 				rules: {
 					title: 'required',
 					quote: 'required',
-					url: 'required'
+					quoteUrlText: 'required',
+					quoteUrlText: 'required'
 				}
-
 			}
 		};
 
@@ -37,12 +37,20 @@ var EntityEmbed = EntityEmbed || {};
 			title: null,
 			quote: null,
 			credit: null,
-			quoteUrl: null
+			quoteUrl: null,
+			quoteUrlText: null
 		};
 	};
 
 	globalBuzzEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var credit;
+
+		credit = !self.model.credit ? '' :
+			'<div class="buzz-field-quote-credit">' +
+				self.model.credit +
+			'</div>';
+
 		return '<div class="global-buzz">' +
 					'<article class="global-buzz-quote-wrapper engagement-badge-wrapper">' +
 						'<div class="engagement-badge"></div>' +
@@ -54,9 +62,7 @@ var EntityEmbed = EntityEmbed || {};
 									self.model.quote +
 								'</div>' +
 							'</div>' +
-							'<div class="buzz-field-quote-credit">' +
-								self.model.credit +
-							'</div>' +
+							credit +
 							'<a class="btn btn-primary global-buzz-link" href="' + self.model.quoteUrl + '">' + self.model.quoteUrlText + '</a>' +
 						'</div>' +
 					'</article>' +
