@@ -17,7 +17,7 @@ var EntityEmbed = EntityEmbed || {};
 			undoUploadImageBtn: '.js-upload-undo',
 			uploadFileInputContainer: '.image_editor-intro',
 			uploadFileInput: '.embed-modal-file-input',
-			teaserTitleInput: '.js-input-teaser_title'
+			teaserTitleInput: '.js-input-displayTitle'
 		},
 		defaults = {
 			viewPath: 'modal_externalLink.html',
@@ -26,8 +26,8 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
-					link_url: 'required',
-					link_text: 'required',
+					url: 'required',
+					linkText: 'required',
 					teaser: {
 						required: {
 							depends: function(element) {
@@ -206,10 +206,10 @@ var EntityEmbed = EntityEmbed || {};
 			url_path: null, // URL to upload image file
 			upload: null,	// form data for upload image file
 			title: null,
-			teaser_title: null,
+			displayTitle: null,
 			teaser: null,
-			link_text: null,
-			link_url: null,
+			linkText: null,
+			url: null,
 		};
 	};
 
@@ -298,10 +298,10 @@ var EntityEmbed = EntityEmbed || {};
 			});
 	};
 
-	externalLinkEmbed.prototype.saveEmbed = function(embedIsNew)
-	{
+	externalLinkEmbed.prototype.saveEmbed = function(embedIsNew) {
 		var self = this;
 		var file = self.model.upload;
+
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
@@ -392,6 +392,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var promise = $.Deferred();
 
+		// Translate legacy keys
+		self.model.linkText = self.model.linkText || self.model.linkText;
+		self.model.url = self.model.url || self.model.url;
+		self.model.displayTitle = self.model.displayTitle || self.model.displayTitle;
+
 		self.parent.populateFormWithModel($form, self);
 
 		if (!!self.model.upload || !!self.model.url_path)
@@ -435,8 +440,8 @@ var EntityEmbed = EntityEmbed || {};
 		// Add Teaser to Teaser Block
 		if(self.model.teaser)
 		{
-			if(self.model.teaser_title) {
-				teaserText.push('<div class="external_link-teaser-title">' + self.model.teaser_title + '</div>');
+			if(self.model.displayTitle) {
+				teaserText.push('<div class="external_link-teaser-title">' + self.model.displayTitle + '</div>');
 			}
 
 			teaserText.push('<div class="external_link-teaser-teaser">' + self.model.teaser + '</div>');
@@ -451,7 +456,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		// Add Link to Embed
-		embed.push('<a class="external_link-link" href="' + self.model.link_url + '">'  + self.model.link_text + '</a>');
+		embed.push('<a class="external_link-link" href="' + self.model.url + '">'  + self.model.linkText + '</a>');
 
 
 		return 	'<div class="external_link">' + embed.join('') + '</div>';

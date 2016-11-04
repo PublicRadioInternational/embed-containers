@@ -37,7 +37,7 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: null,
-			newsletterId: null,
+			newsletter: null,
 			teaser: null
 		};
 	};
@@ -77,12 +77,20 @@ var EntityEmbed = EntityEmbed || {};
 
 	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var displayTitle, teaser;
+
+		// Generate Display Title string
+		displayTitle = !!self.model.displayTitle ? '<div class="display-title">' + self.model.displayTitle + '</div>' : '';
+
+		// Generate Teaser string
+		teaser = !!self.model.teaser ? '<div class="teaser">' + self.model.teaser + '</div>' : '';
+
 		return '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +
-					'<div class="display-title">' + self.model.displayTitle + '</div>' +
+					displayTitle +
 					'<div class="subscribe-form">' +
-						'<div class="teaser">' + self.model.teaser + '</div>' +
+						teaser +
 						'<div class="embed-modal-form">' +
-							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' +
+							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control subscribe-input">' +
 						'</div>' +
 						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
 					'</div>' +
