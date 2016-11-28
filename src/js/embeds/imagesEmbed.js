@@ -119,8 +119,9 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getImageUrl(imageLocation, imageUrl)
-	{
+	function getImageUrl(imageUrl) {
+		var imageLocation = EntityEmbed.apiService.getDomainName();
+
 		if (!imageUrl || imageUrl === '')
 		{
 			return '';
@@ -132,11 +133,11 @@ var EntityEmbed = EntityEmbed || {};
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (imageLocation.endsWith('/'))
+		if ((/\/$/).test(imageLocation))
 		{
 			imageLocation = imageLocation.substring(0, imageLocation.length - 1);
 		}
-		if (!imageUrl.startsWith('/'))
+		if (!(/^\//).test(imageUrl))
 		{
 			imageUrl = '/' + imageUrl;
 		}
@@ -266,7 +267,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	imagesEmbed.prototype.getImageUrl = function() {
-		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.options.imageLocation, this.model.url_path);
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.model.url_path);
 	};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
@@ -529,7 +530,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		var embedHtml = [
-			'<img class="entity-embed-secondary-toolbar-locator" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />'
+			'<img class="entity-embed-secondary-toolbar-locator" src="' + getImageUrl(self.model.url_path) + '" />'
 		];
 
 		if(!!self.model.caption)

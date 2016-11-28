@@ -462,8 +462,7 @@ var EntityEmbed = EntityEmbed || {};
 			var promise = EntityEmbed.apiService.get({
 				path: imageEmbed.options.httpPaths.get,
 				data: {
-					object_id: self.model.images[i].object_id + 'err',
-					auth_token: EntityEmbed.apiService.getAuthToken
+					object_id: self.model.images[i].object_id
 				}
 			});
 
@@ -522,6 +521,53 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.clearForm($el, self);
 
 		hideEditor(self);
+	};
+
+	slideshowEmbed.prototype.parseForEditor = function(){
+		var imageEmbed = new EntityEmbed.embedTypes.image();
+		var self = this;
+		var imgId = ['img', self.model.images[0].object_id, (new Date()).getTime()].join('_');
+		var imgHtml = [
+			'<img id="' + imgId + '" />'
+		];
+		var dotsHtml = [];
+		var slideHtml, i, m;
+
+		EntityEmbed.apiService.get({
+			path: imageEmbed.options.httpPaths.get,
+			data: {
+				object_id: self.model.images[0].object_id
+			}
+		})
+		.done(function(data) {
+			var imgData = data.response;
+			var $img = $('#' + imgId);
+			var $slide = $img.parent();
+
+			imageEmbed.model = imgData;
+
+			$img.attr('src', imageEmbed.getImageUrl(imgData.url_path));
+
+			if(!!imgData.caption)
+			{
+				$slide.append('<div class="slideshow-embed-caption">' + imgData.caption + '</div>');
+			}
+
+			if(!!imgData.credit)
+			{
+				$slide.append('<div class="slideshow-embed-credit">Credit :' + imgData.credit + '</div>');
+			}
+		});
+
+		slideHtml = '<div class="slideshow-embed-slides"><div class="slideshow-embed-slide">' + imgHtml.join('') + '</div></div>';
+
+		// Add a dot for each slide
+		for(i = 0, m = self.model.images.length; i < m; i++)
+		{
+			dotsHtml.push('<li class="slideshow-embed-dot"></li>');
+		}
+
+		return	'<div class="slideshow-embed">' + slideHtml + '<ul class="slideshow-embed-dots">' + dotsHtml.join('') + '</ul></div>';
 	};
 
 })();

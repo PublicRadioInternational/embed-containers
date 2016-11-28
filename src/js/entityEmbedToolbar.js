@@ -1,6 +1,6 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(){
+(function() {
 
 	// PRIVATE
 
@@ -17,7 +17,7 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedToolbarClass = 'entity-embed-toolbar',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
-		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
+		toolbarHtml = function(configs, embedName) { // function that creates the HTML for a toolbar
 			// TODO change class names
 			var toolbarClasses = entityEmbedToolbarClass;
 			if (!!embedName) // this is a styles toolbar (specific to embed)
@@ -72,7 +72,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions, activeEmbedClassParam){
+	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions, activeEmbedClassParam) {
 		var self = this;
 		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
@@ -86,7 +86,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// PUBLIC
-	toolbarManager.prototype.events = function(){
+	toolbarManager.prototype.events = function() {
 		var self = this;
 		var $document = $(document);
 
@@ -96,11 +96,11 @@ var EntityEmbed = EntityEmbed || {};
 				// Set
 				.data(docEventsReadyKey, true)
 				// fire toolbar actions when buttons are clicked
-				.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function(){
+				.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function() {
 					self.styleToolbarDo($(this));
 				})
 				// fire secondary toolbar actions when buttons are clicked
-				.on('click', '.' + actionToolbarClass + ' .medium-editor-action', function(){
+				.on('click', '.' + actionToolbarClass + ' .medium-editor-action', function() {
 					self.actionToolbarDo($(this));
 				});
 		}
@@ -202,7 +202,7 @@ var EntityEmbed = EntityEmbed || {};
 			.removeClass(activeToolbarBtnClass);
 		$buttonClicked.addClass(activeToolbarBtnClass);
 
-		$buttonList.find('button').each(function(){
+		$buttonList.find('button').each(function() {
 			var $curButton = $(this);
 			var className = 'entity-embed-' + $curButton.data('action');
 
@@ -226,44 +226,67 @@ var EntityEmbed = EntityEmbed || {};
 		core.triggerInput();
 	};
 
-	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
+	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar) {
 		var self = this;
-		var prevWidth = $activeLine.width();
-		var PrevHeight = $activeLine.height();
-		var count = 0;
+		var prevWidth = $activeLine.width(); // Store current width to compare with later.
+		var prevHeight = $activeLine.height(); // Store current height to compare with later.
+		var prevPos = $activeLine.position();  // Store current position to compare with later.
+		var delay = 100; // Delay between calling next positioning attempt.
+		var count = 0; // Counter to tack positioning attempts.
+		var maxCount = 20; // Max number of positioning attempts
+		var moved = false; // Flag to ensure bars are positioned at least once.
 
+		// Clear any previously active positioning timeout
 		window.clearTimeout(self.positionToolbarsTimeout);
 
+		// Recursive function to reposition toolbars over time.
+		// Some embeds take time to render (ie. facebook, Twitter) while others are local or have
+		// styling that predetermines elements size (ie. external links, video)
 		function repositionToolbars() {
-			var w = $activeLine.width();
-			var h = $activeLine.height();
+			var w = $activeLine.width(); // Get current width to compare with previous width.
+			var h = $activeLine.height(); // Get current height to compare with previous height.
+			var p = $activeLine.position(); // Get current position to compare with previous position.
 
-			if(w !== prevWidth || h !== PrevHeight)
+			// Check to see if:
+			// 		- Move flag has not been set
+			// 		- Position has changed
+			// 		- Width has changed
+			// 		- Height has changed
+			if(!moved || p.top !== prevPos.top || p.left !== prevPos.left || w !== prevWidth || h !== prevHeight)
 			{
-				count = 1;
-				prevWidth = w;
-				PrevHeight = h;
-				self.positionToolbars($activeLine);
+				count = 0; // Reset positioning count
+				moved = true; // Set moved flag
+				prevWidth = w; // Update previous width with current width
+				prevHeight = h; // Update previous height with current height
+				prevPos = p; // Update previous position with current position
+				self.positionToolbars($activeLine); // Position bars
 			}
 
-			if(count < 20) {
-				count++;
-				self.positionToolbarsTimeout = window.setTimeout(function(){
+			// Check that count is under max count
+			if(count < maxCount) {
+				count++; // Increment positioning counter
+				// Set a timeout to re-call repositionToolbars after a delay
+				self.positionToolbarsTimeout = window.setTimeout(function() {
 					repositionToolbars();
-				}, 100);
+				}, delay);
 			}
 			else
 			{
+				// Remove positioning toolbar timeout
 				delete self.positionToolbarsTimeout;
 			}
 		}
 
+		// Add new style class to active element
 		$activeLine.addClass(styleClass);
 
-		if (!!self.styles[buttonAction].added)
+		// If has added callback, fire it.
+		if (typeof self.styles[buttonAction].added === 'function')
 		{
 			self.styles[buttonAction].added($activeLine)
 		}
+
+		// If toolbar should be repoistioned, call repositionToolbars.
 		if (shouldPositionToolbar)
 		{
 			repositionToolbars();
@@ -280,7 +303,7 @@ var EntityEmbed = EntityEmbed || {};
 		action(addon, $activeEmbed);
 	};
 
-	toolbarManager.prototype.hideToolbar = function(){
+	toolbarManager.prototype.hideToolbar = function() {
 		var self = this;
     var $toolbars = $('.' + entityEmbedToolbarClass);
 
