@@ -3,14 +3,17 @@
 	display: inline-block;
 	min-width: 200px;
 
+	background-color: #fff;
+
 	border: solid 1px #D0D0D0;
 	padding: 10px;
-	text-align: left;
+	// text-align: center;
 
 	.display-title
 	{
 		text-transform: uppercase;
 		font-weight: bold;
+		margin-bottom: 5px;
 	}
 
 	.subscribe-form
@@ -18,16 +21,28 @@
 		padding: 10px;
 		background-color: #f4f4f4;
 
-		.teaser 
+		.teaser
 		{
 			margin-bottom: 5px;
 		}
+	}
+
+	.subscribe-input
+	{
+		text-align: inherit;
 	}
 
 	.subscribe-btn
 	{
 		border-radius: 10px;
 		text-transform: uppercase;
+	}
+
+	.entity-embed-center &,
+	.entity-embed-left &,
+	.entity-embed-right &,
+	.entity-embed-wide & {
+		text-align: left;
 	}
 }
 

@@ -109,7 +109,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	customTextEmbed.prototype.initModal = function($el){
+	customTextEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $customText = $('#' + customTextEditorId);
 		var customTextEditor = new MediumEditor($customText[0], {
@@ -117,6 +117,8 @@ var EntityEmbed = EntityEmbed || {};
 				text: "Type your text. Highlight words to trigger the styles editor"
 			}
 		});
+
+		self.parent.initModal($el, modalCtrl, self);
 
 		$customText.data('editor', customTextEditor);
 	};
