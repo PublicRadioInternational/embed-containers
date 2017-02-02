@@ -168,9 +168,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
+		self.parent.initModal($el, modalCtrl, self);
+
 		self.model = self.cleanModel();
 
-		self.$el = imageModalOptions.modalContainer = $el;
+		imageModalOptions.modalContainer = $el;
 
 		imageModalOptions.modalOptions.parentModal = modalCtrl;
 

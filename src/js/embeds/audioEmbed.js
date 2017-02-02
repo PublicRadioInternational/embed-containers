@@ -27,7 +27,6 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
-			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
@@ -35,7 +34,7 @@ var EntityEmbed = EntityEmbed || {};
 					upload: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.urlExternalInput).val();
+								return !$(uiElements.urlExternalInput, $(element).closest('form')).val();
 							}
 						},
 						extension: "mp3"
@@ -43,7 +42,7 @@ var EntityEmbed = EntityEmbed || {};
 					url_external: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.uploadFileInput).val();
+								return !$(uiElements.uploadFileInput, $(element).closest('form')).val();
 							}
 						}
 					},
@@ -87,31 +86,30 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(audioUrl) {
-		var audioLocation = EntityEmbed.apiService.getDomainName;
+	function getAudioUrl(url) {
+		var apiDomain = EntityEmbed.apiService.getDomainName();
 
-		if (!audioUrl || audioUrl === '')
+		if (!url || url === '')
 		{
-			return audioLocation || '';
+			return '';
 		}
 
-		if (audioUrl.indexOf(audioLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return audioUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (audioLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
 		}
 
-		if (!audioUrl.startsWith('/'))
-		{
-			audioLocation = '/' + audioUrl;
-		}
-
-		return audioLocation + audioUrl;
+		return apiDomain + url;
 	}
 
 	function registerUiElements(scope, $el) {
@@ -225,7 +223,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
 			showFileInput(modalCtrl.scope.currentEmbedType);

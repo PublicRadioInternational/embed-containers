@@ -58,10 +58,10 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	genericEmbed.prototype.initModal = function($el, modalCtrl){
-		var self = this;
-		console.log('modalCtrl', modalCtrl);
+	genericEmbed.prototype.initModal = function($el, modalCtrl, child){
+		var self = child || this;
 		self.modalCtrl = modalCtrl;
+		self.$el = $el;
 	};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
@@ -91,6 +91,7 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
 		var self = child || this;
 		var formFields = $form.find('.embed-modal-form-control');
+
 		for (var i = 0; i < formFields.length; i++)
 		{
 			if (!!formFields[i].type && formFields[i].type.indexOf('file') !== -1)
@@ -171,8 +172,6 @@ var EntityEmbed = EntityEmbed || {};
 			// add the object_type onto the model
 			self.model.object_type = self.options.object_type;
 		}
-
-		console.log('genericEmbed.saveEmbed', $.extend(true, {}, self));
 
 		return EntityEmbed.apiService.set({
 			path: self.options.httpPaths.set,

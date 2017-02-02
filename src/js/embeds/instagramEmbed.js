@@ -203,7 +203,7 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
-		self.modalCtrl = modalCtrl;
+		self.parent.initModal($el, modalCtrl, self);
 
 		$ui = registerUiElements(self, $el);
 
@@ -216,7 +216,7 @@ var EntityEmbed = EntityEmbed || {};
 
 			evt.preventDefault();
 
-			self.getModelFromForm($el)
+			self.getModelFromForm(self.$el)
 				.done(function() {
 
 					console.log('Instagram Embed Model:', self.model);

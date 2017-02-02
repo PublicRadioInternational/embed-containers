@@ -119,31 +119,31 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getImageUrl(imageUrl) {
-		var imageLocation = EntityEmbed.apiService.getDomainName();
+	function getImageUrl(url) {
+		var apiDomain = EntityEmbed.apiService.getDomainName();
 
-		if (!imageUrl || imageUrl === '')
+		if (!url || url === '')
 		{
 			return '';
 		}
 
-		if (imageUrl.indexOf(imageLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return imageUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if ((/\/$/).test(imageLocation))
+		if (apiDomain.endsWith('/'))
 		{
-			imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
 		}
-		if (!(/^\//).test(imageUrl))
+		if (!url.startsWith('/'))
 		{
-			imageUrl = '/' + imageUrl;
+			url = '/' + url;
 		}
 
-		return imageLocation + imageUrl;
-	};
+		return apiDomain + url;
+	}
 
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {
@@ -317,7 +317,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
 
 		self.loadLicenses($el);
 
@@ -472,10 +476,7 @@ var EntityEmbed = EntityEmbed || {};
 			tempModel = getModelFromData(imageData, this);
 
 			// Update model with current form values
-			if($ui)
-			{
-				self.getModelFromForm($ui.form);
-			}
+			self.getModelFromForm(self.$el);
 
 			// Clone current model so we can manipulate it
 			currentModel = $.extend(true, {}, self.model);
