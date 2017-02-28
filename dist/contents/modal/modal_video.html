@@ -2,16 +2,54 @@
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
 			<div class="embed-modal-form">
-				<label class="embed-modal-label" for="title">Title</label>
-				<input name="title" type="text" placeholder="Enter a title" class="embed-modal-input embed-modal-form-control" />
-			</div>
-		</div>
-	</div>
-	<div class="embed-modal-row">
-		<div class="embed-modal-full-column">
-			<div class="embed-modal-form">
-				<label class="embed-modal-label" for="url">Video URL</label>
-				<input name="url" type="url" placeholder="Enter URL to video" class="embed-modal-input embed-modal-form-control" />
+				<label class="embed-modal-label" for="url">Video URL Preview</label>
+
+				<div class="video_editor">
+
+					<div class="video_editor-intro">
+						<div class="video_editor-intro_inner">
+							<div>
+								<div class="input-group">
+									<input name="url" type="url" placeholder="Enter URL to video" class="embed-modal-input embed-modal-form-control js-input-url" />
+									<span class="input-group-btn">
+										<button class="btn btn-primary js-btn-preview" type="button">Preview</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="video_editor-preview">
+						<div class="video_editor-preview_inner">
+							<div class="video_editor-preview_video">
+								<div class="video-embed">
+									<div class="overlay js-preview-wrapper">
+										<iframe class="js-preview-iframe" src="" frameborder="0"></iframe>
+									</div>
+								</div>
+							</div>
+							<div class="video_editor-preview_info">
+								<h4 class="video_editor-preview_title">Here is a title to test the video editor layout with</h4>
+								<div class="video_editor-preview_credits">
+									<a class="video_editor-preview_author" target="_blank"></a> / <a class="video_editor-preview_provider" target="_blank"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="video_editor-toolbar">
+						<ul class="video_editor-toolbar_list">
+							<li class="video_editor-toolbar_item js-btn-edit">
+								<a class="video_editor-tollbar_btn"><span class="fa fa-pencil" aria-label="Enter Another URL"></span></a>
+							</li>
+							<li class="video_editor-toolbar_item js-btn-cancel">
+								<a class="video_editor-tollbar_btn"><span class="fa fa-arrow-left" aria-label="Cancel URL Editing"></span></a>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 	</div>
