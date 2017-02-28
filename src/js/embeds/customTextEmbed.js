@@ -135,6 +135,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedHtml.unshift('<div class="display-title">' + self.model.displayTitle + '</div>');
 		}
 
+		return '<div class="custom-text-embed entity-embed-secondary-toolbar-locator">' + embedHtml.join('') +'</div>';
 	};
 
 })();
