@@ -38,7 +38,8 @@ var EntityEmbed = EntityEmbed || {};
 			title: null,
 			displayTitle: null,
 			newsletter: null,
-			teaser: null
+			teaser: null,
+			object_type: defaults.object_type
 		};
 	};
 

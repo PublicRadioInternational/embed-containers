@@ -160,7 +160,8 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: null,
-			images: []
+			images: [],
+			object_type: defaults.object_type
 		};
 	};
 

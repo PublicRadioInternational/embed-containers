@@ -165,7 +165,8 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: null,
-			links: []
+			links: [],
+			object_type: defaults.object_type
 		};
 	};
 

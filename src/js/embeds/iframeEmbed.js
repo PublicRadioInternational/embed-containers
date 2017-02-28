@@ -37,7 +37,8 @@ var EntityEmbed = EntityEmbed || {};
 			url: null,
 			allowsScroll: false,
 			width: null,
-			height: 300
+			height: 300,
+			object_type: defaults.object_type
 		};
 	};
 

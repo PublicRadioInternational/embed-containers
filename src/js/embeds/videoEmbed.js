@@ -263,7 +263,8 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			url: null,
-			oembed: null
+			oembed: null,
+			object_type: defaults.object_type
 		};
 	};
 
