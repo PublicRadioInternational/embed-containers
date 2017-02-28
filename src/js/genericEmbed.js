@@ -58,8 +58,10 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	genericEmbed.prototype.initModal = function($el){
-		var self = this;
+	genericEmbed.prototype.initModal = function($el, modalCtrl, child){
+		var self = child || this;
+		self.modalCtrl = modalCtrl;
+		self.$el = $el;
 	};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
@@ -84,13 +86,12 @@ var EntityEmbed = EntityEmbed || {};
 				self.model[name] = value;
 			}
 		}
-
-		self.model.html_rendered = null;
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
 		var self = child || this;
 		var formFields = $form.find('.embed-modal-form-control');
+
 		for (var i = 0; i < formFields.length; i++)
 		{
 			if (!!formFields[i].type && formFields[i].type.indexOf('file') !== -1)
@@ -116,6 +117,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
+
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
 		var self = child || this;
@@ -165,7 +167,7 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 
-		if (embedIsNew)
+		if (!self.model.object_type)
 		{
 			// add the object_type onto the model
 			self.model.object_type = self.options.object_type;
@@ -174,6 +176,8 @@ var EntityEmbed = EntityEmbed || {};
 		return EntityEmbed.apiService.set({
 			path: self.options.httpPaths.set,
 			data: self.model
+		}).done(function(resp) {
+			self.staleModel = $.extend(true, {}, self.model);
 		});
 	};
 

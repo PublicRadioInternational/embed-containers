@@ -27,7 +27,6 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
-			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
@@ -35,7 +34,7 @@ var EntityEmbed = EntityEmbed || {};
 					upload: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.urlExternalInput).val();
+								return !$(uiElements.urlExternalInput, $(element).closest('form')).val();
 							}
 						},
 						extension: "mp3"
@@ -43,7 +42,7 @@ var EntityEmbed = EntityEmbed || {};
 					url_external: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.uploadFileInput).val();
+								return !$(uiElements.uploadFileInput, $(element).closest('form')).val();
 							}
 						}
 					},
@@ -87,29 +86,31 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(audioLocation, audioUrl) {
-		if (!audioUrl || audioUrl === '')
+	function getImageUrl(url)
+	{
+		var apiDomain = EntityEmbed.apiService.getDomainName();
+
+		if (!url || url === '')
 		{
-			return audioLocation || '';
+			return '';
 		}
 
-		if (audioUrl.indexOf(audioLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return audioUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (audioLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
 		}
 
-		if (!audioUrl.startsWith('/'))
-		{
-			audioLocation = '/' + audioUrl;
-		}
-
-		return audioLocation + audioUrl;
+		return apiDomain + url;
 	}
 
 	function registerUiElements(scope, $el) {
@@ -209,19 +210,24 @@ var EntityEmbed = EntityEmbed || {};
 			url_path: null,
 			url_external: null,
 			credit: null,
-			creditLink: null
+			creditLink: null,
+			object_type: defaults.object_type
 		};
 	};
 
 	audioEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.options.audioLocation, this.model.url_path);
+			getAudioUrl(this.model.url_path);
 	};
 
 	audioEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
 			showFileInput(modalCtrl.scope.currentEmbedType);
@@ -237,14 +243,14 @@ var EntityEmbed = EntityEmbed || {};
 			updateAudioPreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.uploadFileInput.on('change', function(event){
-			var file = event.target.files[0];
+		$ui.uploadFileInput.on('change', function(evt){
+			var file = evt.target.files[0];
 			$ui.urlExternalInput.val('');
 			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
 		});
 
-		$(document).on('dragover drop', function(event) {
-			event.preventDefault();
+		$(document).on('dragover drop', function(evt) {
+			evt.preventDefault();
 		});
 
 		$ui.audioEditor
@@ -254,11 +260,11 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(event) {
-				event.preventDefault();
+			.on('drop', function(evt) {
+				evt.preventDefault();
 
 				var $this = $(this);
-				var files = event.originalEvent.dataTransfer.files;
+				var files = evt.originalEvent.dataTransfer.files;
 				var file;
 
 				if (!!files && !!files.length)
@@ -287,11 +293,11 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			});
 
-		$ui.setUrlBtn.on('click', function(event) {
+		$ui.setUrlBtn.on('click', function(evt) {
 			var $this = $(this);
 			var btnInnerHtml = $this.html();
 
-			event.preventDefault();
+			evt.preventDefault();
 
 			// Get model from form
 			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
@@ -464,7 +470,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
+		var audioSrc = self.model.url_external || self.getAudioUrl(self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];

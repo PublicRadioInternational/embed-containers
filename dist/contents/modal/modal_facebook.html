@@ -3,15 +3,49 @@
 		<div class="embed-modal-full-column">
 			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="title">Title</label>
-				<input name="title" type="text" placeholder="Enter a title" class="embed-modal-input embed-modal-form-control" />
+				<input name="title" type="text" placeholder="Enter a title" class="embed-modal-input embed-modal-form-control js-input-title" />
 			</div>
 		</div>
 	</div>
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
-			<div class="embed-modal-form has-error">
+			<div class="embed-modal-form">
 				<label class="embed-modal-label" for="url">Facebook Status</label>
-				<input name="url" type="url" placeholder="Enter URL to status" class="embed-modal-form-control" />
+
+				<div class="social_editor">
+
+					<div class="social_editor-intro">
+						<div class="social_editor-intro_inner">
+							<div>
+								<div class="input-group">
+									<input name="url" type="url" placeholder="Enter URL, or drop link..." class="embed-modal-input embed-modal-form-control js-input-url" />
+									<span class="input-group-btn">
+										<button class="btn btn-primary js-btn-preview" type="button">Preview</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="social_editor-preview">
+						<div class="social_editor-preview_inner">
+							<div class="social_editor-preview_post"></div>
+						</div>
+					</div>
+
+					<div class="social_editor-toolbar">
+						<ul class="social_editor-toolbar_list">
+							<li class="social_editor-toolbar_item js-btn-edit">
+								<a class="social_editor-tollbar_btn"><span class="fa fa-pencil" aria-label="Enter Another URL"></span></a>
+							</li>
+							<li class="social_editor-toolbar_item js-btn-cancel">
+								<a class="social_editor-tollbar_btn"><span class="fa fa-arrow-left" aria-label="Cancel URL Editing"></span></a>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 	</div>

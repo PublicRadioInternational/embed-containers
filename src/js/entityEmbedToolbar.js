@@ -12,7 +12,7 @@ var EntityEmbed = EntityEmbed || {};
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
-		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
+		actionToolbarLocatorClass = '.entity-embed-secondary-toolbar-locator',
 		docEventsReadyKey = 'entityEmbedToolbarEventsReady',
 		entityEmbedToolbarClass = 'entity-embed-toolbar',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
@@ -77,6 +77,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
 		self.actions = toolbarActions;
+		self.embedTypes = [];
 		if (!!activeEmbedClassParam)
 		{
 			activeEmbedClass = activeEmbedClassParam;
@@ -124,6 +125,8 @@ var EntityEmbed = EntityEmbed || {};
 		var stylesCopy = $.extend(self.styles, {});
 		var deletedEveryField = true;
 		var $toolbar = $location.find('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
+
+		self.embedTypes[embed.name] = embed;
 
 		if (!embed.options.styles)
 		{
@@ -217,22 +220,53 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
+		// TODO: Tell EntityEmbedAddon to re-render embed.
+		self.mediumEditorAddon.renderEmbed($activeLine, true);
+
 		core.triggerInput();
 	};
 
 	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
 		var self = this;
+		var prevWidth = $activeLine.width();
+		var PrevHeight = $activeLine.height();
+		var count = 0;
+
+		window.clearTimeout(self.positionToolbarsTimeout);
+
+		function repositionToolbars() {
+			var w = $activeLine.width();
+			var h = $activeLine.height();
+
+			if(w !== prevWidth || h !== PrevHeight)
+			{
+				count = 1;
+				prevWidth = w;
+				PrevHeight = h;
+				self.positionToolbars($activeLine);
+			}
+
+			if(count < 20) {
+				count++;
+				self.positionToolbarsTimeout = window.setTimeout(function(){
+					repositionToolbars();
+				}, 100);
+			}
+			else
+			{
+				delete self.positionToolbarsTimeout;
+			}
+		}
 
 		$activeLine.addClass(styleClass);
+
 		if (!!self.styles[buttonAction].added)
 		{
 			self.styles[buttonAction].added($activeLine)
 		}
 		if (shouldPositionToolbar)
 		{
-			setTimeout(function(){
-				self.positionToolbars($('.' + activeEmbedClass));
-			}, 50);
+			repositionToolbars();
 		}
 	};
 
@@ -254,10 +288,19 @@ var EntityEmbed = EntityEmbed || {};
 		$toolbars.find('button').removeClass(activeToolbarBtnClass);
 
 		self.currentToolbarEmbedType = null;
+
+		if(self.positionToolbarsTimeout)
+		{
+			window.clearTimeout(self.positionToolbarsTimeout);
+			delete self.positionToolbarsTimeout;
+		}
 	};
 
 	toolbarManager.prototype.positionToolbars = function($embed) {
 		var self = this;
+		var $figure = $embed.find('> figure');
+		var embedType = $figure.data('embed');
+		var toolbarLocatorClass = embedType.options.actionToolbarLocatorClass || actionToolbarLocatorClass;
 
 		if(!$embed.length)
 		{
@@ -269,7 +312,7 @@ var EntityEmbed = EntityEmbed || {};
 		// TODO : position action tool bar in a way that doesn't suck
 		//			this positioning frequently interferes with the other toolbar
 
-		var $toolbarLocator = $embed.find('.' + actionToolbarLocatorClass);
+		var $toolbarLocator = $embed.find(toolbarLocatorClass);
 		if ($toolbarLocator.length === 0)
 		{
 			$toolbarLocator = $embed;
