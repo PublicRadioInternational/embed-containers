@@ -86,7 +86,7 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getImageUrl(url)
+	function getAudioUrl(url)
 	{
 		var apiDomain = EntityEmbed.apiService.getDomainName();
 
