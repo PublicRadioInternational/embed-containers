@@ -184,6 +184,11 @@ var EntityEmbed = EntityEmbed || {};
 		self._defaults = defaults;
 		self._name = pluginName;
 
+		if(self.$el.attr('readonly') !== undefined)
+		{
+			self.options.readonly = true;
+		}
+
 		self.toolbarManager = new EntityEmbed.toolbarManager(self, self.options.styles, self.options.actions, activeEmbedClass);
 
 		// Extend editor's functions
@@ -221,46 +226,54 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.toolbarManager.createActionToolbar($('body'));
 
-		self.$el.sortable({
-			handle: '.entity-embed-blocker',
-			placeholder: 'entity-embed-placeholder',
-			distance: 5,
-			start: function (event, ui) {
-				var placeholderClasses = [
-					ui.placeholder.attr('class'),
-					ui.helper.attr('class')
-				].join(' ');
+		if(!self.options.readonly)
+		{
+			self.$el.sortable({
+				handle: '.entity-embed-blocker',
+				placeholder: 'entity-embed-placeholder',
+				distance: 5,
+				start: function (event, ui) {
+					var placeholderClasses = [
+						ui.placeholder.attr('class'),
+						ui.helper.attr('class')
+					].join(' ');
 
-				// Update placeholder styling and size to match dragged embed
-				ui.placeholder.attr('class', placeholderClasses);
-				ui.placeholder.height(ui.helper.outerHeight());
-				ui.placeholder.width(ui.helper.width());
+					// Update placeholder styling and size to match dragged embed
+					ui.placeholder.attr('class', placeholderClasses);
+					ui.placeholder.height(ui.helper.outerHeight());
+					ui.placeholder.width(ui.helper.width());
 
-				// Hide embed toolbars
-				self.toolbarManager.hideToolbar();
-			},
-			stop: function(event, ui) {
-				// Lock item height to placeholder height
-				ui.item.height(ui.placeholder.height());
+					// Hide embed toolbars
+					self.toolbarManager.hideToolbar();
+				},
+				stop: function(event, ui) {
+					// Lock item height to placeholder height
+					ui.item.height(ui.placeholder.height());
 
-				// Rerender embed
-				self.renderEmbed(ui.item, true);
+					// Rerender embed
+					self.renderEmbed(ui.item, true);
 
-				// Let listeners know content has changed
-				self.core.triggerInput();
+					// Let listeners know content has changed
+					self.core.triggerInput();
 
-				// Unlock item height after giving embed time to render
-				window.setTimeout(function() {
-					ui.item.removeAttr('style');
-				}, 2000);
-			},
-			change: function() {
-				// Update position of active MEIP toolbar
-				self.core.positionButtons();
-				// Updated postion of active ME toolbar
-				self.core.getEditor().checkSelection();
-			}
-		});
+					// Unlock item height after giving embed time to render
+					window.setTimeout(function() {
+						ui.item.removeAttr('style');
+					}, 2000);
+				},
+				change: function() {
+					// Update position of active MEIP toolbar
+					self.core.positionButtons();
+					// Updated postion of active ME toolbar
+					self.core.getEditor().checkSelection();
+				}
+			});
+		}
+		else
+		{
+			self.core.getEditor().stopSelectionUpdates();
+			self.$el.attr('contenteditable', false).attr('readonly', '');
+		}
 
 		self.events();
 
@@ -330,7 +343,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		$(window).on('resize', function() {
 			var $currentActiveEmbed = $('.' + activeEmbedClass);
-			self.toolbarManager.positionToolbars($currentActiveEmbed);
+			if(!!$currentActiveEmbed.length)
+			{
+				self.toolbarManager.positionToolbars($currentActiveEmbed);
+			}
 		});
 
 		$(document)
@@ -348,7 +364,10 @@ var EntityEmbed = EntityEmbed || {};
 		self.$el
 			// toggle select embed when embed is clicked
 			.on('click', '.' + entityEmbedContainerClass, function(e){
-				self.toggleSelectEmbed($(this));
+				if(!self.options.readonly)
+				{
+					self.toggleSelectEmbed($(this));
+				}
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
@@ -706,7 +725,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		function setEditorHtml() {
 			self.core.getEditor().setContent(fullHtml);
-			self.$el.sortable('refresh');
+			if(!self.options.readonly)
+			{
+				self.$el.sortable('refresh');
+			}
 		}
 
 		if(!contentData)
@@ -944,7 +966,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.renderEmbed($embedContainer, true);
 
-		self.$el.sortable('refresh');
+		if(!self.options.readonly)
+		{
+			self.$el.sortable('refresh');
+		}
 
 		self.core.hideButtons();
 
