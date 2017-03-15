@@ -27,12 +27,12 @@ var EntityEmbed = EntityEmbed || {};
 		defaults = {
 			viewPath: 'modal_audioProgram.html',
 			displayName: 'Program Audio',
-			object_type: 'audio_program',
+			object_type: 'audio-program',
 			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					program: 'required',
+					organization_program: 'required',
 					audio_type: 'required',
 					upload: {
 						required: {
@@ -302,8 +302,9 @@ var EntityEmbed = EntityEmbed || {};
 			title: null,
 			url_path: null,
 			url_external: null,
-			program: null,
-			audio_type: null
+			organization_program: null,
+			audio_type: null,
+			object_type: defaults.object_type
 		};
 	};
 
