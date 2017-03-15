@@ -102,10 +102,11 @@ var EntityEmbed = EntityEmbed || {};
 				return;
 			}
 
-			if(!!embedType && typeof embedType === 'string')
-			{
-				embedType = [embedType];
-			}
+			scope.isAdd = scope.modalCtrl.isAdd = scope.modalType === EntityEmbed.embedModalTypes.add ||
+						 scope.modalType === EntityEmbed.embedModalTypes.addSingle;
+
+			scope.isSingle = scope.modalCtrl.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
+											scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle;
 
 			if (!!scope.currentEmbedType)
 			{
@@ -171,6 +172,25 @@ var EntityEmbed = EntityEmbed || {};
 			var isValid = true;
 			var promise = $.Deferred();
 			var respData = {};
+			var modelPromise;
+
+			function doSave() {
+				if(!scope.buffered)
+				{
+
+					scope.currentEmbedType.saveEmbed(isAddModal, scope.currentEmbedType)
+						.done(successFunction)
+						.fail(failFunction)
+						.always(alwaysFunction);
+
+				}
+				else
+				{
+					respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
+					successFunction(respData);
+					alwaysFunction(respData);
+				}
+			}
 
 			for(var i = 0; i < $validator.length; i++)
 			{
@@ -187,22 +207,17 @@ var EntityEmbed = EntityEmbed || {};
 
 			scope.elements.saveSpinner.show();
 
-			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+			modelPromise = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
-			if(!scope.buffered)
+			if(typeof modelPromise === 'object' && typeof modelPromise.then === 'function')
 			{
-
-				scope.currentEmbedType.saveEmbed(isAddModal)
-					.done(successFunction)
-					.fail(failFunction)
-					.always(alwaysFunction);
-
+				modelPromise.always(function() {
+					doSave();
+				});
 			}
 			else
 			{
-				respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
-				successFunction(respData);
-				alwaysFunction(respData);
+				doSave();
 			}
 
 			////
@@ -337,26 +352,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			return embedType && $.extend(true, {}, embedType);
 		},
-		generateEmbedHtmlInternal = function(embedType, includeWrapper){
-			var $embed = $('<div>').html(embedType.parseForEditor());
-
-			$embed.children().first().addClass('entity-embed');
-
-			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id	+ '" ' +
-							'data-embed-type="' + embedType.options.object_type + '" >' +
-							$embed.html() +
-							'<div class="entity-embed-blocker"></div>' +
-						'</figure>';
-
-			if (includeWrapper)
-			{
-				return	'<div class="entity-embed-container">' +
-							ret +
-						'</div>';
-			}
-			return ret;
-		},
 		//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
 		//	begin typing the title of an embed and have a dropdown list of embeds displayed to them
 		initAutoComplete = function (embedType, scope){
@@ -452,7 +447,7 @@ var EntityEmbed = EntityEmbed || {};
 				.closest('.easy-autocomplete')
 				.removeAttr('style');
 		},
-		generateSelExInputHtml = function(embedType) { // SelEx -> SelectExisting
+		generateSelectExistingInputHtml = function(embedType) {
 			return	'<div class="embed-modal-row ' + embedType.options.object_type + '-query-container query-container">' +
 						'<div class="embed-modal-full-column">' +
 							'<label class="embed-modal-label" for="query">Search for ' + embedType.options.displayName + '</label>' +
@@ -463,8 +458,6 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 	function embedModalDefaults(){};
-
-	embedModalDefaults.prototype.generateEmbedHtml = generateEmbedHtmlInternal;
 
 	embedModalDefaults.prototype.functions = {
 		init:{
@@ -542,7 +535,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					embedObject = scope.embedTypes[i];
 
-					scope.containers.selectExistingEmbed.append(generateSelExInputHtml(embedObject));
+					scope.containers.selectExistingEmbed.append(generateSelectExistingInputHtml(embedObject));
 
 					$selExInput = scope.containers.selectExistingEmbed
 											.find('input[name="' + embedObject.options.object_type + '-query"]');
@@ -643,9 +636,6 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		open: {
 			before: function(scope){
-				scope.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
-												scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle
-
 				toggleEditorTyping(scope, "false");
 
 				if (!!scope.embedType){
@@ -660,9 +650,16 @@ var EntityEmbed = EntityEmbed || {};
 
 				function applyData(data) {
 					data = data || {};
+
+					// Make sure html_rendered key is not set to normalize stale model to current model comparison
+					if(!!data.html_rendered)
+					{
+						data.html_rendered = null;
+					}
+
 					setModalView(scope, data.object_type);
 					scope.currentEmbedType.model = data;
-					scope.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
+					scope.currentEmbedType.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
 					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 				}
 
@@ -746,13 +743,13 @@ var EntityEmbed = EntityEmbed || {};
 
 				if (!scope.confirmedLeave)
 				{
-					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.staleModel) // this is an edit modal - compare current model to stale model
+					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.currentEmbedType.staleModel) // this is an edit modal - compare current model to stale model
 					{
 						scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
 						for (var fieldName in scope.currentEmbedType.model)
 						{
-							staleVal = prepVal(scope.staleModel[fieldName]);
+							staleVal = prepVal(scope.currentEmbedType.staleModel[fieldName]);
 							modelVal = prepVal(scope.currentEmbedType.model[fieldName]);
 
 							if (staleVal !== modelVal)
@@ -787,27 +784,10 @@ var EntityEmbed = EntityEmbed || {};
 
 				toggleEditorTyping(scope, 'true');
 
-				if (scope.$currentEditorLocation.length > 0)
-				{
-					classes = scope.$currentEditorLocation.attr('class').split(' ');
-					classes.push(scope.currentEmbedType.defaultStyle);
-					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
-
-					for(i = 0, m = classes.length; i < m; i++)
-					{
-						$embedTemp.addClass(classes[i]);
-					}
-
-					scope.$currentEditorLocation.after( $embedTemp );
-					scope.$currentEditorLocation.remove();
-					scope.$currentEditorLocation = $embedTemp;
-				}
-
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: $.extend(true, {}, scope.currentEmbedType.model),
-					embedType: scope.currentEmbedType,
-					$embed: scope.$currentEditorLocation
+					embedType: scope.currentEmbedType
 				});
 
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
