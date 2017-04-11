@@ -362,7 +362,7 @@ var EntityEmbed = EntityEmbed || {};
 
 			if(self.model.displayTitle)
 			{
-				linksHtml.push(self.model.displayTitle + ':');
+				linksHtml.push(self.model.displayTitle + ': ');
 			}
 
 			// Compact linksData array
