@@ -173,20 +173,23 @@ var EntityEmbed = EntityEmbed || {};
 				},
 				onChooseEvent: function(){ // store the users story selection
 					var itemData = $input.getSelectedItemData();
+					var organization_program;
 
 					if (!!itemData.object_id)
 					{
-						scope.model.program = {
+						organization_program = {
 							object_id: itemData.object_id,
 							object_type: itemData.object_type
 						};
 					}
 					else
 					{
-						scope.model.program = null;
+						organization_program = null;
 					}
 
-					console.log('Program Change: ', scope.model.program, $input.val());
+					$input.data('organization_program', organization_program);
+
+					console.log('Program Change: ', scope.model.organization_program, $input.val());
 				}
 			}
 		};
@@ -198,8 +201,8 @@ var EntityEmbed = EntityEmbed || {};
 			var value = $this.val();
 			if(!value.replace(/^\s+|\s+$/,''))
 			{
-				scope.model.program = null;
-				console.log('Program Removed: ', scope.model.program, value);
+				scope.model.organization_program = null;
+				console.log('Program Removed: ', scope.model.organization_program, value);
 			}
 		});
 
@@ -432,7 +435,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!!file)
 		{
-			return promise.then(function(responseData){
+			promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -459,10 +462,8 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		else
-		{
-			return promise;
-		}
+
+		return promise;
 	};
 
 	audioProgramEmbed.prototype.getModelFromForm = function($form){
@@ -470,6 +471,18 @@ var EntityEmbed = EntityEmbed || {};
 		var oldModel = $.extend(true, {}, self.model);
 
 		self.parent.getModelFromForm($form, self);
+
+		if(!!self.model.url_external) {
+			// Make sure local file data is removed when external URL is provided.
+			// Need to do this here since the modal can be completed without the "Listen" btn being clicked.
+			self.$ui.uploadFileInput.val('');
+			delete self.model.upload;
+			delete self.model.url_path;
+		}
+
+		self.model.organization_program = self.$ui.programInput.data('organization_program');
+
+		console.log('getModelFromForm', $.extend(true, {}, self.model));
 
 		if(!!oldModel.upload && !self.model.upload)
 		{
@@ -543,6 +556,8 @@ var EntityEmbed = EntityEmbed || {};
 		var promise = $.Deferred();
 
 		self.parent.populateFormWithModel($form, self);
+
+		self.$ui.programInput.data('organization_program', self.model.organization_program).val(self.model.organization_program.title);
 
 		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
 		{

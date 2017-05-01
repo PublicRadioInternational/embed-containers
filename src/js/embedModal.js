@@ -278,9 +278,10 @@ var EntityEmbed = EntityEmbed || {};
 	$.embed_modal_open = function(options){
 		var defaults = {
 			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
-			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
+			embedTypeStr: null,					// string or array of strings for the embed type (match object_type field) (can be null)
 												//		null - add any
-												//		not null - add single or edit (if id is also specified)
+												//		string - add single or edit (if id is also specified)
+												//		array - add any of supplied embed types
 			id: null,
 			selectExisting: false,
 			addOnly: false,

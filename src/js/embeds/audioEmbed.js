@@ -341,7 +341,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!!file)
 		{
-			return promise.then(function(responseData){
+			promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -368,10 +368,8 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		else
-		{
-			return promise;
-		}
+
+		return promise;
 	};
 
 	audioEmbed.prototype.getModelFromForm = function($form){
@@ -379,6 +377,14 @@ var EntityEmbed = EntityEmbed || {};
 		var oldModel = $.extend(true, {}, self.model);
 
 		self.parent.getModelFromForm($form, self);
+
+		if(!!self.model.url_external) {
+			// Make sure local file data is removed when external URL is provided.
+			// Need to do this here since the modal can be completed without the "Listen" btn being clicked.
+			self.$ui.uploadFileInput.val('');
+			delete self.model.upload;
+			delete self.model.url_path;
+		}
 
 		if(!!oldModel.upload && !self.model.upload)
 		{

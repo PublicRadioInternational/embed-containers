@@ -92,6 +92,7 @@ var EntityEmbed = EntityEmbed || {};
 		setModalView = function(scope, embedType){
 			var headerText, et, i, m;
 			var limitEmbedOptions = typeof embedType !== 'string';
+			var currentEmbedTypeName = limitEmbedOptions ? embedType[0] : embedType;
 
 			function addEmbedTypeOption(et) {
 				scope.$embedTypeSelect.append('<option value="' + et.options.object_type + '">' + et.options.displayName + '</option>');
@@ -136,7 +137,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			}
 
-			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(embedType[0], scope.embedTypes);
+			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(currentEmbedTypeName, scope.embedTypes);
 			scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			scope.currentEmbedType.$view.show();
 			scope.$embedTypeSelect.val(embedType);
