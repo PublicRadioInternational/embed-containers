@@ -1,6 +1,6 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(window){
+(function(window) {
 
 	'use strict';
 
@@ -199,7 +199,7 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	instagramEmbed.prototype.initModal = function($el, modalCtrl){
+	instagramEmbed.prototype.initModal = function($el, modalCtrl) {
 		var self = this;
 		var $ui;
 
@@ -280,7 +280,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	instagramEmbed.prototype.cleanModel = function(){
+	instagramEmbed.prototype.cleanModel = function() {
 		return {
 			title: null,
 			url: null,
@@ -290,7 +290,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	instagramEmbed.prototype.clearForm = function($el){
+	instagramEmbed.prototype.clearForm = function($el) {
 		var self = this;
 
 		self.parent.clearForm($el, self);
@@ -300,7 +300,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$ui.previewPost.empty();
 	};
 
-	instagramEmbed.prototype.getModelFromForm = function($form){
+	instagramEmbed.prototype.getModelFromForm = function($form) {
 		var self = this;
 		var promise = $.Deferred();
 
@@ -316,11 +316,11 @@ var EntityEmbed = EntityEmbed || {};
 				if(!!self.model.object_id)
 				{
 					// Not a new embed. Don't need to check for duplication when editing.
-					promise.resolve();
+					promise.resolve(self.model);
 				}
 				else
 				{
-					// Get Facebook embeds that have matching titles
+					// Get Video embeds that have matching URL
 					EntityEmbed.apiService.get({
 						path: self.options.httpPaths.getAll,
 						data: {
@@ -330,67 +330,36 @@ var EntityEmbed = EntityEmbed || {};
 					})
 					.done(function(resp) {
 						var items = resp.response && resp.response.data || [];
-						var deferreds = [];
-						var i, m, p;
 
-						console.log('List Instagram Embeds by URL:', resp);
-
-						if(!items.length)
+						if(!!items.length && items[0].url === self.model.url)
 						{
-							// No matches found. We can resolve right away.
-							promise.resolve();
+							// Use object_id from first item
+							self.model.object_id = items[0].object_id;
+							// Make sure original title is used
+							self.model.title = items[0].title;
+							self.$ui.titleInput.val(self.model.title);
 						}
-						else
-						{
-							// One or more matches were found.
-							// Check each one for matching URL.
-							for(i = 0, m = items.length; i < m; i++)
-							{
-								// The embed/list endpoint does not return 'url' key.
-								// We will have to request data for each returned object to compare URL's.
-								p = EntityEmbed.apiService.get({
-									path: self.options.httpPaths.get,
-									data: {
-										object_id: items[i].object_id
-									}
-								})
-								.done(function(respItem) {
-									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
-									{
-										self.model.object_id = respItem.response.object_id;
-									}
-								});
-
-								// Add http promise to array of deferreds
-								deferreds.push(p);
-							}
-						}
-
-						// Resolve promise after each http promise has had a chance to compare URL's
-						$.when.apply($, deferreds).always(function() {
-							promise.resolve();
-						});
 					})
-					.fail(function() {
-						// Problem communicating with API. Resolve to keep things moving.
-						promise.resolve();
+					.always(function() {
+						// Always resolve to keep things moving.
+						promise.resolve(self.model);
 					});
 				}
 			})
 			.fail(function() {
 				// Problem communicating with API. Resolve to keep things moving.
-				promise.resolve();
+				promise.resolve(self.model);
 			});
 
 		return promise;
 	};
 
-	instagramEmbed.prototype.populateFormWithModel = function($form){
+	instagramEmbed.prototype.populateFormWithModel = function($form) {
 		var self = this;
 		var $ui = self.$ui;
 
 		function setupUi() {
-			// Show video player and title
+			// Show Intro or Preview
 			if(!self.model.object_id)
 			{
 				showIntro(self);
@@ -422,14 +391,14 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	instagramEmbed.prototype.parseForEditor = function(){
+	instagramEmbed.prototype.parseForEditor = function() {
 		var self = this;
 		return '<div class="instagram-embed">' +
 						self.model.embedCode +
 				'</div>';
 	};
 
-	instagramEmbed.prototype.activateEmbed = function(){
+	instagramEmbed.prototype.activateEmbed = function() {
 		// Check to see if Instagram scripts have already been loaded
 		if(window.instgrm)
 		{

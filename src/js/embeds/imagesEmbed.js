@@ -119,8 +119,7 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getImageUrl(url)
-	{
+	function getImageUrl(url) {
 		var apiDomain = EntityEmbed.apiService.getDomainName();
 
 		if (!url || url === '')

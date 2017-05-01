@@ -1,6 +1,6 @@
 var EntityEmbed = EntityEmbed || {};
 
-(function(){
+(function() {
 
 	'use strict';
 
@@ -259,7 +259,7 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	videoEmbed.prototype.orderIndex = 4;
 
-	videoEmbed.prototype.cleanModel = function(){
+	videoEmbed.prototype.cleanModel = function() {
 		return {
 			title: null,
 			url: null,
@@ -268,7 +268,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	videoEmbed.prototype.clearForm = function($el){
+	videoEmbed.prototype.clearForm = function($el) {
 		var self = this;
 		var $ui = self.$ui;
 
@@ -285,7 +285,7 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	videoEmbed.prototype.initModal = function($el, modalCtrl){
+	videoEmbed.prototype.initModal = function($el, modalCtrl) {
 		var self = this;
 		var $ui;
 
@@ -358,7 +358,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	videoEmbed.prototype.parseForEditor = function(){
+	videoEmbed.prototype.parseForEditor = function() {
 		var self = this;
 		return '<div class="video-embed">' +
 					'<div class="video-embed-inner">' +
@@ -367,7 +367,7 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-	videoEmbed.prototype.getModelFromForm = function($form){
+	videoEmbed.prototype.getModelFromForm = function($form) {
 		var self = this;
 		var promise = $.Deferred();
 
@@ -384,7 +384,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					// Error getting oembed data.
 					// TODO: Find a way to validate URL doing validation.
-					promise.resolve();
+					promise.resolve(self.model);
 				}
 				else
 				{
@@ -393,62 +393,30 @@ var EntityEmbed = EntityEmbed || {};
 					if(!!self.model.object_id)
 					{
 						// Not a new embed. Don't need to check for duplication when editing.
-						promise.resolve();
+						promise.resolve(self.model);
 					}
 					else
 					{
-						// Get Video embeds that have matching titles
+						// Get Video embeds that have matching URL
 						EntityEmbed.apiService.get({
 							path: self.options.httpPaths.getAll,
 							data: {
-								title: self.model.title,
+								url: self.model.url,
 								object_type: self.options.object_type
 							}
 						})
 						.done(function(resp) {
 							var items = resp.response && resp.response.data || [];
-							var deferreds = [];
-							var i, m, p;
 
-							if(!items.length)
+							if(!!items.length && items[0].url === self.model.url)
 							{
-								// No matches found. We can resolve right away.
-								promise.resolve();
+								// Use object_id from first item
+								self.model.object_id = items[0].object_id;
 							}
-							else
-							{
-								// One or more matches were found.
-								// Check each one for matching URL.
-								for(i = 0, m = items.length; i < m; i++)
-								{
-									// The embed/list endpoint does not return 'url' key.
-									// We will have to request data for each returned object to compare URL's.
-									p = EntityEmbed.apiService.get({
-										path: self.options.httpPaths.get,
-										data: {
-											object_id: items[i].object_id
-										}
-									})
-									.done(function(respItem) {
-										if(!self.model.object_id && respItem.response.url === self.model.url)
-										{
-											self.model.object_id = respItem.response.object_id;
-										}
-									});
-
-									// Add http promise to array of deferreds
-									deferreds.push(p);
-								}
-							}
-
-							// Resolve promise after each http promise has had a chance to compare URL's
-							$.when.apply($, deferreds).always(function() {
-								promise.resolve();
-							});
 						})
-						.fail(function() {
-							// Problem communicating with API. Resolve to keep things moving.
-							promise.resolve();
+						.always(function() {
+							// Always resolve to keep things moving.
+							promise.resolve(self.model);
 						});
 					}
 				}
@@ -457,12 +425,12 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	}
 
-	videoEmbed.prototype.populateFormWithModel = function($form){
+	videoEmbed.prototype.populateFormWithModel = function($form) {
 		var self = this;
 		var $ui = self.$ui;
 
 		function setupUi() {
-			// Show video player and title
+			// Show Intro or Preview
 			if(!self.model.object_id)
 			{
 				showIntro(self);
