@@ -1,5 +1,6 @@
 (function(){EntityEmbed = EntityEmbed || {}; var templateCache = {};templateCache["modal"] = "null";
-templateCache["modal/modal_audio.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
+templateCache["modal/modal_audio.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></div></form>";
+templateCache["modal/modal_audioProgram.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"organization_program\" class=\"embed-modal-label\">Program</label><input id=\"organization_program\" name=\"organization_program\" class=\"embed-modal-form-control embed-modal-input js-program\" type=\"text\" placeholder=\"Begin typing a Program title...\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"audio_type\" class=\"embed-modal-label\">Audio Type</label><select id=\"audio_type\" class=\"embed-modal-form-control embed-modal-input\" name=\"audio_type\"><option value=\"\">-- Select Type --</option><option value=\"episode\">Episode</option><option value=\"segment\">Segment</option></select></div></div></div></div></form>";
 templateCache["modal/modal_confirmation.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><h3>Are you sure you want to leave?</h3></div><div class=\"embed-modal-body\"><h4>All your changes will be lost if you leave this window!</h4></div><div class=\"embed-modal-footer\"><button id=\"btn-confirm-leave\">Yes - Leave</button> <button id=\"btn-cancel-leave\">No - Stay</button></div></div></div>";
 templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"customText\">Text</label><div name=\"customText\" type=\"text\" placeholder=\"Type your text. Highlight words to trigger the styles editor\" class=\"embed-modal-form-control\" id=\"custom-text-editor\"></div></div></div></div></form>";
 templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Teaser Image</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-remove\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-close\" aria-label=\"Remove Image\"></span></a></li></ul></div></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"display title\">Teaser Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control js-input-teaser_title\"></div><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
@@ -79,16 +80,16 @@ var EntityEmbed = EntityEmbed || {};
 		return ajaxWrapper(config);
 	};
 
-	function setAuthToken(token){
-		defaultConfig.auth_token = token;
-	};
-
-	function getAuthToken(token){
+	function getAuthToken(){
 		return defaultConfig.auth_token;
 	};
 
-	function getDomainName(d){
+	function getDomainName(){
 		return defaultConfig.domainName;
+	};
+
+	function setAuthToken(token){
+		defaultConfig.auth_token = token;
 	};
 
 	function setDomainName(d){
@@ -120,7 +121,7 @@ var EntityEmbed = EntityEmbed || {};
 })();
 var EntityEmbed = EntityEmbed || {};
 
-(function(){
+(function() {
 
 	// PRIVATE
 
@@ -137,7 +138,7 @@ var EntityEmbed = EntityEmbed || {};
 		entityEmbedToolbarClass = 'entity-embed-toolbar',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
-		toolbarHtml = function(configs, embedName){ // function that creates the HTML for a toolbar
+		toolbarHtml = function(configs, embedName) { // function that creates the HTML for a toolbar
 			// TODO change class names
 			var toolbarClasses = entityEmbedToolbarClass;
 			if (!!embedName) // this is a styles toolbar (specific to embed)
@@ -192,7 +193,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions, activeEmbedClassParam){
+	toolbarManager = function(mediumEditorAddon, toolbarStyles, toolbarActions, activeEmbedClassParam) {
 		var self = this;
 		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
@@ -206,7 +207,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	// PUBLIC
-	toolbarManager.prototype.events = function(){
+	toolbarManager.prototype.events = function() {
 		var self = this;
 		var $document = $(document);
 
@@ -216,11 +217,11 @@ var EntityEmbed = EntityEmbed || {};
 				// Set
 				.data(docEventsReadyKey, true)
 				// fire toolbar actions when buttons are clicked
-				.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function(){
+				.on('click', '.' + styleToolbarClass + ' .medium-editor-action', function() {
 					self.styleToolbarDo($(this));
 				})
 				// fire secondary toolbar actions when buttons are clicked
-				.on('click', '.' + actionToolbarClass + ' .medium-editor-action', function(){
+				.on('click', '.' + actionToolbarClass + ' .medium-editor-action', function() {
 					self.actionToolbarDo($(this));
 				});
 		}
@@ -322,7 +323,7 @@ var EntityEmbed = EntityEmbed || {};
 			.removeClass(activeToolbarBtnClass);
 		$buttonClicked.addClass(activeToolbarBtnClass);
 
-		$buttonList.find('button').each(function(){
+		$buttonList.find('button').each(function() {
 			var $curButton = $(this);
 			var className = 'entity-embed-' + $curButton.data('action');
 
@@ -346,44 +347,67 @@ var EntityEmbed = EntityEmbed || {};
 		core.triggerInput();
 	};
 
-	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
+	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar) {
 		var self = this;
-		var prevWidth = $activeLine.width();
-		var PrevHeight = $activeLine.height();
-		var count = 0;
+		var prevWidth = $activeLine.width(); // Store current width to compare with later.
+		var prevHeight = $activeLine.height(); // Store current height to compare with later.
+		var prevPos = $activeLine.position();  // Store current position to compare with later.
+		var delay = 100; // Delay between calling next positioning attempt.
+		var count = 0; // Counter to tack positioning attempts.
+		var maxCount = 20; // Max number of positioning attempts
+		var moved = false; // Flag to ensure bars are positioned at least once.
 
+		// Clear any previously active positioning timeout
 		window.clearTimeout(self.positionToolbarsTimeout);
 
+		// Recursive function to reposition toolbars over time.
+		// Some embeds take time to render (ie. facebook, Twitter) while others are local or have
+		// styling that predetermines elements size (ie. external links, video)
 		function repositionToolbars() {
-			var w = $activeLine.width();
-			var h = $activeLine.height();
+			var w = $activeLine.width(); // Get current width to compare with previous width.
+			var h = $activeLine.height(); // Get current height to compare with previous height.
+			var p = $activeLine.position(); // Get current position to compare with previous position.
 
-			if(w !== prevWidth || h !== PrevHeight)
+			// Check to see if:
+			// 		- Move flag has not been set
+			// 		- Position has changed
+			// 		- Width has changed
+			// 		- Height has changed
+			if(!moved || p.top !== prevPos.top || p.left !== prevPos.left || w !== prevWidth || h !== prevHeight)
 			{
-				count = 1;
-				prevWidth = w;
-				PrevHeight = h;
-				self.positionToolbars($activeLine);
+				count = 0; // Reset positioning count
+				moved = true; // Set moved flag
+				prevWidth = w; // Update previous width with current width
+				prevHeight = h; // Update previous height with current height
+				prevPos = p; // Update previous position with current position
+				self.positionToolbars($activeLine); // Position bars
 			}
 
-			if(count < 20) {
-				count++;
-				self.positionToolbarsTimeout = window.setTimeout(function(){
+			// Check that count is under max count
+			if(count < maxCount) {
+				count++; // Increment positioning counter
+				// Set a timeout to re-call repositionToolbars after a delay
+				self.positionToolbarsTimeout = window.setTimeout(function() {
 					repositionToolbars();
-				}, 100);
+				}, delay);
 			}
 			else
 			{
+				// Remove positioning toolbar timeout
 				delete self.positionToolbarsTimeout;
 			}
 		}
 
+		// Add new style class to active element
 		$activeLine.addClass(styleClass);
 
-		if (!!self.styles[buttonAction].added)
+		// If has added callback, fire it.
+		if (typeof self.styles[buttonAction].added === 'function')
 		{
 			self.styles[buttonAction].added($activeLine)
 		}
+
+		// If toolbar should be repoistioned, call repositionToolbars.
 		if (shouldPositionToolbar)
 		{
 			repositionToolbars();
@@ -400,7 +424,7 @@ var EntityEmbed = EntityEmbed || {};
 		action(addon, $activeEmbed);
 	};
 
-	toolbarManager.prototype.hideToolbar = function(){
+	toolbarManager.prototype.hideToolbar = function() {
 		var self = this;
     var $toolbars = $('.' + entityEmbedToolbarClass);
 
@@ -1121,7 +1145,13 @@ var EntityEmbed = EntityEmbed || {};
 			return isDirty;
 		},
 		setModalView = function(scope, embedType){
-			var headerText;
+			var headerText, et, i, m;
+			var limitEmbedOptions = typeof embedType !== 'string';
+			var currentEmbedTypeName = limitEmbedOptions ? embedType[0] : embedType;
+
+			function addEmbedTypeOption(et) {
+				scope.$embedTypeSelect.append('<option value="' + et.options.object_type + '">' + et.options.displayName + '</option>');
+			}
 
 			if (!embedType)
 			{
@@ -1141,10 +1171,31 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(embedType, scope.embedTypes);
+			// Empty embedTypesSelect options
+			scope.$embedTypeSelect.empty();
+			// Rebuild $embedTypeSelect options
+			for(i = 0, m = scope.embedTypes.length; i < m; i++)
+			{
+				et = scope.embedTypes[i];
+
+				// Only add embed types in scope.embedTypeSelectOptions
+				if(limitEmbedOptions)
+				{
+					if(embedType.indexOf(et.options.object_type) !== -1)
+					{
+						addEmbedTypeOption(et);
+					}
+				}
+				else
+				{
+					addEmbedTypeOption(et);
+				}
+			}
+
+			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(currentEmbedTypeName, scope.embedTypes);
 			scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			scope.currentEmbedType.$view.show();
-			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
+			scope.$embedTypeSelect.val(embedType);
 
 			headerText = scope.headerText;
 
@@ -1555,11 +1606,13 @@ var EntityEmbed = EntityEmbed || {};
 							currentScope.modalCtrl.$el.completeModal();
 						});
 
+					// TODO: Figure out how to move this process to the open::before so these options can be
+					// 		adjusted for each usage of modal. eg. Limit Lede Embed field to only Audio, Video, or Slideshow.
 					// load the views for creating new embeds (one view for each embed type)
 					// create option in dropdown for this embed
-					scope.$embedTypeSelect.append('<option value="' +
-						embedObject.options.object_type + '">' + embedObject.options.displayName +
-						'</option>');
+					// scope.$embedTypeSelect.append('<option value="' +
+					// 	embedObject.options.object_type + '">' + embedObject.options.displayName +
+					// 	'</option>');
 
 					// create the embed view container and load the view into it
 					$embedView = $('<div id="' + embedObject.name + '"></div>');
@@ -1640,6 +1693,7 @@ var EntityEmbed = EntityEmbed || {};
 		open: {
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
+
 				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
 					delete scope.embedType;
@@ -1812,7 +1866,7 @@ var EntityEmbed = EntityEmbed || {};
 		uploadedAudioDisplay = '.uploaded-audio-file',
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
-		uploadMp3FileBtn = ".embed-modal-file-input",
+		uploadMp3FileBtn = '.embed-modal-file-input',
 		uiElements = {
 			// myElm: '.select-my-elm'
 			audioEditor: '.audio_editor',
@@ -1840,7 +1894,7 @@ var EntityEmbed = EntityEmbed || {};
 								return !$(uiElements.urlExternalInput, $(element).closest('form')).val();
 							}
 						},
-						extension: "mp3"
+						extension: 'mp3'
 					},
 					url_external: {
 						required: {
@@ -1850,7 +1904,7 @@ var EntityEmbed = EntityEmbed || {};
 						}
 					},
 					wavFile: {
-						extension: "wav"
+						extension: 'wav'
 					}
 				}
 			},
@@ -1889,8 +1943,7 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(url)
-	{
+	function getAudioUrl(url) {
 		var apiDomain = EntityEmbed.apiService.getDomainName();
 
 		if (!url || url === '')
@@ -1915,6 +1968,624 @@ var EntityEmbed = EntityEmbed || {};
 
 		return apiDomain + url;
 	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {
+			form: $el
+		};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function updateAudioPreview(scope) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+		var src_url = scope.getAudioUrl();
+
+		$ui.previewAudio
+			.attr('src', src_url);
+
+		promise.resolve();
+
+		return promise;
+	}
+
+	function updateFormWithFileData(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		scope.getModelFromFile(file)
+			.done(function (model) {
+
+				scope.populateFormWithModel($ui.form)
+					.done(function () {
+						promise.resolve();
+					});
+
+			});
+
+		return promise;
+	}
+
+	function showAudioPreview(scope) {
+		var $ui = scope.$ui;
+
+		return updateAudioPreview(scope)
+			.done(function(){
+				// Hide file input and related toolbar btns
+				$ui.uploadFileInputContainer.hide();
+				$ui.cancelUploadBtn.hide();
+
+				// Show Image Preview and related toolbar btns
+				$ui.previewContainer.show();
+				$ui.editFileBtn.show();
+				$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+			});
+	}
+
+	function showFileInput(scope) {
+		var $ui = scope.$ui;
+
+		// Hide Image Preview and related toolbar btns
+		$ui.uploadFileInput.val('');
+		$ui.previewContainer.hide();
+		$ui.editFileBtn.hide();
+		$ui.undoUploadBtn.hide();
+
+		// Show file input and related toolbar btns. Clean up after previous validation errors.
+		$ui.uploadFileInput.removeClass('error')
+			.parent().find('#upload-error').remove();
+		$ui.uploadFileInputContainer.show();
+		$ui.cancelUploadBtn.toggle(!!(scope.model.url_path || scope.model.upload || scope.model.url_external));
+	}
+
+	// CONSTRUCTOR
+	function audioEmbed(options){
+		var self = this;
+		self.parent.constructor(options, defaults, embedName, self);
+	}
+
+	audioEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = audioEmbed;
+
+	// PUBLIC
+	audioEmbed.prototype.orderIndex = 3;
+
+	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
+
+	audioEmbed.prototype.cleanModel = function(){
+		return {
+			title: null,
+			duration: null,
+			url_path: null,
+			url_external: null,
+			credit: null,
+			creditLink: null,
+			object_type: defaults.object_type
+		};
+	};
+
+	audioEmbed.prototype.getAudioUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
+			!!this.model.url_external ? this.model.url_external :
+			getAudioUrl(this.model.url_path);
+	};
+
+	audioEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
+
+		$ui.editFileBtn.on('click', 'a', function(){
+			showFileInput(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.cancelUploadBtn.on('click', 'a', function(){
+			showAudioPreview(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.undoUploadBtn.on('click', 'a', function() {
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			$ui.uploadFileInput.val('');
+			showAudioPreview(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.uploadFileInput.on('change', function(evt){
+			var file = evt.target.files[0];
+			$ui.urlExternalInput.val('');
+			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
+		});
+
+		$(document).on('dragover drop', function(evt) {
+			evt.preventDefault();
+		});
+
+		$ui.audioEditor
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(evt) {
+				evt.preventDefault();
+
+				var $this = $(this);
+				var files = evt.originalEvent.dataTransfer.files;
+				var file;
+
+				if (!!files && !!files.length)
+				{
+					file = files[0];
+
+					console.log('dropped file', file);
+
+					if(!/(?:mpeg|mp3)/.test(file.type))
+					{
+						return;
+					}
+
+					$this.addClass('js-dropped');
+
+					setTimeout(function() {
+
+						updateFormWithFileData(modalCtrl.scope.currentEmbedType, file)
+							.done(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
+
+					}, 300);
+				}
+			});
+
+		$ui.setUrlBtn.on('click', function(evt) {
+			var $this = $(this);
+			var btnInnerHtml = $this.html();
+
+			evt.preventDefault();
+
+			// Get model from form
+			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
+
+			console.log('Set URL', modalCtrl.scope.currentEmbedType.model);
+
+			if(!!modalCtrl.scope.currentEmbedType.model.url_external) {
+				// Make sure local file data is removed
+				$ui.uploadFileInput.val('');
+				delete modalCtrl.scope.currentEmbedType.model.upload;
+				delete modalCtrl.scope.currentEmbedType.model.url_path;
+
+				$this.html('Loading...');
+
+				showAudioPreview(modalCtrl.scope.currentEmbedType)
+					.done(function() {
+						$this.html(btnInnerHtml);
+					});
+			}
+		});
+	};
+
+	audioEmbed.prototype.clearForm = function($el){
+		var self = this;
+		self.parent.clearForm($el, self);
+
+		self.$ui.previewAudio
+			.removeAttr('src')
+			.removeAttr('type');
+
+		showFileInput(self);
+	};
+
+	audioEmbed.prototype.saveEmbed = function(embedIsNew)
+	{
+		var self = this;
+		var file = self.model.upload;
+		delete self.model.upload;
+
+		var promise = self.parent.saveEmbed(embedIsNew, self);
+
+		if (!!file)
+		{
+			promise.then(function(responseData){
+				//var wavFile = self.$wavForm[0].files[0];
+				// if (!!wavFile)				// only send wav file if user specified
+				// {
+				// 	var wavFormData = new FormData();
+				// 	wavFormData.append('upload', wavFile);
+				// 	sendFile(wavFormData)
+				// 		.then(function(responseData){
+				// 			self.model.wavFile = self.options.audioLocation + responseData.response.url_path;
+				// 		});
+				// }
+
+				var mp3FormData = new FormData();
+				mp3FormData.append('upload', file);
+
+				return EntityEmbed.apiService.uploadFile({
+					path: self.options.httpPaths.uploadFile,
+					data: mp3FormData,
+					headers: {
+						'x-object-id': responseData.response.object_id
+					}
+				});
+			})
+			.done(function(responseData){
+				self.model.url_path = responseData.response.url_path;
+			});
+		}
+
+		return promise;
+	};
+
+	audioEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var $ui = self.$ui;
+		var duration = $ui.previewAudio[0].duration;
+		var oldModel = $.extend(true, {}, self.model);
+		var promise = $.Deferred();
+
+		function onLoadedMetadata() {
+			$ui.previewAudio.off('loadedmetadata', onLoadedMetadata);
+			self.model.duration = this.duration;
+			promise.resolve();
+		}
+
+		self.parent.getModelFromForm($form, self);
+
+		if(!!self.model.url_external) {
+			// Make sure local file data is removed when external URL is provided.
+			// Need to do this here since the modal can be completed without the "Listen" btn being clicked.
+			self.$ui.uploadFileInput.val('');
+			delete self.model.upload;
+			delete self.model.url_path;
+		}
+
+		if(!!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
+
+		if(!duration)
+		{
+			$ui.previewAudio.on('loadedmetadata', onLoadedMetadata);
+			updateAudioPreview(self);
+		}
+		else
+		{
+			self.model.duration = duration;
+			promise.resolve();
+		}
+
+		return promise;
+	}
+
+	audioEmbed.prototype.getModelFromFile = function(file){
+		var self = this;
+		var $ui = self.$ui;
+		var promise = $.Deferred();
+		var musicmetadata = (typeof define === 'function' && define.amd) ? require('musicmetadata') : window.musicmetadata;
+
+		console.log('musicmetadata: ', musicmetadata);
+
+		function extendCurrentModel(model) {
+			var currentModel, prop;
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, self.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on model during merge.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > model
+			self.model = $.extend(true, {}, model, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			self.model.upload = file;
+
+			promise.resolve(self.model);
+		}
+
+		if (!file)
+		{
+			file = self.model.upload;
+		}
+
+		// Update model with current form values
+		if($ui)
+		{
+			self.getModelFromForm($ui.form);
+		}
+
+		if(musicmetadata)
+		{
+			musicmetadata(file, function(err, tags) {
+
+				console.log('file tags', tags);
+
+				extendCurrentModel( getModelFromData(tags, file) );
+			});
+		}
+		else
+		{
+			extendCurrentModel( getModelFromData({}, file) );
+		}
+
+		return promise;
+	}
+
+	audioEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var promise = $.Deferred();
+
+		self.parent.populateFormWithModel($form, self);
+
+		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
+		{
+			showAudioPreview(self)
+				.done(function() {
+					promise.resolve();
+				});
+		}
+		else
+		{
+			promise.resolve();
+		}
+
+		return promise;
+	};
+
+	audioEmbed.prototype.parseForEditor = function(){
+		var self = this;
+		var audioSrc = self.model.url_external || getAudioUrl(self.model.url_path);
+		var embedHtml = [
+			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
+		];
+
+		if(!!self.model.credit)
+		{
+			embedHtml.push('<div class="credit">Credit: ' + self.model.credit + '</div>');
+		}
+
+		if(!!self.model.creditLink)
+		{
+			embedHtml.push('<div class="link">Link: ' + self.model.creditLink + '</div>');
+		}
+
+		return '<div class="audio-embed">' + embedHtml.join('') +'</div>';
+	};
+
+})();
+var EntityEmbed = EntityEmbed || {};
+
+(function(){
+
+	'use strict';
+
+	// PRIVATE
+	var embedName = 'audioProgram',
+		uploadedAudioDisplay = '.uploaded-audio-file',
+		cancelUploadAudioBtn = '.cancel-upload-file-btn',
+		editAudioFileBtn = '.edit-chosen-file-btn',
+		uploadMp3FileBtn = '.embed-modal-file-input',
+		uiElements = {
+			// myElm: '.select-my-elm'
+			programInput: '.js-program',
+			audioEditor: '.audio_editor',
+			previewContainer: '.audio_editor-preview',
+			previewAudio: '.audio_editor-preview_audio',
+			editFileBtn: '.js-edit-file',
+			cancelUploadBtn: '.js-upload-cancel',
+			undoUploadBtn: '.js-upload-undo',
+			uploadFileInputContainer: '.audio_editor-intro',
+			uploadFileInput: '.embed-modal-file-input',
+			urlExternalInput: '.embed-modal-url-external',
+			setUrlBtn: '.js-set-url'
+		},
+		defaults = {
+			viewPath: 'modal_audioProgram.html',
+			displayName: 'Program Audio',
+			object_type: 'audio-program',
+			audioLocation: 'https://test-services.pri.org',
+			validationOptions: {
+				rules: {
+					title: 'required',
+					organization_program: 'required',
+					audio_type: 'required',
+					upload: {
+						required: {
+							depends: function(element) {
+								return !$(uiElements.urlExternalInput).val();
+							}
+						},
+						extension: 'mp3'
+					},
+					url_external: {
+						required: {
+							depends: function(element) {
+								return !$(uiElements.uploadFileInput).val();
+							}
+						}
+					},
+					wavFile: {
+						extension: 'wav'
+					}
+				}
+			},
+			httpPaths:{
+				getOrganizationFetch: 'admin/organization/fetch',
+				getOrganizationList: 'admin/organization/list',
+				uploadFile: 'admin/embed/file-upload'
+			}
+		};
+
+	function formatFileSize(bytes) {
+		if (typeof bytes !== 'number')
+		{
+			return '';
+		}
+
+		if (bytes >= 100000000)
+		{
+			return (bytes / 1000000000).toFixed(2) + ' GB';
+		}
+
+		if (bytes >= 1000000)
+		{
+			return (bytes / 1000000).toFixed(2) + ' MB';
+		}
+		return (bytes / 1000).toFixed(2) + ' KB';
+	};
+
+	function getModelFromData(data, file) {
+		var model = {};
+
+		// Title
+		model.title = file.name;
+
+		// Credit
+		model.credit = data.artist;
+
+		return model;
+	}
+
+	function getAudioUrl(audioLocation, audioUrl) {
+		if (!audioUrl || audioUrl === '')
+		{
+			return audioLocation || '';
+		}
+
+		if (audioUrl.indexOf(audioLocation) >= 0)
+		{
+			return audioUrl;
+		}
+
+		// ensure that there isn't an unintended '//' in final URL
+		if (audioLocation.endsWith('/'))
+		{
+			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+		}
+
+		if (!audioUrl.startsWith('/'))
+		{
+			audioLocation = '/' + audioUrl;
+		}
+
+		return audioLocation + audioUrl;
+	}
+
+
+	//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
+	//	begin typing the title of a story and have a dropdown list of stories displayed to them
+	//	based on their input. This function also takes into account validation of the modal form.
+	function initAutoComplete(scope, $el){
+		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+		var isDevEnv = rgxDevEnv.test(window.location.host);
+		var debug = 0;
+		var ajaxData = {
+			auth_token: EntityEmbed.apiService.getAuthToken(),
+			organization_type: 'program',
+			published: true
+		};
+		var $input = scope.$ui.programInput;
+
+		if(isDevEnv)
+		{
+			ajaxData.debug = 1;
+		}
+
+		var options = {
+			ajaxSettings: {
+				dataType: 'json',
+				method: 'POST',
+				data: ajaxData
+			},
+			requestDelay: 600,
+			url: function(phrase) {
+				ajaxData.title = phrase;
+				return EntityEmbed.apiService.getDomainName() + scope.options.httpPaths.getOrganizationList;
+			},
+			listLocation: function(listOfData){
+				return listOfData.response.data;
+			},
+			getValue: function(data) {
+				if(data.pub_state == 1)
+				{
+					return data.title;
+				}
+				else
+				{
+					return '';
+				}
+			},
+			preparePostData: function(data) {
+				data.title = $input.val();
+				return JSON.stringify(data);
+			},
+			list: {
+				maxNumberOfElements: 10,
+				match: {
+					enabled: true
+				},
+				sort: {
+					enabled: true
+				},
+				onChooseEvent: function(){ // store the users story selection
+					var itemData = $input.getSelectedItemData();
+					var organization_program;
+
+					if (!!itemData.object_id)
+					{
+						organization_program = {
+							object_id: itemData.object_id,
+							object_type: itemData.object_type
+						};
+					}
+					else
+					{
+						organization_program = null;
+					}
+
+					$input.data('organization_program', organization_program);
+
+					console.log('Program Change: ', scope.model.organization_program, $input.val());
+				}
+			}
+		};
+
+		$input.easyAutocomplete(options);
+
+		$input.on('keypress keydown', function(){
+			var $this = $(this);
+			var value = $this.val();
+			if(!value.replace(/^\s+|\s+$/,''))
+			{
+				scope.model.organization_program = null;
+				console.log('Program Removed: ', scope.model.organization_program, value);
+			}
+		});
+
+		$input.closest('.easy-autocomplete').removeAttr('style');
+	};
 
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {
@@ -1994,43 +2665,39 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	function audioEmbed(options){
+	function audioProgramEmbed(options){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	}
 
-	audioEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
-	EntityEmbed.embedTypes[embedName] = audioEmbed;
+	audioProgramEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = audioProgramEmbed;
 
 	// PUBLIC
-	audioEmbed.prototype.orderIndex = 3;
+	audioProgramEmbed.prototype.orderIndex = 3;
 
-	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
+	audioProgramEmbed.prototype.audioPreviewClass = 'audio-preview';
 
-	audioEmbed.prototype.cleanModel = function(){
+	audioProgramEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
 			url_path: null,
 			url_external: null,
-			credit: null,
-			creditLink: null,
+			organization_program: null,
+			audio_type: null,
 			object_type: defaults.object_type
 		};
 	};
 
-	audioEmbed.prototype.getAudioUrl = function() {
+	audioProgramEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.model.url_path);
+			getAudioUrl(this.options.audioLocation, this.model.url_path);
 	};
 
-	audioEmbed.prototype.initModal = function($el, modalCtrl){
+	audioProgramEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui;
-
-		self.parent.initModal($el, modalCtrl, self);
-
-		$ui = registerUiElements(self, $el);
+		var $ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
 			showFileInput(modalCtrl.scope.currentEmbedType);
@@ -2046,14 +2713,14 @@ var EntityEmbed = EntityEmbed || {};
 			updateAudioPreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.uploadFileInput.on('change', function(evt){
-			var file = evt.target.files[0];
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
 			$ui.urlExternalInput.val('');
 			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
 		});
 
-		$(document).on('dragover drop', function(evt) {
-			evt.preventDefault();
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
 		});
 
 		$ui.audioEditor
@@ -2063,11 +2730,11 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(evt) {
-				evt.preventDefault();
+			.on('drop', function(event) {
+				event.preventDefault();
 
 				var $this = $(this);
-				var files = evt.originalEvent.dataTransfer.files;
+				var files = event.originalEvent.dataTransfer.files;
 				var file;
 
 				if (!!files && !!files.length)
@@ -2096,11 +2763,11 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			});
 
-		$ui.setUrlBtn.on('click', function(evt) {
+		$ui.setUrlBtn.on('click', function(event) {
 			var $this = $(this);
 			var btnInnerHtml = $this.html();
 
-			evt.preventDefault();
+			event.preventDefault();
 
 			// Get model from form
 			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
@@ -2121,9 +2788,11 @@ var EntityEmbed = EntityEmbed || {};
 					});
 			}
 		});
+
+		initAutoComplete(self, $el);
 	};
 
-	audioEmbed.prototype.clearForm = function($el){
+	audioProgramEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el, self);
 
@@ -2134,7 +2803,7 @@ var EntityEmbed = EntityEmbed || {};
 		showFileInput(self);
 	};
 
-	audioEmbed.prototype.saveEmbed = function(embedIsNew)
+	audioProgramEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
 		var self = this;
 		var file = self.model.upload;
@@ -2144,7 +2813,7 @@ var EntityEmbed = EntityEmbed || {};
 
 		if (!!file)
 		{
-			return promise.then(function(responseData){
+			promise.then(function(responseData){
 				//var wavFile = self.$wavForm[0].files[0];
 				// if (!!wavFile)				// only send wav file if user specified
 				// {
@@ -2171,17 +2840,27 @@ var EntityEmbed = EntityEmbed || {};
 				self.model.url_path = responseData.response.url_path;
 			});
 		}
-		else
-		{
-			return promise;
-		}
+
+		return promise;
 	};
 
-	audioEmbed.prototype.getModelFromForm = function($form){
+	audioProgramEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
 		var oldModel = $.extend(true, {}, self.model);
 
 		self.parent.getModelFromForm($form, self);
+
+		if(!!self.model.url_external) {
+			// Make sure local file data is removed when external URL is provided.
+			// Need to do this here since the modal can be completed without the "Listen" btn being clicked.
+			self.$ui.uploadFileInput.val('');
+			delete self.model.upload;
+			delete self.model.url_path;
+		}
+
+		self.model.organization_program = self.$ui.programInput.data('organization_program');
+
+		console.log('getModelFromForm', $.extend(true, {}, self.model));
 
 		if(!!oldModel.upload && !self.model.upload)
 		{
@@ -2189,7 +2868,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	}
 
-	audioEmbed.prototype.getModelFromFile = function(file){
+	audioProgramEmbed.prototype.getModelFromFile = function(file){
 		var self = this;
 		var $ui = self.$ui;
 		var promise = $.Deferred();
@@ -2250,30 +2929,50 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	}
 
-	audioEmbed.prototype.populateFormWithModel = function($form){
+	audioProgramEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
 		var promise = $.Deferred();
+		var deferreds = [];
+		var programPromise, previewPromise;
 
 		self.parent.populateFormWithModel($form, self);
 
+		self.$ui.programInput.data('organization_program', self.model.organization_program);
+
+		// Get program data from API
+		programPromise = EntityEmbed.apiService.get({
+			path: self.options.httpPaths.getOrganizationFetch,
+			data: {
+				object_id: self.model.organization_program.object_id
+			}
+		});
+
+		programPromise.done(function(respData) {
+			self.$ui.programInput.val(respData.response.title);
+		});
+
+		deferreds.push(programPromise);
+
 		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
 		{
-			updateAudioPreview(self)
+			previewPromise = updateAudioPreview(self)
 				.done(function() {
 					promise.resolve();
 				});
+
+			deferreds.push(previewPromise);
 		}
-		else
-		{
+
+		$.when.apply($, deferreds).always(function(){
 			promise.resolve();
-		}
+		});
 
 		return promise;
 	};
 
-	audioEmbed.prototype.parseForEditor = function(){
+	audioProgramEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var audioSrc = self.model.url_external || self.getAudioUrl(self.model.url_path);
+		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];
@@ -2901,7 +3600,7 @@ var EntityEmbed = EntityEmbed || {};
 })();
 var EntityEmbed = EntityEmbed || {};
 
-(function(window){
+(function(window) {
 
 	'use strict';
 
@@ -3141,7 +3840,7 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	facebookEmbed.prototype.initModal = function($el, modalCtrl){
+	facebookEmbed.prototype.initModal = function($el, modalCtrl) {
 		var self = this;
 		var $ui;
 
@@ -3217,7 +3916,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	facebookEmbed.prototype.cleanModel = function(){
+	facebookEmbed.prototype.cleanModel = function() {
 		return {
 			title: null,
 			url: null,
@@ -3227,7 +3926,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	facebookEmbed.prototype.clearForm = function($el){
+	facebookEmbed.prototype.clearForm = function($el) {
 		var self = this;
 
 		self.parent.clearForm($el, self);
@@ -3237,7 +3936,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$ui.previewPost.empty();
 	};
 
-	facebookEmbed.prototype.getModelFromForm = function($form){
+	facebookEmbed.prototype.getModelFromForm = function($form) {
 		var self = this;
 		var promise = $.Deferred();
 
@@ -3252,11 +3951,11 @@ var EntityEmbed = EntityEmbed || {};
 				if(!!self.model.object_id)
 				{
 					// Not a new embed. Don't need to check for duplication when editing.
-					promise.resolve();
+					promise.resolve(self.model);
 				}
 				else
 				{
-					// Get Facebook embeds that have matching titles
+					// Get Video embeds that have matching URL
 					EntityEmbed.apiService.get({
 						path: self.options.httpPaths.getAll,
 						data: {
@@ -3266,62 +3965,31 @@ var EntityEmbed = EntityEmbed || {};
 					})
 					.done(function(resp) {
 						var items = resp.response && resp.response.data || [];
-						var deferreds = [];
-						var i, m, p;
 
-						console.log('List Facebook Embeds by URL:', resp);
-
-						if(!items.length)
+						if(!!items.length && items[0].url === self.model.url)
 						{
-							// No matches found. We can resolve right away.
-							promise.resolve();
+							// Use object_id from first item
+							self.model.object_id = items[0].object_id;
+							// Make sure original title is used
+							self.model.title = items[0].title;
+							self.$ui.titleInput.val(self.model.title);
 						}
-						else
-						{
-							// One or more matches were found.
-							// Check each one for matching URL.
-							for(i = 0, m = items.length; i < m; i++)
-							{
-								// The embed/list endpoint does not return 'url' key.
-								// We will have to request data for each returned object to compare URL's.
-								p = EntityEmbed.apiService.get({
-									path: self.options.httpPaths.get,
-									data: {
-										object_id: items[i].object_id
-									}
-								})
-								.done(function(respItem) {
-									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
-									{
-										self.model.object_id = respItem.response.object_id;
-									}
-								});
-
-								// Add http promise to array of deferreds
-								deferreds.push(p);
-							}
-						}
-
-						// Resolve promise after each http promise has had a chance to compare URL's
-						$.when.apply($, deferreds).always(function() {
-							promise.resolve();
-						});
 					})
-					.fail(function() {
-						// Problem communicating with API. Resolve to keep things moving.
-						promise.resolve();
+					.always(function() {
+						// Always resolve to keep things moving.
+						promise.resolve(self.model);
 					});
 				}
 			})
 			.fail(function() {
 				// Problem communicating with API. Resolve to keep things moving.
-				promise.resolve();
+				promise.resolve(self.model);
 			});
 
 		return promise;
 	};
 
-	facebookEmbed.prototype.populateFormWithModel = function($form){
+	facebookEmbed.prototype.populateFormWithModel = function($form) {
 		var self = this;
 		var $ui = self.$ui;
 
@@ -3358,7 +4026,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	facebookEmbed.prototype.parseForEditor = function(){
+	facebookEmbed.prototype.parseForEditor = function() {
 		var self = this;
 
 		return '<div class="facebook-embed">' +
@@ -3366,7 +4034,7 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-	facebookEmbed.prototype.activateEmbed = function(){
+	facebookEmbed.prototype.activateEmbed = function() {
 		// Check to see if FB scripts have already been loaded
 		if(window.FB)
 		{
@@ -3649,8 +4317,7 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getImageUrl(url)
-	{
+	function getImageUrl(url) {
 		var apiDomain = EntityEmbed.apiService.getDomainName();
 
 		if (!url || url === '')
@@ -4082,7 +4749,7 @@ var EntityEmbed = EntityEmbed || {};
 })();
 var EntityEmbed = EntityEmbed || {};
 
-(function(window){
+(function(window) {
 
 	'use strict';
 
@@ -4281,7 +4948,7 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	instagramEmbed.prototype.initModal = function($el, modalCtrl){
+	instagramEmbed.prototype.initModal = function($el, modalCtrl) {
 		var self = this;
 		var $ui;
 
@@ -4362,7 +5029,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	instagramEmbed.prototype.cleanModel = function(){
+	instagramEmbed.prototype.cleanModel = function() {
 		return {
 			title: null,
 			url: null,
@@ -4372,7 +5039,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	instagramEmbed.prototype.clearForm = function($el){
+	instagramEmbed.prototype.clearForm = function($el) {
 		var self = this;
 
 		self.parent.clearForm($el, self);
@@ -4382,7 +5049,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$ui.previewPost.empty();
 	};
 
-	instagramEmbed.prototype.getModelFromForm = function($form){
+	instagramEmbed.prototype.getModelFromForm = function($form) {
 		var self = this;
 		var promise = $.Deferred();
 
@@ -4398,11 +5065,11 @@ var EntityEmbed = EntityEmbed || {};
 				if(!!self.model.object_id)
 				{
 					// Not a new embed. Don't need to check for duplication when editing.
-					promise.resolve();
+					promise.resolve(self.model);
 				}
 				else
 				{
-					// Get Facebook embeds that have matching titles
+					// Get Video embeds that have matching URL
 					EntityEmbed.apiService.get({
 						path: self.options.httpPaths.getAll,
 						data: {
@@ -4412,67 +5079,36 @@ var EntityEmbed = EntityEmbed || {};
 					})
 					.done(function(resp) {
 						var items = resp.response && resp.response.data || [];
-						var deferreds = [];
-						var i, m, p;
 
-						console.log('List Instagram Embeds by URL:', resp);
-
-						if(!items.length)
+						if(!!items.length && items[0].url === self.model.url)
 						{
-							// No matches found. We can resolve right away.
-							promise.resolve();
+							// Use object_id from first item
+							self.model.object_id = items[0].object_id;
+							// Make sure original title is used
+							self.model.title = items[0].title;
+							self.$ui.titleInput.val(self.model.title);
 						}
-						else
-						{
-							// One or more matches were found.
-							// Check each one for matching URL.
-							for(i = 0, m = items.length; i < m; i++)
-							{
-								// The embed/list endpoint does not return 'url' key.
-								// We will have to request data for each returned object to compare URL's.
-								p = EntityEmbed.apiService.get({
-									path: self.options.httpPaths.get,
-									data: {
-										object_id: items[i].object_id
-									}
-								})
-								.done(function(respItem) {
-									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
-									{
-										self.model.object_id = respItem.response.object_id;
-									}
-								});
-
-								// Add http promise to array of deferreds
-								deferreds.push(p);
-							}
-						}
-
-						// Resolve promise after each http promise has had a chance to compare URL's
-						$.when.apply($, deferreds).always(function() {
-							promise.resolve();
-						});
 					})
-					.fail(function() {
-						// Problem communicating with API. Resolve to keep things moving.
-						promise.resolve();
+					.always(function() {
+						// Always resolve to keep things moving.
+						promise.resolve(self.model);
 					});
 				}
 			})
 			.fail(function() {
 				// Problem communicating with API. Resolve to keep things moving.
-				promise.resolve();
+				promise.resolve(self.model);
 			});
 
 		return promise;
 	};
 
-	instagramEmbed.prototype.populateFormWithModel = function($form){
+	instagramEmbed.prototype.populateFormWithModel = function($form) {
 		var self = this;
 		var $ui = self.$ui;
 
 		function setupUi() {
-			// Show video player and title
+			// Show Intro or Preview
 			if(!self.model.object_id)
 			{
 				showIntro(self);
@@ -4504,14 +5140,14 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	instagramEmbed.prototype.parseForEditor = function(){
+	instagramEmbed.prototype.parseForEditor = function() {
 		var self = this;
 		return '<div class="instagram-embed">' +
 						self.model.embedCode +
 				'</div>';
 	};
 
-	instagramEmbed.prototype.activateEmbed = function(){
+	instagramEmbed.prototype.activateEmbed = function() {
 		// Check to see if Instagram scripts have already been loaded
 		if(window.instgrm)
 		{
@@ -5589,7 +6225,7 @@ var EntityEmbed = EntityEmbed || {};
 })();
 var EntityEmbed = EntityEmbed || {};
 
-(function(){
+(function() {
 
 	'use strict';
 
@@ -5777,7 +6413,7 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	twitterEmbed.prototype.initModal = function($el, modalCtrl){
+	twitterEmbed.prototype.initModal = function($el, modalCtrl) {
 		var self = this;
 		var $ui;
 
@@ -5853,7 +6489,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	twitterEmbed.prototype.cleanModel = function(){
+	twitterEmbed.prototype.cleanModel = function() {
 		return {
 			title: null,
 			url: null,
@@ -5863,7 +6499,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	twitterEmbed.prototype.clearForm = function($el){
+	twitterEmbed.prototype.clearForm = function($el) {
 		var self = this;
 
 		self.parent.clearForm($el, self);
@@ -5873,7 +6509,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.$ui.previewPost.empty();
 	};
 
-	twitterEmbed.prototype.getModelFromForm = function($form){
+	twitterEmbed.prototype.getModelFromForm = function($form) {
 		var self = this;
 		var promise = $.Deferred();
 
@@ -5889,11 +6525,11 @@ var EntityEmbed = EntityEmbed || {};
 				if(!!self.model.object_id)
 				{
 					// Not a new embed. Don't need to check for duplication when editing.
-					promise.resolve();
+					promise.resolve(self.model);
 				}
 				else
 				{
-					// Get Facebook embeds that have matching titles
+					// Get Video embeds that have matching URL
 					EntityEmbed.apiService.get({
 						path: self.options.httpPaths.getAll,
 						data: {
@@ -5903,62 +6539,31 @@ var EntityEmbed = EntityEmbed || {};
 					})
 					.done(function(resp) {
 						var items = resp.response && resp.response.data || [];
-						var deferreds = [];
-						var i, m, p;
 
-						console.log('List Twitter Embeds by URL:', resp);
-
-						if(!items.length)
+						if(!!items.length && items[0].url === self.model.url)
 						{
-							// No matches found. We can resolve right away.
-							promise.resolve();
+							// Use object_id from first item
+							self.model.object_id = items[0].object_id;
+							// Make sure original title is used
+							self.model.title = items[0].title;
+							self.$ui.titleInput.val(self.model.title);
 						}
-						else
-						{
-							// One or more matches were found.
-							// Check each one for matching URL.
-							for(i = 0, m = items.length; i < m; i++)
-							{
-								// The embed/list endpoint does not return 'url' key.
-								// We will have to request data for each returned object to compare URL's.
-								p = EntityEmbed.apiService.get({
-									path: self.options.httpPaths.get,
-									data: {
-										object_id: items[i].object_id
-									}
-								})
-								.done(function(respItem) {
-									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
-									{
-										self.model.object_id = respItem.response.object_id;
-									}
-								});
-
-								// Add http promise to array of deferreds
-								deferreds.push(p);
-							}
-						}
-
-						// Resolve promise after each http promise has had a chance to compare URL's
-						$.when.apply($, deferreds).always(function() {
-							promise.resolve();
-						});
 					})
-					.fail(function() {
-						// Problem communicating with API. Resolve to keep things moving.
-						promise.resolve();
+					.always(function() {
+						// Always resolve to keep things moving.
+						promise.resolve(self.model);
 					});
 				}
 			})
 			.fail(function() {
 				// Problem communicating with API. Resolve to keep things moving.
-				promise.resolve();
+				promise.resolve(self.model);
 			});
 
 		return promise;
 	};
 
-	twitterEmbed.prototype.populateFormWithModel = function($form){
+	twitterEmbed.prototype.populateFormWithModel = function($form) {
 		var self = this;
 		var $ui = self.$ui;
 
@@ -5995,7 +6600,7 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
-	twitterEmbed.prototype.parseForEditor = function(){
+	twitterEmbed.prototype.parseForEditor = function() {
 		var self = this;
 
 		return '<div class="twitter-embed">' +
@@ -6005,7 +6610,7 @@ var EntityEmbed = EntityEmbed || {};
 })();
 var EntityEmbed = EntityEmbed || {};
 
-(function(){
+(function() {
 
 	'use strict';
 
@@ -6264,7 +6869,7 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	videoEmbed.prototype.orderIndex = 4;
 
-	videoEmbed.prototype.cleanModel = function(){
+	videoEmbed.prototype.cleanModel = function() {
 		return {
 			title: null,
 			url: null,
@@ -6273,7 +6878,7 @@ var EntityEmbed = EntityEmbed || {};
 		};
 	};
 
-	videoEmbed.prototype.clearForm = function($el){
+	videoEmbed.prototype.clearForm = function($el) {
 		var self = this;
 		var $ui = self.$ui;
 
@@ -6290,7 +6895,7 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	videoEmbed.prototype.initModal = function($el, modalCtrl){
+	videoEmbed.prototype.initModal = function($el, modalCtrl) {
 		var self = this;
 		var $ui;
 
@@ -6363,7 +6968,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	videoEmbed.prototype.parseForEditor = function(){
+	videoEmbed.prototype.parseForEditor = function() {
 		var self = this;
 		return '<div class="video-embed">' +
 					'<div class="video-embed-inner">' +
@@ -6372,7 +6977,7 @@ var EntityEmbed = EntityEmbed || {};
 				'</div>';
 	};
 
-	videoEmbed.prototype.getModelFromForm = function($form){
+	videoEmbed.prototype.getModelFromForm = function($form) {
 		var self = this;
 		var promise = $.Deferred();
 
@@ -6389,7 +6994,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					// Error getting oembed data.
 					// TODO: Find a way to validate URL doing validation.
-					promise.resolve();
+					promise.resolve(self.model);
 				}
 				else
 				{
@@ -6398,62 +7003,30 @@ var EntityEmbed = EntityEmbed || {};
 					if(!!self.model.object_id)
 					{
 						// Not a new embed. Don't need to check for duplication when editing.
-						promise.resolve();
+						promise.resolve(self.model);
 					}
 					else
 					{
-						// Get Video embeds that have matching titles
+						// Get Video embeds that have matching URL
 						EntityEmbed.apiService.get({
 							path: self.options.httpPaths.getAll,
 							data: {
-								title: self.model.title,
+								url: self.model.url,
 								object_type: self.options.object_type
 							}
 						})
 						.done(function(resp) {
 							var items = resp.response && resp.response.data || [];
-							var deferreds = [];
-							var i, m, p;
 
-							if(!items.length)
+							if(!!items.length && items[0].url === self.model.url)
 							{
-								// No matches found. We can resolve right away.
-								promise.resolve();
+								// Use object_id from first item
+								self.model.object_id = items[0].object_id;
 							}
-							else
-							{
-								// One or more matches were found.
-								// Check each one for matching URL.
-								for(i = 0, m = items.length; i < m; i++)
-								{
-									// The embed/list endpoint does not return 'url' key.
-									// We will have to request data for each returned object to compare URL's.
-									p = EntityEmbed.apiService.get({
-										path: self.options.httpPaths.get,
-										data: {
-											object_id: items[i].object_id
-										}
-									})
-									.done(function(respItem) {
-										if(!self.model.object_id && respItem.response.url === self.model.url)
-										{
-											self.model.object_id = respItem.response.object_id;
-										}
-									});
-
-									// Add http promise to array of deferreds
-									deferreds.push(p);
-								}
-							}
-
-							// Resolve promise after each http promise has had a chance to compare URL's
-							$.when.apply($, deferreds).always(function() {
-								promise.resolve();
-							});
 						})
-						.fail(function() {
-							// Problem communicating with API. Resolve to keep things moving.
-							promise.resolve();
+						.always(function() {
+							// Always resolve to keep things moving.
+							promise.resolve(self.model);
 						});
 					}
 				}
@@ -6462,12 +7035,12 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	}
 
-	videoEmbed.prototype.populateFormWithModel = function($form){
+	videoEmbed.prototype.populateFormWithModel = function($form) {
 		var self = this;
 		var $ui = self.$ui;
 
 		function setupUi() {
-			// Show video player and title
+			// Show Intro or Preview
 			if(!self.model.object_id)
 			{
 				showIntro(self);
@@ -6536,6 +7109,7 @@ var EntityEmbed = EntityEmbed || {};
 				slideshow: {},
 				video:{},
 				audio:{},
+				audioProgram: {},
 				twitter:{},
 				instagram:{},
 				facebook:{},
@@ -6745,7 +7319,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			mType = EntityEmbed.embedModalTypes.edit;
 		}
-		else if (!!options.embedTypeStr)
+		else if (!!options.embedTypeStr && (typeof options.embedTypeStr === 'string' || options.embedTypeStr.length === 1))
 		{
 			if (options.selectExisting)
 			{
@@ -6786,12 +7360,14 @@ var EntityEmbed = EntityEmbed || {};
 	$.embed_modal_open = function(options){
 		var defaults = {
 			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
-			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
+			embedTypeStr: null,					// string or array of strings for the embed type (match object_type field) (can be null)
 												//		null - add any
-												//		not null - add single or edit (if id is also specified)
+												//		string - add single or edit (if id is also specified)
+												//		array - add any of supplied embed types
 			id: null,
 			selectExisting: false,
-			addOnly: false
+			addOnly: false,
+			embedTypeSelectOptions: null
 		};
 		var promise = $.Deferred();
 
