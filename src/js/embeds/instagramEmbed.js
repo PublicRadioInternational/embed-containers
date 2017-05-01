@@ -330,7 +330,7 @@ var EntityEmbed = EntityEmbed || {};
 					.done(function(resp) {
 						var items = resp.response && resp.response.data || [];
 
-						if(!!items.length)
+						if(!!items.length && items[0].url === self.model.url)
 						{
 							// Use object_id from first item
 							self.model.object_id = items[0].object_id;
