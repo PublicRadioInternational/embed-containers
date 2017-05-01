@@ -63,16 +63,16 @@ var EntityEmbed = EntityEmbed || {};
 		return ajaxWrapper(config);
 	};
 
-	function setAuthToken(token){
-		defaultConfig.auth_token = token;
-	};
-
-	function getAuthToken(token){
+	function getAuthToken(){
 		return defaultConfig.auth_token;
 	};
 
-	function getDomainName(d){
+	function getDomainName(){
 		return defaultConfig.domainName;
+	};
+
+	function setAuthToken(token){
+		defaultConfig.auth_token = token;
 	};
 
 	function setDomainName(d){
