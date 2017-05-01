@@ -124,9 +124,9 @@ var EntityEmbed = EntityEmbed || {};
 				et = scope.embedTypes[i];
 
 				// Only add embed types in scope.embedTypeSelectOptions
-				if(limitEmbedOptions)
+				if(scope.selectableEMbedTypes)
 				{
-					if(embedType.indexOf(et.options.object_type) !== -1)
+					if(scope.selectableEMbedTypes.indexOf(et.options.object_type) !== -1)
 					{
 						addEmbedTypeOption(et);
 					}
@@ -639,7 +639,13 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
 
+				delete scope.selectableEMbedTypes;
+
 				if (!!scope.embedType){
+					if(typeof scope.embedType !== 'string')
+					{
+						scope.selectableEMbedTypes = scope.embedType;
+					}
 					setModalView(scope, scope.embedType);
 					delete scope.embedType;
 				}
@@ -767,6 +773,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
+				scope.currentEmbedType.$view.hide();
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				delete scope.confirmedLeave;
 				return true;
@@ -791,6 +798,7 @@ var EntityEmbed = EntityEmbed || {};
 					embedType: scope.currentEmbedType
 				});
 
+				scope.currentEmbedType.$view.hide();
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}
