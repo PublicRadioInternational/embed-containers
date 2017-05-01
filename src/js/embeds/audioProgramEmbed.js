@@ -101,9 +101,6 @@ var EntityEmbed = EntityEmbed || {};
 		// Title
 		model.title = file.name;
 
-		// Credit
-		model.credit = data.artist;
-
 		return model;
 	}
 
@@ -448,6 +445,10 @@ var EntityEmbed = EntityEmbed || {};
 			.removeAttr('src')
 			.removeAttr('type');
 
+		self.$ui.programInput
+			.removeData('organization_program')
+			.val('');
+
 		showFileInput(self);
 	};
 
@@ -640,7 +641,7 @@ var EntityEmbed = EntityEmbed || {};
 		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>',
-			'<div class="credit">Program: <span id="' + programTitleId + '"></span></div>',
+			'<div class="program">Program: <span id="' + programTitleId + '"></span></div>',
 			'<div class="link">Type: ' + self.model.audio_type + '</div>'
 		];
 
