@@ -882,17 +882,22 @@ var EntityEmbed = EntityEmbed || {};
 
 	$.fn.openModal = function(addToScope){
 		var modalCtrl = $.data(this[0], 'ctrl');
+		var modalScope;
+
 		// TODO : decrease cyclomatic complexity
 		if (!!modalCtrl)
 		{
 			if (!!addToScope)
 			{
 				var currentScope = modalCtrl.$el.data('scope');
-				var newScope = $.extend(true, {}, currentScope, addToScope);
-				modalCtrl.$el.data('scope', newScope);
+				modalScope = $.extend(true, {}, currentScope, addToScope);
+				modalCtrl.$el.data('scope', modalScope);
+			}
+			else
+			{
+				modalScope = modalCtrl.$el.data('scope');
 			}
 
-			var modalScope = modalCtrl.$el.data('scope');
 			modalCtrl.promise = $.Deferred();
 
 			modalCtrl.options.functions.open.before(modalScope);
@@ -1181,9 +1186,9 @@ var EntityEmbed = EntityEmbed || {};
 				et = scope.embedTypes[i];
 
 				// Only add embed types in scope.embedTypeSelectOptions
-				if(limitEmbedOptions)
+				if(scope.selectableEMbedTypes)
 				{
-					if(embedType.indexOf(et.options.object_type) !== -1)
+					if(scope.selectableEMbedTypes.indexOf(et.options.object_type) !== -1)
 					{
 						addEmbedTypeOption(et);
 					}
@@ -1696,7 +1701,13 @@ var EntityEmbed = EntityEmbed || {};
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
 
+				delete scope.selectableEMbedTypes;
+
 				if (!!scope.embedType){
+					if(typeof scope.embedType !== 'string')
+					{
+						scope.selectableEMbedTypes = scope.embedType;
+					}
 					setModalView(scope, scope.embedType);
 					delete scope.embedType;
 				}
@@ -1824,6 +1835,7 @@ var EntityEmbed = EntityEmbed || {};
 					}
 				}
 				// no changes made OR leave already confirmed - okay to close without prompting user
+				scope.currentEmbedType.$view.hide();
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 				delete scope.confirmedLeave;
 				return true;
@@ -1848,6 +1860,7 @@ var EntityEmbed = EntityEmbed || {};
 					embedType: scope.currentEmbedType
 				});
 
+				scope.currentEmbedType.$view.hide();
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 		}

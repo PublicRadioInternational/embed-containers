@@ -178,17 +178,22 @@
 
 	$.fn.openModal = function(addToScope){
 		var modalCtrl = $.data(this[0], 'ctrl');
+		var modalScope;
+
 		// TODO : decrease cyclomatic complexity
 		if (!!modalCtrl)
 		{
 			if (!!addToScope)
 			{
 				var currentScope = modalCtrl.$el.data('scope');
-				var newScope = $.extend(true, {}, currentScope, addToScope);
-				modalCtrl.$el.data('scope', newScope);
+				modalScope = $.extend(true, {}, currentScope, addToScope);
+				modalCtrl.$el.data('scope', modalScope);
+			}
+			else
+			{
+				modalScope = modalCtrl.$el.data('scope');
 			}
 
-			var modalScope = modalCtrl.$el.data('scope');
 			modalCtrl.promise = $.Deferred();
 
 			modalCtrl.options.functions.open.before(modalScope);
