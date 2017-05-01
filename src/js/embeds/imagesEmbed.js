@@ -402,13 +402,15 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		var self = this;
 		var file = self.model.upload;
+		var promise = $.Deferred();
+
 		delete self.model.upload;
 
-		var promise = self.parent.saveEmbed(embedIsNew, self);
+		var embedPromise = self.parent.saveEmbed(embedIsNew, self);
 
 		if (!!file)
 		{
-			return promise.then(function(responseData){
+			embedPromise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -421,12 +423,21 @@ var EntityEmbed = EntityEmbed || {};
 				});
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
+				promise.resolve(responseData);
+			})
+			.fail(function(xhr, textStatus, err) {
+				console.error(textStatus, err);
+				promise.reject(textStatus);
 			});
 		}
 		else
 		{
-			return promise;
+			embedPromise.then(function(responseData) {
+				promise.resolve(responseData);
+			});
 		}
+
+		return promise;
 	};
 
 	imagesEmbed.prototype.getModelFromForm = function($form){

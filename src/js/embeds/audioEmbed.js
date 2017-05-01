@@ -336,24 +336,15 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		var self = this;
 		var file = self.model.upload;
+		var promise = $.Deferred();
+
 		delete self.model.upload;
 
-		var promise = self.parent.saveEmbed(embedIsNew, self);
+		var embedPromise = self.parent.saveEmbed(embedIsNew, self);
 
 		if (!!file)
 		{
-			promise.then(function(responseData){
-				//var wavFile = self.$wavForm[0].files[0];
-				// if (!!wavFile)				// only send wav file if user specified
-				// {
-				// 	var wavFormData = new FormData();
-				// 	wavFormData.append('upload', wavFile);
-				// 	sendFile(wavFormData)
-				// 		.then(function(responseData){
-				// 			self.model.wavFile = self.options.audioLocation + responseData.response.url_path;
-				// 		});
-				// }
-
+			embedPromise.then(function(responseData){
 				var mp3FormData = new FormData();
 				mp3FormData.append('upload', file);
 
@@ -367,6 +358,17 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			.done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
+				promise.resolve(responseData);
+			})
+			.fail(function(xhr, textStatus, err) {
+				console.error(textStatus, err);
+				promise.reject(textStatus);
+			});
+		}
+		else
+		{
+			embedPromise.then(function(responseData) {
+				promise.resolve(responseData);
 			});
 		}
 

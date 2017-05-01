@@ -7,14 +7,15 @@ var EntityEmbed = EntityEmbed || {};
 		debug: 0,
 		auth_token: '',
 		domainName: '',
-		path: ''
+		path: '',
+		timeout: 15000
 	};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
 
 		var ajaxOptions = {
-			timeout: 15000,
+			timeout: config.timeout,
 			crossDomain: true,
 			type: config.methodType,
 			dataType: 'json',
@@ -60,6 +61,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	function uploadFile(config){
 		config.methodType = 'POST';
+		config.timeout = 0;
 		return ajaxWrapper(config);
 	};
 
