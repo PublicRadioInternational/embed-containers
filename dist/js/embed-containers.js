@@ -24,14 +24,15 @@ var EntityEmbed = EntityEmbed || {};
 		debug: 0,
 		auth_token: '',
 		domainName: '',
-		path: ''
+		path: '',
+		timeout: 15000
 	};
 
 	function ajaxWrapper(config){
 		config = $.extend(true, {}, defaultConfig, config);
 
 		var ajaxOptions = {
-			timeout: 15000,
+			timeout: config.timeout,
 			crossDomain: true,
 			type: config.methodType,
 			dataType: 'json',
@@ -77,6 +78,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	function uploadFile(config){
 		config.methodType = 'POST';
+		config.timeout = 0;
 		return ajaxWrapper(config);
 	};
 
@@ -2193,24 +2195,15 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		var self = this;
 		var file = self.model.upload;
+		var promise = $.Deferred();
+
 		delete self.model.upload;
 
-		var promise = self.parent.saveEmbed(embedIsNew, self);
+		var embedPromise = self.parent.saveEmbed(embedIsNew, self);
 
 		if (!!file)
 		{
-			promise.then(function(responseData){
-				//var wavFile = self.$wavForm[0].files[0];
-				// if (!!wavFile)				// only send wav file if user specified
-				// {
-				// 	var wavFormData = new FormData();
-				// 	wavFormData.append('upload', wavFile);
-				// 	sendFile(wavFormData)
-				// 		.then(function(responseData){
-				// 			self.model.wavFile = self.options.audioLocation + responseData.response.url_path;
-				// 		});
-				// }
-
+			embedPromise.then(function(responseData){
 				var mp3FormData = new FormData();
 				mp3FormData.append('upload', file);
 
@@ -2224,6 +2217,17 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			.done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
+				promise.resolve(responseData);
+			})
+			.fail(function(xhr, textStatus, err) {
+				console.error(textStatus, err);
+				promise.reject(textStatus);
+			});
+		}
+		else
+		{
+			embedPromise.then(function(responseData) {
+				promise.resolve(responseData);
 			});
 		}
 
@@ -2407,9 +2411,25 @@ var EntityEmbed = EntityEmbed || {};
 			object_type: 'audio-program',
 			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
+				onfocusout: function(elm, evt) {
+					if($(elm).attr(name) === 'organization_program')
+					{
+						return false;
+					}
+
+					return true;
+				},
+				onkeyup: function(elm, evt) {
+					if($(elm).attr(name) === 'organization_program')
+					{
+						return false;
+					}
+
+					return true;
+				},
 				rules: {
 					title: 'required',
-					organization_program: 'required',
+					organization_program: 'hasProgramData',
 					audio_type: 'required',
 					upload: {
 						required: {
@@ -2549,7 +2569,7 @@ var EntityEmbed = EntityEmbed || {};
 				sort: {
 					enabled: true
 				},
-				onChooseEvent: function(){ // store the users story selection
+				onChooseEvent: function(){ // store the users program selection
 					var itemData = $input.getSelectedItemData();
 					var organization_program;
 
@@ -2559,15 +2579,19 @@ var EntityEmbed = EntityEmbed || {};
 							object_id: itemData.object_id,
 							object_type: itemData.object_type
 						};
+
+						$input.data('organization_program', organization_program);
 					}
 					else
 					{
-						organization_program = null;
+						$input.removeData('organization_program');
 					}
 
-					$input.data('organization_program', organization_program);
+					scope.model.organization_program = $input.data('organization_program') || null;
 
-					console.log('Program Change: ', scope.model.organization_program, $input.val());
+					$input.focus();
+
+					console.log('Program Change: ', $input.data('organization_program'), $input.val());
 				}
 			}
 		};
@@ -2580,7 +2604,8 @@ var EntityEmbed = EntityEmbed || {};
 			if(!value.replace(/^\s+|\s+$/,''))
 			{
 				scope.model.organization_program = null;
-				console.log('Program Removed: ', scope.model.organization_program, value);
+				$this.removeData('organization_program');
+				console.log('Program Removed: ', $this.data('organization_program'), value);
 			}
 		});
 
@@ -2790,6 +2815,10 @@ var EntityEmbed = EntityEmbed || {};
 		});
 
 		initAutoComplete(self, $el);
+
+		$.validator.addMethod('hasProgramData', function(value, element){
+			return !!$(element).data('organization_program');
+		}, $.validator.format('Valid Program must be selected.'));
 	};
 
 	audioProgramEmbed.prototype.clearForm = function($el){
@@ -2807,24 +2836,15 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		var self = this;
 		var file = self.model.upload;
+		var promise = $.Deferred();
+
 		delete self.model.upload;
 
-		var promise = self.parent.saveEmbed(embedIsNew, self);
+		var embedPromise = self.parent.saveEmbed(embedIsNew, self);
 
 		if (!!file)
 		{
-			promise.then(function(responseData){
-				//var wavFile = self.$wavForm[0].files[0];
-				// if (!!wavFile)				// only send wav file if user specified
-				// {
-				// 	var wavFormData = new FormData();
-				// 	wavFormData.append('upload', wavFile);
-				// 	sendFile(wavFormData)
-				// 		.then(function(responseData){
-				// 			self.model.wavFile = self.options.audioLocation + responseData.response.url_path;
-				// 		});
-				// }
-
+			embedPromise.then(function(responseData){
 				var mp3FormData = new FormData();
 				mp3FormData.append('upload', file);
 
@@ -2838,6 +2858,17 @@ var EntityEmbed = EntityEmbed || {};
 			})
 			.done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
+				promise.resolve(responseData);
+			})
+			.fail(function(xhr, textStatus, err) {
+				console.error(textStatus, err);
+				promise.reject(textStatus);
+			});
+		}
+		else
+		{
+			embedPromise.then(function(responseData) {
+				promise.resolve(responseData);
 			});
 		}
 
@@ -2937,21 +2968,28 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.populateFormWithModel($form, self);
 
-		self.$ui.programInput.data('organization_program', self.model.organization_program);
+		if(!!self.model.organization_program)
+		{
+			self.$ui.programInput.data('organization_program', self.model.organization_program);
 
-		// Get program data from API
-		programPromise = EntityEmbed.apiService.get({
-			path: self.options.httpPaths.getOrganizationFetch,
-			data: {
-				object_id: self.model.organization_program.object_id
-			}
-		});
+			// Get program data from API
+			programPromise = EntityEmbed.apiService.get({
+				path: self.options.httpPaths.getOrganizationFetch,
+				data: {
+					object_id: self.model.organization_program.object_id
+				}
+			});
 
-		programPromise.done(function(respData) {
-			self.$ui.programInput.val(respData.response.title);
-		});
+			programPromise.done(function(respData) {
+				self.$ui.programInput.val(respData.response.title);
+			});
 
-		deferreds.push(programPromise);
+			deferreds.push(programPromise);
+		}
+		else
+		{
+			self.$ui.programInput.data('organization_program', null);
+		}
 
 		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
 		{
@@ -2963,29 +3001,42 @@ var EntityEmbed = EntityEmbed || {};
 			deferreds.push(previewPromise);
 		}
 
-		$.when.apply($, deferreds).always(function(){
+		if(!!deferreds.length)
+		{
+			$.when.apply($, deferreds).always(function(){
+				promise.resolve();
+			});
+		}
+		else
+		{
 			promise.resolve();
-		});
+		}
 
 		return promise;
 	};
 
 	audioProgramEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var programTitleId = ['program_title', self.model.organization_program.object_id, (new Date()).getTime()].join('_');
 		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
-			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
+			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>',
+			'<div class="credit">Program: <span id="' + programTitleId + '"></span></div>',
+			'<div class="link">Type: ' + self.model.audio_type + '</div>'
 		];
 
-		if(!!self.model.credit)
-		{
-			embedHtml.push('<div class="credit">Credit: ' + self.model.credit + '</div>');
-		}
+		EntityEmbed.apiService.get({
+			path: self.options.httpPaths.getOrganizationFetch,
+			data: {
+				object_id: self.model.organization_program.object_id
+			}
+		})
+		.done(function(data) {
+			var programData = data.response;
+			var $programTitle = $('#' + programTitleId);
 
-		if(!!self.model.creditLink)
-		{
-			embedHtml.push('<div class="link">Link: ' + self.model.creditLink + '</div>');
-		}
+			$programTitle.text(programData.title);
+		});
 
 		return '<div class="audio-embed">' + embedHtml.join('') +'</div>';
 	};
@@ -3436,14 +3487,15 @@ var EntityEmbed = EntityEmbed || {};
 	externalLinkEmbed.prototype.saveEmbed = function(embedIsNew) {
 		var self = this;
 		var file = self.model.upload;
+		var promise = $.Deferred();
 
 		delete self.model.upload;
 
-		var promise = self.parent.saveEmbed(embedIsNew, self);
+		var embedPromise = self.parent.saveEmbed(embedIsNew, self);
 
 		if (!!file)
 		{
-			return promise.then(function(responseData){
+			embedPromise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -3457,12 +3509,21 @@ var EntityEmbed = EntityEmbed || {};
 
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
+				promise.resolve(responseData);
+			})
+			.fail(function(xhr, textStatus, err) {
+				console.error(textStatus, err);
+				promise.reject(textStatus);
 			});
 		}
 		else
 		{
-			return promise;
+			embedPromise.then(function(responseData) {
+				promise.resolve(responseData);
+			});
 		}
+
+		return promise;
 	};
 
 	externalLinkEmbed.prototype.getModelFromForm = function($form){
@@ -4600,13 +4661,15 @@ var EntityEmbed = EntityEmbed || {};
 	{
 		var self = this;
 		var file = self.model.upload;
+		var promise = $.Deferred();
+
 		delete self.model.upload;
 
-		var promise = self.parent.saveEmbed(embedIsNew, self);
+		var embedPromise = self.parent.saveEmbed(embedIsNew, self);
 
 		if (!!file)
 		{
-			return promise.then(function(responseData){
+			embedPromise.then(function(responseData){
 				var imageFormData = new FormData();
 				imageFormData.append('upload', file);
 
@@ -4619,12 +4682,21 @@ var EntityEmbed = EntityEmbed || {};
 				});
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
+				promise.resolve(responseData);
+			})
+			.fail(function(xhr, textStatus, err) {
+				console.error(textStatus, err);
+				promise.reject(textStatus);
 			});
 		}
 		else
 		{
-			return promise;
+			embedPromise.then(function(responseData) {
+				promise.resolve(responseData);
+			});
 		}
+
+		return promise;
 	};
 
 	imagesEmbed.prototype.getModelFromForm = function($form){
