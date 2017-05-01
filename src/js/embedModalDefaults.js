@@ -90,7 +90,13 @@ var EntityEmbed = EntityEmbed || {};
 			return isDirty;
 		},
 		setModalView = function(scope, embedType){
-			var headerText;
+			var headerText, et, i, m;
+			var limitEmbedOptions = typeof embedType !== 'string';
+			var currentEmbedTypeName = limitEmbedOptions ? embedType[0] : embedType;
+
+			function addEmbedTypeOption(et) {
+				scope.$embedTypeSelect.append('<option value="' + et.options.object_type + '">' + et.options.displayName + '</option>');
+			}
 
 			if (!embedType)
 			{
@@ -110,10 +116,31 @@ var EntityEmbed = EntityEmbed || {};
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			}
 
-			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(embedType, scope.embedTypes);
+			// Empty embedTypesSelect options
+			scope.$embedTypeSelect.empty();
+			// Rebuild $embedTypeSelect options
+			for(i = 0, m = scope.embedTypes.length; i < m; i++)
+			{
+				et = scope.embedTypes[i];
+
+				// Only add embed types in scope.embedTypeSelectOptions
+				if(limitEmbedOptions)
+				{
+					if(embedType.indexOf(et.options.object_type) !== -1)
+					{
+						addEmbedTypeOption(et);
+					}
+				}
+				else
+				{
+					addEmbedTypeOption(et);
+				}
+			}
+
+			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(currentEmbedTypeName, scope.embedTypes);
 			scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			scope.currentEmbedType.$view.show();
-			scope.$embedTypeSelect[0].selectedIndex = scope.currentEmbedType.optionIndex;
+			scope.$embedTypeSelect.val(embedType);
 
 			headerText = scope.headerText;
 
@@ -524,11 +551,13 @@ var EntityEmbed = EntityEmbed || {};
 							currentScope.modalCtrl.$el.completeModal();
 						});
 
+					// TODO: Figure out how to move this process to the open::before so these options can be
+					// 		adjusted for each usage of modal. eg. Limit Lede Embed field to only Audio, Video, or Slideshow.
 					// load the views for creating new embeds (one view for each embed type)
 					// create option in dropdown for this embed
-					scope.$embedTypeSelect.append('<option value="' +
-						embedObject.options.object_type + '">' + embedObject.options.displayName +
-						'</option>');
+					// scope.$embedTypeSelect.append('<option value="' +
+					// 	embedObject.options.object_type + '">' + embedObject.options.displayName +
+					// 	'</option>');
 
 					// create the embed view container and load the view into it
 					$embedView = $('<div id="' + embedObject.name + '"></div>');
@@ -609,6 +638,7 @@ var EntityEmbed = EntityEmbed || {};
 		open: {
 			before: function(scope){
 				toggleEditorTyping(scope, "false");
+
 				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
 					delete scope.embedType;

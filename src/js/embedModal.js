@@ -27,6 +27,7 @@ var EntityEmbed = EntityEmbed || {};
 				slideshow: {},
 				video:{},
 				audio:{},
+				audioProgram: {},
 				twitter:{},
 				instagram:{},
 				facebook:{},
@@ -236,7 +237,7 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			mType = EntityEmbed.embedModalTypes.edit;
 		}
-		else if (!!options.embedTypeStr)
+		else if (!!options.embedTypeStr && (typeof options.embedTypeStr === 'string' || options.embedTypeStr.length === 1))
 		{
 			if (options.selectExisting)
 			{
@@ -277,12 +278,14 @@ var EntityEmbed = EntityEmbed || {};
 	$.embed_modal_open = function(options){
 		var defaults = {
 			$currentEditorLocation: $(''),		// selector for the current editor location (can be null or empty)
-			embedTypeStr: null,					// string for the embed type (match object_type field) (can be null)
+			embedTypeStr: null,					// string or array of strings for the embed type (match object_type field) (can be null)
 												//		null - add any
-												//		not null - add single or edit (if id is also specified)
+												//		string - add single or edit (if id is also specified)
+												//		array - add any of supplied embed types
 			id: null,
 			selectExisting: false,
-			addOnly: false
+			addOnly: false,
+			embedTypeSelectOptions: null
 		};
 		var promise = $.Deferred();
 
