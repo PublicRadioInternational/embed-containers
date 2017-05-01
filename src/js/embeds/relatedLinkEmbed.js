@@ -165,7 +165,8 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: null,
-			links: []
+			links: [],
+			object_type: defaults.object_type
 		};
 	};
 
@@ -316,12 +317,74 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO : make this the default styling for genericEmbed
 	relatedLinkEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var deferreds = [];
+		var linksData = [];
+		var linksHtml = [];
+		var embedId = ['related_link', self.model.object_id, (new Date()).getTime()].join('_');
+		var linkHtml, linkEmbed, i, m, promise;
 
-		return '<div class="relatedLink-embed">' +
-					'<div class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Links:</strong> ' + self.model.links.length + '</div>' +
-				'</div>';
+		console.log(self.model.links);
+
+
+		/*
+		<div class="entity-embed-container entity-embed-related-link">
+			<p><strong>{% if embed.displayTitle %}{{ embed.displayTitle }}: {% else %}Related: {% endif %}
+			{% for link in embed.links %}<a href="{{ link.url_path }}">{{ link.title }}</a>{% endfor %}</strong></p>
+		</div>
+		 */
+
+		for(i = 0, m = self.model.links.length; i < m; i++)
+		{
+			promise = EntityEmbed.apiService.get({
+				path: self.options.httpPaths.getContentItem[self.model.links[i].object_type],
+				data: {
+					object_id: self.model.links[i].object_id
+				}
+			});
+
+			// Handle API resonse
+			promise.done((function(index) {
+				return function(respData) {
+					if(respData.status === 'OK')
+					{
+						// Request returned data. Add to model at the correct index
+						linksData[index] = respData.response;
+					}
+				};
+			})(i));
+
+			deferreds.push(promise);
+		}
+
+		$.when.apply($, deferreds).done(function(){
+			var $embed = $('#' + embedId);
+			var $linkItem, i, m;
+
+			if(self.model.displayTitle)
+			{
+				linksHtml.push(self.model.displayTitle + ': ');
+			}
+
+			// Compact linksData array
+			for (i = 0, m = linksData.length; i < m; i++)
+			{
+				if(!linksData[i])
+				{
+					linksData.splice(i,1);
+				}
+			}
+
+			// Create link elements in link list
+			for(i = 0, m = linksData.length; i < m; i++)
+			{
+				linkHtml = '<a href="' + linksData[i].url_path + '">' + linksData[i].title + '</a>';
+				linksHtml.push(linkHtml);
+			}
+
+			$embed.html(linksHtml.join(''));
+		});
+
+		return '<div id="' + embedId + '" class="relatedLink-embed"></div>';
 	};
 
 })();

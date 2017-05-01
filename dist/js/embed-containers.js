@@ -1,19 +1,19 @@
 (function(){EntityEmbed = EntityEmbed || {}; var templateCache = {};templateCache["modal"] = "null";
-templateCache["modal/modal_audio.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
+templateCache["modal/modal_audio.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-half-column\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></form>";
 templateCache["modal/modal_confirmation.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><h3>Are you sure you want to leave?</h3></div><div class=\"embed-modal-body\"><h4>All your changes will be lost if you leave this window!</h4></div><div class=\"embed-modal-footer\"><button id=\"btn-confirm-leave\">Yes - Leave</button> <button id=\"btn-cancel-leave\">No - Stay</button></div></div></div>";
 templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"customText\">Text</label><div name=\"customText\" type=\"text\" placeholder=\"Type your text. Highlight words to trigger the styles editor\" class=\"embed-modal-form-control\" id=\"custom-text-editor\"></div></div></div></div></form>";
-templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image Thumbnail File</label><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"> <span class=\"fa fa-times cancel-upload-image-btn\"></span> <span class=\"fa fa-cog edit-chosen-file-btn\"></span><div class=\"uploaded-image-file\"></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
-templateCache["modal/modal_facebook.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form has-error\"><label class=\"embed-modal-label\" for=\"url\">Facebook Status</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to status\" class=\"embed-modal-form-control\"></div></div></div></form>";
-templateCache["modal/modal_globalBuzz.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"quote\">Quote</label><textarea name=\"quote\" type=\"text\" placeholder=\"Enter quote\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteText\">Quote Url Text</label><input name=\"quoteUrlText\" type=\"text\" placeholder=\"Enter URL label\" class=\"embed-modal-form-control\"></div><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteUrl\">Quote Url</label><input name=\"quoteUrl\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"credit\">Credit</label><input name=\"credit\" type=\"text\" placeholder=\"Attribute the source\" class=\"embed-modal-form-control\"></div></div></div></form>";
+templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Teaser Image</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-remove\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-close\" aria-label=\"Remove Image\"></span></a></li></ul></div></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"display title\">Teaser Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control js-input-teaser_title\"></div><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
+templateCache["modal/modal_facebook.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control js-input-title\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Facebook Status</label><div class=\"social_editor\"><div class=\"social_editor-intro\"><div class=\"social_editor-intro_inner\"><div><div class=\"input-group\"><input name=\"url\" type=\"url\" placeholder=\"Enter URL, or drop link...\" class=\"embed-modal-input embed-modal-form-control js-input-url\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary js-btn-preview\" type=\"button\">Preview</button></span></div></div></div></div><div class=\"social_editor-preview\"><div class=\"social_editor-preview_inner\"><div class=\"social_editor-preview_post\"></div></div></div><div class=\"social_editor-toolbar\"><ul class=\"social_editor-toolbar_list\"><li class=\"social_editor-toolbar_item js-btn-edit\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Enter Another URL\"></span></a></li><li class=\"social_editor-toolbar_item js-btn-cancel\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel URL Editing\"></span></a></li></ul></div></div></div></div></div></form>";
+templateCache["modal/modal_globalBuzz.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"quote\">Quote</label><textarea name=\"quote\" type=\"text\" placeholder=\"Enter quote\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteText\">Quote URL Text</label><input name=\"quoteUrlText\" type=\"text\" placeholder=\"Enter URL label\" class=\"embed-modal-form-control\"></div><div class=\"embed-modal-form\"><label clas=\"embed-modal-label\" for=\"quoteUrl\">Quote URL</label><input name=\"quoteUrl\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"credit\">Credit</label><input name=\"credit\" type=\"text\" placeholder=\"Attribute the source\" class=\"embed-modal-form-control\"></div></div></div></form>";
 templateCache["modal/modal_iframe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Source</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL or iframe source code\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Height</label><div class=\"embed-modal-input-group\"><input name=\"height\" type=\"number\" placeholder=\"\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Width</label><div class=\"embed-modal-input-group\"><input name=\"width\" type=\"number\" placeholder=\"Full Width\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"allowsScroll\">Scroll</label><select name=\"allowsScroll\" class=\"embed-modal-form-control\"><option>No</option><option>Yes</option></select></div></div></div></form>";
 templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><textarea class=\"embed-modal-input embed-modal-form-control\" name=\"caption\" rows=\"5\"></textarea></div><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"><option value=\"\" disabled=\"disabled\" selected=\"selected\">-- Select A License --</option></select></div></div><!-- <div class=\"embed-modal-full-column\">\r\n			<label class=\"embed-modal-label\" for=\"upload\">Image File</label>\r\n			<input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\" />\r\n			<span class=\"fa fa-times cancel-upload-image-btn\"></span>\r\n			<span class=\"fa fa-cog edit-chosen-file-btn\"></span>\r\n			<div class=\"uploaded-image-file\">\r\n				<img class=\"image-preview\">\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"title\" class=\"embed-modal-label\">Title</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"altText\" class=\"embed-modal-label\">Alt Text</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-form\">\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"credit\" class=\"embed-modal-label\">Credit</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\" />\r\n			</div>\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"caption\" class=\"embed-modal-label\">Caption</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"license\" class=\"embed-modal-label\">License</label>\r\n				<select class=\"embed-modal-form-control\" type=\"text\" name=\"license\">\r\n					<option disabled selected>-- Select A License --</option>\r\n				</select>\r\n			</div>\r\n		</div>\r\n	</div> --></div></form>";
-templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Insert Instagram URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to instagram post\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
-templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Cancel</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Create New Embed</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
-templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div></form>";
+templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control js-input-title\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Instagram Post</label><div class=\"social_editor\"><div class=\"social_editor-intro\"><div class=\"social_editor-intro_inner\"><div><div class=\"input-group\"><input name=\"url\" type=\"url\" placeholder=\"Enter URL, or drop link...\" class=\"embed-modal-input embed-modal-form-control js-input-url\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary js-btn-preview\" type=\"button\">Preview</button></span></div></div></div></div><div class=\"social_editor-preview\"><div class=\"social_editor-preview_inner\"><div class=\"social_editor-preview_post\"></div></div></div><div class=\"social_editor-toolbar\"><ul class=\"social_editor-toolbar_list\"><li class=\"social_editor-toolbar_item js-btn-edit\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Enter Another URL\"></span></a></li><li class=\"social_editor-toolbar_item js-btn-cancel\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel URL Editing\"></span></a></li></ul></div></div></div></div></div></form>";
+templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header stick-in-parent\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer stick-in-parent stick-bottom\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Cancel</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Create New Embed</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
+templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Teaser Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
 templateCache["modal/modal_relatedLink.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title to display\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><label class=\"embed-modal-label\">Links</label><div class=\"progress\"><div id=\"related-links-progress\" class=\"progress-bar progress-bar-info\"></div></div><ul id=\"related-link-list\"></ul></div></div><hr><div class=\"embed-modal-row\"><div class=\"related-link-add\"><input name=\"linkInput\" type=\"text\" id=\"add-link-eac\" placeholder=\"Begin typing a title. Select one to add link.\" class=\"embed-modal-form-control\"></div></div></form>";
-templateCache["modal/modal_slideshow.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column slideshow_drop_files\"><div class=\"slideshow_intro\"><a class=\"btn btn-lg btn-primary js-add_slide\"><span class=\"fa fa-plus\" aria-hidden=\"true\"></span> Add First Image</a></div><div class=\"slideshow_editor\"><div class=\"slideshow_editor-slide\"><div class=\"slideshow_editor-slide_image-container\"><div class=\"slideshow_editor-slide_image js-slide_image\" style=\"background-image:url(https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg)\"><img src=\"https://test-services.pri.org/image/2016/05/13/b2e0f83b63414f74a21d8a4fdb9d5328/Prince_We_World_web.jpg\"></div></div><div class=\"slideshow_editor-slide_text js-slide_text\"><div class=\"slideshow_editor-slide_caption js-slide_caption\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam feugiat ac nulla in tincidunt. Curabitur pellentesque, justo at sagittis gravida, nunc eros blandit dolor, a scelerisque eros mauris in tellus.</div><div class=\"slideshow_editor-slide_credit-container\"><span class=\"slideshow_editor-slide_label\">Credit</span> <span class=\"slideshow_editor-slide_credit_text js-slide_credit\">John A. Doe / Unknown News</span> <a class=\"slideshow_editor-slide_credit_link js-slide_credit\" href=\"\" target=\"_blank\">John A. Doe / Unknown News</a></div></div></div><div class=\"slideshow_editor-nav\"><ul class=\"slideshow_editor-nav_list js-slides\"><li class=\"slideshow_editor-nav_item js-slide_template\"><a class=\"slideshow_editor-nav_btn\"><span class=\"slideshow_editor-nav_ind fa\" aria-hidden=\"true\"></span><span class=\"slideshow_editor-nav_handle\" aria-hidden=\"true\"></span></a></li></ul><div class=\"slideshow_editor-add_item\"><a class=\"slideshow_editor-add_btn js-add_slide\"><span class=\"fa fa-plus\" aria-label=\"Add Slide\"></span></a></div></div><div class=\"slideshow_editor-toolbar\"><ul class=\"slideshow_editor-toolbar_list\"><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-remove_slide\"><span class=\"fa fa-remove\" aria-label=\"Remove Slide\"></span></a></li><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-edit_slide\"><span class=\"fa fa-cog\" aria-label=\"Edit Slide\"></span></a></li></ul></div></div></div></div></form><div class=\"embed-modal\" id=\"embed-modal-slideshow-image\"></div>";
-templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"tweetUrl\">Tweet URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to tweet\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";
-templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
+templateCache["modal/modal_slideshow.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"slideshowTitle\" class=\"embed-modal-label\">Slideshow Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title for internal use\" type=\"text\" name=\"title\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"displayTitle\" class=\"embed-modal-label\">Display Title</label><input class=\"embed-modal-input embed-modal-form-control\" placeholder=\"Enter a title to display\" type=\"text\" name=\"displayTitle\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column slideshow_drop_files\"><div class=\"slideshow_intro\"><a class=\"btn btn-lg btn-primary js-add_slide\"><span class=\"fa fa-plus\" aria-hidden=\"true\"></span> Add First Image</a></div><div class=\"slideshow_editor\"><div class=\"slideshow_editor-slide\"><div class=\"slideshow_editor-slide_image-container\"><div class=\"slideshow_editor-slide_image js-slide_image\"><img></div></div><div class=\"slideshow_editor-slide_text js-slide_text\"><div class=\"slideshow_editor-slide_caption js-slide_caption\"></div><div class=\"slideshow_editor-slide_credit-container\"><span class=\"slideshow_editor-slide_label\">Credit</span> <span class=\"slideshow_editor-slide_credit_text js-slide_credit\"></span> <a class=\"slideshow_editor-slide_credit_link js-slide_credit\" href=\"\" target=\"_blank\"></a></div></div></div><div class=\"slideshow_editor-nav\"><ul class=\"slideshow_editor-nav_list js-slides\"><li class=\"slideshow_editor-nav_item js-slide_template\"><a class=\"slideshow_editor-nav_btn\"><span class=\"slideshow_editor-nav_ind fa\" aria-hidden=\"true\"></span><span class=\"slideshow_editor-nav_handle\" aria-hidden=\"true\"></span></a></li></ul><div class=\"slideshow_editor-add_item\"><a class=\"slideshow_editor-add_btn js-add_slide\"><span class=\"fa fa-plus\" aria-label=\"Add Slide\"></span></a></div></div><div class=\"slideshow_editor-toolbar\"><ul class=\"slideshow_editor-toolbar_list\"><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-remove_slide\"><span class=\"fa fa-remove\" aria-label=\"Remove Slide\"></span></a></li><li class=\"slideshow_editor-toolbar_item\"><a class=\"slideshow_editor-toolbar_btn js-edit_slide\"><span class=\"fa fa-cog\" aria-label=\"Edit Slide\"></span></a></li></ul></div></div></div></div></form><div class=\"embed-modal\" id=\"embed-modal-slideshow-image\"></div>";
+templateCache["modal/modal_twitter.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control js-input-title\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Twitter Status (Tweet)</label><div class=\"social_editor\"><div class=\"social_editor-intro\"><div class=\"social_editor-intro_inner\"><div><div class=\"input-group\"><input name=\"url\" type=\"url\" placeholder=\"Enter URL, or drop link...\" class=\"embed-modal-input embed-modal-form-control js-input-url\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary js-btn-preview\" type=\"button\">Preview</button></span></div></div></div></div><div class=\"social_editor-preview\"><div class=\"social_editor-preview_inner\"><div class=\"social_editor-preview_post\"></div></div></div><div class=\"social_editor-toolbar\"><ul class=\"social_editor-toolbar_list\"><li class=\"social_editor-toolbar_item js-btn-edit\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Enter Another URL\"></span></a></li><li class=\"social_editor-toolbar_item js-btn-cancel\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel URL Editing\"></span></a></li></ul></div></div></div></div></div></form>";
+templateCache["modal/modal_video.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Video URL Preview</label><div class=\"video_editor\"><div class=\"video_editor-intro\"><div class=\"video_editor-intro_inner\"><div><div class=\"input-group\"><input name=\"url\" type=\"url\" placeholder=\"Enter URL to video\" class=\"embed-modal-input embed-modal-form-control js-input-url\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary js-btn-preview\" type=\"button\">Preview</button></span></div></div></div></div><div class=\"video_editor-preview\"><div class=\"video_editor-preview_inner\"><div class=\"video_editor-preview_video\"><div class=\"video-embed\"><div class=\"overlay js-preview-wrapper\"><iframe class=\"js-preview-iframe\" src=\"\" frameborder=\"0\"></iframe></div></div></div><div class=\"video_editor-preview_info\"><h4 class=\"video_editor-preview_title\">Here is a title to test the video editor layout with</h4><div class=\"video_editor-preview_credits\"><a class=\"video_editor-preview_author\" target=\"_blank\"></a> / <a class=\"video_editor-preview_provider\" target=\"_blank\"></a></div></div></div></div><div class=\"video_editor-toolbar\"><ul class=\"video_editor-toolbar_list\"><li class=\"video_editor-toolbar_item js-btn-edit\"><a class=\"video_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Enter Another URL\"></span></a></li><li class=\"video_editor-toolbar_item js-btn-cancel\"><a class=\"video_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel URL Editing\"></span></a></li></ul></div></div></div></div></div></form>";EntityEmbed.templateCache = templateCache;})();
 var EntityEmbed = EntityEmbed || {};
 
 (function(){
@@ -132,7 +132,7 @@ var EntityEmbed = EntityEmbed || {};
 		activeToolbarBtnClass = 'medium-editor-button-active', // class name given to the active toolbar button
 		styleToolbarClass = 'medium-insert-images-toolbar', // class name given to the medium insert toolbar
 		actionToolbarClass = 'medium-insert-images-toolbar2', // class name given to the secondary toolbar
-		actionToolbarLocatorClass = 'entity-embed-secondary-toolbar-locator',
+		actionToolbarLocatorClass = '.entity-embed-secondary-toolbar-locator',
 		docEventsReadyKey = 'entityEmbedToolbarEventsReady',
 		entityEmbedToolbarClass = 'entity-embed-toolbar',
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
@@ -197,6 +197,7 @@ var EntityEmbed = EntityEmbed || {};
 		self.mediumEditorAddon = mediumEditorAddon;
 		self.styles = toolbarStyles;
 		self.actions = toolbarActions;
+		self.embedTypes = [];
 		if (!!activeEmbedClassParam)
 		{
 			activeEmbedClass = activeEmbedClassParam;
@@ -244,6 +245,8 @@ var EntityEmbed = EntityEmbed || {};
 		var stylesCopy = $.extend(self.styles, {});
 		var deletedEveryField = true;
 		var $toolbar = $location.find('.' + styleToolbarClass + '.' + embed.name + 'StyleToolbar');
+
+		self.embedTypes[embed.name] = embed;
 
 		if (!embed.options.styles)
 		{
@@ -337,22 +340,53 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		});
 
+		// TODO: Tell EntityEmbedAddon to re-render embed.
+		self.mediumEditorAddon.renderEmbed($activeLine, true);
+
 		core.triggerInput();
 	};
 
 	toolbarManager.prototype.addStyle = function($activeLine, styleClass, buttonAction, shouldPositionToolbar){
 		var self = this;
+		var prevWidth = $activeLine.width();
+		var PrevHeight = $activeLine.height();
+		var count = 0;
+
+		window.clearTimeout(self.positionToolbarsTimeout);
+
+		function repositionToolbars() {
+			var w = $activeLine.width();
+			var h = $activeLine.height();
+
+			if(w !== prevWidth || h !== PrevHeight)
+			{
+				count = 1;
+				prevWidth = w;
+				PrevHeight = h;
+				self.positionToolbars($activeLine);
+			}
+
+			if(count < 20) {
+				count++;
+				self.positionToolbarsTimeout = window.setTimeout(function(){
+					repositionToolbars();
+				}, 100);
+			}
+			else
+			{
+				delete self.positionToolbarsTimeout;
+			}
+		}
 
 		$activeLine.addClass(styleClass);
+
 		if (!!self.styles[buttonAction].added)
 		{
 			self.styles[buttonAction].added($activeLine)
 		}
 		if (shouldPositionToolbar)
 		{
-			setTimeout(function(){
-				self.positionToolbars($('.' + activeEmbedClass));
-			}, 50);
+			repositionToolbars();
 		}
 	};
 
@@ -374,10 +408,19 @@ var EntityEmbed = EntityEmbed || {};
 		$toolbars.find('button').removeClass(activeToolbarBtnClass);
 
 		self.currentToolbarEmbedType = null;
+
+		if(self.positionToolbarsTimeout)
+		{
+			window.clearTimeout(self.positionToolbarsTimeout);
+			delete self.positionToolbarsTimeout;
+		}
 	};
 
 	toolbarManager.prototype.positionToolbars = function($embed) {
 		var self = this;
+		var $figure = $embed.find('> figure');
+		var embedType = $figure.data('embed');
+		var toolbarLocatorClass = embedType.options.actionToolbarLocatorClass || actionToolbarLocatorClass;
 
 		if(!$embed.length)
 		{
@@ -389,7 +432,7 @@ var EntityEmbed = EntityEmbed || {};
 		// TODO : position action tool bar in a way that doesn't suck
 		//			this positioning frequently interferes with the other toolbar
 
-		var $toolbarLocator = $embed.find('.' + actionToolbarLocatorClass);
+		var $toolbarLocator = $embed.find(toolbarLocatorClass);
 		if ($toolbarLocator.length === 0)
 		{
 			$toolbarLocator = $embed;
@@ -493,8 +536,10 @@ var EntityEmbed = EntityEmbed || {};
 	// function to initialize the modal view
 	// called after the modal view has loaded
 	// $el: a jQuery element for the modal view
-	genericEmbed.prototype.initModal = function($el){
-		var self = this;
+	genericEmbed.prototype.initModal = function($el, modalCtrl, child){
+		var self = child || this;
+		self.modalCtrl = modalCtrl;
+		self.$el = $el;
 	};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
@@ -519,13 +564,12 @@ var EntityEmbed = EntityEmbed || {};
 				self.model[name] = value;
 			}
 		}
-
-		self.model.html_rendered = null;
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
 		var self = child || this;
 		var formFields = $form.find('.embed-modal-form-control');
+
 		for (var i = 0; i < formFields.length; i++)
 		{
 			if (!!formFields[i].type && formFields[i].type.indexOf('file') !== -1)
@@ -551,6 +595,7 @@ var EntityEmbed = EntityEmbed || {};
 			}
 		}
 	};
+
 	// TODO: Get rid of self paramater. See inherits function
 	genericEmbed.prototype.clearForm = function($el, child){
 		var self = child || this;
@@ -600,7 +645,7 @@ var EntityEmbed = EntityEmbed || {};
 	genericEmbed.prototype.saveEmbed = function(embedIsNew, child){
 		var self = child || this;
 
-		if (embedIsNew)
+		if (!self.model.object_type)
 		{
 			// add the object_type onto the model
 			self.model.object_type = self.options.object_type;
@@ -609,6 +654,8 @@ var EntityEmbed = EntityEmbed || {};
 		return EntityEmbed.apiService.set({
 			path: self.options.httpPaths.set,
 			data: self.model
+		}).done(function(resp) {
+			self.staleModel = $.extend(true, {}, self.model);
 		});
 	};
 
@@ -1081,6 +1128,12 @@ var EntityEmbed = EntityEmbed || {};
 				return;
 			}
 
+			scope.isAdd = scope.modalCtrl.isAdd = scope.modalType === EntityEmbed.embedModalTypes.add ||
+						 scope.modalType === EntityEmbed.embedModalTypes.addSingle;
+
+			scope.isSingle = scope.modalCtrl.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
+											scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle;
+
 			if (!!scope.currentEmbedType)
 			{
 				delete scope.currentEmbedType.model;
@@ -1124,6 +1177,25 @@ var EntityEmbed = EntityEmbed || {};
 			var isValid = true;
 			var promise = $.Deferred();
 			var respData = {};
+			var modelPromise;
+
+			function doSave() {
+				if(!scope.buffered)
+				{
+
+					scope.currentEmbedType.saveEmbed(isAddModal, scope.currentEmbedType)
+						.done(successFunction)
+						.fail(failFunction)
+						.always(alwaysFunction);
+
+				}
+				else
+				{
+					respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
+					successFunction(respData);
+					alwaysFunction(respData);
+				}
+			}
 
 			for(var i = 0; i < $validator.length; i++)
 			{
@@ -1140,22 +1212,17 @@ var EntityEmbed = EntityEmbed || {};
 
 			scope.elements.saveSpinner.show();
 
-			scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
+			modelPromise = scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
-			if(!scope.buffered)
+			if(typeof modelPromise === 'object' && typeof modelPromise.then === 'function')
 			{
-
-				scope.currentEmbedType.saveEmbed(isAddModal)
-					.done(successFunction)
-					.fail(failFunction)
-					.always(alwaysFunction);
-
+				modelPromise.always(function() {
+					doSave();
+				});
 			}
 			else
 			{
-				respData.response = $.extend(true, {} ,scope.currentEmbedType.model)
-				successFunction(respData);
-				alwaysFunction(respData);
+				doSave();
 			}
 
 			////
@@ -1290,26 +1357,6 @@ var EntityEmbed = EntityEmbed || {};
 
 			return embedType && $.extend(true, {}, embedType);
 		},
-		generateEmbedHtmlInternal = function(embedType, includeWrapper){
-			var $embed = $('<div>').html(embedType.parseForEditor());
-
-			$embed.children().first().addClass('entity-embed');
-
-			var ret = '<figure contenteditable="false" ' +
-							'id="' + embedType.model.object_id	+ '" ' +
-							'data-embed-type="' + embedType.options.object_type + '" >' +
-							$embed.html() +
-							'<div class="entity-embed-blocker"></div>' +
-						'</figure>';
-
-			if (includeWrapper)
-			{
-				return	'<div class="entity-embed-container">' +
-							ret +
-						'</div>';
-			}
-			return ret;
-		},
 		//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
 		//	begin typing the title of an embed and have a dropdown list of embeds displayed to them
 		initAutoComplete = function (embedType, scope){
@@ -1405,7 +1452,7 @@ var EntityEmbed = EntityEmbed || {};
 				.closest('.easy-autocomplete')
 				.removeAttr('style');
 		},
-		generateSelExInputHtml = function(embedType) { // SelEx -> SelectExisting
+		generateSelectExistingInputHtml = function(embedType) {
 			return	'<div class="embed-modal-row ' + embedType.options.object_type + '-query-container query-container">' +
 						'<div class="embed-modal-full-column">' +
 							'<label class="embed-modal-label" for="query">Search for ' + embedType.options.displayName + '</label>' +
@@ -1416,8 +1463,6 @@ var EntityEmbed = EntityEmbed || {};
 		};
 
 	function embedModalDefaults(){};
-
-	embedModalDefaults.prototype.generateEmbedHtml = generateEmbedHtmlInternal;
 
 	embedModalDefaults.prototype.functions = {
 		init:{
@@ -1495,7 +1540,7 @@ var EntityEmbed = EntityEmbed || {};
 				{
 					embedObject = scope.embedTypes[i];
 
-					scope.containers.selectExistingEmbed.append(generateSelExInputHtml(embedObject));
+					scope.containers.selectExistingEmbed.append(generateSelectExistingInputHtml(embedObject));
 
 					$selExInput = scope.containers.selectExistingEmbed
 											.find('input[name="' + embedObject.options.object_type + '-query"]');
@@ -1594,10 +1639,6 @@ var EntityEmbed = EntityEmbed || {};
 		},
 		open: {
 			before: function(scope){
-
-				scope.isSingle = scope.modalType === EntityEmbed.embedModalTypes.addSingle ||
-												scope.modalType === EntityEmbed.embedModalTypes.selectExistingSingle
-
 				toggleEditorTyping(scope, "false");
 				if (!!scope.embedType){
 					setModalView(scope, scope.embedType);
@@ -1611,9 +1652,16 @@ var EntityEmbed = EntityEmbed || {};
 
 				function applyData(data) {
 					data = data || {};
+
+					// Make sure html_rendered key is not set to normalize stale model to current model comparison
+					if(!!data.html_rendered)
+					{
+						data.html_rendered = null;
+					}
+
 					setModalView(scope, data.object_type);
 					scope.currentEmbedType.model = data;
-					scope.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
+					scope.currentEmbedType.staleModel = $.extend(true, {}, data); // so we can check if the form is dirty later
 					scope.currentEmbedType.populateFormWithModel(scope.currentEmbedType.$view);
 				}
 
@@ -1697,13 +1745,13 @@ var EntityEmbed = EntityEmbed || {};
 
 				if (!scope.confirmedLeave)
 				{
-					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.staleModel) // this is an edit modal - compare current model to stale model
+					if (scope.modalType === EntityEmbed.embedModalTypes.edit && !!scope.currentEmbedType.staleModel) // this is an edit modal - compare current model to stale model
 					{
 						scope.currentEmbedType.getModelFromForm(scope.currentEmbedType.$view);
 
 						for (var fieldName in scope.currentEmbedType.model)
 						{
-							staleVal = prepVal(scope.staleModel[fieldName]);
+							staleVal = prepVal(scope.currentEmbedType.staleModel[fieldName]);
 							modelVal = prepVal(scope.currentEmbedType.model[fieldName]);
 
 							if (staleVal !== modelVal)
@@ -1738,27 +1786,10 @@ var EntityEmbed = EntityEmbed || {};
 
 				toggleEditorTyping(scope, 'true');
 
-				if (scope.$currentEditorLocation.length > 0)
-				{
-					classes = scope.$currentEditorLocation.attr('class').split(' ');
-					classes.push(scope.currentEmbedType.defaultStyle);
-					$embedTemp = $( generateEmbedHtmlInternal(scope.currentEmbedType, true) );
-
-					for(i = 0, m = classes.length; i < m; i++)
-					{
-						$embedTemp.addClass(classes[i]);
-					}
-
-					scope.$currentEditorLocation.after( $embedTemp );
-					scope.$currentEditorLocation.remove();
-					scope.$currentEditorLocation = $embedTemp;
-				}
-
 				// return only necessary information to anyone interested in promise resolution
 				scope.modalCtrl.promise.resolve({
 					data: $.extend(true, {}, scope.currentEmbedType.model),
-					embedType: scope.currentEmbedType,
-					$embed: scope.$currentEditorLocation
+					embedType: scope.currentEmbedType
 				});
 
 				scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
@@ -1799,7 +1830,6 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_audio.html',
 			displayName: 'Audio',
 			object_type: 'audio',
-			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
@@ -1807,7 +1837,7 @@ var EntityEmbed = EntityEmbed || {};
 					upload: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.urlExternalInput).val();
+								return !$(uiElements.urlExternalInput, $(element).closest('form')).val();
 							}
 						},
 						extension: "mp3"
@@ -1815,7 +1845,7 @@ var EntityEmbed = EntityEmbed || {};
 					url_external: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.uploadFileInput).val();
+								return !$(uiElements.uploadFileInput, $(element).closest('form')).val();
 							}
 						}
 					},
@@ -1859,29 +1889,31 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(audioLocation, audioUrl) {
-		if (!audioUrl || audioUrl === '')
+	function getAudioUrl(url)
+	{
+		var apiDomain = EntityEmbed.apiService.getDomainName();
+
+		if (!url || url === '')
 		{
-			return audioLocation || '';
+			return '';
 		}
 
-		if (audioUrl.indexOf(audioLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return audioUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (audioLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
 		}
 
-		if (!audioUrl.startsWith('/'))
-		{
-			audioLocation = '/' + audioUrl;
-		}
-
-		return audioLocation + audioUrl;
+		return apiDomain + url;
 	}
 
 	function registerUiElements(scope, $el) {
@@ -1981,19 +2013,24 @@ var EntityEmbed = EntityEmbed || {};
 			url_path: null,
 			url_external: null,
 			credit: null,
-			creditLink: null
+			creditLink: null,
+			object_type: defaults.object_type
 		};
 	};
 
 	audioEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.options.audioLocation, this.model.url_path);
+			getAudioUrl(this.model.url_path);
 	};
 
 	audioEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
 			showFileInput(modalCtrl.scope.currentEmbedType);
@@ -2009,14 +2046,14 @@ var EntityEmbed = EntityEmbed || {};
 			updateAudioPreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.uploadFileInput.on('change', function(event){
-			var file = event.target.files[0];
+		$ui.uploadFileInput.on('change', function(evt){
+			var file = evt.target.files[0];
 			$ui.urlExternalInput.val('');
 			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
 		});
 
-		$(document).on('dragover drop', function(event) {
-			event.preventDefault();
+		$(document).on('dragover drop', function(evt) {
+			evt.preventDefault();
 		});
 
 		$ui.audioEditor
@@ -2026,11 +2063,11 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(event) {
-				event.preventDefault();
+			.on('drop', function(evt) {
+				evt.preventDefault();
 
 				var $this = $(this);
-				var files = event.originalEvent.dataTransfer.files;
+				var files = evt.originalEvent.dataTransfer.files;
 				var file;
 
 				if (!!files && !!files.length)
@@ -2059,11 +2096,11 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			});
 
-		$ui.setUrlBtn.on('click', function(event) {
+		$ui.setUrlBtn.on('click', function(evt) {
 			var $this = $(this);
 			var btnInnerHtml = $this.html();
 
-			event.preventDefault();
+			evt.preventDefault();
 
 			// Get model from form
 			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
@@ -2236,7 +2273,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
+		var audioSrc = self.model.url_external || self.getAudioUrl(self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];
@@ -2318,7 +2355,8 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: "",
-			text: null
+			text: null,
+			object_type: defaults.object_type
 		};
 	}
 
@@ -2366,7 +2404,7 @@ var EntityEmbed = EntityEmbed || {};
 		});
 	};
 
-	customTextEmbed.prototype.initModal = function($el){
+	customTextEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $customText = $('#' + customTextEditorId);
 		var customTextEditor = new MediumEditor($customText[0], {
@@ -2374,6 +2412,8 @@ var EntityEmbed = EntityEmbed || {};
 				text: "Type your text. Highlight words to trigger the styles editor"
 			}
 		});
+
+		self.parent.initModal($el, modalCtrl, self);
 
 		$customText.data('editor', customTextEditor);
 	};
@@ -2389,7 +2429,7 @@ var EntityEmbed = EntityEmbed || {};
 			embedHtml.unshift('<div class="display-title">' + self.model.displayTitle + '</div>');
 		}
 
-		return  '<div class="custom-text-embed entity-embed-secondary-toolbar-locator">' + embedHtml.join('') +'</div>';
+		return '<div class="custom-text-embed entity-embed-secondary-toolbar-locator">' + embedHtml.join('') +'</div>';
 	};
 
 })();
@@ -2401,50 +2441,188 @@ var EntityEmbed = EntityEmbed || {};
 
 	// PRIVATE
 	var embedName = 'externalLink',
+		uiElements = {
+			// myElm: '.select-my-elm'
+			imageEditor: '.image_editor',
+			imageEditorPreview: '.image_editor-preview',
+			imageEditorPreviewImage: '.image_editor-preview_image',
+			editImageFileBtn: '.js-upload',
+			cancelUploadImageBtn: '.js-upload-cancel',
+			removeUploadImageBtn: '.js-upload-remove',
+			undoUploadImageBtn: '.js-upload-undo',
+			uploadFileInputContainer: '.image_editor-intro',
+			uploadFileInput: '.embed-modal-file-input',
+			teaserTitleInput: '.js-input-displayTitle'
+		},
 		defaults = {
 			viewPath: 'modal_externalLink.html',
 			displayName: 'External Link',
 			object_type: 'external-link',
-			imageLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
 					url: 'required',
-					linkText: 'required'
+					linkText: 'required',
+					teaser: {
+						required: {
+							depends: function(element) {
+								return !!$(uiElements.teaserTitleInput, $(element).closest('form')).val();
+							}
+						}
+					}
+				},
+				messages: {
+					teaser: {
+						required: 'Teaser required when Teaser Title is set.'
+					}
 				}
 			},
 			httpPaths:{
 				uploadFile: 'admin/embed/file-upload'
 			}
-		},
-		uploadedImgDisplay = '.uploaded-image-file',
-		cancelUploadImageBtn = '.cancel-upload-image-btn',
-		editImageFileBtn = '.edit-chosen-file-btn',
-		uploadImageFileBtn = ".embed-modal-file-input",
-		getImageUrl = function(imageLocation, imageUrl)
-		{
-			if (!imageUrl || imageUrl === '')
-			{
-				return '';
-			}
-
-			if (imageUrl.indexOf(imageLocation) >= 0)
-			{
-				return imageUrl;
-			}
-
-			// ensure that there isn't an unintended '//' in final URL
-			if (imageLocation.endsWith('/'))
-			{
-				imageLocation = imageLocation.substring(0, imageLocation.length - 1);
-			}
-			if (!imageUrl.startsWith('/'))
-			{
-				imageUrl = '/' + imageUrl;
-			}
-
-			return imageLocation + imageUrl;
 		};
+
+	function getImageUrl(url)
+	{
+		var apiDomain = EntityEmbed.apiService.getDomainName();
+
+		if (!url || url === '')
+		{
+			return '';
+		}
+
+		if (url.indexOf(apiDomain) >= 0)
+		{
+			return url;
+		}
+
+		// ensure that there isn't an unintended '//' in final URL
+		if (apiDomain.endsWith('/'))
+		{
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
+		}
+
+		return apiDomain + url;
+	}
+
+	function getModelFromData(data, file) {
+		var model = {};
+		var creditArray = [];
+
+		// Alt Text
+		// model.teaser_image_alt = data.headline;
+
+		return model;
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {
+			form: $el
+		};
+
+		for(key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function updateImagePreview(scope, file) {
+		var $ui = scope.$ui;
+		var image = new Image();
+		var promise = $.Deferred();
+		var imageUrl;
+
+		function handleLoad() {
+			showImagePreview(scope);
+			promise.resolve();
+			$(this).off('load', handleLoad);
+		}
+
+		$ui.imageEditorPreviewImage.on('load', handleLoad);
+
+		if (file)
+		{
+			scope.model.upload = file;
+		}
+
+		imageUrl = scope.getImageUrl();
+
+		$ui.imageEditorPreview.css('background-image', 'url("' + imageUrl + '")')
+		$ui.imageEditorPreviewImage.attr('src', imageUrl);
+
+		return promise;
+	}
+
+	function updateFormWithImageData(scope, file) {
+		var $ui = scope.$ui;
+		var promise = $.Deferred();
+
+		scope.getModelFromFile(file)
+			.done(function (model) {
+
+				scope.populateFormWithModel(scope.$el)
+					.done(function () {
+						promise.resolve();
+					});
+
+			});
+
+		return promise;
+	}
+
+	function removeUploadImage(scope) {
+		var $ui = scope.$ui;
+
+		// Remove
+		scope.model.upload = null;
+		scope.model.url_path = null;
+
+		// Remove value from upload input
+		resetFileInput($ui.uploadFileInput);
+	}
+
+	function resetFileInput($el) {
+		$el.attr('type', '').attr('type', 'file');
+	}
+
+	function showImagePreview(scope) {
+		var $ui = scope.$ui;
+
+		// Hide file input and related toolbar btns
+		$ui.uploadFileInputContainer.hide();
+		$ui.cancelUploadImageBtn.hide();
+
+		// Show Image Preview and related toolbar btns
+		$ui.imageEditorPreview.show();
+		$ui.editImageFileBtn.show();
+		$ui.undoUploadImageBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
+		$ui.removeUploadImageBtn.toggle(!!scope.model.url_path || !!scope.model.upload);
+	}
+
+	function showFileInput(scope) {
+		var $ui = scope.$ui;
+
+		// Hide Image Preview and related toolbar btns
+		$ui.imageEditorPreview.hide();
+		$ui.editImageFileBtn.hide();
+		$ui.removeUploadImageBtn.hide();
+
+		// Show file input and related toolbar btns. Clean up after previous validation errors.
+		$ui.uploadFileInput.removeClass('error')
+			.parent().find('#upload-error').remove();
+		$ui.uploadFileInputContainer.show();
+		$ui.cancelUploadImageBtn.toggle(!!(scope.model.url_path || scope.model.upload));
+		$ui.undoUploadImageBtn.toggle(!!scope.staleModel && !!scope.staleModel.url_path && !(scope.model.url_path || scope.model.upload));
+	}
 
 	// CONSTRUCTOR
 	function externalLinkEmbed(options){
@@ -2452,7 +2630,6 @@ var EntityEmbed = EntityEmbed || {};
 		self.parent.constructor(options, defaults, embedName, self);
 	};
 
-	// TODO : inherit from imagesEmbed
 	externalLinkEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
 	EntityEmbed.embedTypes[embedName] = externalLinkEmbed;
 
@@ -2468,48 +2645,103 @@ var EntityEmbed = EntityEmbed || {};
 			teaser: null,
 			linkText: null,
 			url: null,
+			object_type: defaults.object_type
 		};
 	};
 
-	externalLinkEmbed.prototype.initModal = function($el){
-		var self = this;
-
-		self.$imageForm = $el.find('input[name="upload"]');
-
-		$el.find(editImageFileBtn).on('click', function(){
-			$el.find(uploadedImgDisplay).hide();
-			$el.find(editImageFileBtn).hide();
-
-			self.$imageForm.css('display', 'inline-block');
-			$el.find(cancelUploadImageBtn).show();
-		});
-
-		$el.find(cancelUploadImageBtn).on('click', function(){
-			self.$imageForm.hide();
-			$el.find(cancelUploadImageBtn).hide();
-			if (self.$imageForm.parent().find('#upload-error').is(':visible'))
-			{
-				self.$imageForm.parent().find('#upload-error').hide();	
-			}
-
-			$el.find(uploadedImgDisplay).show();
-			$el.find(editImageFileBtn).show();
-		});
-
-		$el.find(uploadImageFileBtn).on('change', function(){
-			var fileName =  $el.find(uploadImageFileBtn)[0].files[0].name;
-			$el.find("[name=title]").val(fileName);
-		});
+	externalLinkEmbed.prototype.getImageUrl = function() {
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :  getImageUrl(this.model.url_path);
 	};
 
-	externalLinkEmbed.prototype.saveEmbed = function(embedIsNew)
-	{
+	externalLinkEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
+
+		$ui.editImageFileBtn.on('click', 'a', function(){
+			$ui.uploadFileInput.click();
+		});
+
+		$ui.cancelUploadImageBtn.on('click', 'a', function(){
+			showImagePreview(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.removeUploadImageBtn.on('click', 'a', function(){
+			removeUploadImage(modalCtrl.scope.currentEmbedType);
+			showFileInput(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.undoUploadImageBtn.on('click', 'a', function() {
+			var model = modalCtrl.scope.currentEmbedType.model
+
+			// Remove upload from model and clear input
+			delete modalCtrl.scope.currentEmbedType.model.upload;
+			resetFileInput($ui.uploadFileInput);
+
+			// Reset url_path to stale path if it was removed
+			modalCtrl.scope.currentEmbedType.model.url_path = modalCtrl.scope.currentEmbedType.model.url_path || modalCtrl.scope.currentEmbedType.staleModel.url_path;
+
+			updateImagePreview(modalCtrl.scope.currentEmbedType);
+		});
+
+		$ui.uploadFileInput.on('change', function(evt){
+			var file = evt.target.files[0];
+			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
+		});
+
+		$(document).on('dragover drop', function(evt) {
+			evt.preventDefault();
+		});
+
+		$ui.imageEditor
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(evt) {
+				evt.preventDefault();
+
+				var $this = $(this);
+				var files = evt.originalEvent.dataTransfer.files;
+				var file;
+
+				if (!!files && !!files.length)
+				{
+					file = files[0];
+
+					if(file.type.indexOf('image') === -1)
+					{
+						return;
+					}
+
+					$this.addClass('js-dropped');
+
+					setTimeout(function() {
+						updateFormWithImageData(modalCtrl.scope.currentEmbedType, file)
+							.done(function() {
+								setTimeout(function() {
+									$this.removeClass('js-dropped');
+								}, 300);
+							});
+
+					}, 300);
+				}
+			});
+	};
+
+	externalLinkEmbed.prototype.saveEmbed = function(embedIsNew) {
 		var self = this;
 		var file = self.model.upload;
+
 		delete self.model.upload;
 
 		var promise = self.parent.saveEmbed(embedIsNew, self);
-		
+
 		if (!!file)
 		{
 			return promise.then(function(responseData){
@@ -2523,7 +2755,7 @@ var EntityEmbed = EntityEmbed || {};
 						'x-object-id': responseData.response.object_id
 					}
 				});
-				
+
 			}).done(function(responseData){
 				self.model.url_path = responseData.response.url_path;
 			});
@@ -2534,59 +2766,136 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
+	externalLinkEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var oldModel = $.extend(true, {}, self.model);
+
+		self.parent.getModelFromForm($form, self);
+
+		if(!!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
+	}
+
+	externalLinkEmbed.prototype.getModelFromFile = function(file){
+		var self = this;
+		var $ui = self.$ui;
+		var promise = $.Deferred();
+
+		if (!file)
+		{
+			file = self.model.upload;
+		}
+
+		EXIF.getData(file, function() {
+			var imageData = this.iptcdata;
+			var currentModel, tempModel, lcModel, prop, lc;
+
+			// Get a model using the default mapping method
+			tempModel = getModelFromData(imageData, this);
+
+			// Update model with current form values
+			self.getModelFromForm(self.$el);
+
+			// Clone current model so we can manipulate it
+			currentModel = $.extend(true, {}, self.model);
+
+			// Remove null properties from currentModel so they don't overwrite
+			// properties on tempModel.
+			for (prop in currentModel)
+			{
+				if(currentModel.hasOwnProperty(prop) && currentModel[prop] === null)
+				{
+					delete currentModel[prop];
+				}
+			}
+
+			// Merge models together.
+			// 		currentModel > tempModel
+			self.model = $.extend(true, {}, tempModel, currentModel);
+
+			// Current model may contain old upload file, make sure it is set to the new file
+			self.model.upload = file;
+
+			promise.resolve(self.model);
+		});
+
+		return promise;
+	}
+
 	externalLinkEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
+		var promise = $.Deferred();
+
+		// Translate legacy keys
+		self.model.linkText = self.model.linkText || self.model.linkText;
+		self.model.url = self.model.url || self.model.url;
+		self.model.displayTitle = self.model.displayTitle || self.model.displayTitle;
+
 		self.parent.populateFormWithModel($form, self);
 
-		if (!self.model.upload && !self.model.url_path)
-		{	
-			return;
+		if (!!self.model.upload || !!self.model.url_path)
+		{
+			updateImagePreview(self)
+				.done(function() {
+					promise.resolve();
+				});
+		}
+		else
+		{
+			promise.resolve();
 		}
 
-		self.$imageForm.hide();
-
-		$form.find(uploadedImgDisplay).show();
-		$form.find(editImageFileBtn).show();
-		$form.find(uploadedImgDisplay).append(self.generateUploadedImgPreview());
+		return promise;
 	};
-	
+
 	externalLinkEmbed.prototype.clearForm = function($el){
 		var self = this;
+		var $ui = self.$ui;
+
 		self.parent.clearForm($el, self);
 
-		$el.find(uploadedImgDisplay).find('.' + self.imagePreviewClass).remove();
-		$el.find(uploadedImgDisplay).hide();
-		$el.find(cancelUploadImageBtn).hide();
-		$el.find(editImageFileBtn).hide();
-		self.$imageForm.show();
-	};
+		$ui.imageEditorPreviewImage.removeAttr('src');
 
-	externalLinkEmbed.prototype.generateUploadedImgPreview = function() {
-		var self = this;
-		if (!!self.model.object_id) // this is an edit modal - there must be an existing url_path to the image file
-		{
-			return '<img class="' + self.imagePreviewClass +
-					'" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">';
-		}
-		else // this is an add modal - the image has been uploaded by the client but not pushed to the server
-		{
-			return	'<div class="' + self.imagePreviewClass + '">' +
-				(self.model.url_path || self.model.upload.name) +
-			'</div>';
-		}
+		showFileInput(self);
 	};
 
 	externalLinkEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var embed = [];
+		var teaserBlock = [];
+		var teaserText = [];
 
-		return 	'<div class="external-link-embed entity-embed-secondary-toolbar-locator">' +
-					'<img src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '">' + 
-					'<div class="text-container">' + 
-						'<div class="display-title">' + self.model.displayTitle + '</div>' +
-						'<div class="teaser">' + self.model.teaser + '</div>' +
-					'</div>' + 
-					'<a href="' + self.model.url + '">'  + self.model.linkText + '</a>' + 
-				'</div>';
+		// Add Image to Teaser Block
+		if(self.model.url_path)
+		{
+			teaserBlock.push('<div class="external_link-teaser-image"><img src="' + getImageUrl(self.model.url_path) + '"></div>');
+		}
+
+		// Add Teaser to Teaser Block
+		if(self.model.teaser)
+		{
+			if(self.model.displayTitle) {
+				teaserText.push('<div class="external_link-teaser-title">' + self.model.displayTitle + '</div>');
+			}
+
+			teaserText.push('<div class="external_link-teaser-teaser">' + self.model.teaser + '</div>');
+
+			teaserBlock.push('<div class="external_link-teaser-text">' + teaserText.join('') + '</div>');
+		}
+
+		// Add Teaser Block to Embed
+		if(!!teaserBlock.length)
+		{
+			embed.push('<div class="external_link-teaser">' + teaserBlock.join('') + '</div>')
+		}
+
+		// Add Link to Embed
+		embed.push('<a class="external_link-link" href="' + self.model.url + '">'  + self.model.linkText + '</a>');
+
+
+		return 	'<div class="external_link">' + embed.join('') + '</div>';
 	};
 
 })();
@@ -2602,13 +2911,220 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_facebook.html',
 			displayName: 'Facebook',
 			object_type: 'facebook',
+			actionToolbarLocatorClass: '.fb-post, .fb-video',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required'
+					url: {
+						required: true,
+						validFacebookUrl: true
+					}
 				}
 			}
+		},
+		uiElements = {
+			intro: '.social_editor-intro',
+			previewBtn: '.js-btn-preview',
+			preview: '.social_editor-preview',
+			previewPost: '.social_editor-preview_post',
+			previewTitle: '.social_editor-preview_title',
+			previewAuthor: '.social_editor-preview_author',
+			previewProvider: '.social_editor-preview_provider',
+			titleInput: '.js-input-title',
+			urlInput: '.js-input-url',
+			editBtn: '.js-btn-edit',
+			cancelBtn: '.js-btn-cancel',
+			dropTarget: '.social_editor-intro_inner'
 		};
+
+	function bootstrapFacebookSdk() {
+		var fbRootId = 'fb-root';
+		var sdkScriptId = 'facebook-jssdk';
+		var sdkScriptUrl = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3';
+		var $body = $('body');
+		var $fbRoot = $('#' + fbRootId);
+		var $sdkScript = $('#' + sdkScriptId);
+		var $scripts = $('script');
+
+		if(!$fbRoot.length)
+		{
+			$fbRoot = $('<div>').attr('id', fbRootId);
+			$body.prepend($fbRoot);
+		}
+
+		if(!$sdkScript.length)
+		{
+			$sdkScript = $('<script>')
+				.attr('id', sdkScriptId)
+				.attr('src', sdkScriptUrl);
+
+			$scripts.eq(0).before($sdkScript);
+		}
+	}
+
+	function getOembedData(url) {
+		var promise = $.Deferred();
+		var apiUrl = getPostType(url) === 'video' ?
+			'https://www.facebook.com/plugins/video/oembed.json/' :
+			'https://www.facebook.com/plugins/post/oembed.json/';
+		var ajaxOptions = {
+			timeout: 2000,
+			crossDomain: true,
+			type: 'GET',
+			dataType: 'jsonp',
+			url: apiUrl,
+			data: {
+				url: url
+			}
+		};
+
+		return $.ajax(ajaxOptions)
+			.done(function(data) {
+				console.log('facebookEmbed > getOembedData', data);
+			});
+	}
+
+	function getOembedTitle(oembed) {
+		var isVideo = getPostType(oembed.url) === 'video';
+		var dateSelector = isVideo ? 'blockquote' : 'a[href="' + oembed.url + '"]';
+		var titleSelector = isVideo ? 'a[href="' + oembed.url + '"]' : 'blockquote';
+		var rgxDate = /\w+\s\d{1,2},\s\d{4}/;
+		var $embed, $title, $date, date, title, titleTemp, titleTrunc;
+
+		$embed = $('<div>').html(oembed.html);
+
+		$date = $embed.find(dateSelector);
+		date = $date.text().match(rgxDate)[0];
+
+		// Set title to oEmbed title
+		titleTemp = oembed.title;
+
+		if(!titleTemp)
+		{
+			// Parse embed html for title element
+			$embed = $('<div>').html(oembed.html);
+			$title = $embed.find(titleSelector);
+			titleTemp = $title.text();
+		}
+
+		// Limit title length to 10 words
+		titleTrunc = titleTemp.split(' ').slice(0,10).join(' ');
+
+		// Append ellipsis if title was shortened
+		if (titleTrunc !== titleTemp)
+		{
+			titleTrunc += '...';
+		}
+
+		// Build final title
+		title = [
+			oembed.author_name,
+			date,
+			titleTrunc
+		].join(' - ');
+
+		return title;
+	}
+
+	/**
+	 * Get only the post markup from embed code.
+	 *
+	 * @param   {String}  embedCode  Embed code markup to parse.
+	 *
+	 * @return  {String}             HTML markup of post.
+	 */
+	function getPostHtml(embedCode) {
+		var $post = $('<div>').html(embedCode).find('.fb-post, .fb-video');
+		var $embed = $('<div>').html($post);
+
+		return $embed.html();
+	}
+
+	function getPostType(url) {
+		return (/\/video(?:s\/|\.php)/i).test(url) ? 'video' : 'post';
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {};
+
+		for(var key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function showIntro(scope) {
+		var $ui = scope.$ui;
+
+		// Show cancel button as needed
+		$ui.cancelBtn.toggle(!!(scope.modalCtrl.isAdd && scope.model.oembed));
+
+		// Show intro
+		$ui.intro.show();
+
+		// Hide preview related elements
+		$ui.preview.hide();
+		$ui.editBtn.hide();
+	}
+
+	function showPreview(scope) {
+		var $ui = scope.$ui;
+		var $embed = $('<div>').html(scope.model.embedCode).find('.fb-post, .fb-video');
+
+		// Append embed html code
+		// For rendering puposes, we want only the embed markup, not the bootstrap script or fb-root element. We'll handle that later as needed.
+		$ui.previewPost.html(getPostHtml(scope.model.embedCode));
+
+		// Set title text
+		$ui.titleInput.val(scope.model.title);
+
+		// Set author text and href
+		$ui.previewAuthor
+			.attr('href', scope.model.oembed.author_url)
+			.text(scope.model.oembed.author_name);
+
+		// Set provider text and href
+		$ui.previewProvider
+			.attr('href', scope.model.oembed.provider_url)
+			.text(scope.model.oembed.provider_name);
+
+		// Show edit btn as needed
+		$ui.editBtn.toggle(!!scope.modalCtrl.isAdd);
+
+		// Show preview container
+		$ui.preview.show();
+		// Facebook SDK script only run once, so we need to kick off a parse ourselves.
+		scope.activateEmbed();
+
+		// Hide intro related elements
+		$ui.intro.hide();
+		$ui.cancelBtn.hide();
+	}
+
+	function applyOembedToModel(scope, oembed) {
+		// Set title to oEmbed title
+		scope.model.title = scope.model.title || scope.$ui.titleInput.val();
+		if(!scope.model.title)
+		{
+			scope.model.title = getOembedTitle(oembed);
+		}
+
+		// Set embedCode
+		scope.model.embedCode = oembed.html;
+
+		// Store oEmbed data on model
+		scope.model.oembed = oembed;
+	}
+
+	function isValidUrl(url) {
+		var rgxFacebookPost = /^(?:https:)?\/\/www\.facebook\.com\/(?:[^\/]+\/)?(?:activity|media|notes|permalink|photos?|posts|questions|videos?)/i;
+		return rgxFacebookPost.test(url);
+	}
 
 	// CONSTRUCTOR
 	function facebookEmbed(options){
@@ -2622,54 +3138,231 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	facebookEmbed.prototype.orderIndex = 7;
 
-	facebookEmbed.prototype.getModelFromForm = function($el){
+	// function to initialize the modal view
+	// called after the modal view has loaded
+	// $el: a jQuery element for the modal view
+	facebookEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
+		var $ui;
 
-		// TODO: Need to extract this block of code, and instead call parent function
-		var formFields = $el.find('.embed-modal-form-control');
+		self.parent.initModal($el, modalCtrl, self);
 
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
+		$ui = registerUiElements(self, $el);
 
-		var embedCodeName = 'embedCode';
-		var code = 	'<script>' +
-						'(function(d, s, id) {' +
-							'var js, fjs = d.getElementsByTagName(s)[0];' +
-							'if (d.getElementById(id)) return;' +
-							'js = d.createElement(s);' +
-							'js.id = id;' +
-							'js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";' +
-							'fjs.parentNode.insertBefore(js, fjs);' +
-							'}' +
-							'(document, "script", "facebook-jssdk"));' +
-						'</script>' +
-					'<div class="fb-post" data-href="'+ this.model.url + '" data-width="500">' +
-					'</div>';
-		self.model[embedCodeName] = code;
+		$.validator.addMethod('validFacebookUrl', function(value, element, params) {
+			var isValid = isValidUrl(value);
+			return this.optional(element) || isValid;
+		}, 'The URL must be to a valid Facebook post or video.');
 
+		$ui.previewBtn.on('click', function(evt) {
+
+			evt.preventDefault();
+
+			self.getModelFromForm($el)
+				.done(function() {
+					if(isValidUrl(self.model.url))
+					{
+						showPreview(self);
+					}
+				});
+		});
+
+		$ui.editBtn.on('click', function(evt) {
+			evt.preventDefault();
+			showIntro(self);
+		});
+
+		$ui.cancelBtn.on('click', function(evt) {
+			evt.preventDefault();
+			showPreview(self);
+		});
+
+		$ui.dropTarget
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(evt) {
+
+				evt.stopPropagation();
+				evt.preventDefault();
+
+				var droppedString = evt.originalEvent.dataTransfer.getData('text/plain');
+				var droppedHtml = evt.originalEvent.dataTransfer.getData('text/html');
+				var $droppedElm = $( droppedHtml );
+				var $context = $('<div>');
+				var droppedUrl;
+
+				if(!!droppedString)
+				{
+					droppedUrl = droppedString;
+				}
+				else if(!!$droppedElm.length)
+				{
+					$context.append($droppedElm);
+					droppedUrl = $context.find('[href]').attr('href');
+				}
+
+				if(!!droppedUrl && isValidUrl(droppedUrl))
+				{
+					$ui.urlInput.val(droppedUrl);
+					$ui.previewBtn.click();
+				}
+			});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
 	};
-	// PUBLIC
+
 	facebookEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			url: null
+			url: null,
+			oembed: null,
+			embedCode: null,
+			object_type: defaults.object_type
 		};
+	};
+
+	facebookEmbed.prototype.clearForm = function($el){
+		var self = this;
+
+		self.parent.clearForm($el, self);
+
+		showIntro(self);
+
+		self.$ui.previewPost.empty();
+	};
+
+	facebookEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var promise = $.Deferred();
+
+		// Gather fields data
+		self.parent.getModelFromForm($form.find('form').first(), self);
+
+		// Get oEmbed data for URL
+		getOembedData(self.model.url)
+			.done(function(data) {
+				applyOembedToModel(self, data);
+
+				if(!!self.model.object_id)
+				{
+					// Not a new embed. Don't need to check for duplication when editing.
+					promise.resolve();
+				}
+				else
+				{
+					// Get Facebook embeds that have matching titles
+					EntityEmbed.apiService.get({
+						path: self.options.httpPaths.getAll,
+						data: {
+							url: self.model.url,
+							object_type: self.options.object_type
+						}
+					})
+					.done(function(resp) {
+						var items = resp.response && resp.response.data || [];
+						var deferreds = [];
+						var i, m, p;
+
+						console.log('List Facebook Embeds by URL:', resp);
+
+						if(!items.length)
+						{
+							// No matches found. We can resolve right away.
+							promise.resolve();
+						}
+						else
+						{
+							// One or more matches were found.
+							// Check each one for matching URL.
+							for(i = 0, m = items.length; i < m; i++)
+							{
+								// The embed/list endpoint does not return 'url' key.
+								// We will have to request data for each returned object to compare URL's.
+								p = EntityEmbed.apiService.get({
+									path: self.options.httpPaths.get,
+									data: {
+										object_id: items[i].object_id
+									}
+								})
+								.done(function(respItem) {
+									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
+									{
+										self.model.object_id = respItem.response.object_id;
+									}
+								});
+
+								// Add http promise to array of deferreds
+								deferreds.push(p);
+							}
+						}
+
+						// Resolve promise after each http promise has had a chance to compare URL's
+						$.when.apply($, deferreds).always(function() {
+							promise.resolve();
+						});
+					})
+					.fail(function() {
+						// Problem communicating with API. Resolve to keep things moving.
+						promise.resolve();
+					});
+				}
+			})
+			.fail(function() {
+				// Problem communicating with API. Resolve to keep things moving.
+				promise.resolve();
+			});
+
+		return promise;
+	};
+
+	facebookEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var $ui = self.$ui;
+
+		function setupUi() {
+			// Show video player and title
+			if(!self.model.object_id)
+			{
+				showIntro(self);
+			}
+			else
+			{
+				showPreview(self);
+			}
+		}
+
+		self.parent.populateFormWithModel($form.find('form').first(), self);
+
+		if(self.model.object_id && !self.model.oembed)
+		{
+			// Get oEmbed data
+			getOembedData(self.model.url)
+				.done(function(data) {
+					applyOembedToModel(self, data);
+
+					return self.saveEmbed();
+				})
+				.always(function() {
+					setupUi();
+				});
+		}
+		else
+		{
+			setupUi();
+		}
 	};
 
 	facebookEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		// TODO: Need to make user unable to interact with embed
+
 		return '<div class="facebook-embed">' +
-					'<div class="overlay">' +
-						self.model.embedCode +
-					'</div>' +
+					getPostHtml(self.model.embedCode) +
 				'</div>';
 	};
 
@@ -2679,6 +3372,10 @@ var EntityEmbed = EntityEmbed || {};
 		{
 			// Tell FB to parse widgets again
 			window.FB.XFBML.parse();
+		}
+		else
+		{
+			bootstrapFacebookSdk();
 		}
 	}
 
@@ -2699,9 +3396,9 @@ var EntityEmbed = EntityEmbed || {};
 				rules: {
 					title: 'required',
 					quote: 'required',
-					url: 'required'
+					quoteUrlText: 'required',
+					quoteUrlText: 'required'
 				}
-
 			}
 		};
 
@@ -2722,26 +3419,32 @@ var EntityEmbed = EntityEmbed || {};
 			title: null,
 			quote: null,
 			credit: null,
-			quoteUrl: null
+			quoteUrl: null,
+			quoteUrlText: null,
+			object_type: defaults.object_type
 		};
 	};
 
 	globalBuzzEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var credit;
+
+		credit = !self.model.credit ? '' :
+			'<div class="buzz-field-quote-credit">' +
+				self.model.credit +
+			'</div>';
+
 		return '<div class="global-buzz">' +
 					'<article class="global-buzz-quote-wrapper engagement-badge-wrapper">' +
 						'<div class="engagement-badge"></div>' +
 						'<div>' +
 							'<h1 class="global-buzz-teaser">Global Buzz</h1>' +
 							'<div class="buzz-field-quote">' +
-								'<img class ="buzz-field-quote-png" src="http://www.pri.org/sites/all/themes/pri/images/icon-open-quote.png">' +
 								'<div class="buzz-quote-inner">' +
 									self.model.quote +
 								'</div>' +
 							'</div>' +
-							'<div class="buzz-field-quote-credit">' +
-								self.model.credit +
-							'</div>' +
+							credit +
 							'<a class="btn btn-primary global-buzz-link" href="' + self.model.quoteUrl + '">' + self.model.quoteUrlText + '</a>' +
 						'</div>' +
 					'</article>' +
@@ -2788,7 +3491,8 @@ var EntityEmbed = EntityEmbed || {};
 			url: null,
 			allowsScroll: false,
 			width: null,
-			height: 300
+			height: 300,
+			object_type: defaults.object_type
 		};
 	};
 
@@ -2945,30 +3649,32 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getImageUrl(imageLocation, imageUrl)
+	function getImageUrl(url)
 	{
-		if (!imageUrl || imageUrl === '')
+		var apiDomain = EntityEmbed.apiService.getDomainName();
+
+		if (!url || url === '')
 		{
 			return '';
 		}
 
-		if (imageUrl.indexOf(imageLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return imageUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (imageLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			imageLocation = imageLocation.substring(0, imageLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
 		}
-		if (!imageUrl.startsWith('/'))
+		if (!url.startsWith('/'))
 		{
-			imageUrl = '/' + imageUrl;
+			url = '/' + url;
 		}
 
-		return imageLocation + imageUrl;
-	};
+		return apiDomain + url;
+	}
 
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {
@@ -3092,7 +3798,7 @@ var EntityEmbed = EntityEmbed || {};
 	};
 
 	imagesEmbed.prototype.getImageUrl = function() {
-		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.options.imageLocation, this.model.url_path);
+		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) : getImageUrl(this.model.url_path);
 	};
 
 	imagesEmbed.prototype.loadLicenses = function ($el){
@@ -3142,7 +3848,11 @@ var EntityEmbed = EntityEmbed || {};
 
 	imagesEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui = registerUiElements(self, $el);
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
 
 		self.loadLicenses($el);
 
@@ -3160,13 +3870,13 @@ var EntityEmbed = EntityEmbed || {};
 			updateImagePreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.uploadFileInput.on('change', function(event){
-			var file = event.target.files[0];
+		$ui.uploadFileInput.on('change', function(evt){
+			var file = evt.target.files[0];
 			updateFormWithImageData(modalCtrl.scope.currentEmbedType, file);
 		});
 
-		$(document).on('dragover drop', function(event) {
-			event.preventDefault();
+		$(document).on('dragover drop', function(evt) {
+			evt.preventDefault();
 		});
 
 		$ui.imageEditor
@@ -3176,11 +3886,11 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(event) {
-				event.preventDefault();
+			.on('drop', function(evt) {
+				evt.preventDefault();
 
 				var $this = $(this);
-				var files = event.originalEvent.dataTransfer.files;
+				var files = evt.originalEvent.dataTransfer.files;
 				var file;
 
 				if (!!files && !!files.length)
@@ -3296,10 +4006,9 @@ var EntityEmbed = EntityEmbed || {};
 			// Get a model using the default mapping method
 			tempModel = getModelFromData(imageData, this);
 
-			// Update model with current form values
-			if($ui)
-			{
-				self.getModelFromForm($ui.form);
+			// Update model with current form values, if a it exists
+			if(!!self.$el) {
+				self.getModelFromForm(self.$el);
 			}
 
 			// Clone current model so we can manipulate it
@@ -3355,7 +4064,7 @@ var EntityEmbed = EntityEmbed || {};
 	imagesEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		var embedHtml = [
-			'<img class="entity-embed-secondary-toolbar-locator" src="' + getImageUrl(self.options.imageLocation, self.model.url_path) + '" />'
+			'<img class="entity-embed-secondary-toolbar-locator" src="' + getImageUrl(self.model.url_path) + '" />'
 		];
 
 		if(!!self.model.caption)
@@ -3383,13 +4092,179 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_instagram.html',
 			displayName: 'Instagram',
 			object_type: 'instagram',
+			actionToolbarLocatorClass: '.instagram-media',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required'
+					url: {
+						required: true,
+						validInstagramUrl: true
+					}
 				}
 			}
+		},
+		uiElements = {
+			intro: '.social_editor-intro',
+			previewBtn: '.js-btn-preview',
+			preview: '.social_editor-preview',
+			previewPost: '.social_editor-preview_post',
+			previewTitle: '.social_editor-preview_title',
+			previewAuthor: '.social_editor-preview_author',
+			previewProvider: '.social_editor-preview_provider',
+			titleInput: '.js-input-title',
+			urlInput: '.js-input-url',
+			editBtn: '.js-btn-edit',
+			cancelBtn: '.js-btn-cancel',
+			dropTarget: '.social_editor-intro_inner'
 		};
+
+	function getOembedData(url) {
+		var promise = $.Deferred();
+		var ajaxOptions = {
+			timeout: 2000,
+			crossDomain: true,
+			type: 'GET',
+			dataType: 'jsonp',
+			url: 'https://api.instagram.com/oembed',
+			data: {
+				url: url
+			}
+		};
+
+		return $.ajax(ajaxOptions)
+			.done(function(data) {
+
+				console.log('instagramEmbed > getOembedData', data);
+
+				data.url = data.url || url;
+
+				return data;
+			});
+	}
+
+	function getOembedTitle(oembed) {
+		var dateSelector = 'time';
+		var titleSelector = 'a[href="' + oembed.url + '"]';
+		var rgxDate = /\w+\s\d{1,2},\s\d{4}/;
+		var $embed, $title, $date, date, title, titleTemp, titleTrunc;
+
+		$embed = $('<div>').html(oembed.html);
+
+		$date = $embed.find(dateSelector);
+		date = $date.text().match(rgxDate)[0];
+
+		// Set title to oEmbed title
+		titleTemp = oembed.title;
+
+		if(!titleTemp)
+		{
+			// Parse embed html for title element
+			$title = $embed.find(titleSelector);
+			titleTemp = $title.text();
+		}
+
+		// Limit title length to 10 words
+		titleTrunc = titleTemp.split(' ').slice(0,10).join(' ');
+
+		// Append ellipsis if title was shortened
+		if (titleTrunc !== titleTemp)
+		{
+			titleTrunc += '...';
+		}
+
+		// Build final title
+		title = [
+			oembed.author_name,
+			date,
+			titleTrunc
+		].join(' - ');
+
+		return title;
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {};
+
+		for(var key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function showIntro(scope) {
+		var $ui = scope.$ui;
+
+		// Show cancel button as needed
+		$ui.cancelBtn.toggle(!!(scope.modalCtrl.isAdd && scope.model.oembed));
+
+		// Show intro
+		$ui.intro.show();
+
+		// Hide preview related elements
+		$ui.preview.hide();
+		$ui.editBtn.hide();
+	}
+
+	function showPreview(scope) {
+		var $ui = scope.$ui;
+		var $embed;
+
+		// Append embed html code
+		$ui.previewPost.html(scope.model.embedCode);
+
+		// Set title text
+		$ui.titleInput.val(scope.model.title);
+
+		// Set author text and href
+		$ui.previewAuthor
+			.attr('href', scope.model.oembed.author_url)
+			.text(scope.model.oembed.author_name);
+
+		// Set provider text and href
+		$ui.previewProvider
+			.attr('href', scope.model.oembed.provider_url)
+			.text(scope.model.oembed.provider_name);
+
+		// Show edit btn as needed
+		$ui.editBtn.toggle(!!scope.modalCtrl.isAdd);
+
+		// Show preview container
+		$ui.preview.show();
+		// Instagram SDK script only run once, so we need to kick off a parse ourselves.
+		scope.activateEmbed();
+
+		// Set a max width on embed container
+		// $embed = $ui.previewPost.find('.instagram-media').css('max-width', scope.model.oembed.width);
+
+		// Hide intro related elements
+		$ui.intro.hide();
+		$ui.cancelBtn.hide();
+	}
+
+	function applyOembedToModel(scope, oembed) {
+		// Set title to oEmbed title
+		scope.model.title = scope.model.title || scope.$ui.titleInput.val();
+		if(!scope.model.title)
+		{
+			scope.model.title = getOembedTitle(oembed);
+		}
+
+		// Set embedCode
+		scope.model.embedCode = oembed.html;
+
+		// Store oEmbed data on model
+		scope.model.oembed = oembed;
+	}
+
+	function isValidUrl(url) {
+		var rgxInstagramPost = /^(?:https?:)?\/\/(?:www\.)?(?:instagr\.am|instagram\.com)\/p\/([^\/]+)\/?/i;
+		return rgxInstagramPost.test(url);
+	}
 
 	// CONSTRUCTOR
 	function instagramEmbed(options){
@@ -3403,57 +4278,247 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	instagramEmbed.prototype.orderIndex = 8;
 
-	instagramEmbed.prototype.getModelFromForm = function($el){
+	// function to initialize the modal view
+	// called after the modal view has loaded
+	// $el: a jQuery element for the modal view
+	instagramEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
+		var $ui;
 
+		self.parent.initModal($el, modalCtrl, self);
 
-		// TODO: Need to extract this block of code, and instead call parent function
-		var formFields = $el.find('.embed-modal-form-control');
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var value = formFields[i].value;
-			if (!!name && !!value)
-			{
-				self.model[name] = value;
-			}
-		}
+		$ui = registerUiElements(self, $el);
 
-		var embedCodeName = 'embedCode';
-		var code = '<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: auto; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px); ">' +
-						'<a href="' + self.model.url +
-						'" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">' +
-						'</a>' +
-					'</blockquote>' +
-					'<script async defer src="//platform.instagram.com/en_US/embeds.js"></script>';
-		self.model[embedCodeName] = code;
+		$.validator.addMethod('validInstagramUrl', function(value, element, params) {
+			var isValid = isValidUrl(value);
+			return this.optional(element) || isValid;
+		}, 'The URL must be to a valid Facebook post or video.');
+
+		$ui.previewBtn.on('click', function(evt) {
+
+			evt.preventDefault();
+
+			self.getModelFromForm(self.$el)
+				.done(function() {
+
+					console.log('Instagram Embed Model:', self.model);
+
+					if(isValidUrl(self.model.url))
+					{
+						showPreview(self);
+					}
+				});
+		});
+
+		$ui.editBtn.on('click', function(evt) {
+			evt.preventDefault();
+			showIntro(self);
+		});
+
+		$ui.cancelBtn.on('click', function(evt) {
+			evt.preventDefault();
+			showPreview(self);
+		});
+
+		$ui.dropTarget
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(evt) {
+
+				evt.stopPropagation();
+				evt.preventDefault();
+
+				var droppedString = evt.originalEvent.dataTransfer.getData('text/plain');
+				var droppedHtml = evt.originalEvent.dataTransfer.getData('text/html');
+				var $droppedElm = $( droppedHtml );
+				var $context = $('<div>');
+				var droppedUrl;
+
+				if(!!droppedString)
+				{
+					droppedUrl = droppedString;
+				}
+				else if(!!$droppedElm.length)
+				{
+					$context.append($droppedElm);
+					droppedUrl = $context.find('[href]').attr('href');
+				}
+
+				console.log('dropped', droppedUrl, droppedString, droppedHtml);
+
+				if(!!droppedUrl && isValidUrl(droppedUrl))
+				{
+					$ui.urlInput.val(droppedUrl);
+					$ui.previewBtn.click();
+				}
+			});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
 	};
 
-	// PUBLIC
 	instagramEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			url: null
+			url: null,
+			oembed: null,
+			embedCode: null,
+			object_type: defaults.object_type
 		};
+	};
+
+	instagramEmbed.prototype.clearForm = function($el){
+		var self = this;
+
+		self.parent.clearForm($el, self);
+
+		showIntro(self);
+
+		self.$ui.previewPost.empty();
+	};
+
+	instagramEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var promise = $.Deferred();
+
+		// Gather fields data
+		self.parent.getModelFromForm($form.find('form').first(), self);
+
+		// Get oEmbed data for URL
+		getOembedData(self.model.url)
+			.done(function(data) {
+
+				applyOembedToModel(self, data);
+
+				if(!!self.model.object_id)
+				{
+					// Not a new embed. Don't need to check for duplication when editing.
+					promise.resolve();
+				}
+				else
+				{
+					// Get Facebook embeds that have matching titles
+					EntityEmbed.apiService.get({
+						path: self.options.httpPaths.getAll,
+						data: {
+							url: self.model.url,
+							object_type: self.options.object_type
+						}
+					})
+					.done(function(resp) {
+						var items = resp.response && resp.response.data || [];
+						var deferreds = [];
+						var i, m, p;
+
+						console.log('List Instagram Embeds by URL:', resp);
+
+						if(!items.length)
+						{
+							// No matches found. We can resolve right away.
+							promise.resolve();
+						}
+						else
+						{
+							// One or more matches were found.
+							// Check each one for matching URL.
+							for(i = 0, m = items.length; i < m; i++)
+							{
+								// The embed/list endpoint does not return 'url' key.
+								// We will have to request data for each returned object to compare URL's.
+								p = EntityEmbed.apiService.get({
+									path: self.options.httpPaths.get,
+									data: {
+										object_id: items[i].object_id
+									}
+								})
+								.done(function(respItem) {
+									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
+									{
+										self.model.object_id = respItem.response.object_id;
+									}
+								});
+
+								// Add http promise to array of deferreds
+								deferreds.push(p);
+							}
+						}
+
+						// Resolve promise after each http promise has had a chance to compare URL's
+						$.when.apply($, deferreds).always(function() {
+							promise.resolve();
+						});
+					})
+					.fail(function() {
+						// Problem communicating with API. Resolve to keep things moving.
+						promise.resolve();
+					});
+				}
+			})
+			.fail(function() {
+				// Problem communicating with API. Resolve to keep things moving.
+				promise.resolve();
+			});
+
+		return promise;
+	};
+
+	instagramEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var $ui = self.$ui;
+
+		function setupUi() {
+			// Show video player and title
+			if(!self.model.object_id)
+			{
+				showIntro(self);
+			}
+			else
+			{
+				showPreview(self);
+			}
+		}
+
+		self.parent.populateFormWithModel($form.find('form').first(), self);
+
+		if(self.model.object_id && !self.model.oembed)
+		{
+			// Get oEmbed data
+			getOembedData(self.model.url)
+				.done(function(data) {
+					applyOembedToModel(self, data);
+
+					return self.saveEmbed();
+				})
+				.always(function() {
+					setupUi();
+				});
+		}
+		else
+		{
+			setupUi();
+		}
 	};
 
 	instagramEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		return '<div class="instagram-embed">' +
-					'<div class="overlay">' +
 						self.model.embedCode +
-					'</div>' +
 				'</div>';
 	};
 
-  instagramEmbed.prototype.activateEmbed = function(){
-    // Check to see if Instagram scripts have already been loaded
-    if(window.instgrm)
-    {
-      // Tell instegram to process embeds again
-      window.instgrm.Embeds.process();
-    }
-  }
+	instagramEmbed.prototype.activateEmbed = function(){
+		// Check to see if Instagram scripts have already been loaded
+		if(window.instgrm)
+		{
+			// Tell instegram to process embeds again
+			window.instgrm.Embeds.process();
+		}
+	}
 
 })(window);
 var EntityEmbed = EntityEmbed || {};
@@ -3471,7 +4536,7 @@ var EntityEmbed = EntityEmbed || {};
 			validationOptions: {
 				rules: {
 					title: 'required',
-					newsletter: 'required',					
+					newsletter: 'required',
 				}
 			},
 			httpPaths:{
@@ -3495,14 +4560,18 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: null,
-			newsletterId: null,
-			teaser: null
+			newsletter: null,
+			teaser: null,
+			object_type: defaults.object_type
 		};
 	};
-	
-	newsletterSubscribeEmbed.prototype.initModal = function($el){
+
+	newsletterSubscribeEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var defaultSubscriptionOption = '<option disabled selected>-- select a newsletter --</option>';
+
+		self.parent.initModal($el, modalCtrl, self);
+
 		EntityEmbed.apiService.get({
 				path: self.options.httpPaths.getNewsletters,
 			})
@@ -3518,7 +4587,7 @@ var EntityEmbed = EntityEmbed || {};
 				for(var i = 0; i < list.response.data.length; i++)
 				{
 					subscriptionList.push(
-						'<option value="' + list.response.data[i].newsletter_id +'" >' + 
+						'<option value="' + list.response.data[i].newsletter_id +'" >' +
 							list.response.data[i].title +
 						'</option>'
 					);
@@ -3532,15 +4601,23 @@ var EntityEmbed = EntityEmbed || {};
 
 	newsletterSubscribeEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var displayTitle, teaser;
+
+		// Generate Display Title string
+		displayTitle = !!self.model.displayTitle ? '<div class="display-title">' + self.model.displayTitle + '</div>' : '';
+
+		// Generate Teaser string
+		teaser = !!self.model.teaser ? '<div class="teaser">' + self.model.teaser + '</div>' : '';
+
 		return '<div class="newsletter-subscribe-embed entity-embed-secondary-toolbar-locator">' +
-					'<div class="display-title">' + self.model.displayTitle + '</div>' +
-					'<div class="subscribe-form">' +			
-						'<div class="teaser">' + self.model.teaser + '</div>' +
+					displayTitle +
+					'<div class="subscribe-form">' +
+						teaser +
 						'<div class="embed-modal-form">' +
-							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control">' + 
-						'</div>' + 
+							'<input name="email" type="text" placeholder="user@domain.com" class="embed-modal-form-control subscribe-input">' +
+						'</div>' +
 						'<button class="btn btn-primary subscribe-btn">Subscribe</button>'
-					'</div>' + 
+					'</div>' +
 				'</div>';
 	};
 
@@ -3712,15 +4789,18 @@ var EntityEmbed = EntityEmbed || {};
 		return {
 			title: null,
 			displayTitle: null,
-			links: []
+			links: [],
+			object_type: defaults.object_type
 		};
 	};
 
-	relatedLinkEmbed.prototype.initModal = function($el){
+	relatedLinkEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
 		var $linkList = $el.find(linkListId);
 		var $progress = $el.find(progressBarId);
 		var adjustment, placeholderHeight;
+
+		self.parent.initModal($el, modalCtrl, self);
 
 		// Don't need to show progress on new or cleared forms
 		$progress.parent().hide();
@@ -3861,12 +4941,74 @@ var EntityEmbed = EntityEmbed || {};
 	// TODO : make this the default styling for genericEmbed
 	relatedLinkEmbed.prototype.parseForEditor = function(){
 		var self = this;
+		var deferreds = [];
+		var linksData = [];
+		var linksHtml = [];
+		var embedId = ['related_link', self.model.object_id, (new Date()).getTime()].join('_');
+		var linkHtml, linkEmbed, i, m, promise;
 
-		return '<div class="relatedLink-embed">' +
-					'<div class="relatedLink-embed-uiText"> <strong>Embed Type:</strong> Related Link </div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Title:</strong> ' + self.model.title + '</div>' +
-					'<div class="relatedLink-embed-uiText"> <strong>Links:</strong> ' + self.model.links.length + '</div>' +
-				'</div>';
+		console.log(self.model.links);
+
+
+		/*
+		<div class="entity-embed-container entity-embed-related-link">
+			<p><strong>{% if embed.displayTitle %}{{ embed.displayTitle }}: {% else %}Related: {% endif %}
+			{% for link in embed.links %}<a href="{{ link.url_path }}">{{ link.title }}</a>{% endfor %}</strong></p>
+		</div>
+		 */
+
+		for(i = 0, m = self.model.links.length; i < m; i++)
+		{
+			promise = EntityEmbed.apiService.get({
+				path: self.options.httpPaths.getContentItem[self.model.links[i].object_type],
+				data: {
+					object_id: self.model.links[i].object_id
+				}
+			});
+
+			// Handle API resonse
+			promise.done((function(index) {
+				return function(respData) {
+					if(respData.status === 'OK')
+					{
+						// Request returned data. Add to model at the correct index
+						linksData[index] = respData.response;
+					}
+				};
+			})(i));
+
+			deferreds.push(promise);
+		}
+
+		$.when.apply($, deferreds).done(function(){
+			var $embed = $('#' + embedId);
+			var $linkItem, i, m;
+
+			if(self.model.displayTitle)
+			{
+				linksHtml.push(self.model.displayTitle + ': ');
+			}
+
+			// Compact linksData array
+			for (i = 0, m = linksData.length; i < m; i++)
+			{
+				if(!linksData[i])
+				{
+					linksData.splice(i,1);
+				}
+			}
+
+			// Create link elements in link list
+			for(i = 0, m = linksData.length; i < m; i++)
+			{
+				linkHtml = '<a href="' + linksData[i].url_path + '">' + linksData[i].title + '</a>';
+				linksHtml.push(linkHtml);
+			}
+
+			$embed.html(linksHtml.join(''));
+		});
+
+		return '<div id="' + embedId + '" class="relatedLink-embed"></div>';
 	};
 
 })();
@@ -4005,7 +5147,7 @@ var EntityEmbed = EntityEmbed || {};
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {};
 
-		for(key in uiElements)
+		for(var key in uiElements)
 		{
 			if(uiElements.hasOwnProperty(key))
 			{
@@ -4040,9 +5182,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var $ui;
 
+		self.parent.initModal($el, modalCtrl, self);
+
 		self.model = self.cleanModel();
 
-		self.$el = imageModalOptions.modalContainer = $el;
+		imageModalOptions.modalContainer = $el;
 
 		imageModalOptions.modalOptions.parentModal = modalCtrl;
 
@@ -4051,7 +5195,7 @@ var EntityEmbed = EntityEmbed || {};
 		$ui = registerUiElements(self, $el);
 
 		$ui.slideTemplate.removeClass('js-slide_template').detach();
-		$ui.slideTemplate.on('click', 'a', function(e) {
+		$ui.slideTemplate.on('click', 'a', function() {
 			var $this = $(this);
 			var $slide = $this.closest('.' + slideClass);
 			activateSlide($slide, self);
@@ -4148,13 +5292,13 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(event) {
-				var filesList = event.originalEvent.dataTransfer.files;
+			.on('drop', function(evt) {
+				var filesList = evt.originalEvent.dataTransfer.files;
 				var files = [];
 				var slides = [];
 				var i, m;
 
-				event.preventDefault();
+				evt.preventDefault();
 
 				if(!filesList.length)
 				{
@@ -4334,8 +5478,7 @@ var EntityEmbed = EntityEmbed || {};
 			var promise = EntityEmbed.apiService.get({
 				path: imageEmbed.options.httpPaths.get,
 				data: {
-					object_id: self.model.images[i].object_id + 'err',
-					auth_token: EntityEmbed.apiService.getAuthToken
+					object_id: self.model.images[i].object_id
 				}
 			});
 
@@ -4396,6 +5539,53 @@ var EntityEmbed = EntityEmbed || {};
 		hideEditor(self);
 	};
 
+	slideshowEmbed.prototype.parseForEditor = function(){
+		var imageEmbed = new EntityEmbed.embedTypes.image();
+		var self = this;
+		var imgId = ['img', self.model.images[0].object_id, (new Date()).getTime()].join('_');
+		var imgHtml = [
+			'<img id="' + imgId + '" />'
+		];
+		var dotsHtml = [];
+		var slideHtml, i, m;
+
+		EntityEmbed.apiService.get({
+			path: imageEmbed.options.httpPaths.get,
+			data: {
+				object_id: self.model.images[0].object_id
+			}
+		})
+		.done(function(data) {
+			var imgData = data.response;
+			var $img = $('#' + imgId);
+			var $slide = $img.parent();
+
+			imageEmbed.model = imgData;
+
+			$img.attr('src', imageEmbed.getImageUrl(imgData.url_path));
+
+			if(!!imgData.caption)
+			{
+				$slide.append('<div class="slideshow-embed-caption">' + imgData.caption + '</div>');
+			}
+
+			if(!!imgData.credit)
+			{
+				$slide.append('<div class="slideshow-embed-credit">Credit :' + imgData.credit + '</div>');
+			}
+		});
+
+		slideHtml = '<div class="slideshow-embed-slides"><div class="slideshow-embed-slide">' + imgHtml.join('') + '</div></div>';
+
+		// Add a dot for each slide
+		for(i = 0, m = self.model.images.length; i < m; i++)
+		{
+			dotsHtml.push('<li class="slideshow-embed-dot"></li>');
+		}
+
+		return	'<div class="slideshow-embed">' + slideHtml + '<ul class="slideshow-embed-dots">' + dotsHtml.join('') + '</ul></div>';
+	};
+
 })();
 var EntityEmbed = EntityEmbed || {};
 
@@ -4409,13 +5599,168 @@ var EntityEmbed = EntityEmbed || {};
 			viewPath: 'modal_twitter.html',
 			displayName: 'Twitter',
 			object_type: 'twitter',
+			actionToolbarLocatorClass: '.twitter-tweet',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required'
+					url: {
+						required: true,
+						validTwitterUrl: true
+					}
 				}
 			}
+		},
+		uiElements = {
+			intro: '.social_editor-intro',
+			previewBtn: '.js-btn-preview',
+			preview: '.social_editor-preview',
+			previewPost: '.social_editor-preview_post',
+			previewTitle: '.social_editor-preview_title',
+			previewAuthor: '.social_editor-preview_author',
+			previewProvider: '.social_editor-preview_provider',
+			titleInput: '.js-input-title',
+			urlInput: '.js-input-url',
+			editBtn: '.js-btn-edit',
+			cancelBtn: '.js-btn-cancel',
+			dropTarget: '.social_editor-intro_inner'
 		};
+
+	function getOembedData(url) {
+		var promise = $.Deferred();
+		var ajaxOptions = {
+			timeout: 2000,
+			crossDomain: true,
+			type: 'GET',
+			dataType: 'jsonp',
+			url: 'https://api.twitter.com/1.1/statuses/oembed.json',
+			data: {
+				url: url
+			}
+		};
+
+		return $.ajax(ajaxOptions)
+			.done(function(data) {
+				console.log('twitterEmbed > getOembedData', data);
+			});
+	}
+
+	function getOembedTitle(oembed) {
+		var dateSelector = 'a[href="' + oembed.url + '"]';
+		var titleSelector = 'blockquote';
+		var rgxDate = /\w+\s\d{1,2},\s\d{4}/;
+		var $embed, $title, $date, date, title, titleTemp, titleTrunc;
+
+		$embed = $('<div>').html(oembed.html);
+
+		$date = $embed.find(dateSelector);
+		date = $date.text().match(rgxDate)[0];
+
+		// Set title to oEmbed title
+		titleTemp = oembed.title;
+
+		if(!titleTemp)
+		{
+			// Parse embed html for title element
+			$title = $embed.find(titleSelector);
+			titleTemp = $title.text();
+		}
+
+		// Limit title length to 10 words
+		titleTrunc = titleTemp.split(' ').slice(0,10).join(' ');
+
+		// Append ellipsis if title was shortened
+		if (titleTrunc !== titleTemp)
+		{
+			titleTrunc += '...';
+		}
+
+		// Build final title
+		title = [
+			oembed.author_name,
+			date,
+			titleTrunc
+		].join(' - ');
+
+		return title;
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {};
+
+		for(var key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function showIntro(scope) {
+		var $ui = scope.$ui;
+
+		// Show cancel button as needed
+		$ui.cancelBtn.toggle(!!(scope.modalCtrl.isAdd && scope.model.oembed));
+
+		// Show intro
+		$ui.intro.show();
+
+		// Hide preview related elements
+		$ui.preview.hide();
+		$ui.editBtn.hide();
+	}
+
+	function showPreview(scope) {
+		var $ui = scope.$ui;
+
+		// Append embed html code
+		$ui.previewPost.html(scope.model.embedCode);
+
+		// Set title text
+		$ui.titleInput.val(scope.model.title);
+
+		// Set author text and href
+		$ui.previewAuthor
+			.attr('href', scope.model.oembed.author_url)
+			.text(scope.model.oembed.author_name);
+
+		// Set provider text and href
+		$ui.previewProvider
+			.attr('href', scope.model.oembed.provider_url)
+			.text(scope.model.oembed.provider_name);
+
+		// Show edit btn as needed
+		$ui.editBtn.toggle(!!scope.modalCtrl.isAdd);
+
+		// Show preview container
+		$ui.preview.show();
+
+		// Hide intro related elements
+		$ui.intro.hide();
+		$ui.cancelBtn.hide();
+	}
+
+	function applyOembedToModel(scope, oembed) {
+		// Set title to oEmbed title
+		scope.model.title = scope.model.title || scope.$ui.titleInput.val();
+		if(!scope.model.title)
+		{
+			scope.model.title = getOembedTitle(oembed);
+		}
+
+		// Set embedCode
+		scope.model.embedCode = oembed.html;
+
+		// Store oEmbed data on model
+		scope.model.oembed = oembed;
+	}
+
+	function isValidUrl(url) {
+		var rgxTwitterStatus = /^(?:https:)?\/\/(?:www\.)?twitter\.com\/(?:[^\/]+\/)?(?:status)/i;
+		return rgxTwitterStatus.test(url);
+	}
 
 	// CONSTRUCTOR
 	function twitterEmbed(options){
@@ -4429,34 +5774,232 @@ var EntityEmbed = EntityEmbed || {};
 	// PUBLIC
 	twitterEmbed.prototype.orderIndex = 6;
 
-	twitterEmbed.prototype.getModelFromForm = function($el){
+	// function to initialize the modal view
+	// called after the modal view has loaded
+	// $el: a jQuery element for the modal view
+	twitterEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
+		var $ui;
 
-		self.parent.getModelFromForm($el, self);
+		self.parent.initModal($el, modalCtrl, self);
 
-		self.model.embedCode =
-			'<blockquote class="twitter-tweet" data-lang="en">' +
-				'<a href="' + self.model.url + '"></a>' +
-			'</blockquote>' +
-			'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+		$ui = registerUiElements(self, $el);
+
+		$.validator.addMethod('validTwitterUrl', function(value, element, params) {
+			var isValid = isValidUrl(value);
+			return this.optional(element) || isValid;
+		}, 'The URL must be to a valid Facebook post or video.');
+
+		$ui.previewBtn.on('click', function(evt) {
+
+			evt.preventDefault();
+
+			self.getModelFromForm($el)
+				.done(function() {
+					if(isValidUrl(self.model.url))
+					{
+						showPreview(self);
+					}
+				});
+		});
+
+		$ui.editBtn.on('click', function(evt) {
+			evt.preventDefault();
+			showIntro(self);
+		});
+
+		$ui.cancelBtn.on('click', function(evt) {
+			evt.preventDefault();
+			showPreview(self);
+		});
+
+		$ui.dropTarget
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(evt) {
+
+				evt.stopPropagation();
+				evt.preventDefault();
+
+				var droppedString = evt.originalEvent.dataTransfer.getData('text/plain');
+				var droppedHtml = evt.originalEvent.dataTransfer.getData('text/html');
+				var $droppedElm = $( droppedHtml );
+				var $context = $('<div>');
+				var droppedUrl;
+
+				if(!!droppedString)
+				{
+					droppedUrl = droppedString;
+				}
+				else if(!!$droppedElm.length)
+				{
+					$context.append($droppedElm);
+					droppedUrl = $context.find('[href]').attr('href');
+				}
+
+				if(!!droppedUrl && isValidUrl(droppedUrl))
+				{
+					$ui.urlInput.val(droppedUrl);
+					$ui.previewBtn.click();
+				}
+			});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
 	};
 
-	// PUBLIC
 	twitterEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
 			url: null,
-			embedCode: null
+			oembed: null,
+			embedCode: null,
+			object_type: defaults.object_type
 		};
+	};
+
+	twitterEmbed.prototype.clearForm = function($el){
+		var self = this;
+
+		self.parent.clearForm($el, self);
+
+		showIntro(self);
+
+		self.$ui.previewPost.empty();
+	};
+
+	twitterEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var promise = $.Deferred();
+
+		// Gather fields data
+		self.parent.getModelFromForm($form.find('form').first(), self);
+
+		// Get oEmbed data for URL
+		getOembedData(self.model.url)
+			.done(function(data) {
+
+				applyOembedToModel(self, data);
+
+				if(!!self.model.object_id)
+				{
+					// Not a new embed. Don't need to check for duplication when editing.
+					promise.resolve();
+				}
+				else
+				{
+					// Get Facebook embeds that have matching titles
+					EntityEmbed.apiService.get({
+						path: self.options.httpPaths.getAll,
+						data: {
+							url: self.model.url,
+							object_type: self.options.object_type
+						}
+					})
+					.done(function(resp) {
+						var items = resp.response && resp.response.data || [];
+						var deferreds = [];
+						var i, m, p;
+
+						console.log('List Twitter Embeds by URL:', resp);
+
+						if(!items.length)
+						{
+							// No matches found. We can resolve right away.
+							promise.resolve();
+						}
+						else
+						{
+							// One or more matches were found.
+							// Check each one for matching URL.
+							for(i = 0, m = items.length; i < m; i++)
+							{
+								// The embed/list endpoint does not return 'url' key.
+								// We will have to request data for each returned object to compare URL's.
+								p = EntityEmbed.apiService.get({
+									path: self.options.httpPaths.get,
+									data: {
+										object_id: items[i].object_id
+									}
+								})
+								.done(function(respItem) {
+									if(!self.model.object_id && respItem.response.embedCode.indexOf(self.model.url) !== -1)
+									{
+										self.model.object_id = respItem.response.object_id;
+									}
+								});
+
+								// Add http promise to array of deferreds
+								deferreds.push(p);
+							}
+						}
+
+						// Resolve promise after each http promise has had a chance to compare URL's
+						$.when.apply($, deferreds).always(function() {
+							promise.resolve();
+						});
+					})
+					.fail(function() {
+						// Problem communicating with API. Resolve to keep things moving.
+						promise.resolve();
+					});
+				}
+			})
+			.fail(function() {
+				// Problem communicating with API. Resolve to keep things moving.
+				promise.resolve();
+			});
+
+		return promise;
+	};
+
+	twitterEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var $ui = self.$ui;
+
+		function setupUi() {
+			// Show video player and title
+			if(!self.model.object_id)
+			{
+				showIntro(self);
+			}
+			else
+			{
+				showPreview(self);
+			}
+		}
+
+		self.parent.populateFormWithModel($form.find('form').first(), self);
+
+		if(self.model.object_id && !self.model.oembed)
+		{
+			// Get oEmbed data
+			getOembedData(self.model.url)
+				.done(function(data) {
+					applyOembedToModel(self, data);
+
+					return self.saveEmbed();
+				})
+				.always(function() {
+					setupUi();
+				});
+		}
+		else
+		{
+			setupUi();
+		}
 	};
 
 	twitterEmbed.prototype.parseForEditor = function(){
 		var self = this;
 
 		return '<div class="twitter-embed">' +
-					'<div class="overlay">' +
 						self.model.embedCode +
-					'</div>' +
 				'</div>';
 	};
 })();
@@ -4477,41 +6020,85 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: {
 						required: true,
-						validDomain: true
+						validVideoDomain: true
 					}
 				}
 			}
 		},
-		makeVideoUrl = function(url){
+		uiElements = {
+			intro: '.video_editor-intro',
+			previewBtn: '.js-btn-preview',
+			preview: '.video_editor-preview',
+			previewIframe: '.js-preview-iframe',
+			previewTitle: '.video_editor-preview_title',
+			previewAuthor: '.video_editor-preview_author',
+			previewProvider: '.video_editor-preview_provider',
+			previewWrapper: '.js-preview-wrapper',
+			urlInput: '.js-input-url',
+			editBtn: '.js-btn-edit',
+			cancelBtn: '.js-btn-cancel',
+			videoDropTarget: '.video_editor-intro_inner'
+		},
+		youtubeOptions = {
+			showinfo: 0,				// Hide video title
+			modestbranding: 1,	// Hide YouTube logo on controls
+			rel: 0							// Don't show related video grid after video has finished
+		},
+		vimeoOptions = {
+			title: 0,					// Hide video title
+			portrait: 0,			// Hide creator portrait
+			byline: 0,				// Hide creater byline
+			color: 'dc5555'		// Set color to sites primary accent color. I ♥ Vimeo.
+		};
+
+		function makeUrlParams(obj) {
+			var ret = [];
+			for(var key in obj)
+			{
+				if(obj.hasOwnProperty(key))
+				{
+					ret.push([key, obj[key]].join('='));
+				}
+			}
+
+			return ret.join('&');
+		}
+
+		function makeEmbedUrl(url){
+			var ret = '';
+
 			if (url.indexOf('vimeo.com') !== -1)
 			{
 				// TODO: embed opts should be configurable
-				var opts = '?' + [
-					'title=0',		// Hide video title
-					'portrait=0',	// Hide creator portrait
-					'byline=0',		// Hide creater byline
-					'color=dc5555',	// Set color to sites primary accent color. I ♥ Vimeo.
-				].join('&');
+				var opts = '?' + makeUrlParams(vimeoOptions);
 
-				return '//player.vimeo.com/video/' + getVimeoVideoId(url) + opts;
+				ret = '//player.vimeo.com/video/' + getVimeoVideoId(url) + opts;
 			}
 			else if (url.indexOf('youtube.com') !== -1)
 			{
 				// TODO: embed opts should be configurable
-				var opts = '?' + [
-					'showinfo=0',		// Hide video title
-					'modestbranding=1',	// Hide YouTube logo on controls
-					'rel=0'				// Don't show related video grid after video has finished
-				].join('&');
+				var opts = '?' + makeUrlParams(youtubeOptions);
 
-				return '//www.youtube.com/embed/' + getYoutubeVideoId(url) + opts;
+				ret = '//www.youtube.com/embed/' + getYoutubeVideoId(url) + opts;
 			}
-			else
+
+			return ret;
+		}
+
+		function makeWatchUrl(url){
+			var ret = '';
+
+			if (url.indexOf('vimeo.com') !== -1)
 			{
-				return '';
+				ret = 'https://vimeo.com/' + getVimeoVideoId(url);
+			}
+			else if (url.indexOf('youtube.com') !== -1)
+			{
+				ret = 'https://www.youtube.com/watch?v=' + getYoutubeVideoId(url);
 			}
 
-		};
+			return ret;
+		}
 
 	// Vimeo URL Patterns:
 	// 1. [http://]player.vimeo.com/video/VIDEOID : IFrame embed. Can have querystring options
@@ -4555,6 +6142,116 @@ var EntityEmbed = EntityEmbed || {};
 		return result;
 	};
 
+	var getOembedData = function(url) {
+		var promise = $.Deferred();
+		var apiUrl, dataOptions;
+
+		switch(true)
+		{
+			case url.indexOf('vimeo.com') !== -1 :
+			apiUrl = 'https://vimeo.com/api/oembed.json';
+			dataOptions = $.extend(true, {}, vimeoOptions);
+			break;
+
+			case url.indexOf('youtube.com') !== -1 :
+			apiUrl = 'https://noembed.com/embed'; // Use Noembed until YouTube supports jsonp or we create our own oEmbed API
+			dataOptions = {};
+			break;
+		}
+
+		dataOptions.url = url;
+
+		var ajaxOptions = {
+			timeout: 2000,
+			crossDomain: true,
+			type: 'GET',
+			dataType: 'jsonp',
+			url: apiUrl,
+			data: dataOptions,
+			success: function(data) {
+				console.log(data);
+			}
+		};
+
+		return $.ajax(ajaxOptions);
+	}
+
+	function registerUiElements(scope, $el) {
+		scope.$ui = scope.$ui || {};
+
+		for(var key in uiElements)
+		{
+			if(uiElements.hasOwnProperty(key))
+			{
+				scope.$ui[key] = $(uiElements[key], $el);
+			}
+		}
+
+		return scope.$ui;
+	}
+
+	function showIntro(scope) {
+		var $ui = scope.$ui;
+
+		// Show cancel button as needed
+		$ui.cancelBtn.toggle(!!(scope.modalCtrl.isAdd && scope.model.oembed));
+
+		// Show intro
+		$ui.intro.show();
+
+		// Hide preview related elements
+		$ui.preview.hide();
+		$ui.editBtn.hide();
+	}
+
+	function showPreview(scope) {
+		var $ui = scope.$ui;
+		var iframeScale = scope.model.oembed.height / scope.model.oembed.width * 100;
+		var embedUrl = makeEmbedUrl(scope.model.url);
+
+		// Scale video wrapper to video aspect ratio
+		$ui.previewWrapper.css({ paddingTop: iframeScale + '%' });
+		// Set video iframe src, if it has changed
+		if($ui.previewIframe.attr('src') !== embedUrl)
+		{
+			$ui.previewIframe.attr('src', embedUrl);
+		}
+
+		// Set title text
+		$ui.previewTitle.text(scope.model.title);
+
+		// Set author text and href
+		$ui.previewAuthor
+			.attr('href', scope.model.oembed.author_url)
+			.text(scope.model.oembed.author_name);
+
+		// Set provider text and href
+		$ui.previewProvider
+			.attr('href', scope.model.oembed.provider_url)
+			.text(scope.model.oembed.provider_name);
+
+		// Show edit btn as needed
+		$ui.editBtn.toggle(!!scope.modalCtrl.isAdd);
+
+		// Show preview container
+		$ui.preview.show();
+
+		// Hide intro related elements
+		$ui.intro.hide();
+		$ui.cancelBtn.hide();
+	}
+
+	function applyOembedToModel(scope, oembed) {
+		// Set title to oEmbed title
+		scope.model.title = oembed.title;
+
+		// Set embedCode
+		scope.model.embedCode = oembed.html;
+
+		// Store oEmbed data on model
+		scope.model.oembed = oembed;
+	}
+
 	// CONSTRUCTOR
 	function videoEmbed(options){
 		var self = this;
@@ -4570,28 +6267,244 @@ var EntityEmbed = EntityEmbed || {};
 	videoEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			url: null
+			url: null,
+			oembed: null,
+			object_type: defaults.object_type
 		};
 	};
 
-	videoEmbed.prototype.init = function($el){
+	videoEmbed.prototype.clearForm = function($el){
 		var self = this;
-		self.parent.init($el, self);
+		var $ui = self.$ui;
 
-		$.validator.addMethod('validDomain', function(value, element, params) {
+		self.parent.clearForm($el, self);
+
+		showIntro(self);
+
+		$ui.previewIframe.removeAttr('src');
+		$ui.previewTitle.empty();
+		$ui.previewAuthor.removeAttr('href').empty();
+		$ui.previewProvider.removeAttr('href').empty();
+	};
+
+	// function to initialize the modal view
+	// called after the modal view has loaded
+	// $el: a jQuery element for the modal view
+	videoEmbed.prototype.initModal = function($el, modalCtrl){
+		var self = this;
+		var $ui;
+
+		self.parent.initModal($el, modalCtrl, self);
+
+		$ui = registerUiElements(self, $el);
+
+		$.validator.addMethod('validVideoDomain', function(value, element, params) {
 			var isValid = value.indexOf('youtube.com') != -1 || value.indexOf('vimeo.com') != -1;
 			return this.optional(element) || isValid;
 		}, 'The video must be from YouTube or Vimeo');
+
+		$ui.previewBtn.on('click', function(e) {
+
+			e.preventDefault();
+
+			self.getModelFromForm($el)
+				.done(function() {
+					showPreview(self);
+				});
+		});
+
+		$ui.editBtn.on('click', function(e) {
+			e.preventDefault();
+			showIntro(self);
+		});
+
+		$ui.cancelBtn.on('click', function(e) {
+			e.preventDefault();
+			showPreview(self);
+		});
+
+		$ui.videoDropTarget
+			.on('dragenter dragover', function() {
+				$(this).addClass('js-dragover');
+			})
+			.on('dragleave drop', function() {
+				$(this).removeClass('js-dragover');
+			})
+			.on('drop', function(evt) {
+
+				evt.stopPropagation();
+				evt.preventDefault();
+
+				var droppedString = evt.originalEvent.dataTransfer.getData('text/plain');
+				var droppedHtml = evt.originalEvent.dataTransfer.getData('text/html');
+				var $droppedElm = $( droppedHtml );
+				var $context = $('<div>');
+				var droppedUrl;
+
+				if(!!droppedString)
+				{
+					droppedUrl = droppedString;
+				}
+				else if(!!$droppedElm.length)
+				{
+					$context.append($droppedElm);
+					droppedUrl = $context.find('[href]').attr('href');
+				}
+
+				if(!!droppedUrl)
+				{
+					$ui.urlInput.val(droppedUrl);
+					$ui.previewBtn.click();
+				}
+			});
+
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
+		});
 	};
 
 	videoEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		return '<div class="video-embed">' +
-					'<div class="overlay">' +
-						'<iframe src="' + makeVideoUrl(self.model.url) + '"	frameborder="0"></iframe>' +
+					'<div class="video-embed-inner">' +
+						'<iframe src="' + makeEmbedUrl(self.model.url) + '"	frameborder="0"></iframe>' +
 					'</div>' +
 				'</div>';
 	};
+
+	videoEmbed.prototype.getModelFromForm = function($form){
+		var self = this;
+		var promise = $.Deferred();
+
+		// Gather fields data
+		self.parent.getModelFromForm($form.find('form').first(), self);
+
+		// Normalize URL to a watch URL
+		self.model.url = makeWatchUrl(self.model.url);
+
+		// Get oEmbed data for URL
+		getOembedData(self.model.url)
+			.done(function(data) {
+				if(!!data.error)
+				{
+					// Error getting oembed data.
+					// TODO: Find a way to validate URL doing validation.
+					promise.resolve();
+				}
+				else
+				{
+					applyOembedToModel(self, data);
+
+					if(!!self.model.object_id)
+					{
+						// Not a new embed. Don't need to check for duplication when editing.
+						promise.resolve();
+					}
+					else
+					{
+						// Get Video embeds that have matching titles
+						EntityEmbed.apiService.get({
+							path: self.options.httpPaths.getAll,
+							data: {
+								title: self.model.title,
+								object_type: self.options.object_type
+							}
+						})
+						.done(function(resp) {
+							var items = resp.response && resp.response.data || [];
+							var deferreds = [];
+							var i, m, p;
+
+							if(!items.length)
+							{
+								// No matches found. We can resolve right away.
+								promise.resolve();
+							}
+							else
+							{
+								// One or more matches were found.
+								// Check each one for matching URL.
+								for(i = 0, m = items.length; i < m; i++)
+								{
+									// The embed/list endpoint does not return 'url' key.
+									// We will have to request data for each returned object to compare URL's.
+									p = EntityEmbed.apiService.get({
+										path: self.options.httpPaths.get,
+										data: {
+											object_id: items[i].object_id
+										}
+									})
+									.done(function(respItem) {
+										if(!self.model.object_id && respItem.response.url === self.model.url)
+										{
+											self.model.object_id = respItem.response.object_id;
+										}
+									});
+
+									// Add http promise to array of deferreds
+									deferreds.push(p);
+								}
+							}
+
+							// Resolve promise after each http promise has had a chance to compare URL's
+							$.when.apply($, deferreds).always(function() {
+								promise.resolve();
+							});
+						})
+						.fail(function() {
+							// Problem communicating with API. Resolve to keep things moving.
+							promise.resolve();
+						});
+					}
+				}
+			});
+
+		return promise;
+	}
+
+	videoEmbed.prototype.populateFormWithModel = function($form){
+		var self = this;
+		var $ui = self.$ui;
+
+		function setupUi() {
+			// Show video player and title
+			if(!self.model.object_id)
+			{
+				showIntro(self);
+			}
+			else
+			{
+				showPreview(self);
+			}
+		}
+
+		self.parent.populateFormWithModel($form.find('form').first(), self);
+
+		if(self.model.url && !self.model.oembed)
+		{
+			// Get oEmbed data
+			getOembedData(self.model.url)
+				.done(function(data) {
+					if(!data.error)
+					{
+						self.model.oembed = data;
+						//
+						if(data.title !== self.model.title)
+						{
+							self.model.title = data.title;
+							return self.saveEmbed();
+						}
+					}
+				})
+				.always(function() {
+					setupUi();
+				});
+		}
+		else
+		{
+			setupUi();
+		}
+	}
 
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -4906,7 +6819,7 @@ var EntityEmbed = EntityEmbed || {};
 	var pluginName = 'mediumInsert',
 		addonName = 'EntityEmbeds', // name of the Medium Editor Insert Plugin
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
-		embedDragHandle = '',
+		embedClassPrefix = 'entity-embed-',
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
@@ -5082,6 +6995,11 @@ var EntityEmbed = EntityEmbed || {};
 		self._defaults = defaults;
 		self._name = pluginName;
 
+		if(self.$el.attr('readonly') !== undefined)
+		{
+			self.options.readonly = true;
+		}
+
 		self.toolbarManager = new EntityEmbed.toolbarManager(self, self.options.styles, self.options.actions, activeEmbedClass);
 
 		// Extend editor's functions
@@ -5119,49 +7037,54 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.toolbarManager.createActionToolbar($('body'));
 
-		self.$el.sortable({
-			handle: '.entity-embed-blocker',
-			placeholder: 'entity-embed-placeholder',
-			distance: 5,
-			start: function (event, ui) {
-				var placeholderClasses = [
-					ui.placeholder.attr('class'),
-					ui.helper.attr('class')
-				].join(' ');
+		if(!self.options.readonly)
+		{
+			self.$el.sortable({
+				handle: '.entity-embed-blocker',
+				placeholder: 'entity-embed-placeholder',
+				distance: 5,
+				start: function (event, ui) {
+					var placeholderClasses = [
+						ui.placeholder.attr('class'),
+						ui.helper.attr('class')
+					].join(' ');
 
-				// Update placeholder styling and size to match dragged embed
-				ui.placeholder.attr('class', placeholderClasses);
-				ui.placeholder.height(ui.helper.outerHeight());
-				ui.placeholder.width(ui.helper.width());
+					// Update placeholder styling and size to match dragged embed
+					ui.placeholder.attr('class', placeholderClasses);
+					ui.placeholder.height(ui.helper.outerHeight());
+					ui.placeholder.width(ui.helper.width());
 
-				// Hide embed toolbars
-				self.toolbarManager.hideToolbar();
-			},
-			stop: function(event, ui) {
-				var $fig = ui.item.find('figure');
-				var embed = $fig.data('embed');
-				var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
-				var $embed = $(embedHtml);
+					// Hide embed toolbars
+					self.toolbarManager.hideToolbar();
+				},
+				stop: function(event, ui) {
+					// Lock item height to placeholder height
+					ui.item.height(ui.placeholder.height());
 
-				ui.item.height(ui.placeholder.height());
-				$fig.html($embed.html());
+					// Rerender embed
+					self.renderEmbed(ui.item, true);
 
-				self.activateEmbed(embed);
+					// Let listeners know content has changed
+					self.core.triggerInput();
 
-				// Let listeners know content has changed
-				self.core.triggerInput();
-
-				window.setTimeout(function() {
-					ui.item.removeAttr('style');
-				}, 2000);
-			},
-			change: function() {
-				// Update position of active MEIP toolbar
-				self.core.positionButtons();
-				// Updated postion of active ME toolbar
-				self.core.getEditor().checkSelection();
-			}
-		});
+					// Unlock item height after giving embed time to render
+					window.setTimeout(function() {
+						ui.item.removeAttr('style');
+					}, 2000);
+				},
+				change: function() {
+					// Update position of active MEIP toolbar
+					self.core.positionButtons();
+					// Updated postion of active ME toolbar
+					self.core.getEditor().checkSelection();
+				}
+			});
+		}
+		else
+		{
+			self.core.getEditor().stopSelectionUpdates();
+			self.$el.attr('contenteditable', false).attr('readonly', '');
+		}
 
 		self.events();
 
@@ -5231,7 +7154,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		$(window).on('resize', function() {
 			var $currentActiveEmbed = $('.' + activeEmbedClass);
-			self.toolbarManager.positionToolbars($currentActiveEmbed);
+			if(!!$currentActiveEmbed.length)
+			{
+				self.toolbarManager.positionToolbars($currentActiveEmbed);
+			}
 		});
 
 		$(document)
@@ -5249,7 +7175,10 @@ var EntityEmbed = EntityEmbed || {};
 		self.$el
 			// toggle select embed when embed is clicked
 			.on('click', '.' + entityEmbedContainerClass, function(e){
-				self.toggleSelectEmbed($(this));
+				if(!self.options.readonly)
+				{
+					self.toggleSelectEmbed($(this));
+				}
 				e.stopPropagation(); // done allow the first onClick event to propagate
 			})
 			// prevent user from destroying modal functionality when deleting first element
@@ -5552,7 +7481,7 @@ var EntityEmbed = EntityEmbed || {};
 							placeholder = generatePlaceholderString(embed);
 
 							// Generate the embed HTML
-							embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed.embedType, false);
+							embedHtml = self.generateEmbedHtml(embed.embedType);
 
 							// Replace placeholder string in full story HTML with the embed HTML
 							// A quick split and join should work since our placeholder string is unique to:
@@ -5607,7 +7536,10 @@ var EntityEmbed = EntityEmbed || {};
 
 		function setEditorHtml() {
 			self.core.getEditor().setContent(fullHtml);
-			self.$el.sortable('refresh');
+			if(!self.options.readonly)
+			{
+				self.$el.sortable('refresh');
+			}
 		}
 
 		if(!contentData)
@@ -5658,12 +7590,11 @@ var EntityEmbed = EntityEmbed || {};
 		var self = this;
 		var addToScope = {
 			modalOptions: {
-				$currentEditorLocation: $(mediumEditorActiveSelector)
 			}
 		};
 		$.embed_modal_open(addToScope)
 			.done(function(respData) {
-				self.addEmbed(respData.$embed, respData.embedType);
+				self.addEmbed(null, respData.embedType);
 			});
 	};
 
@@ -5675,11 +7606,12 @@ var EntityEmbed = EntityEmbed || {};
 
 	EntityEmbeds.prototype.editEmbed = function ($embed) {
 		var self = this;
-		var embedId = $embed.find('figure').attr('id');
+		var $figure = $embed.find('figure');
+		var embed = $figure.data('embed');
+
 		var scope = {
 			modalOptions: {
-				$currentEditorLocation: $('.' + activeEmbedClass),
-				id: embedId,
+				id: embed.model.object_id,
 				embedTypeStr: $embed.find('[data-embed-type]').attr('data-embed-type')
 			}
 		};
@@ -5688,23 +7620,39 @@ var EntityEmbed = EntityEmbed || {};
 
 		$.embed_modal_open(scope)
 			.done(function(respData) {
-				var $embeds = $('[id=' + embedId + ']', self.$el);
-				var embed = $.extend(true, {}, respData.embedType);
+				var embedType = $.extend(true, {}, respData.embedType);
+				var $embeds = $('[id=' + embedType.model.object_id + ']', self.$el);
 
 				$embeds.each(function() {
 					var $this = $(this);
-					var embedHtml = EntityEmbed.embedModalDefaults.prototype.generateEmbedHtml(embed);
-					var $embed = $(embedHtml);
 
-					$this.data('embed', embed);
+					$this.data('embed', embedType);
 
-					$this.html($embed.html());
+					self.renderEmbed($this.closest('.' + entityEmbedContainerClass));
 				});
 
-				self.activateEmbed(embed);
+				self.activateEmbed(embedType);
 
 				self.core.triggerInput();
 			});
+	};
+
+	EntityEmbeds.prototype.renderEmbed = function($embed, doActivateEmbed) {
+		var self = this;
+		var $figure = $embed.find('> figure');
+		var embed = $figure.data('embed');
+		var embedHtml = self.generateEmbedHtml(embed);
+		var $embedTemp = $(embedHtml);
+
+		$embed.addClass(embedClassPrefix + embed.options.object_type);
+
+		// Replace figure's inner HTML with new embed's inner Html.
+		$figure.html( $embedTemp.html() );
+
+		if(doActivateEmbed)
+		{
+			self.activateEmbed(embed);
+		}
 	};
 
 	/**
@@ -5773,6 +7721,21 @@ var EntityEmbed = EntityEmbed || {};
 		}
 	};
 
+	EntityEmbeds.prototype.generateEmbedHtml = function(embedType){
+		var $embed = $('<div>').html(embedType.parseForEditor());
+
+		$embed.children().first().addClass('entity-embed');
+
+		var ret = '<figure contenteditable="false" ' +
+						'id="' + embedType.model.object_id	+ '" ' +
+						'data-embed-type="' + embedType.options.object_type + '" >' +
+						$embed.html() +
+						'<div class="entity-embed-blocker"></div>' +
+					'</figure>';
+
+		return ret;
+	};
+
 	/**
 	 * Add custom content
 	 *
@@ -5784,23 +7747,40 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.addEmbed = function ($embedContainer, embed, skipInputEvent) {
 		var self = this;
 		var buttonAction = embed.defaultStyle.replace('entity-embed-', '');
-		var $embed;
+		var $embed, $figure, $activeElement;
+
+		if(!$embedContainer)
+		{
+			// Find currently acive element
+			$activeElement = $(mediumEditorActiveSelector, self.$el);
+
+			// Generate embed HTML
+			$embedContainer = $('<div>').addClass(entityEmbedContainerClass);
+			$embedContainer.html(self.generateEmbedHtml(embed));
+
+			// Replace active element with embed elment
+			$activeElement.replaceWith($embedContainer);
+		}
 
 		if($embedContainer.is('figure'))
 		{
 			$embedContainer = $embedContainer.closest('.' + entityEmbedContainerClass);
 		}
 
-		$embed = $embedContainer.find('figure');
+		$embedContainer.addClass(embedClassPrefix + embed.options.object_type);
 
 		// apply the default styling to the embed that was just added
 		self.toolbarManager.addStyle($embedContainer, embed.defaultStyle, buttonAction, false);
 
-		$('[id="' + embed.model.object_id + '"]', self.$el).data('embed', $.extend(true, {}, embed));
+		$figure = $embedContainer.find('figure');
+		$figure.data('embed', $.extend(true, {}, embed));
 
-		self.activateEmbed(embed);
+		self.renderEmbed($embedContainer, true);
 
-		self.$el.sortable('refresh');
+		if(!self.options.readonly)
+		{
+			self.$el.sortable('refresh');
+		}
 
 		self.core.hideButtons();
 

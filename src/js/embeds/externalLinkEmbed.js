@@ -210,6 +210,7 @@ var EntityEmbed = EntityEmbed || {};
 			teaser: null,
 			linkText: null,
 			url: null,
+			object_type: defaults.object_type
 		};
 	};
 

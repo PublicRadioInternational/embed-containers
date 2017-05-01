@@ -128,6 +128,7 @@ $(document).ready(function(){
 			}
 		}
 	});
+  medEditor.load_content(storyObject);
 
   $('.editor2').mediumInsert({
     editor: medEditor2,
@@ -142,6 +143,7 @@ $(document).ready(function(){
       }
     }
   });
+  medEditor2.load_content(storyObject);
 
 	medEditor.subscribe('editableInput', function() {
 		console.log('medEditor: editableInput');

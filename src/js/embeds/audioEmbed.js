@@ -211,7 +211,8 @@ var EntityEmbed = EntityEmbed || {};
 			url_path: null,
 			url_external: null,
 			credit: null,
-			creditLink: null
+			creditLink: null,
+			object_type: defaults.object_type
 		};
 	};
 

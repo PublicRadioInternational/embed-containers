@@ -285,7 +285,8 @@ var EntityEmbed = EntityEmbed || {};
 			title: null,
 			url: null,
 			oembed: null,
-			embedCode: null
+			embedCode: null,
+			object_type: defaults.object_type
 		};
 	};
 

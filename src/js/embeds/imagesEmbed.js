@@ -475,8 +475,10 @@ var EntityEmbed = EntityEmbed || {};
 			// Get a model using the default mapping method
 			tempModel = getModelFromData(imageData, this);
 
-			// Update model with current form values
-			self.getModelFromForm(self.$el);
+			// Update model with current form values, if a it exists
+			if(!!self.$el) {
+				self.getModelFromForm(self.$el);
+			}
 
 			// Clone current model so we can manipulate it
 			currentModel = $.extend(true, {}, self.model);
