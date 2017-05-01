@@ -1202,7 +1202,7 @@ var EntityEmbed = EntityEmbed || {};
 			scope.currentEmbedType = scope.modalCtrl.scope.currentEmbedType = getEmbedTypeByObjectType(currentEmbedTypeName, scope.embedTypes);
 			scope.currentEmbedType.clearForm(scope.currentEmbedType.$view);
 			scope.currentEmbedType.$view.show();
-			scope.$embedTypeSelect.val(embedType);
+			scope.$embedTypeSelect.val(currentEmbedTypeName);
 
 			headerText = scope.headerText;
 
