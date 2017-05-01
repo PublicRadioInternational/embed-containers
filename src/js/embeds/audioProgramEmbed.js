@@ -55,6 +55,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
+				getOrganizationFetch: 'admin/organization/fetch',
 				getOrganizationList: 'admin/organization/list',
 				uploadFile: 'admin/embed/file-upload'
 			}
@@ -554,22 +555,40 @@ var EntityEmbed = EntityEmbed || {};
 	audioProgramEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
 		var promise = $.Deferred();
+		var deferreds = [];
+		var programPromise, previewPromise;
 
 		self.parent.populateFormWithModel($form, self);
 
-		self.$ui.programInput.data('organization_program', self.model.organization_program).val(self.model.organization_program.title);
+		self.$ui.programInput.data('organization_program', self.model.organization_program);
+
+		// Get program data from API
+		programPromise = EntityEmbed.apiService.get({
+			path: self.options.httpPaths.getOrganizationFetch,
+			data: {
+				object_id: self.model.organization_program.object_id
+			}
+		});
+
+		programPromise.done(function(respData) {
+			self.$ui.programInput.val(respData.response.title);
+		});
+
+		deferreds.push(programPromise);
 
 		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
 		{
-			updateAudioPreview(self)
+			previewPromise = updateAudioPreview(self)
 				.done(function() {
 					promise.resolve();
 				});
+
+			deferreds.push(previewPromise);
 		}
-		else
-		{
+
+		$.when.apply($, deferreds).always(function(){
 			promise.resolve();
-		}
+		});
 
 		return promise;
 	};
