@@ -1,4 +1,5 @@
-<form>
+<form method="post" enctype="multipart/form-data">
+
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
 			<div class="embed-modal-form">
@@ -50,6 +51,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="embed-modal-row">
 		<div class="embed-modal-full-column">
 			<div class="embed-modal-form">
@@ -58,20 +60,26 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="embed-modal-row">
 		<div id="audio-credits" class="embed-modal-form">
 			<div class="embed-modal-half-column">
 				<div class="embed-modal-form">
-					<label for="credit" class="embed-modal-label">Credit</label>
-					<input id="credit" class="embed-modal-form-control embed-modal-input" type="text" name="credit" />
+					<label for="organization_program" class="embed-modal-label">Program</label>
+					<input id="organization_program" name="organization_program" class="embed-modal-form-control embed-modal-input js-program" type="text" placeholder="Begin typing a Program title..." />
 				</div>
 			</div>
 			<div class="embed-modal-half-column">
 				<div class="embed-modal-form">
-					<label for="creditLink" class="embed-modal-label">Credit Link</label>
-					<input id="creditLink" class="embed-modal-form-control embed-modal-input" type="url" name="creditLink" />
+					<label for="audio_type" class="embed-modal-label">Audio Type</label>
+					<select id="audio_type" class="embed-modal-form-control embed-modal-input" name="audio_type">
+						<option value="">-- Select Type --</option>
+						<option value="episode">Episode</option>
+						<option value="segment">Segment</option>
+					</select>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </form>

@@ -5,13 +5,14 @@ var EntityEmbed = EntityEmbed || {};
 	'use strict';
 
 	// PRIVATE
-	var embedName = 'audio',
+	var embedName = 'audioProgram',
 		uploadedAudioDisplay = '.uploaded-audio-file',
 		cancelUploadAudioBtn = '.cancel-upload-file-btn',
 		editAudioFileBtn = '.edit-chosen-file-btn',
 		uploadMp3FileBtn = '.embed-modal-file-input',
 		uiElements = {
 			// myElm: '.select-my-elm'
+			programInput: '.js-program',
 			audioEditor: '.audio_editor',
 			previewContainer: '.audio_editor-preview',
 			previewAudio: '.audio_editor-preview_audio',
@@ -24,17 +25,19 @@ var EntityEmbed = EntityEmbed || {};
 			setUrlBtn: '.js-set-url'
 		},
 		defaults = {
-			viewPath: 'modal_audio.html',
-			displayName: 'Audio',
-			object_type: 'audio',
+			viewPath: 'modal_audioProgram.html',
+			displayName: 'Program Audio',
+			object_type: 'audio-program',
+			audioLocation: 'https://test-services.pri.org',
 			validationOptions: {
 				rules: {
 					title: 'required',
-					url: 'required',
+					organization_program: 'required',
+					audio_type: 'required',
 					upload: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.urlExternalInput, $(element).closest('form')).val();
+								return !$(uiElements.urlExternalInput).val();
 							}
 						},
 						extension: 'mp3'
@@ -42,7 +45,7 @@ var EntityEmbed = EntityEmbed || {};
 					url_external: {
 						required: {
 							depends: function(element) {
-								return !$(uiElements.uploadFileInput, $(element).closest('form')).val();
+								return !$(uiElements.uploadFileInput).val();
 							}
 						}
 					},
@@ -52,6 +55,8 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			},
 			httpPaths:{
+				getOrganizationFetch: 'admin/organization/fetch',
+				getOrganizationList: 'admin/organization/list',
 				uploadFile: 'admin/embed/file-upload'
 			}
 		};
@@ -86,31 +91,124 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(url) {
-		var apiDomain = EntityEmbed.apiService.getDomainName();
-
-		if (!url || url === '')
+	function getAudioUrl(audioLocation, audioUrl) {
+		if (!audioUrl || audioUrl === '')
 		{
-			return '';
+			return audioLocation || '';
 		}
 
-		if (url.indexOf(apiDomain) >= 0)
+		if (audioUrl.indexOf(audioLocation) >= 0)
 		{
-			return url;
+			return audioUrl;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (apiDomain.endsWith('/'))
+		if (audioLocation.endsWith('/'))
 		{
-			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
-		}
-		if (!url.startsWith('/'))
-		{
-			url = '/' + url;
+			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
 		}
 
-		return apiDomain + url;
+		if (!audioUrl.startsWith('/'))
+		{
+			audioLocation = '/' + audioUrl;
+		}
+
+		return audioLocation + audioUrl;
 	}
+
+
+	//	This provides the functionality/styling for the type-ahead feature, allowing the user to only
+	//	begin typing the title of a story and have a dropdown list of stories displayed to them
+	//	based on their input. This function also takes into account validation of the modal form.
+	function initAutoComplete(scope, $el){
+		var rgxDevEnv = /^[^.]*staging[^.]*\.|\.dev$/;
+		var isDevEnv = rgxDevEnv.test(window.location.host);
+		var debug = 0;
+		var ajaxData = {
+			auth_token: EntityEmbed.apiService.getAuthToken(),
+			organization_type: 'program',
+			published: true
+		};
+		var $input = scope.$ui.programInput;
+
+		if(isDevEnv)
+		{
+			ajaxData.debug = 1;
+		}
+
+		var options = {
+			ajaxSettings: {
+				dataType: 'json',
+				method: 'POST',
+				data: ajaxData
+			},
+			requestDelay: 600,
+			url: function(phrase) {
+				ajaxData.title = phrase;
+				return EntityEmbed.apiService.getDomainName() + scope.options.httpPaths.getOrganizationList;
+			},
+			listLocation: function(listOfData){
+				return listOfData.response.data;
+			},
+			getValue: function(data) {
+				if(data.pub_state == 1)
+				{
+					return data.title;
+				}
+				else
+				{
+					return '';
+				}
+			},
+			preparePostData: function(data) {
+				data.title = $input.val();
+				return JSON.stringify(data);
+			},
+			list: {
+				maxNumberOfElements: 10,
+				match: {
+					enabled: true
+				},
+				sort: {
+					enabled: true
+				},
+				onChooseEvent: function(){ // store the users story selection
+					var itemData = $input.getSelectedItemData();
+					var organization_program;
+
+					if (!!itemData.object_id)
+					{
+						organization_program = {
+							object_id: itemData.object_id,
+							object_type: itemData.object_type
+						};
+					}
+					else
+					{
+						organization_program = null;
+					}
+
+					$input.data('organization_program', organization_program);
+
+					console.log('Program Change: ', scope.model.organization_program, $input.val());
+				}
+			}
+		};
+
+		$input.easyAutocomplete(options);
+
+		$input.on('keypress keydown', function(){
+			var $this = $(this);
+			var value = $this.val();
+			if(!value.replace(/^\s+|\s+$/,''))
+			{
+				scope.model.organization_program = null;
+				console.log('Program Removed: ', scope.model.organization_program, value);
+			}
+		});
+
+		$input.closest('.easy-autocomplete').removeAttr('style');
+	};
 
 	function registerUiElements(scope, $el) {
 		scope.$ui = scope.$ui || {
@@ -135,6 +233,8 @@ var EntityEmbed = EntityEmbed || {};
 
 		$ui.previewAudio
 			.attr('src', src_url);
+
+		showAudioPreview(scope);
 
 		promise.resolve();
 
@@ -161,17 +261,14 @@ var EntityEmbed = EntityEmbed || {};
 	function showAudioPreview(scope) {
 		var $ui = scope.$ui;
 
-		return updateAudioPreview(scope)
-			.done(function(){
-				// Hide file input and related toolbar btns
-				$ui.uploadFileInputContainer.hide();
-				$ui.cancelUploadBtn.hide();
+		// Hide file input and related toolbar btns
+		$ui.uploadFileInputContainer.hide();
+		$ui.cancelUploadBtn.hide();
 
-				// Show Image Preview and related toolbar btns
-				$ui.previewContainer.show();
-				$ui.editFileBtn.show();
-				$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
-			});
+		// Show Image Preview and related toolbar btns
+		$ui.previewContainer.show();
+		$ui.editFileBtn.show();
+		$ui.undoUploadBtn.toggle(!!scope.model.url_path && !!scope.model.upload);
 	}
 
 	function showFileInput(scope) {
@@ -191,44 +288,39 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	// CONSTRUCTOR
-	function audioEmbed(options){
+	function audioProgramEmbed(options){
 		var self = this;
 		self.parent.constructor(options, defaults, embedName, self);
 	}
 
-	audioEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
-	EntityEmbed.embedTypes[embedName] = audioEmbed;
+	audioProgramEmbed.inherits(EntityEmbed.embedTypes.genericEmbed);
+	EntityEmbed.embedTypes[embedName] = audioProgramEmbed;
 
 	// PUBLIC
-	audioEmbed.prototype.orderIndex = 3;
+	audioProgramEmbed.prototype.orderIndex = 3;
 
-	audioEmbed.prototype.audioPreviewClass = 'audio-preview';
+	audioProgramEmbed.prototype.audioPreviewClass = 'audio-preview';
 
-	audioEmbed.prototype.cleanModel = function(){
+	audioProgramEmbed.prototype.cleanModel = function(){
 		return {
 			title: null,
-			duration: null,
 			url_path: null,
 			url_external: null,
-			credit: null,
-			creditLink: null,
+			organization_program: null,
+			audio_type: null,
 			object_type: defaults.object_type
 		};
 	};
 
-	audioEmbed.prototype.getAudioUrl = function() {
+	audioProgramEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.model.url_path);
+			getAudioUrl(this.options.audioLocation, this.model.url_path);
 	};
 
-	audioEmbed.prototype.initModal = function($el, modalCtrl){
+	audioProgramEmbed.prototype.initModal = function($el, modalCtrl){
 		var self = this;
-		var $ui;
-
-		self.parent.initModal($el, modalCtrl, self);
-
-		$ui = registerUiElements(self, $el);
+		var $ui = registerUiElements(self, $el);
 
 		$ui.editFileBtn.on('click', 'a', function(){
 			showFileInput(modalCtrl.scope.currentEmbedType);
@@ -241,17 +333,17 @@ var EntityEmbed = EntityEmbed || {};
 		$ui.undoUploadBtn.on('click', 'a', function() {
 			delete modalCtrl.scope.currentEmbedType.model.upload;
 			$ui.uploadFileInput.val('');
-			showAudioPreview(modalCtrl.scope.currentEmbedType);
+			updateAudioPreview(modalCtrl.scope.currentEmbedType);
 		});
 
-		$ui.uploadFileInput.on('change', function(evt){
-			var file = evt.target.files[0];
+		$ui.uploadFileInput.on('change', function(event){
+			var file = event.target.files[0];
 			$ui.urlExternalInput.val('');
 			updateFormWithFileData(modalCtrl.scope.currentEmbedType, file);
 		});
 
-		$(document).on('dragover drop', function(evt) {
-			evt.preventDefault();
+		$(document).on('dragover drop', function(event) {
+			event.preventDefault();
 		});
 
 		$ui.audioEditor
@@ -261,11 +353,11 @@ var EntityEmbed = EntityEmbed || {};
 			.on('dragleave drop', function() {
 				$(this).removeClass('js-dragover');
 			})
-			.on('drop', function(evt) {
-				evt.preventDefault();
+			.on('drop', function(event) {
+				event.preventDefault();
 
 				var $this = $(this);
-				var files = evt.originalEvent.dataTransfer.files;
+				var files = event.originalEvent.dataTransfer.files;
 				var file;
 
 				if (!!files && !!files.length)
@@ -294,11 +386,11 @@ var EntityEmbed = EntityEmbed || {};
 				}
 			});
 
-		$ui.setUrlBtn.on('click', function(evt) {
+		$ui.setUrlBtn.on('click', function(event) {
 			var $this = $(this);
 			var btnInnerHtml = $this.html();
 
-			evt.preventDefault();
+			event.preventDefault();
 
 			// Get model from form
 			modalCtrl.scope.currentEmbedType.getModelFromForm($ui.form);
@@ -313,15 +405,17 @@ var EntityEmbed = EntityEmbed || {};
 
 				$this.html('Loading...');
 
-				showAudioPreview(modalCtrl.scope.currentEmbedType)
+				updateAudioPreview(modalCtrl.scope.currentEmbedType)
 					.done(function() {
 						$this.html(btnInnerHtml);
 					});
 			}
 		});
+
+		initAutoComplete(self, $el);
 	};
 
-	audioEmbed.prototype.clearForm = function($el){
+	audioProgramEmbed.prototype.clearForm = function($el){
 		var self = this;
 		self.parent.clearForm($el, self);
 
@@ -332,7 +426,7 @@ var EntityEmbed = EntityEmbed || {};
 		showFileInput(self);
 	};
 
-	audioEmbed.prototype.saveEmbed = function(embedIsNew)
+	audioProgramEmbed.prototype.saveEmbed = function(embedIsNew)
 	{
 		var self = this;
 		var file = self.model.upload;
@@ -373,18 +467,9 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	};
 
-	audioEmbed.prototype.getModelFromForm = function($form){
+	audioProgramEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
-		var $ui = self.$ui;
-		var duration = $ui.previewAudio[0].duration;
 		var oldModel = $.extend(true, {}, self.model);
-		var promise = $.Deferred();
-
-		function onLoadedMetadata() {
-			$ui.previewAudio.off('loadedmetadata', onLoadedMetadata);
-			self.model.duration = this.duration;
-			promise.resolve();
-		}
 
 		self.parent.getModelFromForm($form, self);
 
@@ -396,26 +481,17 @@ var EntityEmbed = EntityEmbed || {};
 			delete self.model.url_path;
 		}
 
+		self.model.organization_program = self.$ui.programInput.data('organization_program');
+
+		console.log('getModelFromForm', $.extend(true, {}, self.model));
+
 		if(!!oldModel.upload && !self.model.upload)
 		{
 			self.model.upload = oldModel.upload;
 		}
-
-		if(!duration)
-		{
-			$ui.previewAudio.on('loadedmetadata', onLoadedMetadata);
-			updateAudioPreview(self);
-		}
-		else
-		{
-			self.model.duration = duration;
-			promise.resolve();
-		}
-
-		return promise;
 	}
 
-	audioEmbed.prototype.getModelFromFile = function(file){
+	audioProgramEmbed.prototype.getModelFromFile = function(file){
 		var self = this;
 		var $ui = self.$ui;
 		var promise = $.Deferred();
@@ -476,30 +552,50 @@ var EntityEmbed = EntityEmbed || {};
 		return promise;
 	}
 
-	audioEmbed.prototype.populateFormWithModel = function($form){
+	audioProgramEmbed.prototype.populateFormWithModel = function($form){
 		var self = this;
 		var promise = $.Deferred();
+		var deferreds = [];
+		var programPromise, previewPromise;
 
 		self.parent.populateFormWithModel($form, self);
 
+		self.$ui.programInput.data('organization_program', self.model.organization_program);
+
+		// Get program data from API
+		programPromise = EntityEmbed.apiService.get({
+			path: self.options.httpPaths.getOrganizationFetch,
+			data: {
+				object_id: self.model.organization_program.object_id
+			}
+		});
+
+		programPromise.done(function(respData) {
+			self.$ui.programInput.val(respData.response.title);
+		});
+
+		deferreds.push(programPromise);
+
 		if (!!self.model.upload || !!self.model.url_path || !!self.model.url_external)
 		{
-			showAudioPreview(self)
+			previewPromise = updateAudioPreview(self)
 				.done(function() {
 					promise.resolve();
 				});
+
+			deferreds.push(previewPromise);
 		}
-		else
-		{
+
+		$.when.apply($, deferreds).always(function(){
 			promise.resolve();
-		}
+		});
 
 		return promise;
 	};
 
-	audioEmbed.prototype.parseForEditor = function(){
+	audioProgramEmbed.prototype.parseForEditor = function(){
 		var self = this;
-		var audioSrc = self.model.url_external || getAudioUrl(self.model.url_path);
+		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>'
 		];
