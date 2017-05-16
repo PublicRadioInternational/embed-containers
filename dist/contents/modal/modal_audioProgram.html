@@ -59,24 +59,35 @@
 				<input name="title" type="text" placeholder="Enter a title" class="embed-modal-input embed-modal-form-control" />
 			</div>
 		</div>
+		</div>
 	</div>
 
 	<div class="embed-modal-row">
-		<div class="embed-modal-form">
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="organization_program" class="embed-modal-label">Program</label>
-					<input id="organization_program" name="organization_program" class="embed-modal-form-control embed-modal-input js-program" type="text" placeholder="Begin typing a Program title..." />
-				</div>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label for="organization_program" class="embed-modal-label">Program</label>
+				<input id="organization_program" name="organization_program" class="embed-modal-form-control embed-modal-input js-program" type="text" placeholder="Begin typing a Program title..." />
 			</div>
-			<div class="embed-modal-half-column">
-				<div class="embed-modal-form">
-					<label for="audio_type" class="embed-modal-label">Audio Type</label>
-					<select id="audio_type" class="embed-modal-form-control embed-modal-input" name="audio_type">
-						<option value="">-- Select Type --</option>
-						<option value="episode">Episode</option>
-						<option value="segment">Segment</option>
-					</select>
+		</div>
+		<div class="embed-modal-half-column">
+			<div class="embed-modal-form">
+				<label for="audio_type" class="embed-modal-label">Audio Type</label>
+				<select id="audio_type" class="embed-modal-form-control embed-modal-input" name="audio_type">
+					<option value="">-- Select Type --</option>
+					<option value="episode">Episode</option>
+					<option value="segment">Segment</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="embed-modal-row">
+		<div class="embed-modal-full-column">
+			<div class="embed-modal-form">
+				<label class="embed-modal-label" for="explicit_content">Is the content explicit?</label>
+				<div>
+					<label class="radio-inline"><input type="radio" name="explicit_content" class="embed-modal-form-control" value="0" checked>Non-explicit</label>
+					<label class="radio-inline"><input type="radio" name="explicit_content" class="embed-modal-form-control" value="1">Explicit</label>
 				</div>
 			</div>
 		</div>

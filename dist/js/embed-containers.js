@@ -1,6 +1,6 @@
 (function(){EntityEmbed = EntityEmbed || {}; var templateCache = {};templateCache["modal"] = "null";
 templateCache["modal/modal_audio.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input id=\"credit\" class=\"embed-modal-form-control embed-modal-input\" type=\"text\" name=\"credit\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input id=\"creditLink\" class=\"embed-modal-form-control embed-modal-input\" type=\"url\" name=\"creditLink\"></div></div></div></div></form>";
-templateCache["modal/modal_audioProgram.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"organization_program\" class=\"embed-modal-label\">Program</label><input id=\"organization_program\" name=\"organization_program\" class=\"embed-modal-form-control embed-modal-input js-program\" type=\"text\" placeholder=\"Begin typing a Program title...\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"audio_type\" class=\"embed-modal-label\">Audio Type</label><select id=\"audio_type\" class=\"embed-modal-form-control embed-modal-input\" name=\"audio_type\"><option value=\"\">-- Select Type --</option><option value=\"episode\">Episode</option><option value=\"segment\">Segment</option></select></div></div></div></div></form>";
+templateCache["modal/modal_audioProgram.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">MP3 File</label><div class=\"audio_editor\"><div class=\"audio_editor-intro\"><div class=\"audio_editor-intro_inner\"><div><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"audio/mpeg, audio/mp3\"></div><div><hr></div><div><div class=\"input-group\"><input type=\"url\" name=\"url_external\" placeholder=\"http://www.example.com/path/to/audio.mp3\" class=\"embed-modal-input embed-modal-url-external embed-modal-form-control form-control\"> <span class=\"input-group-btn\"><a class=\"btn btn-primary js-set-url\">Listen</a></span></div></div></div></div><div class=\"audio_editor-preview\"><div class=\"audio_editor-preview_inner\"><audio class=\"audio_editor-preview_audio\" controls></audio></div></div><div class=\"audio_editor-toolbar\"><ul class=\"audio_editor-toolbar_list\"><li class=\"audio_editor-toolbar_item js-edit-file\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Select Another Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-undo\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"audio_editor-toolbar_item js-upload-cancel\"><a class=\"audio_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div id=\"audio-credits\" class=\"embed-modal-form\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"organization_program\" class=\"embed-modal-label\">Program</label><input id=\"organization_program\" name=\"organization_program\" class=\"embed-modal-form-control embed-modal-input js-program\" type=\"text\" placeholder=\"Begin typing a Program title...\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"audio_type\" class=\"embed-modal-label\">Audio Type</label><select id=\"audio_type\" class=\"embed-modal-form-control embed-modal-input\" name=\"audio_type\"><option value=\"\">-- Select Type --</option><option value=\"episode\">Episode</option><option value=\"segment\">Segment</option></select></div></div></div></div></form>";
 templateCache["modal/modal_confirmation.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header\"><h3>Are you sure you want to leave?</h3></div><div class=\"embed-modal-body\"><h4>All your changes will be lost if you leave this window!</h4></div><div class=\"embed-modal-footer\"><button id=\"btn-confirm-leave\">Yes - Leave</button> <button id=\"btn-cancel-leave\">No - Stay</button></div></div></div>";
 templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"displayTitle\">Display Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"control-label\" for=\"customText\">Text</label><div name=\"customText\" type=\"text\" placeholder=\"Type your text. Highlight words to trigger the styles editor\" class=\"embed-modal-form-control\" id=\"custom-text-editor\"></div></div></div></div></form>";
 templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Teaser Image</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-remove\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-close\" aria-label=\"Remove Image\"></span></a></li></ul></div></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"display title\">Teaser Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control js-input-teaser_title\"></div><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
@@ -570,56 +570,149 @@ var EntityEmbed = EntityEmbed || {};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
-		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+		var $formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+		var model = {};
 
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var type = formFields[i].type;
+		$formFields.each(function() {
+			var $this = $(this);
+			var name = $this.attr('name');
+			var type = $this.attr('type');
 			var value = null;
-			if (type === 'file')
+			var $inputGroup;
+
+			if(!name)
 			{
-				value = formFields[i].files[0];
+				console.warning('Form input missing "name" attribute. Value not added to model.', $this[0]);
+				return; // No need to gather value since we don't know where to store it.
 			}
-			else if(!!formFields[i].value.length)
+
+			switch (type)
 			{
-				value = formFields[i].value;
+				case 'file':
+				value = $this[0].files[0];
+				break;
+
+				case 'radio':
+				if(typeof model[name] !== 'undefined')
+				{
+					return; // We have already collected values for this group of radios. Skip to next input.
+				}
+
+				// Get all inputs for this checkbox group.
+				$inputGroup = $formFields.filter('[type=radio][name=' + name +']');
+
+				// Set value to value of checked input in group
+				$inputGroup.each(function() {
+					var $this = $(this);
+					if($this.is(':checked'))
+					{
+						value = $this.val();
+						return false; // Exit loop. Only one radio in a group should be checked anyway.
+					}
+				});
+				break;
+
+				case 'checkbox':
+				if(typeof model[name] !== 'undefined')
+				{
+					return; // We have already collected values for this group of checkboxes. Skip to next input.
+				}
+
+				// Get all inputs for this checkbox group.
+				$inputGroup = $formFields.filter('[type=checkbox][name=' + name +']');
+
+				if($inputGroup.length > 1)
+				{
+					// Get checked values and ensure value is either an array or null
+					value = [];
+					$inputGroup.each(function() {
+						var $this = $(this);
+						if($this.is(':checked'))
+						{
+							value.push($this.val());
+						}
+					});
+
+					if(!value.length)
+					{
+						value = null;
+					}
+				}
+				else
+				{
+					// Treat single checkboxes as boolean input for binary integer.
+					value = !!$inputGroup.is(':checked') ? 1 : 0;
+				}
+				break;
+
+				default:
+				value = $this.val() || null;
+				break;
 			}
-			if (!!name)
+
+			// Most input values will be strings, but we want to convert some values into useful types
+			if(typeof value === 'string')
 			{
-				self.model[name] = value;
+				value = !value.length ? null : // Convert empty strings to null
+					// Convert numeric values to numbers
+					// To see why this works:
+					// 		http://stackoverflow.com/questions/175739/is-there-a-built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
+					(+value === +value) ? +value :
+					// Otherwise, use original value
+					value;
 			}
-		}
+
+			// Add value to new model
+			model[name] = value;
+		});
+
+		// console.log('getModelFromForm', model);
+
+		// Merge new model into working model
+		$.extend(self.model, model);
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
 		var self = child || this;
-		var formFields = $form.find('.embed-modal-form-control');
+		var $formFields = $form.find('.embed-modal-form-control');
 
-		for (var i = 0; i < formFields.length; i++)
-		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('file') !== -1)
+		$formFields.each(function() {
+			var $this = $(this);
+			var name = $this.attr('name');
+			var type = $this.attr('type');
+			var value, $inputGroup;
+
+			if(!name)
 			{
-				continue;
+				console.warning('Form input missing "name" attribute. Value not set to input.', $this[0]);
+				return; // No need to set value since we don't know where to get it off the model.
 			}
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
+
+			value = self.model[name];
+
+			switch(type)
 			{
-				var options = $(formFields[i]).find('option');
-				var selectedOption = self.model[formFields[i].name];
-				var optionIndex = 0;
-				options.each(function(index){
-					if (this.value === selectedOption)
-					{
-						optionIndex = index;
-					}
-				});
-				formFields[i].selectedIndex = optionIndex;
+				case 'file':
+				return; // Skip file inputs. Won't have a value to set, and you can't do that anyway for security reasons.
+
+				case 'checkbox':
+				case 'radio':
+				// Concider all inputs for this input group as our element set.
+				$this = $formFields.filter('[type=' + type + '][name=' + name +']');
+				case 'select':
+				// Make sure we will pass an array to the .val method.
+				// Inputs/options with values found in the array will be checked.
+				// See: http://api.jquery.com/val/#val-value
+				if(typeof value !== 'undefined' && value.constructor !== Array)
+				{
+					value = [value];
+				}
+				break;
 			}
-			else if (!!self.model[formFields[i].name])
-			{
-				formFields[i].value = self.model[formFields[i].name];
-			}
-		}
+
+			// Set the input's value
+			$this.val(value);
+		});
 	};
 
 	// TODO: Get rid of self paramater. See inherits function
@@ -2084,7 +2177,8 @@ var EntityEmbed = EntityEmbed || {};
 			url_external: null,
 			credit: null,
 			creditLink: null,
-			object_type: defaults.object_type
+			object_type: defaults.object_type,
+			explicit_content: 0
 		};
 	};
 
@@ -2262,17 +2356,17 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.getModelFromForm($form, self);
 
+		if(!!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
+
 		if(!!self.model.url_external) {
 			// Make sure local file data is removed when external URL is provided.
 			// Need to do this here since the modal can be completed without the "Listen" btn being clicked.
 			self.$ui.uploadFileInput.val('');
 			delete self.model.upload;
 			delete self.model.url_path;
-		}
-
-		if(!!oldModel.upload && !self.model.upload)
-		{
-			self.model.upload = oldModel.upload;
 		}
 
 		if(!duration)
@@ -2720,7 +2814,8 @@ var EntityEmbed = EntityEmbed || {};
 			url_external: null,
 			organization_program: null,
 			audio_type: null,
-			object_type: defaults.object_type
+			object_type: defaults.object_type,
+			explicit_content: 0
 		};
 	};
 
@@ -2891,9 +2986,25 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioProgramEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
+		var $ui = self.$ui;
+		var duration = $ui.previewAudio[0].duration;
 		var oldModel = $.extend(true, {}, self.model);
+		var promise = $.Deferred();
+
+		function onLoadedMetadata() {
+			$ui.previewAudio.off('loadedmetadata', onLoadedMetadata);
+			self.model.duration = this.duration;
+			promise.resolve();
+		}
 
 		self.parent.getModelFromForm($form, self);
+
+		self.model.organization_program = self.$ui.programInput.data('organization_program');
+
+		if(!!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
 
 		if(!!self.model.url_external) {
 			// Make sure local file data is removed when external URL is provided.
@@ -2903,14 +3014,18 @@ var EntityEmbed = EntityEmbed || {};
 			delete self.model.url_path;
 		}
 
-		self.model.organization_program = self.$ui.programInput.data('organization_program');
-
-		console.log('getModelFromForm', $.extend(true, {}, self.model));
-
-		if(!!oldModel.upload && !self.model.upload)
+		if(!duration)
 		{
-			self.model.upload = oldModel.upload;
+			$ui.previewAudio.on('loadedmetadata', onLoadedMetadata);
+			updateAudioPreview(self);
 		}
+		else
+		{
+			self.model.duration = duration;
+			promise.resolve();
+		}
+
+		return promise;
 	}
 
 	audioProgramEmbed.prototype.getModelFromFile = function(file){
