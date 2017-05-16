@@ -66,56 +66,149 @@ var EntityEmbed = EntityEmbed || {};
 
 	genericEmbed.prototype.getModelFromForm = function($el, child){
 		var self = child || this;
-		var formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+		var $formFields = $el.find('.embed-modal-form-control, .embed-modal-file-input');
+		var model = {};
 
-		for(var i = 0; i < formFields.length; i++)
-		{
-			var name = formFields[i].name;
-			var type = formFields[i].type;
+		$formFields.each(function() {
+			var $this = $(this);
+			var name = $this.attr('name');
+			var type = $this.attr('type');
 			var value = null;
-			if (type === 'file')
+			var $inputGroup;
+
+			if(!name)
 			{
-				value = formFields[i].files[0];
+				console.warning('Form input missing "name" attribute. Value not added to model.', $this[0]);
+				return; // No need to gather value since we don't know where to store it.
 			}
-			else if(!!formFields[i].value.length)
+
+			switch (type)
 			{
-				value = formFields[i].value;
+				case 'file':
+				value = $this[0].files[0];
+				break;
+
+				case 'radio':
+				if(typeof model[name] !== 'undefined')
+				{
+					return; // We have already collected values for this group of radios. Skip to next input.
+				}
+
+				// Get all inputs for this checkbox group.
+				$inputGroup = $formFields.filter('[type=radio][name=' + name +']');
+
+				// Set value to value of checked input in group
+				$inputGroup.each(function() {
+					var $this = $(this);
+					if($this.is(':checked'))
+					{
+						value = $this.val();
+						return false; // Exit loop. Only one radio in a group should be checked anyway.
+					}
+				});
+				break;
+
+				case 'checkbox':
+				if(typeof model[name] !== 'undefined')
+				{
+					return; // We have already collected values for this group of checkboxes. Skip to next input.
+				}
+
+				// Get all inputs for this checkbox group.
+				$inputGroup = $formFields.filter('[type=checkbox][name=' + name +']');
+
+				if($inputGroup.length > 1)
+				{
+					// Get checked values and ensure value is either an array or null
+					value = [];
+					$inputGroup.each(function() {
+						var $this = $(this);
+						if($this.is(':checked'))
+						{
+							value.push($this.val());
+						}
+					});
+
+					if(!value.length)
+					{
+						value = null;
+					}
+				}
+				else
+				{
+					// Treat single checkboxes as boolean input for binary integer.
+					value = !!$inputGroup.is(':checked') ? 1 : 0;
+				}
+				break;
+
+				default:
+				value = $this.val() || null;
+				break;
 			}
-			if (!!name)
+
+			// Most input values will be strings, but we want to convert some values into useful types
+			if(typeof value === 'string')
 			{
-				self.model[name] = value;
+				value = !value.length ? null : // Convert empty strings to null
+					// Convert numeric values to numbers
+					// To see why this works:
+					// 		http://stackoverflow.com/questions/175739/is-there-a-built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
+					(+value === +value) ? +value :
+					// Otherwise, use original value
+					value;
 			}
-		}
+
+			// Add value to new model
+			model[name] = value;
+		});
+
+		// console.log('getModelFromForm', model);
+
+		// Merge new model into working model
+		$.extend(self.model, model);
 	};
 
 	genericEmbed.prototype.populateFormWithModel = function($form, child){
 		var self = child || this;
-		var formFields = $form.find('.embed-modal-form-control');
+		var $formFields = $form.find('.embed-modal-form-control');
 
-		for (var i = 0; i < formFields.length; i++)
-		{
-			if (!!formFields[i].type && formFields[i].type.indexOf('file') !== -1)
+		$formFields.each(function() {
+			var $this = $(this);
+			var name = $this.attr('name');
+			var type = $this.attr('type');
+			var value, $inputGroup;
+
+			if(!name)
 			{
-				continue;
+				console.warning('Form input missing "name" attribute. Value not set to input.', $this[0]);
+				return; // No need to set value since we don't know where to get it off the model.
 			}
-			if (!!formFields[i].type && formFields[i].type.indexOf('select') !== -1)
+
+			value = self.model[name];
+
+			switch(type)
 			{
-				var options = $(formFields[i]).find('option');
-				var selectedOption = self.model[formFields[i].name];
-				var optionIndex = 0;
-				options.each(function(index){
-					if (this.value === selectedOption)
-					{
-						optionIndex = index;
-					}
-				});
-				formFields[i].selectedIndex = optionIndex;
+				case 'file':
+				return; // Skip file inputs. Won't have a value to set, and you can't do that anyway for security reasons.
+
+				case 'checkbox':
+				case 'radio':
+				// Concider all inputs for this input group as our element set.
+				$this = $formFields.filter('[type=' + type + '][name=' + name +']');
+				case 'select':
+				// Make sure we will pass an array to the .val method.
+				// Inputs/options with values found in the array will be checked.
+				// See: http://api.jquery.com/val/#val-value
+				if(typeof value !== 'undefined' && value.constructor !== Array)
+				{
+					value = [value];
+				}
+				break;
 			}
-			else if (!!self.model[formFields[i].name])
-			{
-				formFields[i].value = self.model[formFields[i].name];
-			}
-		}
+
+			// Set the input's value
+			$this.val(value);
+		});
 	};
 
 	// TODO: Get rid of self paramater. See inherits function
