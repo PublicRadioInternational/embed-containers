@@ -103,9 +103,12 @@ var EntityEmbed = EntityEmbed || {};
 					if($this.is(':checked'))
 					{
 						value = $this.val();
+						// console.log('radio checked value:', value);
 						return false; // Exit loop. Only one radio in a group should be checked anyway.
 					}
 				});
+
+				// console.log('radio value: %s >> %o', name, value, $inputGroup);
 				break;
 
 				case 'checkbox':
@@ -175,7 +178,7 @@ var EntityEmbed = EntityEmbed || {};
 		$formFields.each(function() {
 			var $this = $(this);
 			var name = $this.attr('name');
-			var type = $this.attr('type');
+			var type = $this.is('input') ? $this.attr('type') : $this.prop('tagName').toLowerCase();
 			var value, $inputGroup;
 
 			if(!name)
@@ -199,12 +202,14 @@ var EntityEmbed = EntityEmbed || {};
 				// Make sure we will pass an array to the .val method.
 				// Inputs/options with values found in the array will be checked.
 				// See: http://api.jquery.com/val/#val-value
-				if(typeof value !== 'undefined' && value.constructor !== Array)
+				if(typeof value === 'undefined' || value.constructor !== Array)
 				{
 					value = [value];
 				}
 				break;
 			}
+
+			// console.log('populateFormWithModel: %s >> %o', name, value);
 
 			// Set the input's value
 			$this.val(value);
