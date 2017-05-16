@@ -212,7 +212,8 @@ var EntityEmbed = EntityEmbed || {};
 			url_external: null,
 			credit: null,
 			creditLink: null,
-			object_type: defaults.object_type
+			object_type: defaults.object_type,
+			explicit_content: 0
 		};
 	};
 
@@ -390,17 +391,17 @@ var EntityEmbed = EntityEmbed || {};
 
 		self.parent.getModelFromForm($form, self);
 
+		if(!!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
+
 		if(!!self.model.url_external) {
 			// Make sure local file data is removed when external URL is provided.
 			// Need to do this here since the modal can be completed without the "Listen" btn being clicked.
 			self.$ui.uploadFileInput.val('');
 			delete self.model.upload;
 			delete self.model.url_path;
-		}
-
-		if(!!oldModel.upload && !self.model.upload)
-		{
-			self.model.upload = oldModel.upload;
 		}
 
 		if(!duration)
