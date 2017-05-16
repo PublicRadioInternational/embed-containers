@@ -326,7 +326,8 @@ var EntityEmbed = EntityEmbed || {};
 			url_external: null,
 			organization_program: null,
 			audio_type: null,
-			object_type: defaults.object_type
+			object_type: defaults.object_type,
+			explicit_content: 0
 		};
 	};
 
@@ -497,9 +498,25 @@ var EntityEmbed = EntityEmbed || {};
 
 	audioProgramEmbed.prototype.getModelFromForm = function($form){
 		var self = this;
+		var $ui = self.$ui;
+		var duration = $ui.previewAudio[0].duration;
 		var oldModel = $.extend(true, {}, self.model);
+		var promise = $.Deferred();
+
+		function onLoadedMetadata() {
+			$ui.previewAudio.off('loadedmetadata', onLoadedMetadata);
+			self.model.duration = this.duration;
+			promise.resolve();
+		}
 
 		self.parent.getModelFromForm($form, self);
+
+		self.model.organization_program = self.$ui.programInput.data('organization_program');
+
+		if(!!oldModel.upload && !self.model.upload)
+		{
+			self.model.upload = oldModel.upload;
+		}
 
 		if(!!self.model.url_external) {
 			// Make sure local file data is removed when external URL is provided.
@@ -509,14 +526,18 @@ var EntityEmbed = EntityEmbed || {};
 			delete self.model.url_path;
 		}
 
-		self.model.organization_program = self.$ui.programInput.data('organization_program');
-
-		console.log('getModelFromForm', $.extend(true, {}, self.model));
-
-		if(!!oldModel.upload && !self.model.upload)
+		if(!duration)
 		{
-			self.model.upload = oldModel.upload;
+			$ui.previewAudio.on('loadedmetadata', onLoadedMetadata);
+			updateAudioPreview(self);
 		}
+		else
+		{
+			self.model.duration = duration;
+			promise.resolve();
+		}
+
+		return promise;
 	}
 
 	audioProgramEmbed.prototype.getModelFromFile = function(file){
