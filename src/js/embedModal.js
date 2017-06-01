@@ -33,7 +33,6 @@ var EntityEmbed = EntityEmbed || {};
 				facebook:{},
 				relatedLink:{},
 				externalLink:{},
-				globalBuzz:{},
 				newsletterSubscribe:{},
 				iframe:{},
 				customText:{}
