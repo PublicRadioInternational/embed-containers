@@ -7,6 +7,7 @@ var EntityEmbed = EntityEmbed || {};
 		debug: 0,
 		auth_token: '',
 		domainName: '',
+		filesDomainName: '',
 		path: '',
 		timeout: 15000
 	};
@@ -73,6 +74,10 @@ var EntityEmbed = EntityEmbed || {};
 		return defaultConfig.domainName;
 	};
 
+	function getFilesDomainName(){
+		return defaultConfig.filesDomainName;
+	};
+
 	function setAuthToken(token){
 		defaultConfig.auth_token = token;
 	};
@@ -82,6 +87,14 @@ var EntityEmbed = EntityEmbed || {};
 		if (!defaultConfig.domainName.endsWith('/'))
 		{
 			defaultConfig.domainName += '/';
+		}
+	};
+
+	function setFilesDomainName(d){
+		defaultConfig.filesDomainName = d;
+		if (!defaultConfig.filesDomainName.endsWith('/'))
+		{
+			defaultConfig.filesDomainName += '/';
 		}
 	};
 
@@ -98,9 +111,11 @@ var EntityEmbed = EntityEmbed || {};
 		set: set,
 		get: get,
 		uploadFile: uploadFile,
-		setAuthToken: setAuthToken,
 		getAuthToken: getAuthToken,
+		setAuthToken: setAuthToken,
 		getDomainName: getDomainName,
-		setDomainName: setDomainName
+		setDomainName: setDomainName,
+		getFilesDomainName: getFilesDomainName,
+		setFilesDomainName: setFilesDomainName
 	};
 })();

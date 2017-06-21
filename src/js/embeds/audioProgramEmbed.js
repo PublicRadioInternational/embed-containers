@@ -104,29 +104,30 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(audioLocation, audioUrl) {
-		if (!audioUrl || audioUrl === '')
+	function getAudioUrl(url) {
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
+
+		if (!url || url === '')
 		{
-			return audioLocation || '';
+			return '';
 		}
 
-		if (audioUrl.indexOf(audioLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return audioUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (audioLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
 		}
 
-		if (!audioUrl.startsWith('/'))
-		{
-			audioLocation = '/' + audioUrl;
-		}
-
-		return audioLocation + audioUrl;
+		return apiDomain + url;
 	}
 
 
@@ -334,7 +335,7 @@ var EntityEmbed = EntityEmbed || {};
 	audioProgramEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.options.audioLocation, this.model.url_path);
+			getAudioUrl(this.model.url_path);
 	};
 
 	audioProgramEmbed.prototype.initModal = function($el, modalCtrl){
@@ -659,7 +660,7 @@ var EntityEmbed = EntityEmbed || {};
 	audioProgramEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		var programTitleId = ['program_title', self.model.organization_program.object_id, (new Date()).getTime()].join('_');
-		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
+		var audioSrc = self.model.url_external || getAudioUrl(self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>',
 			'<div class="program">Program: <span id="' + programTitleId + '"></span></div>',

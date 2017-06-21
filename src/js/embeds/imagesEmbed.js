@@ -120,7 +120,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function getImageUrl(url) {
-		var apiDomain = EntityEmbed.apiService.getDomainName();
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
 
 		if (!url || url === '')
 		{

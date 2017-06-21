@@ -7,11 +7,11 @@ $(document).ready(function(){
 		imageDragging: false
 	});
 
-  var medEditor2 = new MediumEditor('.editor2', {
-    toolbar: {
-      buttons: ['bold', 'italic', 'anchor', 'orderedlist', 'unorderedlist', 'h2', 'h3', 'quote']
-    }
-  });
+	var medEditor2 = new MediumEditor('.editor2', {
+		toolbar: {
+			buttons: ['bold', 'italic', 'anchor', 'orderedlist', 'unorderedlist', 'h2', 'h3', 'quote']
+		}
+	});
 
 	var $extractContentBtn = $('#extract-story-content');
 	var $loadStoryBtn = $('#load-default-story');
@@ -124,26 +124,29 @@ $(document).ready(function(){
 			embeds: false,
 			entityEmbeds: {
 				authToken: 'n2WpxehNeqyP5wnQcWuJozyMZ030f7KLTbiLHtT0q3JQ4mu/ED3NKNZaVqqPZYj/7z7IFt5OZWLkkiGkJulelQ==',
-				domainName: 'https://test-services.pri.org'
+				domainName: 'https://test-services.pri.org',
+				filesDomainName: 'https://staging2.pri.org'
 			}
 		}
 	});
-  medEditor.load_content(storyObject);
 
-  $('.editor2').mediumInsert({
-    editor: medEditor2,
-    enabled: true,
-    buttonLabels: 'fontawesome',
-    addons: {
-      images: false,
-      embeds: false,
-      entityEmbeds: {
-        authToken: 'n2WpxehNeqyP5wnQcWuJozyMZ030f7KLTbiLHtT0q3JQ4mu/ED3NKNZaVqqPZYj/7z7IFt5OZWLkkiGkJulelQ==',
-        domainName: 'https://test-services.pri.org'
-      }
-    }
-  });
-  medEditor2.load_content(storyObject);
+	$('.editor2').mediumInsert({
+		editor: medEditor2,
+		enabled: true,
+		buttonLabels: 'fontawesome',
+		addons: {
+			images: false,
+			embeds: false,
+			entityEmbeds: {
+				authToken: 'n2WpxehNeqyP5wnQcWuJozyMZ030f7KLTbiLHtT0q3JQ4mu/ED3NKNZaVqqPZYj/7z7IFt5OZWLkkiGkJulelQ==',
+				domainName: 'https://test-services.pri.org',
+				filesDomainName: 'https://staging2.pri.org'
+			}
+		}
+	});
+
+	medEditor.load_content(storyObject);
+	medEditor2.load_content(storyObject);
 
 	medEditor.subscribe('editableInput', function() {
 		console.log('medEditor: editableInput');
@@ -157,7 +160,7 @@ $(document).ready(function(){
 
 	$loadStoryBtn.click(function(){
 		medEditor.load_content(storyObject);
-    medEditor2.load_content(storyObject);
+		medEditor2.load_content(storyObject);
 	});
 
 	$openAddSingleEmbedBtn.click(function(){
