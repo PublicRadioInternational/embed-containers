@@ -6,7 +6,7 @@ templateCache["modal/modal_customText.html"] = "<form><div class=\"embed-modal-r
 templateCache["modal/modal_externalLink.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"linkText\">External Link Text</label><input name=\"linkText\" type=\"text\" placeholder=\"Enter link text\" class=\"embed-modal-form-control\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">External Link Url</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL\" class=\"embed-modal-form-control\"></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Teaser Image</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-remove\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-close\" aria-label=\"Remove Image\"></span></a></li></ul></div></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"display title\">Teaser Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-form-control js-input-teaser_title\"></div><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"5\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
 templateCache["modal/modal_facebook.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control js-input-title\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Facebook Status</label><div class=\"social_editor\"><div class=\"social_editor-intro\"><div class=\"social_editor-intro_inner\"><div><div class=\"input-group\"><input name=\"url\" type=\"url\" placeholder=\"Enter URL, or drop link...\" class=\"embed-modal-input embed-modal-form-control js-input-url\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary js-btn-preview\" type=\"button\">Preview</button></span></div></div></div></div><div class=\"social_editor-preview\"><div class=\"social_editor-preview_inner\"><div class=\"social_editor-preview_post\"></div></div></div><div class=\"social_editor-toolbar\"><ul class=\"social_editor-toolbar_list\"><li class=\"social_editor-toolbar_item js-btn-edit\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Enter Another URL\"></span></a></li><li class=\"social_editor-toolbar_item js-btn-cancel\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel URL Editing\"></span></a></li></ul></div></div></div></div></div></form>";
 templateCache["modal/modal_iframe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Source</label><input name=\"url\" type=\"url\" placeholder=\"Enter URL or iframe source code\" class=\"embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Height</label><div class=\"embed-modal-input-group\"><input name=\"height\" type=\"number\" placeholder=\"\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Width</label><div class=\"embed-modal-input-group\"><input name=\"width\" type=\"number\" placeholder=\"Full Width\" class=\"embed-modal-form-control\"> <span class=\"embed-modal-input-group-addon\">px</span></div></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"allowsScroll\">Scroll</label><select name=\"allowsScroll\" class=\"embed-modal-form-control\"><option>No</option><option>Yes</option></select></div></div></div></form>";
-templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><textarea class=\"embed-modal-input embed-modal-form-control\" name=\"caption\" rows=\"5\"></textarea></div><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"><option value=\"\" disabled=\"disabled\" selected=\"selected\">-- Select A License --</option></select></div></div><!-- <div class=\"embed-modal-full-column\">\r\n			<label class=\"embed-modal-label\" for=\"upload\">Image File</label>\r\n			<input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\" />\r\n			<span class=\"fa fa-times cancel-upload-image-btn\"></span>\r\n			<span class=\"fa fa-cog edit-chosen-file-btn\"></span>\r\n			<div class=\"uploaded-image-file\">\r\n				<img class=\"image-preview\">\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"title\" class=\"embed-modal-label\">Title</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"altText\" class=\"embed-modal-label\">Alt Text</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-form\">\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"credit\" class=\"embed-modal-label\">Credit</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\" />\r\n			</div>\r\n			<div class=\"embed-modal-half-column\">\r\n				<label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\" />\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"embed-modal-row\">\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"caption\" class=\"embed-modal-label\">Caption</label>\r\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\" />\r\n			</div>\r\n		</div>\r\n		<div class=\"embed-modal-half-column\">\r\n			<div class=\"embed-modal-form\">\r\n				<label for=\"license\" class=\"embed-modal-label\">License</label>\r\n				<select class=\"embed-modal-form-control\" type=\"text\" name=\"license\">\r\n					<option disabled selected>-- Select A License --</option>\r\n				</select>\r\n			</div>\r\n		</div>\r\n	</div> --></div></form>";
+templateCache["modal/modal_image.html"] = "<form method=\"post\" enctype=\"multipart/form-data\"><div class=\"embed-modal-row\"><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"upload\">Image File</label><div class=\"image_editor\"><div class=\"image_editor-intro\"><div class=\"image_editor-intro_inner\"><input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\"></div></div><div class=\"image_editor-preview\"><img class=\"image_editor-preview_image\"></div><div class=\"image_editor-toolbar\"><ul class=\"image_editor-toolbar_list\"><li class=\"image_editor-toolbar_item js-upload\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-upload\" aria-label=\"Select Another Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-undo\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-undo\" aria-label=\"Revert Selected Image\"></span></a></li><li class=\"image_editor-toolbar_item js-upload-cancel\"><a class=\"image_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel Image Select\"></span></a></li></ul></div></div></div><div class=\"embed-modal-form\"><label for=\"title\" class=\"embed-modal-label\">Title</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\"></div><div class=\"embed-modal-form\"><label for=\"altText\" class=\"embed-modal-label\">Alt Text</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\"></div></div><div class=\"embed-modal-half-column\"><div class=\"embed-modal-form\"><label for=\"caption\" class=\"embed-modal-label\">Caption</label><textarea class=\"embed-modal-input embed-modal-form-control\" name=\"caption\" rows=\"5\"></textarea></div><div class=\"embed-modal-form\"><label for=\"credit\" class=\"embed-modal-label\">Credit</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\"></div><div class=\"embed-modal-form\"><label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label><input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\"></div><div class=\"embed-modal-form\"><label for=\"license\" class=\"embed-modal-label\">License</label><select class=\"embed-modal-form-control\" type=\"text\" name=\"license\"><option value=\"\" disabled=\"disabled\" selected=\"selected\">-- Select A License --</option></select></div></div><!-- <div class=\"embed-modal-full-column\">\n			<label class=\"embed-modal-label\" for=\"upload\">Image File</label>\n			<input class=\"embed-modal-input embed-modal-file-input\" type=\"file\" name=\"upload\" accept=\"image/*\" />\n			<span class=\"fa fa-times cancel-upload-image-btn\"></span>\n			<span class=\"fa fa-cog edit-chosen-file-btn\"></span>\n			<div class=\"uploaded-image-file\">\n				<img class=\"image-preview\">\n			</div>\n		</div>\n	</div>\n	<div class=\"embed-modal-row\">\n		<div class=\"embed-modal-half-column\">\n			<div class=\"embed-modal-form\">\n				<label for=\"title\" class=\"embed-modal-label\">Title</label>\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"title\" />\n			</div>\n		</div>\n		<div class=\"embed-modal-half-column\">\n			<div class=\"embed-modal-form\">\n				<label for=\"altText\" class=\"embed-modal-label\">Alt Text</label>\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"altText\" />\n			</div>\n		</div>\n	</div>\n	<div class=\"embed-modal-row\">\n		<div class=\"embed-modal-form\">\n			<div class=\"embed-modal-half-column\">\n				<label for=\"credit\" class=\"embed-modal-label\">Credit</label>\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"credit\" />\n			</div>\n			<div class=\"embed-modal-half-column\">\n				<label for=\"creditLink\" class=\"embed-modal-label\">Credit Link</label>\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"url\" name=\"creditLink\" />\n			</div>\n		</div>\n	</div>\n	<div class=\"embed-modal-row\">\n		<div class=\"embed-modal-half-column\">\n			<div class=\"embed-modal-form\">\n				<label for=\"caption\" class=\"embed-modal-label\">Caption</label>\n				<input class=\"embed-modal-input embed-modal-form-control\" type=\"text\" name=\"caption\" />\n			</div>\n		</div>\n		<div class=\"embed-modal-half-column\">\n			<div class=\"embed-modal-form\">\n				<label for=\"license\" class=\"embed-modal-label\">License</label>\n				<select class=\"embed-modal-form-control\" type=\"text\" name=\"license\">\n					<option disabled selected>-- Select A License --</option>\n				</select>\n			</div>\n		</div>\n	</div> --></div></form>";
 templateCache["modal/modal_instagram.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title\" class=\"embed-modal-input embed-modal-form-control js-input-title\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"url\">Instagram Post</label><div class=\"social_editor\"><div class=\"social_editor-intro\"><div class=\"social_editor-intro_inner\"><div><div class=\"input-group\"><input name=\"url\" type=\"url\" placeholder=\"Enter URL, or drop link...\" class=\"embed-modal-input embed-modal-form-control js-input-url\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary js-btn-preview\" type=\"button\">Preview</button></span></div></div></div></div><div class=\"social_editor-preview\"><div class=\"social_editor-preview_inner\"><div class=\"social_editor-preview_post\"></div></div></div><div class=\"social_editor-toolbar\"><ul class=\"social_editor-toolbar_list\"><li class=\"social_editor-toolbar_item js-btn-edit\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-pencil\" aria-label=\"Enter Another URL\"></span></a></li><li class=\"social_editor-toolbar_item js-btn-cancel\"><a class=\"social_editor-tollbar_btn\"><span class=\"fa fa-arrow-left\" aria-label=\"Cancel URL Editing\"></span></a></li></ul></div></div></div></div></div></form>";
 templateCache["modal/modal_main.html"] = "<div class=\"embed-modal-dialog\"><div class=\"embed-modal-content\"><div class=\"embed-modal-header stick-in-parent\"><button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"embed-modal-half-column\"><h3 class=\"header-title\"></h3></div><div class=\"embed-modal-half-column\"><select class=\"embed-modal-form-control\" id=\"select-embed-type\"></select></div></div><div class=\"embed-modal-body\"><div id=\"embed-modal-create-new\"></div><div id=\"embed-modal-select-existing\"></div></div><div class=\"embed-modal-footer stick-in-parent stick-bottom\"><div id=\"embed-modal-buttons-create\"><button id=\"btn-show-select-existing\">Select Existing Embed</button><!-- TODO : add publishing state dropdown --><!-- TODO : publishing state dropdown affects Save button text --> <i class=\"fa fa-spinner fa-spin\" id=\"embed-modal-spinner\"></i> <button id=\"btn-save-modal\">Save</button> <button id=\"btn-abort-modal\">Cancel</button></div><div id=\"embed-modal-buttons-select\"><button id=\"btn-cancel-select-existing\">Create New Embed</button></div></div><!-- the leave confirmation modal will be loaded here --><div class=\"embed-modal\" id=\"leave-confirmation-modal\"><div></div></div></div></div>";
 templateCache["modal/modal_newsletterSubscribe.html"] = "<form><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"title\">Title</label><input name=\"title\" type=\"text\" placeholder=\"Enter a title for internal use\" class=\"embed-modal-form-control embed-modal-input\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"newsletter\">Select Newsletter</label><select name=\"newsletter\" class=\"embed-modal-form-control\"></select></div></div></div><hr><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"displayTitle\">Teaser Title</label><input name=\"displayTitle\" type=\"text\" placeholder=\"Enter a title for display purposes\" class=\"embed-modal-input embed-modal-form-control\"></div></div></div><div class=\"embed-modal-row\"><div class=\"embed-modal-full-column\"><div class=\"embed-modal-form\"><label class=\"embed-modal-label\" for=\"teaser\">Teaser</label><textarea name=\"teaser\" type=\"text\" placeholder=\"Enter teaser\" rows=\"3\" class=\"embed-modal-form-control\"></textarea></div></div></div></form>";
@@ -23,6 +23,7 @@ var EntityEmbed = EntityEmbed || {};
 		debug: 0,
 		auth_token: '',
 		domainName: '',
+		filesDomainName: '',
 		path: '',
 		timeout: 15000
 	};
@@ -89,6 +90,10 @@ var EntityEmbed = EntityEmbed || {};
 		return defaultConfig.domainName;
 	};
 
+	function getFilesDomainName(){
+		return defaultConfig.filesDomainName;
+	};
+
 	function setAuthToken(token){
 		defaultConfig.auth_token = token;
 	};
@@ -98,6 +103,14 @@ var EntityEmbed = EntityEmbed || {};
 		if (!defaultConfig.domainName.endsWith('/'))
 		{
 			defaultConfig.domainName += '/';
+		}
+	};
+
+	function setFilesDomainName(d){
+		defaultConfig.filesDomainName = d;
+		if (!defaultConfig.filesDomainName.endsWith('/'))
+		{
+			defaultConfig.filesDomainName += '/';
 		}
 	};
 
@@ -114,10 +127,12 @@ var EntityEmbed = EntityEmbed || {};
 		set: set,
 		get: get,
 		uploadFile: uploadFile,
-		setAuthToken: setAuthToken,
 		getAuthToken: getAuthToken,
+		setAuthToken: setAuthToken,
 		getDomainName: getDomainName,
-		setDomainName: setDomainName
+		setDomainName: setDomainName,
+		getFilesDomainName: getFilesDomainName,
+		setFilesDomainName: setFilesDomainName
 	};
 })();
 var EntityEmbed = EntityEmbed || {};
@@ -2056,7 +2071,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function getAudioUrl(url) {
-		var apiDomain = EntityEmbed.apiService.getDomainName();
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
 
 		if (!url || url === '')
 		{
@@ -2596,29 +2611,30 @@ var EntityEmbed = EntityEmbed || {};
 		return model;
 	}
 
-	function getAudioUrl(audioLocation, audioUrl) {
-		if (!audioUrl || audioUrl === '')
+	function getAudioUrl(url) {
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
+
+		if (!url || url === '')
 		{
-			return audioLocation || '';
+			return '';
 		}
 
-		if (audioUrl.indexOf(audioLocation) >= 0)
+		if (url.indexOf(apiDomain) >= 0)
 		{
-			return audioUrl;
+			return url;
 		}
 
 		// ensure that there isn't an unintended '//' in final URL
-		if (audioLocation.endsWith('/'))
+		if (apiDomain.endsWith('/'))
 		{
-			audioLocation = audioLocation.substring(0, audioLocation.length - 1);
+			apiDomain = apiDomain.substring(0, apiDomain.length - 1);
+		}
+		if (!url.startsWith('/'))
+		{
+			url = '/' + url;
 		}
 
-		if (!audioUrl.startsWith('/'))
-		{
-			audioLocation = '/' + audioUrl;
-		}
-
-		return audioLocation + audioUrl;
+		return apiDomain + url;
 	}
 
 
@@ -2826,7 +2842,7 @@ var EntityEmbed = EntityEmbed || {};
 	audioProgramEmbed.prototype.getAudioUrl = function() {
 		return !!this.model.upload ? window.URL.createObjectURL(this.model.upload) :
 			!!this.model.url_external ? this.model.url_external :
-			getAudioUrl(this.options.audioLocation, this.model.url_path);
+			getAudioUrl(this.model.url_path);
 	};
 
 	audioProgramEmbed.prototype.initModal = function($el, modalCtrl){
@@ -3151,7 +3167,7 @@ var EntityEmbed = EntityEmbed || {};
 	audioProgramEmbed.prototype.parseForEditor = function(){
 		var self = this;
 		var programTitleId = ['program_title', self.model.organization_program.object_id, (new Date()).getTime()].join('_');
-		var audioSrc = self.model.url_external || getAudioUrl(self.options.audioLocation, self.model.url_path);
+		var audioSrc = self.model.url_external || getAudioUrl(self.model.url_path);
 		var embedHtml = [
 			'<audio controls class="entity-embed-secondary-toolbar-locator" src="' + audioSrc + '"></audio>',
 			'<div class="program">Program: <span id="' + programTitleId + '"></span></div>',
@@ -3346,13 +3362,7 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: 'required',
 					linkText: 'required',
-					teaser: {
-						required: {
-							depends: function(element) {
-								return !!$(uiElements.teaserTitleInput, $(element).closest('form')).val();
-							}
-						}
-					}
+					teaser: 'required'
 				},
 				messages: {
 					teaser: {
@@ -3367,7 +3377,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	function getImageUrl(url)
 	{
-		var apiDomain = EntityEmbed.apiService.getDomainName();
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
 
 		if (!url || url === '')
 		{
@@ -3760,22 +3770,16 @@ var EntityEmbed = EntityEmbed || {};
 		var teaserBlock = [];
 		var teaserText = [];
 
+		if(self.model.displayTitle) {
+			teaserBlock.push('<div class="external_link-teaser-title">' + self.model.displayTitle + '</div>');
+		}
+
 		// Add Image to Teaser Block
 		if(self.model.url_path)
 		{
-			teaserBlock.push('<div class="external_link-teaser-image"><img src="' + getImageUrl(self.model.url_path) + '"></div>');
-		}
-
-		// Add Teaser to Teaser Block
-		if(self.model.teaser)
-		{
-			if(self.model.displayTitle) {
-				teaserText.push('<div class="external_link-teaser-title">' + self.model.displayTitle + '</div>');
-			}
-
-			teaserText.push('<div class="external_link-teaser-teaser">' + self.model.teaser + '</div>');
-
-			teaserBlock.push('<div class="external_link-teaser-text">' + teaserText.join('') + '</div>');
+			teaserBlock.push('<div class="external_link-teaser-teaser"><div class="external_link-teaser-image"><img src="' + getImageUrl(self.model.url_path) + '"></div><p>' + self.model.teaser + '</p></div>');
+		} else {
+			teaserBlock.push('<div class="external_link-teaser-teaser"><p>' + self.model.teaser + '</p></div>');
 		}
 
 		// Add Teaser Block to Embed
@@ -4440,7 +4444,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function getImageUrl(url) {
-		var apiDomain = EntityEmbed.apiService.getDomainName();
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
 
 		if (!url || url === '')
 		{
@@ -7529,13 +7533,13 @@ var EntityEmbed = EntityEmbed || {};
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		embedClassPrefix = 'entity-embed-',
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
-		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {
 			label: '<span class="fa fa-code"></span>',
 			authToken: null,	// for the apiService
 			domainName: null,	// for the apiService
+			filesDomainName: null,	// for the apiService
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -7734,6 +7738,8 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
 
+		console.log('self.options', self.options);
+
 		if (!!self.options.authToken)
 		{
 			EntityEmbed.apiService.setAuthToken(self.options.authToken);
@@ -7741,6 +7747,10 @@ var EntityEmbed = EntityEmbed || {};
 		if (!!self.options.domainName)
 		{
 			EntityEmbed.apiService.setDomainName(self.options.domainName);
+		}
+		if (!!self.options.filesDomainName)
+		{
+			EntityEmbed.apiService.setFilesDomainName(self.options.filesDomainName);
 		}
 
 		self.toolbarManager.createActionToolbar($('body'));

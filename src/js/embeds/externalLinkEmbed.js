@@ -28,13 +28,7 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: 'required',
 					linkText: 'required',
-					teaser: {
-						required: {
-							depends: function(element) {
-								return !!$(uiElements.teaserTitleInput, $(element).closest('form')).val();
-							}
-						}
-					}
+					teaser: 'required'
 				},
 				messages: {
 					teaser: {
@@ -49,7 +43,7 @@ var EntityEmbed = EntityEmbed || {};
 
 	function getImageUrl(url)
 	{
-		var apiDomain = EntityEmbed.apiService.getDomainName();
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
 
 		if (!url || url === '')
 		{
@@ -442,22 +436,16 @@ var EntityEmbed = EntityEmbed || {};
 		var teaserBlock = [];
 		var teaserText = [];
 
+		if(self.model.displayTitle) {
+			teaserBlock.push('<div class="external_link-teaser-title">' + self.model.displayTitle + '</div>');
+		}
+
 		// Add Image to Teaser Block
 		if(self.model.url_path)
 		{
-			teaserBlock.push('<div class="external_link-teaser-image"><img src="' + getImageUrl(self.model.url_path) + '"></div>');
-		}
-
-		// Add Teaser to Teaser Block
-		if(self.model.teaser)
-		{
-			if(self.model.displayTitle) {
-				teaserText.push('<div class="external_link-teaser-title">' + self.model.displayTitle + '</div>');
-			}
-
-			teaserText.push('<div class="external_link-teaser-teaser">' + self.model.teaser + '</div>');
-
-			teaserBlock.push('<div class="external_link-teaser-text">' + teaserText.join('') + '</div>');
+			teaserBlock.push('<div class="external_link-teaser-teaser"><div class="external_link-teaser-image"><img src="' + getImageUrl(self.model.url_path) + '"></div><p>' + self.model.teaser + '</p></div>');
+		} else {
+			teaserBlock.push('<div class="external_link-teaser-teaser"><p>' + self.model.teaser + '</p></div>');
 		}
 
 		// Add Teaser Block to Embed

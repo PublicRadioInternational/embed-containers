@@ -87,7 +87,7 @@ var EntityEmbed = EntityEmbed || {};
 	}
 
 	function getAudioUrl(url) {
-		var apiDomain = EntityEmbed.apiService.getDomainName();
+		var apiDomain = EntityEmbed.apiService.getFilesDomainName();
 
 		if (!url || url === '')
 		{
