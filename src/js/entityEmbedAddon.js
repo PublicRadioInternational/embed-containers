@@ -16,6 +16,7 @@ var EntityEmbed = EntityEmbed || {};
 			label: '<span class="fa fa-code"></span>',
 			authToken: null,	// for the apiService
 			domainName: null,	// for the apiService
+			filesDomainName: null,	// for the apiService
 			styles: {
 				left: {
 					label: '<span class="fa fa-align-left"></span>',
@@ -214,6 +215,8 @@ var EntityEmbed = EntityEmbed || {};
 	EntityEmbeds.prototype.init = function () {
 		var self = this;
 
+		console.log('self.options', self.options);
+
 		if (!!self.options.authToken)
 		{
 			EntityEmbed.apiService.setAuthToken(self.options.authToken);
@@ -221,6 +224,10 @@ var EntityEmbed = EntityEmbed || {};
 		if (!!self.options.domainName)
 		{
 			EntityEmbed.apiService.setDomainName(self.options.domainName);
+		}
+		if (!!self.options.filesDomainName)
+		{
+			EntityEmbed.apiService.setFilesDomainName(self.options.filesDomainName);
 		}
 
 		self.toolbarManager.createActionToolbar($('body'));
