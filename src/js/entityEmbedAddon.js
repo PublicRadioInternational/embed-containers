@@ -10,7 +10,6 @@ var EntityEmbed = EntityEmbed || {};
 		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		embedClassPrefix = 'entity-embed-',
 		mediumEditorActiveSelector = '.medium-insert-active', // selector for the medium editor active class
-		activeEmbedClass = 'entity-embed-active',	// class name given to active (selected) embeds
 		entityEmbedEditorLineClass = 'entity-embed-editor-line', // class name given to a line (<p> element) in the editor on which an entity is embedded
 		entityEmbedContainerClass = 'entity-embed-container', // class name given to the objects which contain entity embeds
 		defaults = {

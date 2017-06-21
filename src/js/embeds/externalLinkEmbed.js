@@ -28,13 +28,7 @@ var EntityEmbed = EntityEmbed || {};
 					title: 'required',
 					url: 'required',
 					linkText: 'required',
-					teaser: {
-						required: {
-							depends: function(element) {
-								return !!$(uiElements.teaserTitleInput, $(element).closest('form')).val();
-							}
-						}
-					}
+					teaser: 'required'
 				},
 				messages: {
 					teaser: {
