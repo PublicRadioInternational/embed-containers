@@ -296,7 +296,7 @@ var EntityEmbed = EntityEmbed || {};
 		$.validator.addMethod('validVideoDomain', function(value, element, params) {
 			var isValid = value.indexOf('youtube.com') != -1 || value.indexOf('vimeo.com') != -1;
 			return this.optional(element) || isValid;
-		}, 'The video must be from YouTube or Vimeo');
+		}, 'The video must be from YouTube or Vimeo.');
 
 		$ui.previewBtn.on('click', function(e) {
 

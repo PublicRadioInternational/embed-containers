@@ -184,7 +184,7 @@ $(document).ready(function(){
 				domainName: 'https://test-services.pri.org',		// it is configured in the entity embed addon, but this is
 				modalOptions: {
 					addOnly: true,
-					embedTypeStr: ['image', 'audio', 'slideshow']
+					embedTypeStr: ['image', 'audio', 'slideshow', 'opinary']
 				}
 			})													// a good example that configuration can be done like so
 			.done(function(scope){
