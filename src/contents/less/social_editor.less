@@ -81,6 +81,8 @@
 
 .social_editor-preview_inner
 {
+  position: relative;
+
   > * {
     & + * {
       margin-left: 20px;
@@ -152,4 +154,14 @@
     color: @btn-primary-color;
     text-decoration: none;
   }
+}
+
+.social_editor-blocker
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }

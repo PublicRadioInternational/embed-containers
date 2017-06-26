@@ -355,7 +355,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 				else
 				{
-					// Get Video embeds that have matching URL
+					// Get Facebook embeds that have matching URL
 					EntityEmbed.apiService.get({
 						path: self.options.httpPaths.getAll,
 						data: {

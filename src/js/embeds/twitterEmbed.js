@@ -199,7 +199,7 @@ var EntityEmbed = EntityEmbed || {};
 		$.validator.addMethod('validTwitterUrl', function(value, element, params) {
 			var isValid = isValidUrl(value);
 			return this.optional(element) || isValid;
-		}, 'The URL must be to a valid Facebook post or video.');
+		}, 'The URL must be to a valid Twitter status.');
 
 		$ui.previewBtn.on('click', function(evt) {
 
@@ -304,7 +304,7 @@ var EntityEmbed = EntityEmbed || {};
 				}
 				else
 				{
-					// Get Video embeds that have matching URL
+					// Get Twitter embeds that have matching URL
 					EntityEmbed.apiService.get({
 						path: self.options.httpPaths.getAll,
 						data: {
