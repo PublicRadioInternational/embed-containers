@@ -36,7 +36,7 @@ var EntityEmbed = EntityEmbed || {};
 				newsletterSubscribe:{},
 				iframe:{},
 				customText:{},
-				opinary:{},
+				opinary:{}
 			}
 		};
 		var embedTypes = [];
